@@ -53,7 +53,7 @@ def test_schema_validation_rejects_missing_title(supported_paper):
 def test_evaluate_paper_file_runs_selected_flaws():
     result = evaluate_paper_file(
         EXAMPLES / "clean_supported.json",
-        ["pretrend_divergence", "missing_placebo"],
+        ["measurement_break", "spillover_contamination"],
         max_steps=1,
     )
 
@@ -78,7 +78,7 @@ def test_cli_audit_and_evaluate_emit_json(capsys):
                 "evaluate",
                 str(EXAMPLES / "clean_supported.json"),
                 "--flaw",
-                "pretrend_divergence",
+                "measurement_break",
                 "--max-steps",
                 "1",
             ]
@@ -87,4 +87,4 @@ def test_cli_audit_and_evaluate_emit_json(capsys):
     )
     eval_out = json.loads(capsys.readouterr().out)
     assert eval_out["summary"]["detection_rate"] == 1.0
-    assert eval_out["pairs"][0]["target_dimension"] == "parallel_trends"
+    assert eval_out["pairs"][0]["target_dimension"] == "data_measurement"
