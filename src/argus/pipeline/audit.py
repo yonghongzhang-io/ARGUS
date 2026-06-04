@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
+from ..paper import validate_paper
 from . import assessment, decomposition, extraction, localization, report
 
 
@@ -25,6 +26,7 @@ def run_audit(paper: dict[str, Any], *, max_steps: int = 12) -> AuditResult:
 
     `max_steps` is the hard step budget passed to each agentic stage.
     """
+    validate_paper(paper)
     skeleton = decomposition.decompose(paper)
     evidence = extraction.extract(paper, skeleton, max_steps=max_steps)
     assessed = assessment.assess(skeleton, evidence, max_steps=max_steps)

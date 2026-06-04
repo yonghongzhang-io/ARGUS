@@ -14,6 +14,11 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=7"]
 
+[project.scripts]
+argus = "argus.cli:main"
+argus-audit = "argus.cli:audit_main"
+argus-evaluate = "argus.cli:evaluate_main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
