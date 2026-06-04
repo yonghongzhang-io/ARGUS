@@ -1,0 +1,129 @@
+# ARGUS flaw taxonomy
+#
+# Catalogue of known identification threats used by the flaw-injection evaluation
+# loop. Each flaw targets exactly one dimension id from
+# identification_dimensions.yaml, providing local ground truth: the injected flaw
+# is what ARGUS must detect (detection_rate) and attribute to the right dimension
+# (localization_acc), while leaving the clean version untouched (false_alarm_rate).
+
+version: 0.1
+
+flaws:
+  - id: pretrend_divergence
+    target_dimension: parallel_trends
+    severity: high
+    description: >
+      Treated and control follow visibly different pre-treatment trends.
+    injection_method: >
+      Edit/swap the event-study so pre-period leads are non-null, or remove the
+      pre-trend evidence and assert parallel trends without support.
+    detection_signal: >
+      Non-zero pre-period coefficients, or a parallel-trends claim with no test.
+
+  - id: anticipation_effect
+    target_dimension: no_anticipation
+    severity: medium
+    description: >
+      Behaviour shifts between policy announcement and implementation.
+    injection_method: >
+      Code the treatment date at implementation while the paper's own timeline
+      shows an earlier, market-moving announcement.
+    detection_signal: >
+      Significant leads near t=0; announcement precedes coded treatment date.
+
+  - id: forbidden_comparison
+    target_dimension: treatment_timing
+    severity: high
+    description: >
+      Staggered adoption estimated with plain TWFE using already-treated units as
+      controls.
+    injection_method: >
+      Replace a robust staggered estimator with two-way FE and drop the
+      Goodman-Bacon / heterogeneity discussion.
+    detection_signal: >
+      TWFE on staggered timing with no robustness to negative-weight bias.
+
+  - id: spillover_contamination
+    target_dimension: treatment_definition_sutva
+    severity: high
+    description: >
+      Control units are indirectly exposed (carbon leakage to neighbouring
+      provinces).
+    injection_method: >
+      Remove the spillover/leakage robustness check and treat adjacent provinces
+      as clean controls.
+    detection_signal: >
+      No interference discussion despite plausible cross-border leakage.
+
+  - id: noncomparable_controls
+    target_dimension: control_group
+    severity: medium
+    description: >
+      Control group differs systematically from treated on pre-treatment
+      characteristics.
+    injection_method: >
+      Delete the balance table or swap in a poorly matched donor pool.
+    detection_signal: >
+      Large pre-treatment imbalance; no matching/balance justification.
+
+  - id: bad_control
+    target_dimension: specification
+    severity: medium
+    description: >
+      A post-treatment / outcome-affected variable is included as a control.
+    injection_method: >
+      Add a time-varying control that is itself an outcome of the policy.
+    detection_signal: >
+      Controls plausibly on the causal path; effect sensitive to their inclusion.
+
+  - id: understated_se
+    target_dimension: inference
+    severity: medium
+    description: >
+      Standard errors ignore serial/spatial correlation, overstating precision.
+    injection_method: >
+      Report unclustered or wrongly clustered SEs; drop few-cluster corrections.
+    detection_signal: >
+      Inappropriate clustering level; significance fragile to correct inference.
+
+  - id: cherrypicked_window
+    target_dimension: sample_period
+    severity: medium
+    description: >
+      Sample window chosen to maximise the estimated effect.
+    injection_method: >
+      Trim the period to a favourable window and remove window-sensitivity checks.
+    detection_signal: >
+      No robustness to window choice; result concentrated in a narrow span.
+
+  - id: confounding_policy
+    target_dimension: concurrent_policies
+    severity: high
+    description: >
+      A co-timed policy plausibly drives the measured outcome change.
+    injection_method: >
+      Remove the discussion / control for a concurrent environmental or
+      industrial policy.
+    detection_signal: >
+      Co-timed intervention left unaddressed.
+
+  - id: missing_placebo
+    target_dimension: robustness_placebo
+    severity: low
+    description: >
+      Headline effect presented without falsification tests.
+    injection_method: >
+      Strip placebo-in-time/space and permutation checks.
+    detection_signal: >
+      No placebo or randomization-inference evidence.
+
+  - id: measurement_break
+    target_dimension: data_measurement
+    severity: medium
+    description: >
+      A change in how the outcome is measured coincides with treatment timing.
+    injection_method: >
+      Introduce a reporting/definition change aligned with the treatment date and
+      leave it undiscussed.
+    detection_signal: >
+      Measurement regime shift co-timed with treatment, unaddressed.
