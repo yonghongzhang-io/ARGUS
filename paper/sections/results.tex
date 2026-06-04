@@ -1,36 +1,56 @@
 \section{Preliminary Results}
 \label{sec:results}
 
-We run the deterministic keyword baseline over all 11 flaws on two parsed-paper
-fixtures (a generic supported DID study and a China carbon-ETS pilot fixture).
-Table~\ref{tab:baseline} reports the headline metrics; full per-flaw results are
-in \texttt{experiments/phase1\_pilot/results.md}.
+As a lower bound and a sanity check on the evaluation methodology, we implement a
+deterministic, non-LLM baseline: extraction retrieves evidence by token overlap,
+and assessment scores each dimension from the presence or absence of supporting
+and risk-indicating vocabulary. We run it over all eleven flaws on two
+parsed-paper fixtures---a generic supported DID study and a China carbon-ETS
+pilot fixture---injecting one flaw per run. Table~\ref{tab:baseline} reports the
+headline metrics; the full per-flaw breakdown is in
+\texttt{experiments/phase1\_pilot/results.md}, and Figure~\ref{fig:results} is
+generated directly from the live evaluation.
 
 \begin{table}[t]
   \centering
-  \caption{Honest baseline under realistic flaw injection ($\mathrm{max\_steps}=1$,
-  11 flaws). Removing sentinel leakage drops detection from a circular $1.000$.}
+  \caption{Honest baseline under realistic flaw injection
+  ($\mathrm{max\_steps}=1$, eleven flaws, one injected per run). Removing the
+  sentinel leakage that made evaluation circular drops detection from $1.000$.}
   \label{tab:baseline}
   \begin{tabular}{lccc}
     \toprule
     Fixture & detection & false alarm & localization \\
     \midrule
-    \texttt{clean\_supported}      & 0.182 & 0.000 & 0.182 \\
-    \texttt{china\_carbon\_ets}    & 0.091 & 0.000 & 0.091 \\
+    \texttt{clean\_supported}   & 0.182 & 0.000 & 0.182 \\
+    \texttt{china\_carbon\_ets} & 0.091 & 0.000 & 0.091 \\
     \midrule
-    (circular, pre-fix)            & 1.000 & 0.000 & 1.000 \\
+    (circular, pre-fix)         & 1.000 & 0.000 & 1.000 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\paragraph{Reading the result.}
-The baseline never false-alarms, but detection is low and concentrated on
-omission flaws whose vocabulary is not echoed elsewhere; it is systematically
-blind to commission flaws where flawed-but-plausible evidence is present
-(Figure~\ref{fig:results}, panel~B). The failure mode is informative: keyword
-presence is not evidence \emph{adequacy}. This is the gap a reasoning-based
-auditor must close, and it frames the remainder of the doctoral programme
-(\S\ref{sec:discussion}).
+\paragraph{What the baseline gets right.}
+The baseline never raises a false alarm: on the clean papers it stays quiet on
+every dimension (false-alarm rate $0.000$). It also correctly flags the two
+omission flaws---\texttt{measurement\_break} and
+\texttt{spillover\_contamination}---whose vocabulary does not appear elsewhere in
+the paper, detecting them by the \emph{absence} of evidence. This is exactly the
+behaviour we want from a lower bound and confirms the evaluation harness is
+measuring something real.
+
+\paragraph{Where it fails, and why that matters.}
+Beyond those two cases, detection is low ($0.182$ and $0.091$). Two failure modes
+explain it (Figure~\ref{fig:results}, panel~B). First, \emph{cross-section
+vocabulary bleed}: deleting the placebo section does not help when another
+section also mentions ``placebo'', so retrieval still returns a hit and the
+baseline judges the dimension supported. Second, and more fundamentally, the
+baseline is blind to \emph{every} commission flaw, where flawed-but-plausible
+evidence is present and uses the expected topic vocabulary. The lesson is sharp:
+keyword presence is not evidence \emph{adequacy}. Distinguishing a sound
+parallel-trends argument from a superficially similar but flawed one requires
+reasoning about what the evidence actually shows, not whether the right words
+appear. This is precisely the gap a reasoning-based auditor must close, and it
+frames the doctoral programme that follows (\S\ref{sec:discussion}).
 
 \begin{figure}[t]
   \centering

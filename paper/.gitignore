@@ -1,0 +1,11 @@
+# LaTeX build artifacts (regenerate with: tectonic main.tex)
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.xdv
+*.toc
+*.pdf
+# keep the figure PDFs, which are inputs not build artifacts
+!figures/*.pdf

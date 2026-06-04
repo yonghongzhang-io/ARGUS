@@ -2,13 +2,32 @@
 \label{sec:discussion}
 
 \paragraph{Threats to validity.}
-Results use synthetic fixtures ($N$ small); the baseline is a deliberate lower
-bound. Local ground truth certifies \emph{injected} threats, not the absence of
-others.
+The present results are deliberately preliminary. They use a small number of
+synthetic fixtures rather than a real corpus, and the baseline is an intentional
+lower bound, so its low detection rate should be read as a calibrated starting
+point, not as evidence about the eventual system. More fundamentally, flaw
+injection certifies an auditor against the \emph{injected} threat on a single
+dimension; it does not certify the absence of other, un-injected threats, and it
+inherits whatever blind spots the flaw taxonomy has. We therefore treat detection
+and localization as necessary, not sufficient, evidence of an auditor's quality,
+and pair them with the false-alarm rate to guard against a system that flags
+everything.
 
-\paragraph{Planned work.}
-(1)~A reasoning-based extraction/assessment policy that judges evidence
-\emph{adequacy}, evaluated against the baseline of \S\ref{sec:results};
-(2)~a corpus of real DID environmental-policy papers with expert annotations;
-(3)~human-expert studies on report usefulness and trust;
-(4)~broader policy domains beyond the China ETS case.
+\paragraph{Research plan.}
+The doctoral programme is organized around closing the reasoning gap that
+\S\ref{sec:results} makes concrete, in four stages.
+\emph{(1)~Reasoning-based extraction and assessment.} Replace the keyword policy
+inside the bounded loop with a model that judges evidence \emph{adequacy}---does
+the reported event study actually support parallel trends?---evaluated against the
+baseline under the same flaw-injection protocol, so that any gain is attributable
+and reproducible.
+\emph{(2)~A real annotated corpus.} Build a corpus of published DID
+environmental-policy studies with expert annotations of identification risk per
+dimension, moving evaluation beyond synthetic fixtures and enabling agreement
+studies against human auditors.
+\emph{(3)~Human-expert studies.} Measure whether ARGUS reports actually help
+domain experts---calibration of trust, time saved, and errors avoided---since the
+system is explicitly designed to assist, not replace, expert judgement.
+\emph{(4)~Broader policy domains.} Extend beyond the China emissions-trading case
+to other environmental and, eventually, general empirical-economics settings,
+testing how far the rubric-plus-injection methodology generalizes.

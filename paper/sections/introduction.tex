@@ -1,32 +1,69 @@
 \section{Introduction}
 \label{sec:intro}
 
-% Problem: identification assumptions in DID policy studies are often asserted, not audited.
 Difference-in-differences (DID) is the workhorse design for evaluating
-environmental policy---carbon pricing, emissions-trading pilots, industrial
-standards. Its credibility rests on identification assumptions (parallel trends,
-no anticipation, correctly handled staggered timing, no interfering spillovers)
-that are frequently \emph{asserted} rather than \emph{audited}, even as the
-methodological literature has shown how fragile each can be
-\cite{goodmanbacon2021,callaway2021,sunabraham2021,roth2023}.
+environmental policy. Studies of carbon pricing, emissions-trading pilots, and
+industrial-emission standards routinely compare treated and untreated units
+before and after a policy to recover its causal effect. The credibility of any
+such estimate rests entirely on a chain of \emph{identification assumptions}:
+that treated and control units would have moved in parallel absent the policy,
+that units did not anticipate it, that staggered adoption is handled with an
+appropriate estimator, that there is no interference between treated and control
+units, and so on. A decade of methodological work has shown how fragile each of
+these assumptions can be, and how easily a standard two-way fixed-effects
+specification can mislead under heterogeneous and staggered treatment timing
+\cite{goodmanbacon2021,callaway2021,sunabraham2021,dechaisemartin2020,roth2023}.
 
-% Our stance: audit identification credibility, NOT the true causal effect.
-We argue identification credibility is \emph{auditable} even though the true
-causal effect is not. The counterfactual is never observed, so we do not ask
-``is the estimated effect true?''. Instead we ask whether each identification
-assumption is \emph{supported by the evidence the paper itself reports}, and we
-\emph{localize} where support is weak. Figure~\ref{fig:overview} sketches this:
-identification credibility varies across assumptions, evidence, and policy
-context, and ARGUS audits it by decomposition and evidence-grounded risk flags.
+Yet in applied work these assumptions are frequently \emph{asserted} rather than
+\emph{audited}. A paper states that parallel trends ``hold'', shows an
+event-study plot, and moves on; a reader who wants to know whether the
+identification argument is actually supported by the reported evidence must
+reconstruct it by hand, dimension by dimension. This is slow, expert-intensive,
+and inconsistent across reviewers. The result is a reliability gap in a body of
+evidence that increasingly informs environmental policy.
 
-% Contributions (mirror paper/contributions.md)
+\paragraph{Our stance.}
+We argue that identification \emph{credibility} is auditable even though the
+causal \emph{effect} is not. In a DID design the counterfactual is never
+observed, so it is hopeless---and, we contend, the wrong target---to ask an
+automated system ``is the estimated effect true?''. Instead we ask a question
+that can be grounded in the paper itself: \emph{is each identification assumption
+supported by the evidence the study reports, and where is that support weakest?}
+This reframing turns an unanswerable causal question into a tractable auditing
+problem over assumptions, their testable implications, and the in-paper evidence
+that bears on them. Figure~\ref{fig:overview} illustrates the view: credibility
+varies across assumptions, evidence, and policy context, and a useful system
+should localize where it is fragile rather than issue a verdict.
+
+\paragraph{ARGUS.}
+We introduce \textbf{ARGUS}, a responsible-AI framework that audits the
+identification credibility of DID environmental-policy studies. ARGUS decomposes
+identification into a fixed set of auditable dimensions, gathers the supporting
+evidence each dimension requires, assesses every
+assumption--implication--evidence chain, localizes risk across dimensions, and
+produces a transparent, evidence-anchored report for a human expert. It is
+deliberately a \emph{bounded-agentic} system: the pipeline between modules is
+fixed and deterministic, and model-driven agency is confined to two scoped
+sub-tasks. Because the true effect is unavailable as ground truth, we validate
+the auditor with \emph{synthetic flaw injection}: we perturb a credible paper
+with one known identification flaw and check whether ARGUS detects it, stays
+quiet on the clean version, and localizes the right dimension. The injected flaw
+is local ground truth that requires no access to the true effect.
+
 \paragraph{Contributions.}
+This paper, presented as a doctoral-research plan, makes four contributions.
 (1)~\textbf{ARGUS}, a bounded-agentic framework that audits identification
-credibility---not causal truth---in DID environmental-policy evaluation;
-(2)~an identification rubric of 11 auditable dimensions plus a flaw taxonomy;
-(3)~a flaw-injection methodology giving reproducible \emph{local ground truth}
-without the true effect; and (4)~an honest deterministic baseline and a negative
-result that quantifies the reasoning gap this PhD targets (\S\ref{sec:results}).
+credibility---not causal truth---in DID environmental-policy evaluation
+(\S\ref{sec:framework}). (2)~An \emph{identification rubric} of eleven auditable
+dimensions and a \emph{flaw taxonomy} mapping each known threat one-to-one onto a
+dimension. (3)~A \emph{flaw-injection evaluation methodology} that yields
+reproducible local ground truth---detection, false alarm, and localization---without
+the true effect (\S\ref{sec:evaluation}). (4)~An honest deterministic baseline and
+a \emph{negative result}: once the leakage that makes naive evaluation circular is
+removed, keyword-based detection collapses from a trivial $1.000$ to $0.182$, and
+the baseline is systematically blind to threats where flawed-but-plausible
+evidence is present (\S\ref{sec:results}). This quantifies the reasoning gap that
+the remainder of the doctoral programme is designed to close.
 
 \begin{figure}[t]
   \centering
