@@ -26,7 +26,22 @@ in \texttt{experiments/phase1\_pilot/results.md}.
 \paragraph{Reading the result.}
 The baseline never false-alarms, but detection is low and concentrated on
 omission flaws whose vocabulary is not echoed elsewhere; it is systematically
-blind to commission flaws where flawed-but-plausible evidence is present. The
-failure mode is informative: keyword presence is not evidence \emph{adequacy}.
-This is the gap a reasoning-based auditor must close, and it frames the
-remainder of the doctoral programme (\S\ref{sec:discussion}).
+blind to commission flaws where flawed-but-plausible evidence is present
+(Figure~\ref{fig:results}, panel~B). The failure mode is informative: keyword
+presence is not evidence \emph{adequacy}. This is the gap a reasoning-based
+auditor must close, and it frames the remainder of the doctoral programme
+(\S\ref{sec:discussion}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/figure2}
+  \caption{Honest baseline under realistic flaw injection. (A)~Removing the
+  sentinel leakage that made evaluation circular collapses detection from
+  $1.000$ to $0.182$, while false alarm stays at $0$. (B)~Per-flaw outcomes
+  grouped by injection type: the baseline catches only omission-type threats
+  whose vocabulary is not echoed elsewhere, and is blind to every
+  commission-type threat where flawed-but-plausible evidence is present.
+  Generated from the live evaluation by
+  \texttt{experiments/phase1\_pilot/make\_figure2.py}.}
+  \label{fig:results}
+\end{figure}
