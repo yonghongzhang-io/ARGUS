@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any, Optional
 
 from ..config import load_flaws
+from ..paper import PaperPath, load_paper
 from ..pipeline.audit import AuditResult, run_audit
 from .injection import inject_flaw
 from .metrics import evaluate_pair, summarize_results
@@ -56,4 +57,20 @@ def evaluate_flaws(
     return {"pairs": pair_results, "summary": summarize_results(scores)}
 
 
-__all__ = ["AuditResult", "evaluate_injected_pair", "evaluate_flaws"]
+def evaluate_paper_file(
+    paper_path: PaperPath,
+    flaw_ids: Optional[list[str]] = None,
+    *,
+    max_steps: int = 12,
+    threshold: str = "medium",
+) -> dict[str, Any]:
+    """Load a parsed-paper JSON file and run the flaw-injection evaluation loop."""
+    return evaluate_flaws(
+        load_paper(paper_path),
+        flaw_ids=flaw_ids,
+        max_steps=max_steps,
+        threshold=threshold,
+    )
+
+
+__all__ = ["AuditResult", "evaluate_injected_pair", "evaluate_flaws", "evaluate_paper_file"]
