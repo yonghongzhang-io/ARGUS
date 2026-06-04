@@ -2,18 +2,40 @@
 \label{sec:related}
 
 \paragraph{DID identification and its threats.}
-Recent econometrics has catalogued how DID fails under heterogeneous, staggered
-timing \cite{goodmanbacon2021,sunabraham2021,callaway2021} and how pre-trend
-tests can mislead \cite{roth2023}. ARGUS operationalizes this literature as an
-auditable rubric (\S\ref{sec:framework}) rather than a new estimator.
+A large recent econometrics literature has formalized when DID estimators fail.
+Goodman-Bacon \cite{goodmanbacon2021} decomposes the two-way fixed-effects
+estimator under variation in treatment timing and exposes the ``forbidden''
+comparisons it makes between newly and already-treated units; de Chaisemartin and
+D'Haultf{\oe}uille \cite{dechaisemartin2020} show such estimators can place
+negative weights on treatment effects; and Callaway and Sant'Anna
+\cite{callaway2021} and Sun and Abraham \cite{sunabraham2021} propose estimators
+robust to heterogeneous, staggered effects. Roth et al. \cite{roth2023} survey
+the design's assumptions and the subtleties of pre-trend testing. ARGUS does not
+add an estimator; it \emph{operationalizes} this literature as an auditable
+rubric, turning each known threat into a dimension whose supporting evidence can
+be checked in a given paper (\S\ref{sec:framework}).
 
 \paragraph{Responsible AI for empirical research.}
-% TODO: position against automated reproducibility / claim-checking / review-assist tools.
-ARGUS differs in scope: it audits \emph{identification credibility} and produces
-human-review reports, not verdicts. \cite{TODO_responsible_ai,TODO_claim_verification}
+A growing body of work applies AI to research reliability---automated
+reproducibility checking, statistical-reporting validation, and AI-assisted peer
+review. ARGUS is complementary but differs in target and in epistemic posture.
+First, it audits \emph{identification credibility} specifically, the part of an
+empirical argument that determines whether a causal claim is licensed at all,
+rather than surface statistical reporting. Second, and centrally, it does not
+issue verdicts: it produces evidence-anchored, human-reviewable reports that
+localize risk, leaving adjudication to a domain expert. This human-in-the-loop,
+``flag-not-judge'' stance is a deliberate response to the fact that the
+counterfactual is unobserved and that automated causal verdicts would be both
+unreliable and unaccountable.\cite{TODO_responsible_ai,TODO_claim_verification}
 
 \paragraph{Bounded LLM agents.}
-% TODO: position against ReAct / tool-use agents; our agency is deliberately bounded.
-We confine agency to two scoped sub-tasks under a hard step budget and logged
-traces, trading autonomy for reproducibility and evidence-traceability.
-\cite{TODO_llm_agents}
+Tool-using agents in the ReAct style interleave reasoning and acting over an open
+horizon \cite{yao2023react}. ARGUS deliberately \emph{bounds} this paradigm.
+Agency is confined to two scoped sub-tasks (extraction and assessment), each run
+as a fixed-tool, hard-step-budget loop with a logged trace, while the
+inter-module control flow is ordinary deterministic code. We trade autonomy for
+two properties the framework depends on: \emph{reproducibility}, so that the
+flaw-injection metrics are stable and comparable across runs, and
+\emph{evidence-traceability}, so that every flag a human reviews is anchored to
+inspectable evidence. We view this restraint as a feature for responsible
+auditing rather than a limitation.
