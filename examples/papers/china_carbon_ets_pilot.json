@@ -1,0 +1,44 @@
+{
+  "id": "china_carbon_ets_pilot",
+  "title": "China Carbon ETS DID Pilot Fixture",
+  "metadata": {
+    "fixture_type": "synthetic parsed-paper fixture",
+    "policy": "China carbon emissions trading pilot",
+    "purpose": "domain-specific ARGUS smoke test"
+  },
+  "abstract": "This fixture follows the structure of a DID study of China's carbon emissions trading pilots and includes policy-timeline and identification evidence.",
+  "sections": {
+    "policy background": "China announced carbon emissions trading pilots in 2011 and implementation occurred across pilot regions in 2013 and 2014. The treatment timing section codes adoption by pilot launch year.",
+    "parallel trends": "The event-study pre-trend coefficients are near zero and support parallel trends for pilot and non-pilot provinces before treatment.",
+    "no anticipation": "The paper distinguishes announcement and implementation dates; no anticipation is supported because leads around the coded implementation date are null.",
+    "treatment timing": "Staggered adoption is handled with Sun-Abraham and Callaway-Sant'Anna estimators, and a Goodman-Bacon decomposition is reported.",
+    "sutva": "Potential carbon leakage and spatial spillover are discussed; adjacent provinces are excluded in a buffer robustness check.",
+    "control group": "A balance table compares pilot and non-pilot provinces, and matching checks support the donor pool.",
+    "specification": "Robustness tables vary province fixed effects, year fixed effects, controls, and functional form.",
+    "inference": "Standard errors are clustered by province, and wild-cluster bootstrap inference is reported as a robustness check.",
+    "sample period": "Sample period sensitivity checks vary the start period, end period, and treatment of unbalanced panels.",
+    "concurrent policies": "Concurrent environmental and industrial policies are enumerated, with policy controls and placebo periods used to isolate the carbon trading pilot.",
+    "robustness placebo": "Placebo-in-space, placebo-in-time, falsification tests, permutation checks, and randomization inference are reported.",
+    "data measurement": "The outcome data source documents definition stability, reporting changes, and missingness handling across provinces and years."
+  },
+  "figures": [
+    {
+      "id": "fig_policy_timeline",
+      "caption": "Timeline of carbon ETS announcement in 2011 and implementation in 2013-2014."
+    },
+    {
+      "id": "fig_event_study",
+      "caption": "Event-study plot for China carbon ETS pilots with null pre-treatment coefficients."
+    }
+  ],
+  "tables": [
+    {
+      "id": "table_bacon",
+      "caption": "Goodman-Bacon decomposition for staggered pilot adoption."
+    },
+    {
+      "id": "table_robustness",
+      "caption": "Robustness table for specification, sample period, and placebo checks."
+    }
+  ]
+}

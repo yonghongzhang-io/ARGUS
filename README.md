@@ -118,6 +118,7 @@ adjudicate them.
 
 ```
 config/        identification dimensions + flaw taxonomy (the rubric the system runs on)
+examples/      committed parsed-paper pilot fixtures
 src/argus/     pipeline stages, the bounded agent loop + tools, evaluation metrics
 data/          paper corpus, flaw-injected versions, annotations (not committed)
 experiments/   phase-1 pilot and later studies
@@ -136,14 +137,37 @@ Run the test suite:
 python3 -m pytest -q
 ```
 
-Run the audit pipeline from a parsed-paper dictionary:
+ARGUS starts from a parsed-paper JSON object, not a raw PDF. Minimum schema:
+
+```json
+{
+  "id": "paper_id",
+  "title": "Paper title",
+  "abstract": "optional abstract text",
+  "sections": {
+    "section title": "section text"
+  },
+  "figures": [
+    {"id": "fig_event_study", "caption": "figure caption"}
+  ],
+  "tables": [
+    {"id": "table_balance", "caption": "table caption"}
+  ]
+}
+```
+
+Run the audit pipeline from a parsed-paper JSON file:
 
 ```bash
-PYTHONPATH=src python3 -c 'from argus.pipeline.audit import run_audit; paper={"id":"demo","sections":{"parallel trends":"The event-study pre-trend coefficients are near zero and support parallel trends."}}; result=run_audit(paper, max_steps=1); print(result.report_path); print(result.risk_map["by_dimension"]["parallel_trends"]["risk"])'
+PYTHONPATH=src python3 -m argus.cli audit examples/papers/china_carbon_ets_pilot.json --max-steps 1
 ```
 
 Run one clean-vs-injected evaluation pair:
 
 ```bash
-PYTHONPATH=src python3 -c 'from argus.evaluation.runner import evaluate_injected_pair; paper={"id":"demo","sections":{"parallel trends":"The event-study pre-trend coefficients are near zero and support parallel trends.","robustness placebo":"Placebo and falsification checks are reported."}}; print(evaluate_injected_pair(paper, "pretrend_divergence", max_steps=1)["score"])'
+PYTHONPATH=src python3 -m argus.cli evaluate examples/papers/clean_supported.json --flaw pretrend_divergence --max-steps 1
 ```
+
+The committed pilot fixtures in `examples/papers/` are structured test inputs,
+not authoritative annotations of real published papers. They lock the I/O
+contract and baseline behavior before real corpus ingestion is added.

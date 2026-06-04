@@ -1,0 +1,28 @@
+{
+  "id": "pretrend_issue",
+  "title": "Parallel Trends Failure Pilot Fixture",
+  "metadata": {
+    "fixture_type": "synthetic parsed-paper fixture",
+    "purpose": "known parallel-trends risk case"
+  },
+  "abstract": "This fixture contains otherwise standard DID reporting but includes clear pre-treatment trend divergence.",
+  "sections": {
+    "parallel trends": "The event-study shows different pre-treatment trends, statistically significant pre-period coefficients, and non-zero pre-period coefficients. The treated and control series are not parallel before treatment.",
+    "no anticipation": "No anticipation is supported by the timeline of announcement and implementation; event-study leads immediately before treatment are null.",
+    "treatment timing": "Staggered adoption is handled with Callaway-Sant'Anna and Sun-Abraham robustness for heterogeneous effects.",
+    "sutva": "SUTVA and interference are assessed with spillover robustness and buffer-zone checks.",
+    "control group": "A balance table shows matched controls; the donor pool is justified with matching checks.",
+    "specification": "The specification robustness table varies fixed effects, controls, and functional form choices.",
+    "inference": "Standard errors are clustered by province, with wild-cluster bootstrap robustness.",
+    "sample period": "Sample period and time-window sensitivity checks vary start period and end period.",
+    "concurrent policies": "Concurrent policies are enumerated and policy controls are reported.",
+    "robustness placebo": "Placebo and falsification tests are reported.",
+    "data measurement": "The data source documents definition stability and missingness handling."
+  },
+  "figures": [
+    {
+      "id": "fig_event_study",
+      "caption": "Event-study plot with significant pre-period leads."
+    }
+  ]
+}

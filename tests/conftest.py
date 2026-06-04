@@ -6,6 +6,11 @@ def supported_paper():
     def factory(paper_id: str = "supported") -> dict:
         return {
             "id": paper_id,
+            "title": "Supported DID identification pilot fixture",
+            "metadata": {
+                "fixture_type": "synthetic parsed-paper fixture",
+                "domain": "environmental policy DID",
+            },
             "sections": {
                 "parallel trends": (
                     "The event-study pre-trend coefficients are near zero and support "

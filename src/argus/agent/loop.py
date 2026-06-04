@@ -105,7 +105,8 @@ _NEGATIVE_SIGNALS = {
     "data_measurement": [
         "measurement break",
         "definition change",
-        "reporting change",
+        "unaddressed reporting change",
+        "co-timed reporting change",
         "measurement regime shift",
         "coincides with treatment",
     ],
