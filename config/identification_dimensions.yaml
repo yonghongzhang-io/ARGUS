@@ -1,0 +1,130 @@
+# ARGUS identification rubric
+#
+# The ~10 auditable dimensions a DID identification argument decomposes into.
+# Each dimension carries the assumption it encodes, the testable implication that
+# assumption produces, and the kinds of evidence ARGUS looks for in the paper.
+# This is the backbone the audit pipeline runs on; flaw_taxonomy.yaml targets
+# these dimension ids.
+
+version: 0.1
+
+dimensions:
+  - id: parallel_trends
+    name: Parallel trends (pre-treatment)
+    assumption: >
+      Absent treatment, treated and control units would have followed the same
+      outcome trend.
+    implication: >
+      Pre-treatment outcome trends for treated and control should be statistically
+      indistinguishable.
+    evidence:
+      - event-study / pre-trend coefficient plot
+      - pre-period placebo estimates near zero
+      - explicit discussion of the pre-trend test
+
+  - id: no_anticipation
+    name: No anticipation
+    assumption: >
+      Units do not change behaviour in anticipation of the policy before it takes
+      effect.
+    implication: >
+      No outcome shift in the periods just before the official treatment date.
+    evidence:
+      - leads in the event-study being null
+      - timeline of policy announcement vs. implementation
+
+  - id: treatment_timing
+    name: Treatment timing / staggered adoption
+    assumption: >
+      Treatment timing is correctly coded; staggered adoption is handled with an
+      estimator robust to heterogeneous, time-varying effects.
+    implication: >
+      Two-way fixed-effects estimates are not contaminated by forbidden
+      comparisons (already-treated as controls).
+    evidence:
+      - use of modern estimators (Callaway-Sant'Anna, Sun-Abraham, etc.)
+      - Goodman-Bacon decomposition
+      - clear adoption-date coding
+
+  - id: treatment_definition_sutva
+    name: Treatment definition & SUTVA / spillovers
+    assumption: >
+      Treatment is well defined and there is no interference between units
+      (no spillovers from treated to control).
+    implication: >
+      Control units are genuinely untreated, including indirect exposure.
+    evidence:
+      - discussion of cross-province leakage / carbon relocation
+      - spatial spillover or buffer-zone robustness checks
+
+  - id: control_group
+    name: Control group construction
+    assumption: >
+      The control group is a credible counterfactual for the treated units.
+    implication: >
+      Treated and control are comparable on pre-treatment levels and composition.
+    evidence:
+      - balance table
+      - matching / synthetic control / donor-pool justification
+
+  - id: specification
+    name: Functional form & specification
+    assumption: >
+      The estimating equation (fixed effects, controls, functional form) is
+      correctly specified.
+    implication: >
+      Results are stable across reasonable specification choices.
+    evidence:
+      - specification-curve / robustness table
+      - justification of included time-varying controls (bad-control risk)
+
+  - id: inference
+    name: Inference (standard errors)
+    assumption: >
+      Standard errors account for the dependence structure of the data.
+    implication: >
+      Reported precision is not overstated.
+    evidence:
+      - clustering level (and number of clusters)
+      - wild-cluster bootstrap when few clusters
+
+  - id: sample_period
+    name: Sample & period selection
+    assumption: >
+      Sample frame and time window are not chosen in a way that drives the result.
+    implication: >
+      Estimates are robust to reasonable changes in window and sample.
+    evidence:
+      - sensitivity to start/end period
+      - treatment of entry/exit and unbalanced panels
+
+  - id: concurrent_policies
+    name: Concurrent / confounding policies
+    assumption: >
+      No other policy coincident with treatment explains the outcome change.
+    implication: >
+      Effect is attributable to the studied policy, not a co-timed intervention.
+    evidence:
+      - enumeration of co-timed environmental/industrial policies
+      - controls or placebo periods isolating the studied policy
+
+  - id: robustness_placebo
+    name: Robustness & placebo tests
+    assumption: >
+      The headline effect survives placebo and falsification checks.
+    implication: >
+      Placebo treatments / outcomes yield null effects.
+    evidence:
+      - placebo-in-time and placebo-in-space tests
+      - permutation / randomization inference
+
+  - id: data_measurement
+    name: Data quality & measurement
+    assumption: >
+      The outcome and treatment variables are measured consistently across units
+      and time.
+    implication: >
+      Measurement changes do not coincide with treatment.
+    evidence:
+      - data source and definition stability
+      - handling of reporting changes / missingness

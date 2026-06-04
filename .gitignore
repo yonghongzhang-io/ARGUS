@@ -1,0 +1,12 @@
+# data is not committed
+data/
+results/reports/*
+results/traces/*
+!results/**/.gitkeep
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.venv/
