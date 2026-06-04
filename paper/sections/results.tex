@@ -1,0 +1,32 @@
+\section{Preliminary Results}
+\label{sec:results}
+
+We run the deterministic keyword baseline over all 11 flaws on two parsed-paper
+fixtures (a generic supported DID study and a China carbon-ETS pilot fixture).
+Table~\ref{tab:baseline} reports the headline metrics; full per-flaw results are
+in \texttt{experiments/phase1\_pilot/results.md}.
+
+\begin{table}[t]
+  \centering
+  \caption{Honest baseline under realistic flaw injection ($\mathrm{max\_steps}=1$,
+  11 flaws). Removing sentinel leakage drops detection from a circular $1.000$.}
+  \label{tab:baseline}
+  \begin{tabular}{lccc}
+    \toprule
+    Fixture & detection & false alarm & localization \\
+    \midrule
+    \texttt{clean\_supported}      & 0.182 & 0.000 & 0.182 \\
+    \texttt{china\_carbon\_ets}    & 0.091 & 0.000 & 0.091 \\
+    \midrule
+    (circular, pre-fix)            & 1.000 & 0.000 & 1.000 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Reading the result.}
+The baseline never false-alarms, but detection is low and concentrated on
+omission flaws whose vocabulary is not echoed elsewhere; it is systematically
+blind to commission flaws where flawed-but-plausible evidence is present. The
+failure mode is informative: keyword presence is not evidence \emph{adequacy}.
+This is the gap a reasoning-based auditor must close, and it frames the
+remainder of the doctoral programme (\S\ref{sec:discussion}).

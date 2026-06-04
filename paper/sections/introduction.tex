@@ -1,0 +1,40 @@
+\section{Introduction}
+\label{sec:intro}
+
+% Problem: identification assumptions in DID policy studies are often asserted, not audited.
+Difference-in-differences (DID) is the workhorse design for evaluating
+environmental policy---carbon pricing, emissions-trading pilots, industrial
+standards. Its credibility rests on identification assumptions (parallel trends,
+no anticipation, correctly handled staggered timing, no interfering spillovers)
+that are frequently \emph{asserted} rather than \emph{audited}, even as the
+methodological literature has shown how fragile each can be
+\cite{goodmanbacon2021,callaway2021,sunabraham2021,roth2023}.
+
+% Our stance: audit identification credibility, NOT the true causal effect.
+We argue identification credibility is \emph{auditable} even though the true
+causal effect is not. The counterfactual is never observed, so we do not ask
+``is the estimated effect true?''. Instead we ask whether each identification
+assumption is \emph{supported by the evidence the paper itself reports}, and we
+\emph{localize} where support is weak. Figure~\ref{fig:overview} sketches this:
+identification credibility varies across assumptions, evidence, and policy
+context, and ARGUS audits it by decomposition and evidence-grounded risk flags.
+
+% Contributions (mirror paper/contributions.md)
+\paragraph{Contributions.}
+(1)~\textbf{ARGUS}, a bounded-agentic framework that audits identification
+credibility---not causal truth---in DID environmental-policy evaluation;
+(2)~an identification rubric of 11 auditable dimensions plus a flaw taxonomy;
+(3)~a flaw-injection methodology giving reproducible \emph{local ground truth}
+without the true effect; and (4)~an honest deterministic baseline and a negative
+result that quantifies the reasoning gap this PhD targets (\S\ref{sec:results}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/figure1}
+  \caption{Context-dependent identification credibility in empirical
+  environmental policy evaluation. Causal-identification risks vary across
+  treatment timing, control-group validity, spillovers, concurrent policies and
+  other contexts, which ARGUS audits by decomposing assumptions and localizing
+  evidence-based risk flags.}
+  \label{fig:overview}
+\end{figure}

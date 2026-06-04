@@ -1,0 +1,25 @@
+\section{The ARGUS Framework}
+\label{sec:framework}
+
+\paragraph{Identification rubric.}
+ARGUS decomposes a DID study into 11 auditable dimensions (parallel trends, no
+anticipation, staggered timing, SUTVA/spillovers, control group, specification,
+inference, sample period, concurrent policies, placebo/robustness, data
+measurement). Each dimension is an
+assumption~$\rightarrow$~implication~$\rightarrow$~evidence chain encoded in
+\texttt{config/identification\_dimensions.yaml}.
+
+\paragraph{Bounded-agentic pipeline.}
+The audit runs a fixed, deterministic sequence
+\emph{decomposition $\rightarrow$ extraction $\rightarrow$ assessment
+$\rightarrow$ localization $\rightarrow$ report}. Control flow is code, not a
+model decision. Agency is confined to \emph{extraction} and \emph{assessment},
+each a bounded ReAct-style loop with (i)~a small fixed tool set
+(\texttt{evidence\_search}, \texttt{figure\_parse}, \texttt{policy\_lookup}),
+(ii)~a hard step budget, and (iii)~a logged trace. This buys reproducibility and
+evidence-traceability, which the evaluation (\S\ref{sec:evaluation}) depends on.
+
+\paragraph{Output.}
+ARGUS emits \emph{(study, identification dimension, risk)} triplets with
+evidence-grounded rationales for a human expert---never a verdict on the true
+causal effect.
