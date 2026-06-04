@@ -17,6 +17,8 @@ def decompose(paper: dict[str, Any]) -> dict[str, Any]:
         "paper_id": paper.get("id", "unknown"),
         "dimensions": {
             dim_id: {
+                "id": dim_id,
+                "name": d["name"],
                 "assumption": d["assumption"],
                 "implication": d["implication"],
                 "expected_evidence": d["evidence"],

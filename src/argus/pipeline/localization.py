@@ -15,9 +15,9 @@ def localize(assessed: dict[str, Any]) -> dict[str, Any]:
     judgements = assessed["judgements"]
     risk_map = {
         dim_id: {
-            "risk": j.get("risk", "unknown"),
-            "rationale": j.get("rationale"),
-            "cited_evidence": j.get("cited_evidence", []),
+            "risk": (j or {}).get("risk", "unknown"),
+            "rationale": (j or {}).get("rationale"),
+            "cited_evidence": (j or {}).get("cited_evidence", []),
         }
         for dim_id, j in judgements.items()
     }
