@@ -12,8 +12,11 @@ report that flags risks for a human expert. The system is validated through *syn
 injection*, which yields local ground truth for identification threats without requiring the
 true causal effect.
 
-> **Status:** early-stage doctoral research. Most modules are stubs; see `config/` for the
-> identification rubric and flaw taxonomy that the pipeline is built around.
+> **Status:** early-stage doctoral research prototype. A deterministic non-LLM
+> baseline now runs end-to-end: evidence retrieval, rule-based assessment, risk
+> localization, report generation, synthetic flaw injection, and clean-vs-injected
+> evaluation. The model-driven reason/act policy, real PDF parsing, real figure
+> extraction, and corpus-scale experiments are still future work.
 
 ---
 
@@ -93,6 +96,13 @@ control flow is written in code, not decided by a model.
 
 All other stages are plain deterministic orchestration with no agent loop.
 
+**Current baseline.** Until a model-driven reason/act policy is added, ARGUS uses
+a deterministic fallback inside the bounded loop. `extraction` calls
+`evidence_search` over parsed paper text/sections/figures/tables; `assessment`
+uses explicit positive/negative signals per identification dimension. This gives
+the project a reproducible lower-bound system and a testable contract for later
+LLM upgrades.
+
 **Why this split.** A fully autonomous agent would make per-run behaviour path-dependent and
 high-variance, which would undermine ARGUS's central evaluation claim — that flaw injection
 provides *reproducible* local ground truth (detection / false-alarm / localization). Bounding
@@ -114,4 +124,26 @@ experiments/   phase-1 pilot and later studies
 results/       generated reports and agent traces
 paper/         LNCS Doctoral Consortium submission
 tests/         minimal tests
+```
+
+---
+
+## Quickstart
+
+Run the test suite:
+
+```bash
+python3 -m pytest -q
+```
+
+Run the audit pipeline from a parsed-paper dictionary:
+
+```bash
+PYTHONPATH=src python3 -c 'from argus.pipeline.audit import run_audit; paper={"id":"demo","sections":{"parallel trends":"The event-study pre-trend coefficients are near zero and support parallel trends."}}; result=run_audit(paper, max_steps=1); print(result.report_path); print(result.risk_map["by_dimension"]["parallel_trends"]["risk"])'
+```
+
+Run one clean-vs-injected evaluation pair:
+
+```bash
+PYTHONPATH=src python3 -c 'from argus.evaluation.runner import evaluate_injected_pair; paper={"id":"demo","sections":{"parallel trends":"The event-study pre-trend coefficients are near zero and support parallel trends.","robustness placebo":"Placebo and falsification checks are reported."}}; print(evaluate_injected_pair(paper, "pretrend_divergence", max_steps=1)["score"])'
 ```

@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "argus"
 version = "0.1.0"
 description = "Responsible-AI auditing of causal identification in DID environmental-policy evaluation"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dependencies = [
     "pyyaml>=6",
 ]
