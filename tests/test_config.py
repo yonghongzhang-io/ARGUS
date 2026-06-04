@@ -9,15 +9,19 @@ from argus.config import load_dimensions, load_flaws
 def test_dimensions_load_and_have_required_fields():
     dims = load_dimensions()
     assert len(dims) >= 10
+    assert len(dims) == len(set(dims))
     for d in dims.values():
-        assert d["assumption"] and d["implication"] and d["evidence"]
+        assert d["id"] and d["name"] and d["assumption"] and d["implication"] and d["evidence"]
+        assert isinstance(d["evidence"], list)
 
 
 def test_flaws_target_real_dimensions():
     dims = load_dimensions()
     flaws = load_flaws()
     assert flaws, "flaw taxonomy is empty"
+    assert len(flaws) == len(set(flaws))
     for flaw_id, flaw in flaws.items():
+        assert flaw["severity"] in {"low", "medium", "high"}
         assert flaw["target_dimension"] in dims, (
             f"flaw {flaw_id} targets unknown dimension {flaw['target_dimension']}"
         )

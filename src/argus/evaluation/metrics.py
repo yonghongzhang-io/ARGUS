@@ -26,13 +26,16 @@ def evaluate_pair(
     threshold: str = "medium",
 ) -> dict[str, Any]:
     """Score one (clean, injected) pair against a single injected flaw."""
+    if threshold not in _RANK:
+        raise ValueError(f"unknown threshold: {threshold}")
     thr = _RANK[threshold]
     detected = _risk(injected_risk_map, target_dimension) >= thr
     clean_quiet = _risk(clean_risk_map, target_dimension) < thr
 
     # localization: top-ranked flagged dimension on the injected version
     ranked = injected_risk_map.get("ranked", [])
-    top = ranked[0] if ranked else None
+    flagged = [dim_id for dim_id in ranked if _risk(injected_risk_map, dim_id) >= thr]
+    top = flagged[0] if flagged else None
     localized = top == target_dimension
 
     return {
@@ -40,4 +43,17 @@ def evaluate_pair(
         "detected": detected,
         "false_alarm": not clean_quiet,
         "localized": localized,
+    }
+
+
+def summarize_results(results: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate pair-level booleans into evaluation rates."""
+    if not results:
+        raise ValueError("cannot summarize an empty result list")
+    n = len(results)
+    return {
+        "n": n,
+        "detection_rate": sum(bool(r["detected"]) for r in results) / n,
+        "false_alarm_rate": sum(bool(r["false_alarm"]) for r in results) / n,
+        "localization_acc": sum(bool(r["localized"]) for r in results) / n,
     }
