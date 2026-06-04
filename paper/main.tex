@@ -1,0 +1,53 @@
+% ARGUS — CAEPIA Doctoral Consortium submission (skeleton)
+% Requires Springer LNCS class files: llncs.cls and splncs04.bst
+% (drop them into this folder, or load via your TeX distribution).
+\documentclass[runningheads]{llncs}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+
+\title{ARGUS: Auditing Causal Identification Credibility in
+Environmental Policy Evaluation}
+
+% DC papers are single-author (the PhD student); supervisor in acknowledgements.
+\author{Yonghong \and (supervisor TBD)}
+\authorrunning{Y. et al.}
+\institute{Affiliation TBD \\ \email{yonghonglala@gmail.com}}
+
+\maketitle
+
+\begin{abstract}
+Empirical evaluations of environmental policy lean heavily on
+difference-in-differences (DID) designs whose credibility rests on
+identification assumptions that are often asserted rather than audited. We
+propose \textbf{ARGUS}, a responsible-AI framework that audits the
+\emph{identification credibility} of such studies rather than adjudicating the
+true causal effect, which is never observed. ARGUS decomposes identification
+into auditable dimensions, gathers in-paper evidence, assesses each
+assumption--implication--evidence chain, and localizes risk in a transparent,
+human-reviewable report. We validate the auditor with \emph{synthetic flaw
+injection}, which provides reproducible local ground truth without the true
+effect. A deterministic keyword baseline shows that, once the leakage that makes
+naive evaluation circular is removed, detection collapses to a low rate and the
+baseline is blind to flawed-but-present evidence---quantifying the gap this
+doctoral research aims to close.
+\keywords{Responsible AI \and Causal inference \and Difference-in-differences
+\and Environmental policy \and LLM agents.}
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/framework}
+\input{sections/evaluation}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+
+\bibliographystyle{splncs04}
+\bibliography{references}
+
+\end{document}
