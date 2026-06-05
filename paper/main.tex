@@ -32,10 +32,11 @@ into auditable dimensions, gathers in-paper evidence, assesses each
 assumption--implication--evidence chain, and localizes risk in a transparent,
 human-reviewable report. We validate the auditor with \emph{synthetic flaw
 injection}, which provides reproducible local ground truth without the true
-effect. A deterministic keyword baseline shows that, once the leakage that makes
-naive evaluation circular is removed, detection collapses to a low rate and the
-baseline is blind to flawed-but-present evidence---quantifying the gap this
-doctoral research aims to close.
+effect. Once the leakage that makes naive evaluation circular is removed, a
+deterministic keyword baseline detects only $0.182$ of injected flaws and is blind
+to flawed-but-present evidence; swapping only the assessment policy to a model that
+judges evidence \emph{adequacy} recovers detection to $1.000$ with no false alarms,
+showing that evidence presence is not evidence adequacy.
 \keywords{Responsible AI \and Causal inference \and Difference-in-differences
 \and Environmental policy \and LLM agents.}
 \end{abstract}

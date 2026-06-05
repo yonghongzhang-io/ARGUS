@@ -1,67 +1,75 @@
 \section{Preliminary Results}
 \label{sec:results}
 
-As a lower bound and a sanity check on the evaluation methodology, we implement a
-deterministic, non-LLM baseline: extraction retrieves evidence by token overlap,
-and assessment scores each dimension from the presence or absence of supporting
-and risk-indicating vocabulary. We run it over all eleven flaws on two
-parsed-paper fixtures---a generic supported DID study and a China carbon-ETS
-pilot fixture---injecting one flaw per run. Table~\ref{tab:baseline} reports the
-headline metrics; the full per-flaw breakdown is in
-\texttt{experiments/phase1\_pilot/results.md}, and Figure~\ref{fig:results} is
-generated directly from the live evaluation.
+We compare two assessment policies under the same flaw-injection protocol and the
+\emph{same retrieved evidence} (extraction is identical), so the comparison
+isolates how each judges that evidence. The first is a deterministic, non-LLM
+\textbf{keyword baseline}: it scores each dimension from the presence or absence
+of supporting and risk-indicating vocabulary. The second is an
+\textbf{LLM assessor} that judges evidence \emph{adequacy}---whether the reported
+evidence actually establishes the assumption. We run both over all eleven flaws on
+the \texttt{clean\_supported} fixture, injecting one flaw per run.
+Table~\ref{tab:results} reports the headline metrics; the per-flaw breakdown is in
+\texttt{experiments/phase1\_pilot/}, and Figure~\ref{fig:results} is generated
+from these runs.
 
 \begin{table}[t]
   \centering
-  \caption{Honest baseline under realistic flaw injection
-  ($\mathrm{max\_steps}=1$, eleven flaws, one injected per run). Removing the
-  sentinel leakage that made evaluation circular drops detection from $1.000$.}
-  \label{tab:baseline}
+  \caption{Keyword baseline vs LLM evidence-adequacy assessor under realistic
+  flaw injection (\texttt{clean\_supported}, $\mathrm{max\_steps}=1$, eleven
+  flaws). The keyword baseline collapses once the sentinel leakage that made
+  evaluation circular is removed; swapping only the assessment policy to a
+  reasoning model recovers detection.}
+  \label{tab:results}
   \begin{tabular}{lccc}
     \toprule
-    Fixture & detection & false alarm & localization \\
+    Assessor & detection & false alarm & localization \\
     \midrule
-    \texttt{clean\_supported}   & 0.182 & 0.000 & 0.182 \\
-    \texttt{china\_carbon\_ets} & 0.091 & 0.000 & 0.091 \\
+    keyword baseline        & 0.182 & 0.000 & 0.182 \\
+    \textbf{LLM (gpt-4o)}   & \textbf{1.000} & \textbf{0.000} & \textbf{0.909} \\
     \midrule
-    (circular, pre-fix)         & 1.000 & 0.000 & 1.000 \\
+    \textit{(circular, pre-fix)} & 1.000 & 0.000 & 1.000 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-\paragraph{What the baseline gets right.}
-The baseline never raises a false alarm: on the clean papers it stays quiet on
-every dimension (false-alarm rate $0.000$). It also correctly flags the two
-omission flaws---\texttt{measurement\_break} and
-\texttt{spillover\_contamination}---whose vocabulary does not appear elsewhere in
-the paper, detecting them by the \emph{absence} of evidence. This is exactly the
-behaviour we want from a lower bound and confirms the evaluation harness is
-measuring something real.
+\paragraph{The keyword baseline is blind to commission flaws.}
+The baseline never raises a false alarm, and it correctly flags the two omission
+flaws---\texttt{measurement\_break} and \texttt{spillover\_contamination}---whose
+vocabulary does not appear elsewhere in the paper, detecting them by the
+\emph{absence} of evidence. But beyond those, detection is only $0.182$
+(Figure~\ref{fig:results}, panel~B). Two failure modes explain it: \emph{cross-section
+vocabulary bleed}, where deleting the placebo section does not help because another
+section also mentions ``placebo''; and, more fundamentally, blindness to
+\emph{every} commission flaw, where flawed-but-plausible evidence is present and
+uses the expected topic vocabulary. Keyword presence is not evidence adequacy.
 
-\paragraph{Where it fails, and why that matters.}
-Beyond those two cases, detection is low ($0.182$ and $0.091$). Two failure modes
-explain it (Figure~\ref{fig:results}, panel~B). First, \emph{cross-section
-vocabulary bleed}: deleting the placebo section does not help when another
-section also mentions ``placebo'', so retrieval still returns a hit and the
-baseline judges the dimension supported. Second, and more fundamentally, the
-baseline is blind to \emph{every} commission flaw, where flawed-but-plausible
-evidence is present and uses the expected topic vocabulary. The lesson is sharp:
-keyword presence is not evidence \emph{adequacy}. Distinguishing a sound
-parallel-trends argument from a superficially similar but flawed one requires
-reasoning about what the evidence actually shows, not whether the right words
-appear. This is precisely the gap a reasoning-based auditor must close, and it
-frames the doctoral programme that follows (\S\ref{sec:discussion}).
+\paragraph{Reasoning over adequacy closes the gap.}
+Swapping \emph{only} the assessment policy---extraction is unchanged, so both see
+the same evidence---to an LLM that judges adequacy raises detection from $0.182$ to
+$1.000$ with no false alarms and $0.909$ localization. The model reads the
+flawed-but-natural prose the keyword scorer cannot: for the injected anticipation
+flaw it returns \emph{high / flawed} with the rationale that ``outcomes began
+changing between the policy announcement and rollout,'' even though no sentinel
+keyword is present. This is the empirical core of the project---evidence
+\emph{presence} versus \emph{adequacy}---and it validates the bounded-agentic
+design: agency placed exactly where reasoning is required.
+
+\paragraph{Scope.}
+These are synthetic fixtures with a small number of dimensions; $1.000$ is a
+proof-of-concept on clearly injected flaws, not a claim of a solved task. A real,
+expert-annotated corpus is the central next step (\S\ref{sec:discussion}).
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{figures/figure2}
-  \caption{Honest baseline under realistic flaw injection. (A)~Removing the
-  sentinel leakage that made evaluation circular collapses detection from
-  $1.000$ to $0.182$, while false alarm stays at $0$. (B)~Per-flaw outcomes
-  grouped by injection type: the baseline catches only omission-type threats
-  whose vocabulary is not echoed elsewhere, and is blind to every
-  commission-type threat where flawed-but-plausible evidence is present.
-  Generated from the live evaluation by
-  \texttt{experiments/phase1\_pilot/make\_figure2.py}.}
+  \caption{Keyword baseline vs LLM evidence-adequacy assessor under realistic
+  flaw injection. (A)~Swapping only the assessment policy raises detection from
+  $0.182$ to $1.000$ with false alarm fixed at $0$ and localization $0.909$.
+  (B)~Per-flaw keyword outcomes grouped by injection type: the baseline catches
+  only omission-type threats whose vocabulary is not echoed elsewhere and is
+  blind to every commission-type threat, all of which the LLM catches. Generated
+  by \texttt{experiments/phase1\_pilot/make\_figure2.py} (keyword recomputed
+  live; LLM headline frozen in \texttt{llm\_summary.json}).}
   \label{fig:results}
 \end{figure}

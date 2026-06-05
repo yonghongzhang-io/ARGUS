@@ -1,0 +1,10 @@
+{
+  "_comment": "Frozen phase-1 result from compare_assessors.py on clean_supported.json (all 11 flaws, max_steps=1). LLM run is non-deterministic and costs API calls, so the headline summary is committed here and read by make_figure2.py instead of being recomputed on every figure build. Reproduce: OPENAI_API_KEY=... PYTHONPATH=src python3 experiments/phase1_pilot/compare_assessors.py",
+  "assessor": "llm",
+  "model": "gpt-4o",
+  "fixture": "clean_supported.json",
+  "n": 11,
+  "detection_rate": 1.0,
+  "false_alarm_rate": 0.0,
+  "localization_acc": 0.909
+}
