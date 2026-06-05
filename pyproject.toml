@@ -13,6 +13,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7"]
+llm = ["openai>=1.50"]
 
 [project.scripts]
 argus = "argus.cli:main"

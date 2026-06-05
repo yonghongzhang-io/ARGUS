@@ -17,13 +17,14 @@ def evaluate_injected_pair(
     *,
     max_steps: int = 12,
     threshold: str = "medium",
+    assessor: str = "keyword",
 ) -> dict[str, Any]:
     """Inject one flaw, run clean/injected audits, and score the pair."""
     injected_paper = inject_flaw(clean_paper, flaw_id)
     ground_truth = injected_paper["argus_ground_truth"]
 
-    clean_audit = run_audit(clean_paper, max_steps=max_steps)
-    injected_audit = run_audit(injected_paper, max_steps=max_steps)
+    clean_audit = run_audit(clean_paper, max_steps=max_steps, assessor=assessor)
+    injected_audit = run_audit(injected_paper, max_steps=max_steps, assessor=assessor)
     score = evaluate_pair(
         clean_audit.risk_map,
         injected_audit.risk_map,
@@ -46,11 +47,14 @@ def evaluate_flaws(
     *,
     max_steps: int = 12,
     threshold: str = "medium",
+    assessor: str = "keyword",
 ) -> dict[str, Any]:
     """Run the evaluation loop for multiple injected flaws."""
     selected = flaw_ids or sorted(load_flaws())
     pair_results = [
-        evaluate_injected_pair(clean_paper, flaw_id, max_steps=max_steps, threshold=threshold)
+        evaluate_injected_pair(
+            clean_paper, flaw_id, max_steps=max_steps, threshold=threshold, assessor=assessor
+        )
         for flaw_id in selected
     ]
     scores = [result["score"] for result in pair_results]
