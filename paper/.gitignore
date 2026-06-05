@@ -7,5 +7,6 @@
 *.xdv
 *.toc
 *.pdf
-# keep the figure PDFs, which are inputs not build artifacts
+# keep the figure PDFs (inputs) and the compiled manuscript
 !figures/*.pdf
+!main.pdf
