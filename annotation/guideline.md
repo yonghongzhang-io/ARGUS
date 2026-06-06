@@ -30,6 +30,22 @@ built around (reported-evidence adequacy is a proxy for identification validity)
 Mapping guide (not a rule): sufficient→low, partial→medium, missing/flawed→high.
 Deviate when warranted and say why.
 
+### Severity anchors (v0.1 draft — finalize in the calibration round)
+The pilot found that **96% of A/B disagreements are one severity step**, and most
+are the low↔medium boundary — i.e. `medium` was acting as a dustbin. Anchor it:
+
+- **low** — a relevant check is reported *and* its result directly supports the
+  assumption (e.g. an event study with flat, insignificant pre-trends shown).
+- **medium** — *partial support with a substantive unresolved risk*: the check is
+  reported but its result is incomplete/weak/not fully shown, OR a credible threat
+  is acknowledged but only partly addressed. `medium` requires a *named* residual
+  risk in the rationale — not "I'm unsure".
+- **high** — the assumption is only vaguely mentioned or not addressed, no
+  diagnostic evidence, OR the reported evidence itself signals a violation.
+
+If two annotators land on adjacent levels and both can defend it, set
+`ambiguity_flag=1` and record both readings — that is a finding, not an error.
+
 ## 3. Process
 1. Annotator A and Annotator B label the **same** papers **independently** (no
    discussion, no ARGUS output visible).

@@ -5,14 +5,21 @@ annotators (A, B). Per-dimension n=5 is too small to read; the 55-cell overall
 figure is indicative, not conclusive. Raw labels live in gitignored
 `data/annotations/` and are not committed.
 
-## Inter-annotator agreement on `risk`
+## Inter-annotator agreement on `risk` (round 1, pre-calibration)
+
+Four numbers (more informative than a single Cohen's kappa on an ordinal scale):
 
 | measure | value |
 |---|---|
-| percent agreement (3-level) | 0.51 |
-| Cohen's kappa (3-level low/med/high) | **0.17** |
-| Cohen's kappa (binary: flagged [med+high] vs low) | 0.30 |
-| percent agreement (high vs rest) | 0.85 |
+| exact 3-level agreement | 0.51 |
+| **weighted kappa (quadratic)** | **0.31** |
+| binary flag-vs-low kappa | 0.30 (agreement 0.64) |
+| **adjacent-disagreement share** | **0.96** |
+| (plain Cohen's kappa, 3-level) | 0.17 |
+
+Weighted kappa (0.31) is the fair summary: plain Cohen's kappa (0.17)
+over-penalizes a scale whose disagreements are almost all one step apart. Of the 27
+disagreements, **19 are low↔medium, 7 medium↔high, 1 a direction reversal**.
 
 ## Diagnosis: disagreement is adjacent, not substantive
 - Of 55 cells: **28 exact, 26 off-by-one-level, 1 off-by-two.** A and B almost
