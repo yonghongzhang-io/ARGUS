@@ -24,9 +24,32 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 from typing import Any, Optional
 
 DEFAULT_MODEL = "gpt-4o"
+
+# Project-root .env so the key need not be re-exported every shell. Gitignored.
+_ENV_PATH = Path(__file__).resolve().parents[3] / ".env"
+
+
+def _load_env_file(path: Path = _ENV_PATH) -> None:
+    """Load KEY=VALUE lines from a .env file into os.environ (no overwrite).
+
+    Dependency-free; ignores blanks, comments, and malformed lines. Existing
+    environment variables win, so an explicit `export` still overrides the file.
+    """
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, val = line.partition("=")
+        key = key.strip()
+        val = val.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = val
 
 _SYSTEM_PROMPT = (
     "You audit the causal-IDENTIFICATION credibility of difference-in-differences "
@@ -68,9 +91,12 @@ def make_client(client: Optional[Any] = None) -> Any:
     if client is not None:
         return client
     if not os.environ.get("OPENAI_API_KEY"):
+        _load_env_file()  # fall back to a project-root .env
+    if not os.environ.get("OPENAI_API_KEY"):
         raise RuntimeError(
-            "OPENAI_API_KEY is not set. Export it before running the LLM assessor:\n"
-            "  export OPENAI_API_KEY=sk-..."
+            "OPENAI_API_KEY is not set. Either export it, or put it in a .env file "
+            "at the project root (see .env.example):\n"
+            "  echo 'OPENAI_API_KEY=sk-...' > .env"
         )
     from openai import OpenAI
 
