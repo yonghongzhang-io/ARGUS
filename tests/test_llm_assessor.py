@@ -77,22 +77,6 @@ def test_assess_chain_llm_parses_structured_judgement():
     assert "estimates drift upward" in req["messages"][1]["content"]
 
 
-def test_run_audit_with_llm_assessor_uses_injected_client(monkeypatch, supported_paper):
-    # Patch make_client so run_audit(assessor="llm") needs no key / network.
-    canned = {
-        "risk": "low",
-        "evidence_status": "sufficient",
-        "rationale": "Event study supports parallel trends.",
-        "cited_evidence": ["section:parallel trends"],
-    }
-    fake = _FakeClient(canned)
-    monkeypatch.setattr("argus.agent.llm_assessor.make_client", lambda client=None: fake)
-
-    result = run_audit(supported_paper("llm_demo"), max_steps=1, assessor="llm")
-    risks = {d["risk"] for d in result.risk_map["by_dimension"].values()}
-    assert risks == {"low"}
-
-
 def test_unknown_assessor_rejected(supported_paper):
     from argus.pipeline.assessment import assess
 

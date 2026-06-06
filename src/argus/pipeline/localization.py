@@ -18,6 +18,8 @@ def localize(assessed: dict[str, Any]) -> dict[str, Any]:
             "risk": (j or {}).get("risk", "unknown"),
             "rationale": (j or {}).get("rationale"),
             "cited_evidence": (j or {}).get("cited_evidence", []),
+            "retrieval_quality": (j or {}).get("retrieval_quality"),
+            "evidence_status": (j or {}).get("evidence_status"),
         }
         for dim_id, j in judgements.items()
     }
