@@ -26,7 +26,21 @@ issue verdicts: it produces evidence-anchored, human-reviewable reports that
 localize risk, leaving adjudication to a domain expert. This human-in-the-loop,
 ``flag-not-judge'' stance is a deliberate response to the fact that the
 counterfactual is unobserved and that automated causal verdicts would be both
-unreliable and unaccountable.\cite{TODO_responsible_ai,TODO_claim_verification}
+unreliable and unaccountable.\cite{TODO_responsible_ai}
+
+\paragraph{Execution-grounded verification vs.\ assumption auditing.}
+A complementary line asks whether a model can \emph{carry out} causal inference
+correctly. CausalVerify~\cite{causalverify}, an execution-grounded benchmark,
+runs a model's generated estimation code against synthetic data and checks that
+the recovered effect matches the canonical estimator on the realised dataset.
+ARGUS audits a different layer: not whether the estimation is \emph{executed}
+correctly, but whether the identification \emph{assumptions} behind it are
+adequately supported by the paper's reported evidence---which CausalVerify
+explicitly places outside its scope (``identification judgment \dots\ and
+assumption checking \dots\ outside the direct scope''). ARGUS builds on the
+corpus of published economics papers released with that
+benchmark~\cite{causalverify_dataset}, adding a new dimension-level
+identification-risk annotation layer on top of it.
 
 \paragraph{Bounded LLM agents.}
 Tool-using agents in the ReAct style interleave reasoning and acting over an open
