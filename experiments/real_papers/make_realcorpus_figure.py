@@ -31,7 +31,8 @@ from argus.config import load_dimensions  # noqa: E402
 RES = Path(__file__).resolve().parent / "corpus_results"
 OUT_DIR = ROOT / "paper" / "figures"
 BUCKETS = ["high", "medium", "low", "unknown"]
-COLORS = {"high": "#c0473f", "medium": "#cdb24a", "low": "#3a9d6a", "unknown": "#9a9483"}
+# Soft Morandi palette, consistent with figure2.
+COLORS = {"high": "#c4615c", "medium": "#d2a85c", "low": "#5b9e6f", "unknown": "#9aa0a6"}
 
 
 def load_counts(path: Path) -> tuple[dict[str, Counter], int]:
