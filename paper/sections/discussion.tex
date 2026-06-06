@@ -2,16 +2,16 @@
 \label{sec:discussion}
 
 \paragraph{Threats to validity.}
-The present results are deliberately preliminary. They use a small number of
-synthetic fixtures rather than a real corpus, and the baseline is an intentional
-lower bound, so its low detection rate should be read as a calibrated starting
-point, not as evidence about the eventual system. More fundamentally, flaw
-injection certifies an auditor against the \emph{injected} threat on a single
-dimension; it does not certify the absence of other, un-injected threats, and it
-inherits whatever blind spots the flaw taxonomy has. We therefore treat detection
-and localization as necessary, not sufficient, evidence of an auditor's quality,
-and pair them with the false-alarm rate to guard against a system that flags
-everything.
+The present results are deliberately preliminary. They span synthetic fixtures,
+27 real DID papers, and a human gold that is small (5 papers, two annotators, one
+adjudication round); the gold is indicative, not definitive, and its two
+\emph{high} cells make high precision/recall noisy. The keyword baseline is an
+intentional lower bound. More fundamentally, flaw injection certifies an auditor
+against the \emph{injected} threat on a single dimension; it does not certify the
+absence of other, un-injected threats, and it inherits whatever blind spots the
+flaw taxonomy has. We therefore treat detection and localization as necessary,
+not sufficient, evidence of an auditor's quality, and pair them with the
+false-alarm rate and the human-gold comparison.
 
 \paragraph{Construct validity: what ARGUS measures.}
 A measurement is only as good as the link between the construct and the task that
