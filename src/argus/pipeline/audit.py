@@ -37,7 +37,9 @@ def run_audit(
     validate_paper(paper)
     skeleton = decomposition.decompose(paper)
     evidence = extraction.extract(paper, skeleton, max_steps=max_steps)
-    assessed = assessment.assess(skeleton, evidence, max_steps=max_steps, assessor=assessor)
+    assessed = assessment.assess(
+        skeleton, evidence, max_steps=max_steps, assessor=assessor, paper=paper
+    )
     risk_map = localization.localize(assessed)
     out = report.render(paper, risk_map, assessed)
     return AuditResult(

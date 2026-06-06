@@ -27,7 +27,10 @@ def render(
     lines.append("")
     for dim_id in risk_map["ranked"]:
         d = risk_map["by_dimension"][dim_id]
-        lines.append(f"## {dim_id} — risk: {d['risk']}")
+        header = f"## {dim_id} — risk: {d['risk']}"
+        if d.get("retrieval_quality"):
+            header += f" (retrieval: {d['retrieval_quality']})"
+        lines.append(header)
         if d.get("rationale"):
             lines.append(d["rationale"])
         for ev in d.get("cited_evidence", []):
