@@ -37,11 +37,14 @@ PAPER = ROOT / "examples" / "papers" / "clean_supported.json"
 LLM_SUMMARY = Path(__file__).resolve().parent / "llm_summary.json"
 OUT_DIR = ROOT / "paper" / "figures"
 
-GREEN = "#3a9d6a"
-RED = "#c0473f"
-GRAY = "#9a9483"
-INK = "#1a1a1a"
-MUTED = "#666666"
+# Soft Morandi palette (muted sage / steel-blue / salmon / cool gray).
+GREEN = "#5b9e6f"
+RED = "#c4615c"
+GRAY = "#9aa0a6"
+INK = "#333333"
+MUTED = "#777777"
+MISSED_FILL = "#ece7df"
+MISSED_EDGE = "#cfc8bd"
 
 
 def keyword_result() -> dict:
@@ -91,8 +94,8 @@ def panel_b(ax, pairs: list[dict], llm: dict) -> None:
 
     for i, (lab, det) in enumerate(zip(labels, detected)):
         yy = n - 1 - i
-        color = GREEN if det else "#e7e3d6"
-        edge = GREEN if det else "#c9c4b4"
+        color = GREEN if det else MISSED_FILL
+        edge = GREEN if det else MISSED_EDGE
         ax.add_patch(plt.Rectangle((0, yy - 0.42), 1, 0.84, facecolor=color,
                                    edgecolor=edge, lw=1.2))
         ax.text(0.5, yy, "caught" if det else "missed", ha="center", va="center",
@@ -136,7 +139,7 @@ def main() -> None:
     )
     fig.legend(handles=[
         Patch(facecolor=GREEN, label="caught"),
-        Patch(facecolor="#e7e3d6", edgecolor="#c9c4b4", label="missed"),
+        Patch(facecolor=MISSED_FILL, edgecolor=MISSED_EDGE, label="missed"),
     ], loc="lower center", ncol=2, fontsize=9, frameon=False, bbox_to_anchor=(0.5, -0.02))
 
     fig.tight_layout(rect=[0, 0.03, 1, 0.96])
