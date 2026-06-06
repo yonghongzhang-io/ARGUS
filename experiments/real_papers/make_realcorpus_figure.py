@@ -26,13 +26,16 @@ from matplotlib.patches import Patch  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "experiments"))
 from argus.config import load_dimensions  # noqa: E402
+from figstyle import RISK, apply_style  # noqa: E402
+
+apply_style()
 
 RES = Path(__file__).resolve().parent / "corpus_results"
 OUT_DIR = ROOT / "paper" / "figures"
 BUCKETS = ["high", "medium", "low", "unknown"]
-# Soft Morandi palette, consistent with figure2.
-COLORS = {"high": "#c4615c", "medium": "#d2a85c", "low": "#5b9e6f", "unknown": "#9aa0a6"}
+COLORS = RISK
 
 
 def load_counts(path: Path) -> tuple[dict[str, Counter], int]:

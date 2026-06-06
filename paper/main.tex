@@ -39,7 +39,12 @@ judges evidence \emph{adequacy} recovers detection to $1.000$ with no false alar
 showing that evidence presence is not evidence adequacy. On 27 real published DID
 papers the binding constraint shifts to \emph{evidence grounding}: the framework
 honestly reports retrieval failure rather than over-flagging, localizing where
-real-paper auditing is hard.
+real-paper auditing is hard. We further build a pilot human-gold calibration set
+and find expert disagreement is mostly adjacent and partly driven by design
+applicability; comparing ARGUS to the adjudicated gold reveals a systematic
+over-severity bias that a lightweight, anchor-based calibration layer reduces
+while preserving high-risk recall---positioning ARGUS as a high-sensitivity
+screening tool that flags, not judges. The human-gold study is pilot-scale.
 \keywords{Responsible AI \and Causal inference \and Difference-in-differences
 \and Environmental policy \and LLM agents.}
 \end{abstract}
