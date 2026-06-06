@@ -35,7 +35,7 @@ from these runs.
 
 \paragraph{The keyword baseline is blind to commission flaws.}
 The baseline never raises a false alarm, and it correctly flags the two omission
-flaws---\texttt{measurement\_break} and \texttt{spillover\_contamination}---whose
+flaws (\texttt{measurement\_break} and \texttt{spillover\_contamination}), whose
 vocabulary does not appear elsewhere in the paper, detecting them by the
 \emph{absence} of evidence. But beyond those, detection is only $0.182$
 (Figure~\ref{fig:results}, panel~B). Two failure modes explain it: \emph{cross-section
@@ -51,9 +51,9 @@ $1.000$ with no false alarms and $0.909$ localization. The model reads the
 flawed-but-natural prose the keyword scorer cannot: for the injected anticipation
 flaw it returns \emph{high / flawed} with the rationale that ``outcomes began
 changing between the policy announcement and rollout,'' even though no sentinel
-keyword is present. This is the empirical core of the project---evidence
-\emph{presence} versus \emph{adequacy}---and it validates the bounded-agentic
-design: agency placed exactly where reasoning is required.
+keyword is present. This presence-versus-adequacy distinction is the empirical
+core of the project, and it validates the bounded-agentic design of placing
+agency where reasoning is required.
 
 \paragraph{Scope.}
 These are synthetic fixtures with a small number of dimensions; $1.000$ is a
@@ -83,20 +83,20 @@ Here there is no injected ground truth; we report the raw per-dimension risk
 distribution of each assessor (Figure~\ref{fig:realcorpus}).
 
 \paragraph{Two regimes, and a relocated bottleneck.}
-The keyword baseline is credulous: $91\%$ of its judgements are \emph{low}---on
-real papers it sees topic vocabulary and declares the dimension supported,
-flagging almost nothing. The two-stage LLM is differentiated, but its most
+The keyword baseline is permissive: $91\%$ of its judgements are \emph{low}. On
+real papers it sees topic vocabulary, declares the dimension supported, and flags
+almost nothing. The two-stage LLM is differentiated, but its most
 informative output is that $\sim$$39\%$ of judgements are \texttt{unknown}: the
 relevance gate could not surface evidence for that dimension, so the system says
 so rather than over-flagging. Two regimes appear---dimensions whose discussion is
 diffuse or lives in figures the text retrieval cannot reach (parallel trends, no
 anticipation, placebo) are dominated by \texttt{unknown}, while dimensions where a
 section is retrieved (sample period, concurrent policies, SUTVA) are judged
-inadequate. The central finding is methodological: moving from synthetic fixtures
-to real papers is bottlenecked not by causal reasoning but by \emph{evidence
-grounding}, which is exactly why the two-stage design reports retrieval quality
-and an explicit \texttt{unknown} state distinct from a substantive high-risk
-judgement (\S\ref{sec:discussion}).
+inadequate. The finding here is methodological: moving from synthetic fixtures to
+real papers is bottlenecked not by causal reasoning but by \emph{evidence
+grounding}. This is why the two-stage design reports retrieval quality and an
+explicit \texttt{unknown} state, distinct from a substantive high-risk judgement
+(\S\ref{sec:discussion}).
 
 \paragraph{What the assessor actually reads.}
 The judgements are grounded in the retrieved text, not pattern-matched. On a
@@ -109,7 +109,7 @@ it retrieves an ``Alternative Market Share Specification'' section and flags
 \emph{robustness/placebo} as high, noting that this ``only discusses an
 alternative specification'' and is not a placebo or falsification test. In both
 cases the model distinguishes a \emph{related but different} reported check from
-the one the assumption actually requires---presence versus adequacy, now on real
+the one the assumption actually requires: presence versus adequacy, now on real
 papers.
 
 \paragraph{What we do not yet claim.}
@@ -140,16 +140,16 @@ To ask whether ARGUS's flags are \emph{right}, not just different, we built a
 small expert gold: two annotators independently labelled risk on 5 DID papers
 $\times$ 11 dimensions (55 cells). Round-1 agreement was low on the raw 3-level
 scale (Cohen's $\kappa=0.17$) but the disagreement is almost entirely ordinal:
-weighted $\kappa=0.31$ and \textbf{96\% of disagreements are a single severity
-step}---annotators essentially never reverse direction. A calibration round then
-adjudicated the 27 disagreements: \textbf{16 resolved} to a single label once the
-low/medium boundary was anchored, and \textbf{11 were flagged intrinsically
-ambiguous}. Those ambiguous cells are not random---they concentrate on
-\emph{non-canonical DID designs} (continuous-shock, event-study) where a dimension
-like staggered timing is \emph{not applicable as conventionally defined}. A real
+weighted $\kappa=0.31$, and 96\% of disagreements are a single severity step, so
+annotators essentially never reverse direction. A calibration round then
+adjudicated the 27 disagreements: 16 resolved to a single label once the
+low/medium boundary was anchored, and 11 were flagged as intrinsically ambiguous.
+Those ambiguous cells are not random: they concentrate on \emph{non-canonical DID
+designs} (continuous-shock, event-study) where a dimension like staggered timing
+is not applicable as conventionally defined. A real
 share of ``expert disagreement'' is thus \emph{design applicability}, not severity,
 which is itself why even experts abstain. The adjudicated gold (55 cells) is low
-29, medium 24, \textbf{high 2}. This is a pilot ($n{=}5$, two annotators, one
+29, medium 24, high 2. This is a pilot ($n{=}5$, two annotators, one
 adjudication round); we read it as indicative, not definitive.
 
 \subsection{ARGUS vs the human gold}
@@ -191,7 +191,7 @@ Figure~\ref{fig:vsgold} the diagnostic breakdown.
 \end{figure}
 
 \paragraph{Reading: a screening tool, not a judge.}
-The main diagnostic signal is not random disagreement. ARGUS abstains on 22/55
+The errors are systematic rather than random. ARGUS abstains on 22/55
 cells and, when it does answer, its errors are almost entirely one-directional:
 28/33 answered cells are more severe than the adjudicated human gold label, while
 none are less severe. Human gold contains only two high-risk cells, whereas ARGUS
@@ -217,14 +217,14 @@ fields it already produces: the dominant rule converts a weak-retrieval
 \emph{high} (no contradiction signalled in the rationale) either to \emph{medium}
 (keep coverage) or to \texttt{unknown} (abstain); smaller rules soften a few
 anachronistic or reporting-gap \emph{high}s. Against the gold
-(Table~\ref{tab:calib}), both policies cut over-severity and \textbf{preserve
-high-risk recall ($0.50$)}---severity is reduced without losing detection. The
-keep-coverage policy keeps all 33 answers and raises exact agreement from $0.12$
-to $0.46$; the abstain policy reaches the highest weighted $\kappa$ ($0.25$) but
-collapses coverage to 13 answered cells. Neither addresses the root cause---weak
-retrieval---so the lift that would add \emph{correct} coverage must come from
-better evidence grounding. The methodological point stands: \textbf{the human
-gold does not only evaluate ARGUS---it calibrates it}.
+(Table~\ref{tab:calib}), both policies cut over-severity and preserve high-risk
+recall ($0.50$): severity falls without losing detection. The keep-coverage
+policy keeps all 33 answers and raises exact agreement from $0.12$ to $0.46$; the
+abstain policy reaches the highest weighted $\kappa$ ($0.25$) but collapses
+coverage to 13 answered cells. Neither addresses the root cause, weak retrieval,
+so the lift that would add \emph{correct} coverage must come from better evidence
+grounding. The methodological point is that the human gold does not only evaluate
+ARGUS; it calibrates it.
 
 \begin{table}[t]
   \centering
@@ -246,3 +246,25 @@ gold does not only evaluate ARGUS---it calibrates it}.
     \bottomrule
   \end{tabular}
 \end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/calibration_tradeoff}
+  \caption{\textbf{Calibration trade-off: severity reduction versus coverage}
+  against the adjudicated human gold. Demoting weak-retrieval high-risk judgments
+  to \emph{medium} preserves coverage while reducing over-severity. Abstaining
+  instead gives the strongest severity correction and the highest weighted
+  agreement, but sharply reduces coverage. Human-gold calibration can correct
+  severity bias; the remaining bottleneck is evidence grounding rather than
+  severity thresholding alone.}
+  \label{fig:calib_tradeoff}
+\end{figure}
+
+Figure~\ref{fig:calib_tradeoff} visualizes the trade-off behind
+Table~\ref{tab:calib}. The demotion policy preserves coverage, keeping 33
+answered cells, while reducing over-severe judgments from 29 to 18 and improving
+exact agreement. The abstention policy is more conservative: it reduces
+over-severe judgments to 6 and improves weighted $\kappa$ to 0.25, but leaves
+only 13 answered cells. Thus, calibration can convert erroneous high-risk
+judgments into either medium-risk judgments or honest abstentions, but it cannot
+by itself recover the missing evidence needed for correct coverage.

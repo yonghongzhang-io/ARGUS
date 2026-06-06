@@ -1,41 +1,56 @@
-"""One shared visual style for every ARGUS figure: palette, font, spacing.
+"""One shared Nature-style visual identity for every ARGUS figure.
 
-Import in the matplotlib figure scripts:
-    import sys; sys.path.insert(0, str(ROOT / "experiments"))
-    from figstyle import PALETTE, RISK, apply_style
-The SVG figures (Figure 1, Figure 3) use the same hex values by hand.
+Semantic color consistency: the same concept always gets the same color.
+  red=high risk, amber=medium/partial, green=low/detected, gray=unknown/abstain,
+  purple=LLM/reasoning, orange=human calibration, blue=input/data/reference.
 
-Design: a single muted palette. Ordinal risk colors (low/medium/high/unknown)
-are semantic and reused everywhere; structural figures reuse green/amber/gray and
-add only blue (input) and purple (audit) so the whole paper shares one look.
+Matplotlib figures import RISK / PALETTE / apply_style; the SVG figures
+(Figure 1, Figure 2/architecture) use the same hex values by hand.
 """
 
 from __future__ import annotations
 
-INK = "#333333"
-MUTED = "#777777"
-
-# Ordinal risk scale (semantic — keep consistent across all figures).
-RISK = {
-    "low": "#5b9e6f",      # muted green
-    "medium": "#d2a85c",   # muted amber
-    "high": "#c4615c",     # muted salmon-red
-    "unknown": "#9aa0a6",  # cool gray
+# Master palette (Nature/biomedical-style: white bg, pastel fills, darker accents).
+ARGUS_COLORS = {
+    # risk scale (semantic, used everywhere)
+    "low": "#59A14F",
+    "medium": "#E5A823",
+    "high": "#D9534F",
+    "unknown": "#8A8F98",
+    # module fills / accents
+    "input": "#EAF3FB",      "input_accent": "#4E79A7",
+    "retrieval": "#EAF6EE",  "retrieval_accent": "#59A14F",
+    "llm": "#F1ECFA",        "llm_accent": "#7E57C2",
+    "human": "#FFF3DF",      "human_accent": "#F28E2B",
+    "output": "#FFF8E8",     "output_accent": "#E5A823",
+    "eval": "#EEF3F8",       "eval_accent": "#2F5D8C",
+    # neutrals
+    "border": "#D8DEE9",
+    "axis": "#9CA6B4",       # axis spines / tick marks (deeper than border)
+    "text": "#1F2933",
+    "secondary_text": "#5B6475",
+    # calibration-strategy colors (Fig 6): green / blue / yellow (on-palette, high
+    # contrast, and NOT purple -- purple is reserved for LLM/reasoning).
+    "before": "#59A14F",
+    "demote": "#4E79A7",
+    "abstain": "#E5A823",
 }
 
-# Structural accents (fill, line) for module/pipeline boxes.
+INK = ARGUS_COLORS["text"]
+MUTED = ARGUS_COLORS["secondary_text"]
+
+RISK = {k: ARGUS_COLORS[k] for k in ("low", "medium", "high", "unknown")}
+
 PALETTE = {
-    "ink": INK, "muted": MUTED,
+    "ink": INK, "muted": MUTED, "border": ARGUS_COLORS["border"],
+    "axis": ARGUS_COLORS["axis"],
     "risk": RISK,
-    "blue":   {"fill": "#dbe4ee", "line": "#6a8caf"},   # input
-    "green":  {"fill": "#dcebd9", "line": "#5b9e6f"},   # retrieval / agentic
-    "purple": {"fill": "#e6ddf0", "line": "#8f7bb0"},   # audit
-    "amber":  {"fill": "#f6e7cf", "line": "#cc9a5c"},   # output
-    "gray":   {"fill": "#f0efe9", "line": "#9aa0a6"},   # neutral / loop
-    "callout": {"fill": "#fbf6e3", "line": "#cabf6f"},
-    # neutral "answered" accent (coverage donut) — reuse the input blue line
-    "accent": "#6a8caf",
-    "missed_fill": "#ece7df", "missed_edge": "#cfc8bd",
+    "accent": ARGUS_COLORS["input_accent"],          # "answered" coverage accent
+    "missed_fill": "#EEF0F3", "missed_edge": ARGUS_COLORS["border"],
+    "before": ARGUS_COLORS["before"],
+    "demote": ARGUS_COLORS["demote"],
+    "abstain": ARGUS_COLORS["abstain"],
+    "colors": ARGUS_COLORS,
 }
 
 
@@ -50,12 +65,17 @@ def apply_style() -> None:
         "axes.titlesize": 11,
         "axes.titleweight": "bold",
         "axes.labelsize": 9.5,
-        "axes.edgecolor": "#888888",
-        "axes.linewidth": 0.8,
+        "axes.edgecolor": ARGUS_COLORS["axis"],
+        "axes.linewidth": 0.9,
+        "axes.grid": False,
         "xtick.labelsize": 9,
         "ytick.labelsize": 9,
-        "xtick.color": INK,
-        "ytick.color": INK,
+        "xtick.color": ARGUS_COLORS["axis"],
+        "ytick.color": ARGUS_COLORS["axis"],
+        "xtick.labelcolor": INK,
+        "ytick.labelcolor": INK,
+        "xtick.major.width": 0.8,
+        "ytick.major.width": 0.8,
         "text.color": INK,
         "axes.labelcolor": INK,
         "legend.fontsize": 8.5,

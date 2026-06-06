@@ -2,7 +2,7 @@
 \label{sec:discussion}
 
 \paragraph{Threats to validity.}
-The present results are deliberately preliminary. They span synthetic fixtures,
+These results are preliminary by design. They span synthetic fixtures,
 27 real DID papers, and a human gold that is small (5 papers, two annotators, one
 adjudication round); the gold is indicative, not definitive, and its two
 \emph{high} cells make high precision/recall noisy. The keyword baseline is an
@@ -20,16 +20,14 @@ whether a paper's identification assumptions are \emph{adequately supported by i
 reported evidence}---reported-evidence adequacy is an operational proxy for
 identification credibility, not causal validity itself. The two can diverge: a
 study may report every diagnostic yet still be invalid, or omit a check yet be
-sound. ARGUS therefore deliberately \emph{flags rather than judges}, and a further
-gap separates the construct from the task---retrieving the relevant evidence. Our
-real-paper runs show this is the binding constraint: a reasoning assessor handed
-off-target evidence over-flags every dimension, so ARGUS reports a
-\emph{retrieval-quality} status and an explicit \texttt{unknown} risk
-(``the system could not find the evidence'') distinct from a substantive
-high-risk judgement (``the paper lacks it''). The central methodological finding
-is thus that moving from synthetic fixtures to real papers is bottlenecked not by
-causal reasoning but by \emph{evidence grounding}, which is why ARGUS separates
-retrieval, relevance filtering, and adequacy assessment.
+sound. ARGUS therefore flags rather than judges, and a further gap separates the
+construct from the task: retrieving the relevant evidence. Our real-paper runs
+show this is the binding constraint. A reasoning assessor handed off-target
+evidence over-flags every dimension, so ARGUS reports a \emph{retrieval-quality}
+status and an explicit \texttt{unknown} risk (``the system could not find the
+evidence'') distinct from a substantive high-risk judgement (``the paper lacks
+it''). The recurring constraint is evidence grounding, not causal reasoning, and
+it is why ARGUS separates retrieval, relevance filtering, and adequacy assessment.
 
 \paragraph{Research plan.}
 The doctoral programme builds on the result in \S\ref{sec:results}, in four stages.
@@ -46,8 +44,8 @@ these (with multiple annotators, recording disagreement) would calibrate whether
 ARGUS's high/medium/\texttt{unknown} judgements match expert opinion and where
 experts themselves disagree.
 \emph{(3)~Human-expert studies.} Measure whether ARGUS reports actually help
-domain experts---calibration of trust, time saved, and errors avoided---since the
-system is explicitly designed to assist, not replace, expert judgement.
+domain experts (calibration of trust, time saved, errors avoided), since the
+system is meant to assist, not replace, expert judgement.
 \emph{(4)~Broader policy domains.} Extend beyond the China emissions-trading case
 to other environmental and, eventually, general empirical-economics settings,
 testing how far the rubric-plus-injection methodology generalizes.

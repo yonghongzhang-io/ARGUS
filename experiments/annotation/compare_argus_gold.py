@@ -29,6 +29,14 @@ ARGUS_ORDER = ["low", "medium", "high", "unknown"]
 RANK = {label: i for i, label in enumerate(ORDER)}
 
 
+def display_path(path: Path) -> str:
+    path = path.resolve()
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def load_gold(path: Path) -> dict[tuple[str, str], dict[str, str]]:
     rows: dict[tuple[str, str], dict[str, str]] = {}
     with path.open(encoding="utf-8") as fh:
@@ -221,8 +229,8 @@ def render_markdown(
         "",
         "## Inputs",
         "",
-        f"- Gold: `{gold_path.relative_to(ROOT)}`",
-        f"- ARGUS: `{argus_path.relative_to(ROOT)}`",
+        f"- Gold: `{display_path(gold_path)}`",
+        f"- ARGUS: `{display_path(argus_path)}`",
         "",
         "## Headline",
         "",
@@ -347,7 +355,7 @@ def main() -> None:
         "ARGUS high precision: "
         f"{summary['true_high_n']}/{summary['high_flags_n']} = {fmt(summary['high_precision'])}"
     )
-    print(f"wrote {args.out.relative_to(ROOT)}")
+    print(f"wrote {display_path(args.out)}")
 
 
 if __name__ == "__main__":
