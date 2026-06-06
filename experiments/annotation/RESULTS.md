@@ -34,11 +34,32 @@ agreement is much higher, and only one cell in 55 is a direction reversal. This
 *partly* supports the thesis that identification risk is intrinsically contested,
 while showing much of the disagreement is fixable rubric vagueness.
 
+## Calibration round 1 — outcome
+We adjudicated all 27 disagreements (winner A/B/both + whether the cell is
+intrinsically ambiguous) and distilled anchor rules into `annotation/guideline.md`.
+
+| outcome | count |
+|---|---|
+| disputes resolved to a single label | 16 / 27 |
+| disputes flagged intrinsically ambiguous | 11 / 27 |
+| direction of clean resolutions | B 13, A 12, both 2 |
+
+Adjudicated **gold** (55 cells): low 29, medium 24, high 2; **11/55 (20%)** marked
+ambiguous. (Gold in gitignored `data/annotations/gold_labels.csv`.)
+
+**The key qualitative finding:** the 11 ambiguous cells are not random — they
+concentrate on **non-canonical DID designs** (continuous-shock, event-study),
+where a dimension like `treatment_timing` or `parallel_trends` is *not applicable
+as conventionally defined*. So a real share of "expert disagreement" is actually
+**design-applicability**, not severity. This is why even experts set
+`ambiguity_flag`, and why ARGUS should flag/abstain rather than judge. It also
+previews the ARGUS comparison: the human gold has almost no `high` (2/55), whereas
+ARGUS-LLM flagged ~45% high on the corpus — i.e. ARGUS likely over-flags `high`,
+to be quantified once we compare against this gold.
+
 ## Next step
-A **calibration round** — anchor the low/medium/high boundaries with worked
-examples (especially `medium`), or collapse to a 2-level flag, then re-annotate.
-The rise in kappa measures how much disagreement was fixable vagueness vs
-intrinsic ambiguity — itself a reportable result. Only then compare ARGUS's
-`risk` against the (adjudicated) human labels.
+A fresh independent re-annotation under the anchored guideline would measure the
+kappa lift directly; then compare ARGUS's `risk` against the adjudicated gold
+(`agreement.py gold_labels.csv did_llm_risks.csv`, handling `unknown`).
 
 Reproduce: `PYTHONPATH=src python3 experiments/annotation/agreement.py --dir data/annotations`

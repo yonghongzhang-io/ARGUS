@@ -46,6 +46,22 @@ are the low↔medium boundary — i.e. `medium` was acting as a dustbin. Anchor 
 If two annotators land on adjacent levels and both can defend it, set
 `ambiguity_flag=1` and record both readings — that is a finding, not an error.
 
+### Calibration round 1 — anchor rules (from adjudicating 27 disagreements)
+**Design applicability (the biggest source of ambiguity).** If the paper is not a
+canonical binary/staggered DID — continuous-shock, event-study, IV-flavoured — a
+dimension may be *not applicable as conventionally defined*. Then set
+`ambiguity_flag=1` and judge the **design-specific analogue**, defaulting to
+`medium`, **not** `high`. "Not applicable" must not become "high".
+
+Low↔medium (the dominant boundary; 19 of 27 disputes):
+- Concurrent policies discussed and *partially* addressed but not fully isolated → **medium**, not high.
+- Surprise/event logic with no formal lead test → **medium**, not low; an explicit *insignificant* lead test → **low** is defensible.
+- Defined sample windows + limited robustness but no endpoint-sensitivity check → **medium**.
+- Well-defined exposure but unresolved network/spatial interference → **medium**, unless the interference plainly destroys the design (then high).
+- No modern staggered-DID correction (esp. pre-2018 papers) → **medium**, not high.
+- Transparent measurement with acknowledged limitations → **low** unless a limitation threatens identification (then medium).
+- Inference: clustering appropriate to the level at which regressors vary, with enough clusters → **low**; clearly wrong clustering level → up to high.
+
 ## 3. Process
 1. Annotator A and Annotator B label the **same** papers **independently** (no
    discussion, no ARGUS output visible).
