@@ -1,0 +1,2 @@
+paper_id,dimension,reported,evidence_status,risk,ambiguity_flag,confidence,evidence_location,rationale,annotator_id
+EXAMPLE_paper,parallel_trends,yes,partial,medium,1,3,Figure 2; Sec 4.1,"event study shown but pre-period short; experts may disagree on severity",A
