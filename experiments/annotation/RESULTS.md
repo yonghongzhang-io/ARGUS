@@ -63,3 +63,33 @@ kappa lift directly; then compare ARGUS's `risk` against the adjudicated gold
 (`agreement.py gold_labels.csv did_llm_risks.csv`, handling `unknown`).
 
 Reproduce: `PYTHONPATH=src python3 experiments/annotation/agreement.py --dir data/annotations`
+
+## ARGUS-LLM vs adjudicated gold
+
+We compared the two-stage ARGUS-LLM risk labels against the 55-cell adjudicated
+gold subset. Because ARGUS has an explicit `unknown` abstention state, we report
+two policies:
+
+| unknown policy | n scored | exact agreement | Cohen's kappa | weighted kappa | binary flag kappa |
+|---|---:|---:|---:|---:|---:|
+| exclude unknown | 33 | 0.15 | 0.02 | 0.04 | 0.05 |
+| unknown = mismatch | 55 | 0.09 | 0.00 | n/a | n/a |
+
+Coverage and calibration:
+
+- ARGUS answered **33/55** cells and abstained as `unknown` on **22/55**.
+- Gold distribution: **low 29, medium 24, high 2**.
+- ARGUS distribution on the same 55 cells: **low 1, medium 8, high 24, unknown 22**.
+- On answered cells, ARGUS is more severe than gold in **28/33**, less severe in
+  **0/33**, and equal in **5/33**.
+- ARGUS emitted `high` on **24/55** cells, but only **1/24** was gold-high
+  (precision **0.04**); it recovered **1/2** gold-high cells.
+
+This confirms the previewed failure mode: ARGUS-LLM is not simply uncertain; when
+it answers, it is strongly severity-biased upward. The practical implication is
+that `unknown` should remain a separate abstention channel, while substantive
+`high` requires calibration against human anchors.
+
+Full aggregate report: `experiments/annotation/ARGUS_VS_GOLD.md`.
+
+Reproduce: `PYTHONPATH=src python3 experiments/annotation/compare_argus_gold.py`
