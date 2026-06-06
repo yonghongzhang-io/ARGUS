@@ -4,6 +4,10 @@ results/reports/*
 results/traces/*
 !results/**/.gitkeep
 
+# secrets — never commit the real key
+.env
+.env.local
+
 # macOS
 .DS_Store
 
