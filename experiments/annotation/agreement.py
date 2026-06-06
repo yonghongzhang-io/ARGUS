@@ -41,15 +41,32 @@ def cohen_kappa(pairs: list[tuple[str, str]]) -> float:
     return 1.0 if pe == 1 else (po - pe) / (1 - pe)
 
 
+def load_many(paths: list[Path], field: str) -> dict[tuple[str, str], str]:
+    merged: dict[tuple[str, str], str] = {}
+    for p in paths:
+        merged.update(load(p, field))
+    return merged
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("csv_a")
-    ap.add_argument("csv_b")
+    ap.add_argument("csv_a", nargs="?")
+    ap.add_argument("csv_b", nargs="?")
+    ap.add_argument("--dir", help="directory of *_A.csv / *_B.csv sheets (overrides positional)")
     ap.add_argument("--field", default="risk")
     args = ap.parse_args()
 
-    a = load(Path(args.csv_a), args.field)
-    b = load(Path(args.csv_b), args.field)
+    if args.dir:
+        d = Path(args.dir)
+        a = load_many(sorted(d.glob("*_A.csv")), args.field)
+        b = load_many(sorted(d.glob("*_B.csv")), args.field)
+        if not a or not b:
+            raise SystemExit(f"no *_A.csv / *_B.csv with filled '{args.field}' in {d}")
+    else:
+        if not (args.csv_a and args.csv_b):
+            raise SystemExit("pass two CSVs, or --dir <folder of *_A.csv/*_B.csv>")
+        a = load(Path(args.csv_a), args.field)
+        b = load(Path(args.csv_b), args.field)
     keys = sorted(set(a) & set(b))
     if not keys:
         raise SystemExit("no overlapping (paper_id, dimension) rows between the two files")
