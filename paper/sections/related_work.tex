@@ -26,7 +26,22 @@ issue verdicts: it produces evidence-anchored, human-reviewable reports that
 localize risk, leaving adjudication to a domain expert. This human-in-the-loop,
 ``flag-not-judge'' stance is a deliberate response to the fact that the
 counterfactual is unobserved and that automated causal verdicts would be both
-unreliable and unaccountable.\cite{TODO_responsible_ai}
+unreliable and unaccountable.
+
+\paragraph{Benchmark and evaluation methodology.}
+Our evaluation design follows three lessons from the benchmarking literature.
+Holistic evaluation~\cite{liang2023helm} argues against collapsing capability to a
+single accuracy number; ARGUS likewise reports a layered profile---retrieval
+quality, relevance, adequacy, and localized risk---rather than one detection rate.
+Dynamic, adversarial benchmarking~\cite{kiela2021dynabench} warns that static
+benchmarks saturate; our flaw-injection loop is an adversarial, model-in-the-loop
+construction that we intend to escalate as the assessor improves (our synthetic
+flaws already saturate, motivating harder ones). Finally, Raji et
+al.~\cite{raji2021benchmark} caution that turning an abstract capability into a
+measurable task is a consequential, non-neutral move; we take this seriously in
+\S\ref{sec:discussion}, where we state precisely what ARGUS does and does not
+measure. Should the annotated corpus be released, we will document it with a
+datasheet~\cite{gebru2021datasheets}.
 
 \paragraph{Execution-grounded verification vs.\ assumption auditing.}
 A complementary line asks whether a model can \emph{carry out} causal inference
