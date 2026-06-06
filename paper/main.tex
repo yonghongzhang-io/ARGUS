@@ -22,12 +22,12 @@ Environmental Policy Evaluation}
 \maketitle
 
 \begin{abstract}
-Empirical evaluations of environmental policy lean heavily on
-difference-in-differences (DID) designs whose credibility rests on
-identification assumptions that are often asserted rather than audited. We
-propose \textbf{ARGUS}, a responsible-AI framework that audits the
-\emph{identification credibility} of such studies rather than adjudicating the
-true causal effect, which is never observed. ARGUS decomposes identification
+Empirical economics leans heavily on difference-in-differences (DID) designs---%
+nowhere more visibly than in environmental policy, our motivating case---whose
+credibility rests on identification assumptions that are often asserted rather
+than audited. We propose \textbf{ARGUS}, a responsible-AI framework that audits
+the \emph{identification credibility} of such studies rather than adjudicating
+the true causal effect, which is never observed. ARGUS decomposes identification
 into auditable dimensions, gathers in-paper evidence, assesses each
 assumption--implication--evidence chain, and localizes risk in a transparent,
 human-reviewable report. We validate the auditor with \emph{synthetic flaw
@@ -36,7 +36,10 @@ effect. Once the leakage that makes naive evaluation circular is removed, a
 deterministic keyword baseline detects only $0.182$ of injected flaws and is blind
 to flawed-but-present evidence; swapping only the assessment policy to a model that
 judges evidence \emph{adequacy} recovers detection to $1.000$ with no false alarms,
-showing that evidence presence is not evidence adequacy.
+showing that evidence presence is not evidence adequacy. On 27 real published DID
+papers the binding constraint shifts to \emph{evidence grounding}: the framework
+honestly reports retrieval failure rather than over-flagging, localizing where
+real-paper auditing is hard.
 \keywords{Responsible AI \and Causal inference \and Difference-in-differences
 \and Environmental policy \and LLM agents.}
 \end{abstract}
