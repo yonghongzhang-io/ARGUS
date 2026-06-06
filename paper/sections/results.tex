@@ -187,6 +187,49 @@ systematically over-flags severity. The constructive reading is that ARGUS is
 better cast as a \emph{high-sensitivity screening tool} that prioritizes
 dimensions for human review, which is exactly the ``flag, not judge'' stance: the
 \texttt{unknown} abstention channel should stay separate, and substantive
-\emph{high} needs a calibration / thresholding layer against human anchors. That
-layer---and a larger, re-annotated gold---is the immediate next step
-(\S\ref{sec:discussion}).
+\emph{high} needs a calibration / thresholding layer against human anchors.
+
+\subsection{Calibration: from diagnosis to improvement}
+\label{sec:calib}
+The gold comparison is diagnostic, not just evaluative. An error analysis of the
+over-severe cells is sharp: of ARGUS's over-severe \emph{high} judgements,
+$23/24$ have \texttt{evidence\_status=missing} and $20/24$ have
+\texttt{retrieval\_quality=weak}. ARGUS treats ``weak retrieval found nothing'' as
+a substantive \emph{high}, conflating a \emph{retrieval failure} with the paper
+lacking the evidence---precisely what the human, reading the full PDF, resolves to
+low/medium. This is a calibration target, not random error.
+
+We add a deterministic calibration layer over the LLM output, keyed on the rich
+fields it already produces: the dominant rule converts a weak-retrieval
+\emph{high} (no contradiction signalled in the rationale) either to \emph{medium}
+(keep coverage) or to \texttt{unknown} (abstain); smaller rules soften a few
+anachronistic or reporting-gap \emph{high}s. Against the gold
+(Table~\ref{tab:calib}), both policies cut over-severity and \textbf{preserve
+high-risk recall ($0.50$)}---severity is reduced without losing detection. The
+keep-coverage policy keeps all 33 answers and raises exact agreement from $0.12$
+to $0.46$; the abstain policy reaches the highest weighted $\kappa$ ($0.25$) but
+collapses coverage to 13 answered cells. Neither addresses the root cause---weak
+retrieval---so the lift that would add \emph{correct} coverage must come from
+better evidence grounding. The methodological point stands: \textbf{the human
+gold does not only evaluate ARGUS---it calibrates it}.
+
+\begin{table}[t]
+  \centering
+  \caption{Deterministic calibration vs the human gold (55 cells), two policies
+  for weak-retrieval \emph{high}: demote to \emph{medium} (keep coverage) or
+  abstain to \texttt{unknown}. Both cut over-severity and preserve high recall.
+  Pilot scale---only 2 gold cells are \emph{high}, so high precision/recall are
+  noisy.}
+  \label{tab:calib}
+  \begin{tabular}{lccc}
+    \toprule
+    metric & before & demote$\to$med & abstain$\to$unk \\
+    \midrule
+    over-severe (of answered) & 29 & 18 & 6 \\
+    high precision / recall   & 0.04 / 0.50 & 0.50 / 0.50 & 0.50 / 0.50 \\
+    exact agreement (answered) & 0.12 & 0.46 & 0.54 \\
+    weighted $\kappa$ (answered) & 0.06 & 0.13 & 0.25 \\
+    answered / \texttt{unknown} & 33 / 22 & 33 / 22 & 13 / 42 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
