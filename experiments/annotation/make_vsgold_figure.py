@@ -22,12 +22,19 @@ import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
+import sys; sys.path.insert(0, str(ROOT / "experiments"))  # noqa: E402
+from figstyle import RISK, PALETTE, apply_style  # noqa: E402
+
+apply_style()
+
 GOLD = ROOT / "data" / "annotations" / "gold_labels.csv"
 ARGUS = ROOT / "experiments" / "real_papers" / "corpus_results" / "did_llm_risks.csv"
 OUT_DIR = ROOT / "paper" / "figures"
 
-C = {"low": "#5b9e6f", "medium": "#d2a85c", "high": "#c4615c", "unknown": "#9aa0a6"}
-INK = "#333333"
+C = RISK
+INK = PALETTE["ink"]
+ACCENT = PALETTE["accent"]
+MUTED = PALETTE["muted"]
 RANK = {"low": 0, "medium": 1, "high": 2}
 
 
@@ -53,12 +60,12 @@ def main() -> None:
     # ---- Panel A: coverage donut ----
     answered = len(ans)
     unknown = len(keys) - answered
-    axA.pie([answered, unknown], colors=["#4a7fa5", C["unknown"]],
+    axA.pie([answered, unknown], colors=[ACCENT, C["unknown"]],
             startangle=90, counterclock=False,
             wedgeprops=dict(width=0.42, edgecolor="white"))
     axA.text(0, 0, f"{len(keys)}\ncells", ha="center", va="center", fontsize=11, fontweight="bold")
     axA.set_title("A  Coverage", fontsize=11, fontweight="bold", loc="left", color=INK)
-    axA.legend(handles=[Patch(facecolor="#4a7fa5", label=f"answered ({answered})"),
+    axA.legend(handles=[Patch(facecolor=ACCENT, label=f"answered ({answered})"),
                         Patch(facecolor=C["unknown"], label=f"unknown ({unknown})")],
                fontsize=8.5, loc="center", bbox_to_anchor=(0.5, -0.12), frameon=False, ncol=1)
 
@@ -84,7 +91,7 @@ def main() -> None:
     # ---- Panel C: error direction among answered ----
     left = 0
     for v, col, lab in [(over, C["high"], "over-severe"), (exact, C["low"], "exact"),
-                        (under, "#777777", "under-severe")]:
+                        (under, MUTED, "under-severe")]:
         if v:
             axC.barh(0, v, left=left, color=col, edgecolor="white", height=0.5)
             axC.text(left + v / 2, 0, str(v), ha="center", va="center", fontsize=9,
@@ -96,7 +103,7 @@ def main() -> None:
     axC.spines[["top", "right", "left"]].set_visible(False)
     axC.legend(handles=[Patch(facecolor=C["high"], label=f"over-severe ({over})"),
                         Patch(facecolor=C["low"], label=f"exact ({exact})"),
-                        Patch(facecolor="#777777", label=f"under-severe ({under})")],
+                        Patch(facecolor=MUTED, label=f"under-severe ({under})")],
                fontsize=7.5, loc="lower center", bbox_to_anchor=(0.5, -0.42), ncol=3, frameon=False)
 
     # ---- Panel D: confusion matrix (rows ARGUS, cols gold) ----
