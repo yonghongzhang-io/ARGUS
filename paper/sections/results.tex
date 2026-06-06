@@ -154,14 +154,9 @@ adjudication round); we read it as indicative, not definitive.
 
 \subsection{ARGUS vs the human gold}
 \label{sec:vsgold}
-Comparing ARGUS-LLM's risk to this gold (Table~\ref{tab:vsgold}) gives the first
-calibration signal---and it is unambiguous. ARGUS answers 33/55 cells and abstains
-\texttt{unknown} on 22. On the answered cells it agrees only weakly (weighted
-$\kappa=0.04$), and the failure is one-directional: ARGUS is more severe than the
-gold in \textbf{28 of 33} answered cells and \emph{less} severe in none. It emits
-\emph{high} on 24/55 cells where the gold has high on only 2---high precision
-$0.04$ (1/24) at recall $0.50$. The gold's near-absence of \emph{high} against
-ARGUS's $\sim$45\% high on the broader corpus is the core gap.
+Comparing ARGUS-LLM's risk to this gold gives the first calibration signal.
+Table~\ref{tab:vsgold} reports agreement under two \texttt{unknown} policies, and
+Figure~\ref{fig:vsgold} the diagnostic breakdown.
 
 \begin{table}[t]
   \centering
@@ -181,13 +176,31 @@ ARGUS's $\sim$45\% high on the broader corpus is the core gap.
   \end{tabular}
 \end{table}
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/figure_vsgold}
+  \caption{ARGUS--LLM versus adjudicated human gold on 55 dimension-level audit
+  cells from five papers. Panel A reports coverage, separating answered judgments
+  from abstentions. Panel B compares the severity distributions of human gold and
+  ARGUS outputs. Panel C decomposes answered judgments by error direction among
+  the 33 answered cells. Panel D reports the ARGUS-by-gold confusion matrix. The
+  dominant signal is not random disagreement but one-directional over-severity:
+  ARGUS assigns a higher risk than human gold in 28/33 answered cases and a lower
+  risk in none.}
+  \label{fig:vsgold}
+\end{figure}
+
 \paragraph{Reading: a screening tool, not a judge.}
-The current ARGUS-LLM is not an autonomous adjudicator---when it commits, it
-systematically over-flags severity. The constructive reading is that ARGUS is
-better cast as a \emph{high-sensitivity screening tool} that prioritizes
-dimensions for human review, which is exactly the ``flag, not judge'' stance: the
-\texttt{unknown} abstention channel should stay separate, and substantive
-\emph{high} needs a calibration / thresholding layer against human anchors.
+The main diagnostic signal is not random disagreement. ARGUS abstains on 22/55
+cells and, when it does answer, its errors are almost entirely one-directional:
+28/33 answered cells are more severe than the adjudicated human gold label, while
+none are less severe. Human gold contains only two high-risk cells, whereas ARGUS
+assigns high risk to 24 cells. Because the pilot gold set contains very few high
+labels, high precision and recall should be interpreted cautiously. The more
+robust conclusion is that the current ARGUS assessor is over-sensitive to missing
+or partial evidence and is better interpreted as a \emph{high-sensitivity
+screening tool} for prioritizing human review, rather than as an autonomous
+judge.
 
 \subsection{Calibration: from diagnosis to improvement}
 \label{sec:calib}
