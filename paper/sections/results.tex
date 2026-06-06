@@ -133,3 +133,60 @@ individual flag.
   per-paper CSVs.}
   \label{fig:realcorpus}
 \end{figure}
+
+\subsection{A calibrated human gold (pilot)}
+\label{sec:gold}
+To ask whether ARGUS's flags are \emph{right}, not just different, we built a
+small expert gold: two annotators independently labelled risk on 5 DID papers
+$\times$ 11 dimensions (55 cells). Round-1 agreement was low on the raw 3-level
+scale (Cohen's $\kappa=0.17$) but the disagreement is almost entirely ordinal:
+weighted $\kappa=0.31$ and \textbf{96\% of disagreements are a single severity
+step}---annotators essentially never reverse direction. A calibration round then
+adjudicated the 27 disagreements: \textbf{16 resolved} to a single label once the
+low/medium boundary was anchored, and \textbf{11 were flagged intrinsically
+ambiguous}. Those ambiguous cells are not random---they concentrate on
+\emph{non-canonical DID designs} (continuous-shock, event-study) where a dimension
+like staggered timing is \emph{not applicable as conventionally defined}. A real
+share of ``expert disagreement'' is thus \emph{design applicability}, not severity,
+which is itself why even experts abstain. The adjudicated gold (55 cells) is low
+29, medium 24, \textbf{high 2}. This is a pilot ($n{=}5$, two annotators, one
+adjudication round); we read it as indicative, not definitive.
+
+\subsection{ARGUS vs the human gold}
+\label{sec:vsgold}
+Comparing ARGUS-LLM's risk to this gold (Table~\ref{tab:vsgold}) gives the first
+calibration signal---and it is unambiguous. ARGUS answers 33/55 cells and abstains
+\texttt{unknown} on 22. On the answered cells it agrees only weakly (weighted
+$\kappa=0.04$), and the failure is one-directional: ARGUS is more severe than the
+gold in \textbf{28 of 33} answered cells and \emph{less} severe in none. It emits
+\emph{high} on 24/55 cells where the gold has high on only 2---high precision
+$0.04$ (1/24) at recall $0.50$. The gold's near-absence of \emph{high} against
+ARGUS's $\sim$45\% high on the broader corpus is the core gap.
+
+\begin{table}[t]
+  \centering
+  \caption{ARGUS-LLM vs adjudicated human gold (55 cells, 5 papers). Two
+  \texttt{unknown} policies: coverage (drop abstentions) and strict
+  (\texttt{unknown} counts as mismatch). Pilot-scale---only 2 gold cells are
+  \emph{high}, so high precision/recall are noisy; the robust signal is the
+  one-directional over-severity and the abstention rate.}
+  \label{tab:vsgold}
+  \begin{tabular}{lcccc}
+    \toprule
+    \texttt{unknown} policy & n scored & exact agr. & Cohen's $\kappa$ & weighted $\kappa$ \\
+    \midrule
+    exclude (coverage) & 33 & 0.152 & 0.019 & 0.044 \\
+    mismatch (strict)  & 55 & 0.091 & 0.002 & --- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Reading: a screening tool, not a judge.}
+The current ARGUS-LLM is not an autonomous adjudicator---when it commits, it
+systematically over-flags severity. The constructive reading is that ARGUS is
+better cast as a \emph{high-sensitivity screening tool} that prioritizes
+dimensions for human review, which is exactly the ``flag, not judge'' stance: the
+\texttt{unknown} abstention channel should stay separate, and substantive
+\emph{high} needs a calibration / thresholding layer against human anchors. That
+layer---and a larger, re-annotated gold---is the immediate next step
+(\S\ref{sec:discussion}).
