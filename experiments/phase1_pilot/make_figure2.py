@@ -29,22 +29,26 @@ from matplotlib.patches import Patch  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "experiments"))
 
 from argus.config import load_flaws  # noqa: E402
 from argus.evaluation.runner import evaluate_flaws  # noqa: E402
+from figstyle import PALETTE, apply_style  # noqa: E402
+
+apply_style()
 
 PAPER = ROOT / "examples" / "papers" / "clean_supported.json"
 LLM_SUMMARY = Path(__file__).resolve().parent / "llm_summary.json"
 OUT_DIR = ROOT / "paper" / "figures"
 
-# Soft Morandi palette (muted sage / steel-blue / salmon / cool gray).
-GREEN = "#5b9e6f"
-RED = "#c4615c"
-GRAY = "#9aa0a6"
-INK = "#333333"
-MUTED = "#777777"
-MISSED_FILL = "#ece7df"
-MISSED_EDGE = "#cfc8bd"
+# Shared palette (see experiments/figstyle.py).
+GREEN = PALETTE["risk"]["low"]
+RED = PALETTE["risk"]["high"]
+GRAY = PALETTE["risk"]["unknown"]
+INK = PALETTE["ink"]
+MUTED = PALETTE["muted"]
+MISSED_FILL = PALETTE["missed_fill"]
+MISSED_EDGE = PALETTE["missed_edge"]
 
 
 def keyword_result() -> dict:

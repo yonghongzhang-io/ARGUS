@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1640" height="740" viewBox="0 0 1640 740" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.5,3 L0,6 Z" fill="#444"/>
+    </marker>
+    <marker id="arg" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.5,3 L0,6 Z" fill="#8a8470"/>
+    </marker>
+  </defs>
+  <rect width="1640" height="740" fill="#ffffff"/>
+
+  <!-- title -->
+  <text x="820" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#2b2b2b">ARGUS: Evidence-Grounded Audit of Causal Identification</text>
+
+  <!-- ===== main pipeline: 4 boxes ===== -->
+  <!-- box geometry: y=110 h=160, w=350, x=40/440/840/1240 -->
+
+  <!-- 1 Empirical DID Paper -->
+  <rect x="40" y="110" width="350" height="160" rx="16" fill="#dbe4ee" stroke="#6a8caf" stroke-width="2.5"/>
+  <text x="215" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">Empirical DID Paper</text>
+  <text x="215" y="196" text-anchor="middle" font-size="16" fill="#555">PDF · text · tables · figures</text>
+  <text x="215" y="224" text-anchor="middle" font-size="16" fill="#555">claimed treatment effect</text>
+
+  <!-- 2 Evidence Retrieval -->
+  <rect x="440" y="110" width="350" height="160" rx="16" fill="#dcebd9" stroke="#5b9e6f" stroke-width="2.5"/>
+  <text x="615" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">Evidence Retrieval</text>
+  <text x="615" y="194" text-anchor="middle" font-size="16" fill="#555">dimension-specific queries</text>
+  <text x="615" y="220" text-anchor="middle" font-size="16" fill="#555">evidence spans + relevance gate</text>
+
+  <!-- 3 LLM Audit -->
+  <rect x="840" y="110" width="350" height="160" rx="16" fill="#e6ddf0" stroke="#8f7bb0" stroke-width="2.5"/>
+  <text x="1015" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">LLM Audit</text>
+  <text x="1015" y="194" text-anchor="middle" font-size="16" fill="#555">reported? · evidence adequate?</text>
+  <text x="1015" y="220" text-anchor="middle" font-size="16" fill="#555">residual risk? · uncertainty?</text>
+
+  <!-- 4 Audit Output -->
+  <rect x="1240" y="110" width="350" height="160" rx="16" fill="#f6e7cf" stroke="#cc9a5c" stroke-width="2.5"/>
+  <text x="1415" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">Audit Output</text>
+  <text x="1415" y="194" text-anchor="middle" font-size="16" fill="#555">11-dimension risk map</text>
+  <text x="1415" y="220" text-anchor="middle" font-size="16" fill="#555">weakest assumptions · report</text>
+
+  <!-- pipeline arrows -->
+  <line x1="392" y1="190" x2="438" y2="190" stroke="#444" stroke-width="2.5" marker-end="url(#ar)"/>
+  <line x1="792" y1="190" x2="838" y2="190" stroke="#444" stroke-width="2.5" marker-end="url(#ar)"/>
+  <line x1="1192" y1="190" x2="1238" y2="190" stroke="#444" stroke-width="2.5" marker-end="url(#ar)"/>
+
+  <!-- ===== human calibration loop (dashed) ===== -->
+  <rect x="440" y="420" width="1150" height="150" rx="16" fill="#f0efe9" stroke="#9aa0a6" stroke-width="2.5" stroke-dasharray="9 6"/>
+  <text x="1015" y="462" text-anchor="middle" font-size="21" font-weight="700" fill="#5a5640">Human Calibration &amp; Evaluation</text>
+  <text x="1015" y="500" text-anchor="middle" font-size="16" fill="#6a664e">independent annotation · adjudicated gold</text>
+  <text x="1015" y="526" text-anchor="middle" font-size="16" fill="#6a664e">severity calibration · ARGUS-vs-gold evaluation</text>
+
+  <!-- output -> loop (down) -->
+  <path d="M1415 270 V345 H1300 V418" fill="none" stroke="#8a8470" stroke-width="2.5" stroke-dasharray="8 5" marker-end="url(#arg)"/>
+  <!-- loop -> LLM audit (up, calibrates severity) -->
+  <path d="M760 420 V345 H1013 V272" fill="none" stroke="#8a8470" stroke-width="2.5" stroke-dasharray="8 5" marker-end="url(#arg)"/>
+  <text x="690" y="338" font-size="14.5" font-style="italic" fill="#8a8470">calibrates severity</text>
+  <text x="1318" y="338" font-size="14.5" font-style="italic" fill="#8a8470">labels &amp; anchors</text>
+
+  <!-- ===== callout ===== -->
+  <rect x="40" y="430" width="370" height="130" rx="14" fill="#fbf6e3" stroke="#cabf6f" stroke-width="2"/>
+  <text x="225" y="470" text-anchor="middle" font-size="18" font-weight="700" fill="#7a6f2a">Flag, not judge</text>
+  <text x="225" y="502" text-anchor="middle" font-size="15" fill="#6a6230">ARGUS audits reported-evidence</text>
+  <text x="225" y="524" text-anchor="middle" font-size="15" fill="#6a6230">adequacy, not causal truth.</text>
+</svg>
