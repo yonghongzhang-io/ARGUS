@@ -98,6 +98,20 @@ grounding}, which is exactly why the two-stage design reports retrieval quality
 and an explicit \texttt{unknown} state distinct from a substantive high-risk
 judgement (\S\ref{sec:discussion}).
 
+\paragraph{What the assessor actually reads.}
+The judgements are grounded in the retrieved text, not pattern-matched. On a
+trade-and-wages paper ARGUS retrieves the employment-results section and flags
+\emph{inference} as high because ``the paper only mentions heteroskedastic-%
+consistent standard errors and does not provide information on clustering or the
+number of clusters, which is crucial for the dependence structure in panel
+data''---a specific econometric observation, not a keyword hit. On another paper
+it retrieves an ``Alternative Market Share Specification'' section and flags
+\emph{robustness/placebo} as high, noting that this ``only discusses an
+alternative specification'' and is not a placebo or falsification test. In both
+cases the model distinguishes a \emph{related but different} reported check from
+the one the assumption actually requires---presence versus adequacy, now on real
+papers.
+
 \paragraph{What we do not yet claim.}
 Roughly $45\%$ of the LLM's judgements on these top-journal papers are
 \emph{high}; without dimension-level expert labels we cannot say whether this is
