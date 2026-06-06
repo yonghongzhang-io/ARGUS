@@ -93,3 +93,35 @@ that `unknown` should remain a separate abstention channel, while substantive
 Full aggregate report: `experiments/annotation/ARGUS_VS_GOLD.md`.
 
 Reproduce: `PYTHONPATH=src python3 experiments/annotation/compare_argus_gold.py`
+
+## Calibration layer pilot
+
+The ARGUS-vs-gold error was directional rather than random. A rich rerun on the
+5 gold papers (capturing `evidence_status`, `retrieval_quality`, and rationale)
+shows **29/33** answered cells are over-severe and **0/33** are under-severe.
+Of ARGUS's over-severe `high` cells, **23/24** have
+`evidence_status=missing` and **20/24** have `retrieval_quality=weak`.
+
+We therefore tested a lightweight deterministic calibration layer that uses only
+ARGUS-visible fields, not the gold label:
+
+- R4: `high` + `evidence_status=missing` + `retrieval_quality in {weak, failed}`
+  + no contradiction in the rationale -> `unknown`.
+- R1: `high` + `evidence_status=partial` + no contradiction -> `medium`.
+
+| metric | before | after |
+|---|---:|---:|
+| over-severe (of answered) | 29 | 10 |
+| high precision | 0.04 | 0.17 |
+| high recall | 0.50 | 0.50 |
+| exact agreement (answered) | 0.12 | 0.29 |
+| weighted kappa (answered) | 0.06 | 0.33 |
+| answered / unknown | 33 / 22 | 14 / 41 |
+
+Calibration cuts over-severity while preserving high-risk recall, but it does so
+by converting wrong `high`s into honest `unknown`s. The next bottleneck is
+retrieval: better evidence grounding is needed to turn abstentions into correct
+answers.
+
+Full aggregate reports: `experiments/annotation/OVERSEVERITY_ANALYSIS.md` and
+`experiments/annotation/CALIBRATION.md`.

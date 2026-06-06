@@ -24,9 +24,8 @@ empirical argument that determines whether a causal claim is licensed at all,
 rather than surface statistical reporting. Second, and centrally, it does not
 issue verdicts: it produces evidence-anchored, human-reviewable reports that
 localize risk, leaving adjudication to a domain expert. This human-in-the-loop,
-``flag-not-judge'' stance is a deliberate response to the fact that the
-counterfactual is unobserved and that automated causal verdicts would be both
-unreliable and unaccountable.
+flag-not-judge stance follows from the counterfactual being unobserved: automated
+causal verdicts would be both unreliable and unaccountable.
 
 \paragraph{Benchmark and evaluation methodology.}
 Our evaluation design follows three lessons from the benchmarking literature.
@@ -66,5 +65,5 @@ inter-module control flow is ordinary deterministic code. We trade autonomy for
 two properties the framework depends on: \emph{reproducibility}, so that the
 flaw-injection metrics are stable and comparable across runs, and
 \emph{evidence-traceability}, so that every flag a human reviews is anchored to
-inspectable evidence. We view this restraint as a feature for responsible
-auditing rather than a limitation.
+inspectable evidence. For responsible auditing we regard this restraint as
+appropriate rather than limiting.

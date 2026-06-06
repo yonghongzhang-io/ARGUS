@@ -1,65 +1,274 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1640" height="740" viewBox="0 0 1640 740" font-family="Helvetica, Arial, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" width="1760" height="1150" viewBox="0 0 1760 1150" font-family="Helvetica, Arial, sans-serif">
   <defs>
-    <marker id="ar" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L6.5,3 L0,6 Z" fill="#444"/>
+    <marker id="aGray" markerWidth="9" markerHeight="9" refX="6.2" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.2,3 L0,6 Z" fill="#5B6475"/>
     </marker>
-    <marker id="arg" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L6.5,3 L0,6 Z" fill="#8a8470"/>
+    <marker id="aOrange" markerWidth="9" markerHeight="9" refX="6.2" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L6.2,3 L0,6 Z" fill="#F28E2B"/>
     </marker>
   </defs>
-  <rect width="1640" height="740" fill="#ffffff"/>
+  <rect width="1760" height="1150" fill="#ffffff"/>
 
-  <!-- title -->
-  <text x="820" y="48" text-anchor="middle" font-size="30" font-weight="700" fill="#2b2b2b">ARGUS: Evidence-Grounded Audit of Causal Identification</text>
+  <!-- ===================== TITLE ===================== -->
+  <text x="60" y="60" font-size="33" font-weight="700" fill="#1F2933">ARGUS: Evidence-Grounded Audit of Causal Identification</text>
 
-  <!-- ===== main pipeline: 4 boxes ===== -->
-  <!-- box geometry: y=110 h=160, w=350, x=40/440/840/1240 -->
+  <!-- ===================== STEP HEADERS ===================== -->
+  <!-- step 1 -->
+  <rect x="40" y="94" width="78" height="30" rx="8" fill="#4E79A7"/>
+  <text x="79" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="1">STEP 1</text>
+  <text x="128" y="115" font-size="17" font-weight="700" fill="#4E79A7">Paper Processing &amp; Audit Rubric</text>
+  <!-- step 2 -->
+  <rect x="460" y="94" width="78" height="30" rx="8" fill="#7E57C2"/>
+  <text x="499" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="1">STEP 2</text>
+  <text x="548" y="115" font-size="17" font-weight="700" fill="#5C4694">ARGUS Audit Workflow</text>
+  <!-- step 3 -->
+  <rect x="1300" y="94" width="78" height="30" rx="8" fill="#F28E2B"/>
+  <text x="1339" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="1">STEP 3</text>
+  <text x="1388" y="115" font-size="17" font-weight="700" fill="#C46A12">Human Calibration &amp; Evaluation</text>
 
-  <!-- 1 Empirical DID Paper -->
-  <rect x="40" y="110" width="350" height="160" rx="16" fill="#dbe4ee" stroke="#6a8caf" stroke-width="2.5"/>
-  <text x="215" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">Empirical DID Paper</text>
-  <text x="215" y="196" text-anchor="middle" font-size="16" fill="#555">PDF · text · tables · figures</text>
-  <text x="215" y="224" text-anchor="middle" font-size="16" fill="#555">claimed treatment effect</text>
+  <!-- ===================== STEP 1 PANEL ===================== -->
+  <rect x="40" y="130" width="370" height="850" rx="18" fill="#EAF3FB" stroke="#D8DEE9" stroke-width="1.5"/>
 
-  <!-- 2 Evidence Retrieval -->
-  <rect x="440" y="110" width="350" height="160" rx="16" fill="#dcebd9" stroke="#5b9e6f" stroke-width="2.5"/>
-  <text x="615" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">Evidence Retrieval</text>
-  <text x="615" y="194" text-anchor="middle" font-size="16" fill="#555">dimension-specific queries</text>
-  <text x="615" y="220" text-anchor="middle" font-size="16" fill="#555">evidence spans + relevance gate</text>
+  <!-- c1 Empirical DID paper -->
+  <rect x="62" y="200" width="326" height="110" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <!-- paper icon -->
+  <g stroke="#4E79A7" stroke-width="2" fill="none">
+    <path d="M82 232 h26 l8 8 v36 h-34 z" fill="#EAF3FB"/>
+    <path d="M108 232 v8 h8"/>
+    <line x1="88" y1="252" x2="110" y2="252"/>
+    <line x1="88" y1="262" x2="110" y2="262"/>
+    <line x1="88" y1="272" x2="104" y2="272"/>
+  </g>
+  <text x="138" y="250" font-size="16.5" font-weight="700" fill="#1F2933">Empirical DID paper</text>
+  <text x="138" y="274" font-size="13.5" fill="#5B6475">the study under audit</text>
 
-  <!-- 3 LLM Audit -->
-  <rect x="840" y="110" width="350" height="160" rx="16" fill="#e6ddf0" stroke="#8f7bb0" stroke-width="2.5"/>
-  <text x="1015" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">LLM Audit</text>
-  <text x="1015" y="194" text-anchor="middle" font-size="16" fill="#555">reported? · evidence adequate?</text>
-  <text x="1015" y="220" text-anchor="middle" font-size="16" fill="#555">residual risk? · uncertainty?</text>
+  <!-- c2 source modalities -->
+  <rect x="62" y="330" width="326" height="110" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <text x="82" y="362" font-size="16" font-weight="700" fill="#1F2933">PDF · text · tables · figures</text>
+  <!-- mini icons row -->
+  <g stroke="#4E79A7" stroke-width="1.8" fill="none">
+    <!-- text lines -->
+    <g transform="translate(86,388)"><line x1="0" y1="0" x2="22" y2="0"/><line x1="0" y1="8" x2="22" y2="8"/><line x1="0" y1="16" x2="14" y2="16"/></g>
+    <!-- table grid -->
+    <g transform="translate(160,384)"><rect x="0" y="0" width="26" height="24" rx="2" fill="#EAF3FB"/><line x1="0" y1="8" x2="26" y2="8"/><line x1="0" y1="16" x2="26" y2="16"/><line x1="13" y1="0" x2="13" y2="24"/></g>
+    <!-- bar chart -->
+    <g transform="translate(236,384)"><line x1="0" y1="0" x2="0" y2="24"/><line x1="0" y1="24" x2="28" y2="24"/><rect x="4" y="14" width="6" height="10" fill="#EAF3FB"/><rect x="13" y="8" width="6" height="16" fill="#EAF3FB"/><rect x="22" y="4" width="6" height="20" fill="#EAF3FB"/></g>
+    <!-- figure/image -->
+    <g transform="translate(312,384)"><rect x="0" y="0" width="26" height="24" rx="2" fill="#EAF3FB"/><circle cx="8" cy="8" r="3"/><path d="M2 22 l8 -9 l6 5 l5 -6 l5 10"/></g>
+  </g>
+  <text x="82" y="430" font-size="12.5" fill="#5B6475">source modalities ingested</text>
 
-  <!-- 4 Audit Output -->
-  <rect x="1240" y="110" width="350" height="160" rx="16" fill="#f6e7cf" stroke="#cc9a5c" stroke-width="2.5"/>
-  <text x="1415" y="158" text-anchor="middle" font-size="22" font-weight="700" fill="#333">Audit Output</text>
-  <text x="1415" y="194" text-anchor="middle" font-size="16" fill="#555">11-dimension risk map</text>
-  <text x="1415" y="220" text-anchor="middle" font-size="16" fill="#555">weakest assumptions · report</text>
+  <!-- c3 parsing -->
+  <rect x="62" y="460" width="326" height="110" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <g stroke="#4E79A7" stroke-width="2" fill="none">
+    <rect x="84" y="494" width="26" height="30" rx="3" fill="#EAF3FB"/>
+    <rect x="92" y="486" width="26" height="30" rx="3" fill="#ffffff"/>
+    <line x1="98" y1="496" x2="112" y2="496"/>
+    <line x1="98" y1="504" x2="112" y2="504"/>
+  </g>
+  <text x="138" y="508" font-size="16.5" font-weight="700" fill="#1F2933">Section, table &amp;</text>
+  <text x="138" y="530" font-size="16.5" font-weight="700" fill="#1F2933">figure parsing</text>
 
-  <!-- pipeline arrows -->
-  <line x1="392" y1="190" x2="438" y2="190" stroke="#444" stroke-width="2.5" marker-end="url(#ar)"/>
-  <line x1="792" y1="190" x2="838" y2="190" stroke="#444" stroke-width="2.5" marker-end="url(#ar)"/>
-  <line x1="1192" y1="190" x2="1238" y2="190" stroke="#444" stroke-width="2.5" marker-end="url(#ar)"/>
+  <!-- c4 11 dimensions -->
+  <rect x="62" y="590" width="326" height="110" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <!-- checklist icon -->
+  <g stroke="#4E79A7" stroke-width="2" fill="none">
+    <rect x="84" y="616" width="30" height="34" rx="4" fill="#EAF3FB"/>
+    <path d="M90 627 l4 4 l7 -8" stroke="#59A14F"/>
+    <line x1="104" y1="628" x2="110" y2="628"/>
+    <path d="M90 640 l4 4 l7 -8" stroke="#59A14F"/>
+    <line x1="104" y1="641" x2="110" y2="641"/>
+  </g>
+  <text x="130" y="632" font-size="16.5" font-weight="700" fill="#1F2933">11 identification</text>
+  <text x="130" y="654" font-size="16.5" font-weight="700" fill="#1F2933">dimensions</text>
+  <text x="84" y="684" font-size="12" fill="#5B6475">parallel trends · SUTVA · inference · placebo · …</text>
 
-  <!-- ===== human calibration loop (dashed) ===== -->
-  <rect x="440" y="420" width="1150" height="150" rx="16" fill="#f0efe9" stroke="#9aa0a6" stroke-width="2.5" stroke-dasharray="9 6"/>
-  <text x="1015" y="462" text-anchor="middle" font-size="21" font-weight="700" fill="#5a5640">Human Calibration &amp; Evaluation</text>
-  <text x="1015" y="500" text-anchor="middle" font-size="16" fill="#6a664e">independent annotation · adjudicated gold</text>
-  <text x="1015" y="526" text-anchor="middle" font-size="16" fill="#6a664e">severity calibration · ARGUS-vs-gold evaluation</text>
+  <!-- c5 assumption chain -->
+  <rect x="62" y="720" width="326" height="200" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <text x="82" y="750" font-size="14" font-weight="700" fill="#1F2933">Each dimension expands to:</text>
+  <rect x="110" y="763" width="210" height="32" rx="8" fill="#EAF3FB" stroke="#4E79A7" stroke-width="1.5"/>
+  <text x="215" y="784" text-anchor="middle" font-size="14" fill="#1F2933">Assumption</text>
+  <line x1="215" y1="797" x2="215" y2="809" stroke="#5B6475" stroke-width="2" marker-end="url(#aGray)"/>
+  <rect x="110" y="811" width="210" height="32" rx="8" fill="#EAF3FB" stroke="#4E79A7" stroke-width="1.5"/>
+  <text x="215" y="832" text-anchor="middle" font-size="14" fill="#1F2933">Implication</text>
+  <line x1="215" y1="845" x2="215" y2="857" stroke="#5B6475" stroke-width="2" marker-end="url(#aGray)"/>
+  <rect x="110" y="859" width="210" height="34" rx="8" fill="#EAF3FB" stroke="#4E79A7" stroke-width="1.5"/>
+  <text x="215" y="881" text-anchor="middle" font-size="14" fill="#1F2933">Expected evidence</text>
 
-  <!-- output -> loop (down) -->
-  <path d="M1415 270 V345 H1300 V418" fill="none" stroke="#8a8470" stroke-width="2.5" stroke-dasharray="8 5" marker-end="url(#arg)"/>
-  <!-- loop -> LLM audit (up, calibrates severity) -->
-  <path d="M760 420 V345 H1013 V272" fill="none" stroke="#8a8470" stroke-width="2.5" stroke-dasharray="8 5" marker-end="url(#arg)"/>
-  <text x="690" y="338" font-size="14.5" font-style="italic" fill="#8a8470">calibrates severity</text>
-  <text x="1318" y="338" font-size="14.5" font-style="italic" fill="#8a8470">labels &amp; anchors</text>
+  <!-- ===================== STEP 2 PANEL ===================== -->
+  <rect x="460" y="130" width="720" height="850" rx="18" fill="#F5F4FB" stroke="#D8DEE9" stroke-width="1.5"/>
 
-  <!-- ===== callout ===== -->
-  <rect x="40" y="430" width="370" height="130" rx="14" fill="#fbf6e3" stroke="#cabf6f" stroke-width="2"/>
-  <text x="225" y="470" text-anchor="middle" font-size="18" font-weight="700" fill="#7a6f2a">Flag, not judge</text>
-  <text x="225" y="502" text-anchor="middle" font-size="15" fill="#6a6230">ARGUS audits reported-evidence</text>
-  <text x="225" y="524" text-anchor="middle" font-size="15" fill="#6a6230">adequacy, not causal truth.</text>
+  <!-- Module 1: Evidence Retrieval (green) -->
+  <rect x="482" y="200" width="676" height="200" rx="14" fill="#EAF6EE" stroke="#59A14F" stroke-width="2"/>
+  <rect x="482" y="200" width="9" height="200" rx="4" fill="#59A14F"/>
+  <text x="1138" y="226" text-anchor="end" font-size="12.5" font-weight="700" fill="#59A14F" letter-spacing="1">MODULE 1</text>
+  <!-- magnifier icon -->
+  <g stroke="#59A14F" stroke-width="2.4" fill="none">
+    <circle cx="524" cy="248" r="11" fill="#ffffff"/>
+    <line x1="532" y1="256" x2="542" y2="266"/>
+  </g>
+  <text x="556" y="256" font-size="19" font-weight="700" fill="#3C7A33">Evidence Retrieval</text>
+  <g font-size="15" fill="#1F2933">
+    <circle cx="514" cy="300" r="3.5" fill="#59A14F"/><text x="528" y="305">dimension-specific queries</text>
+    <circle cx="514" cy="335" r="3.5" fill="#59A14F"/><text x="528" y="340">evidence spans + locations</text>
+    <circle cx="514" cy="370" r="3.5" fill="#59A14F"/><text x="528" y="375">relevance gate</text>
+  </g>
+
+  <!-- arrow M1 -> M2 -->
+  <line x1="820" y1="400" x2="820" y2="448" stroke="#5B6475" stroke-width="2.5" marker-end="url(#aGray)"/>
+
+  <!-- Module 2: LLM Assessment (purple) -->
+  <rect x="482" y="450" width="676" height="270" rx="14" fill="#F1ECFA" stroke="#7E57C2" stroke-width="2"/>
+  <rect x="482" y="450" width="9" height="270" rx="4" fill="#7E57C2"/>
+  <text x="1138" y="476" text-anchor="end" font-size="12.5" font-weight="700" fill="#7E57C2" letter-spacing="1">MODULE 2</text>
+  <!-- chip/cpu icon -->
+  <g stroke="#7E57C2" stroke-width="2.2" fill="none">
+    <rect x="514" y="488" width="22" height="22" rx="4" fill="#ffffff"/>
+    <line x1="520" y1="488" x2="520" y2="482"/><line x1="530" y1="488" x2="530" y2="482"/>
+    <line x1="520" y1="510" x2="520" y2="516"/><line x1="530" y1="510" x2="530" y2="516"/>
+    <line x1="514" y1="495" x2="508" y2="495"/><line x1="514" y1="503" x2="508" y2="503"/>
+    <line x1="536" y1="495" x2="542" y2="495"/><line x1="536" y1="503" x2="542" y2="503"/>
+  </g>
+  <text x="556" y="506" font-size="19" font-weight="700" fill="#5C4694">LLM Assessment</text>
+  <text x="556" y="528" font-size="13" fill="#5B6475">bounded audit module — assesses reported-evidence adequacy</text>
+  <!-- question chips 2x2 -->
+  <g font-size="14.5">
+    <rect x="512" y="548" width="306" height="38" rx="10" fill="#ffffff" stroke="#7E57C2" stroke-width="1.5"/>
+    <text x="665" y="572" text-anchor="middle" fill="#5C4694">reported?</text>
+    <rect x="836" y="548" width="306" height="38" rx="10" fill="#ffffff" stroke="#7E57C2" stroke-width="1.5"/>
+    <text x="989" y="572" text-anchor="middle" fill="#5C4694">evidence adequate?</text>
+    <rect x="512" y="596" width="306" height="38" rx="10" fill="#ffffff" stroke="#7E57C2" stroke-width="1.5"/>
+    <text x="665" y="620" text-anchor="middle" fill="#5C4694">residual risk?</text>
+    <rect x="836" y="596" width="306" height="38" rx="10" fill="#ffffff" stroke="#7E57C2" stroke-width="1.5"/>
+    <text x="989" y="620" text-anchor="middle" fill="#5C4694">ambiguity / uncertainty?</text>
+  </g>
+  <text x="512" y="668" font-size="15" font-weight="700" fill="#7E57C2">→ rationale with cited spans</text>
+
+  <!-- arrow M2 -> M3 -->
+  <line x1="820" y1="720" x2="820" y2="748" stroke="#5B6475" stroke-width="2.5" marker-end="url(#aGray)"/>
+
+  <!-- Module 3: Risk Localization & Report (amber) -->
+  <rect x="482" y="750" width="676" height="210" rx="14" fill="#FFF8E8" stroke="#E5A823" stroke-width="2"/>
+  <rect x="482" y="750" width="9" height="210" rx="4" fill="#E5A823"/>
+  <text x="1138" y="776" text-anchor="end" font-size="12.5" font-weight="700" fill="#B5870B" letter-spacing="1">MODULE 3</text>
+  <!-- map/report icon -->
+  <g stroke="#B5870B" stroke-width="2.2" fill="none">
+    <rect x="514" y="786" width="22" height="26" rx="3" fill="#ffffff"/>
+    <line x1="519" y1="794" x2="531" y2="794"/><line x1="519" y1="800" x2="531" y2="800"/><line x1="519" y1="806" x2="527" y2="806"/>
+  </g>
+  <text x="556" y="806" font-size="19" font-weight="700" fill="#A8770A">Risk Localization &amp; Report</text>
+  <g font-size="15" fill="#1F2933">
+    <circle cx="514" cy="845" r="3.5" fill="#E5A823"/><text x="528" y="850">dimension-level risk map</text>
+    <circle cx="514" cy="885" r="3.5" fill="#E5A823"/><text x="528" y="890">weakest assumptions</text>
+    <circle cx="514" cy="925" r="3.5" fill="#E5A823"/><text x="528" y="930">human-reviewable audit report</text>
+  </g>
+  <!-- risk chips inline with risk map -->
+  <g font-size="12">
+    <rect x="820" y="838" width="16" height="16" rx="4" fill="#59A14F"/><text x="840" y="850" fill="#5B6475">low</text>
+    <rect x="884" y="838" width="16" height="16" rx="4" fill="#E5A823"/><text x="904" y="850" fill="#5B6475">med</text>
+    <rect x="952" y="838" width="16" height="16" rx="4" fill="#D9534F"/><text x="972" y="850" fill="#5B6475">high</text>
+    <rect x="1024" y="838" width="16" height="16" rx="4" fill="#8A8F98"/><text x="1044" y="850" fill="#5B6475">unknown</text>
+  </g>
+
+  <!-- ===================== STEP 3 PANEL ===================== -->
+  <rect x="1300" y="130" width="420" height="850" rx="18" fill="#FFF3DF" stroke="#D8DEE9" stroke-width="1.5"/>
+
+  <!-- s3 c1 independent annotation -->
+  <rect x="1322" y="200" width="376" height="126" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <g stroke="#F28E2B" stroke-width="2.2" fill="none">
+    <circle cx="1356" cy="250" r="9" fill="#FFF3DF"/>
+    <path d="M1342 276 a14 12 0 0 1 28 0"/>
+    <circle cx="1380" cy="256" r="7" fill="#FFF3DF"/>
+    <path d="M1370 276 a12 10 0 0 1 22 0"/>
+  </g>
+  <text x="1408" y="252" font-size="16.5" font-weight="700" fill="#1F2933">independent annotation</text>
+  <text x="1408" y="276" font-size="13" fill="#5B6475">two reviewers, blind</text>
+
+  <!-- s3 c2 adjudicated gold labels -->
+  <rect x="1322" y="356" width="376" height="126" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <g stroke="#F28E2B" stroke-width="2.2" fill="none">
+    <line x1="1356" y1="402" x2="1356" y2="436"/>
+    <line x1="1340" y1="410" x2="1372" y2="410"/>
+    <path d="M1340 410 l-7 14 h14 z" fill="#FFF3DF"/>
+    <path d="M1372 410 l-7 14 h14 z" fill="#FFF3DF"/>
+    <line x1="1348" y1="436" x2="1364" y2="436"/>
+  </g>
+  <text x="1408" y="408" font-size="16.5" font-weight="700" fill="#1F2933">adjudicated gold</text>
+  <text x="1408" y="430" font-size="16.5" font-weight="700" fill="#1F2933">labels</text>
+  <text x="1408" y="456" font-size="13" fill="#5B6475">adjudicated consensus</text>
+
+  <!-- s3 c3 severity calibration anchors -->
+  <rect x="1322" y="512" width="376" height="126" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <g stroke="#F28E2B" stroke-width="2.2" fill="none">
+    <circle cx="1356" cy="556" r="7" fill="#FFF3DF"/>
+    <line x1="1356" y1="563" x2="1356" y2="590"/>
+    <path d="M1342 580 a14 14 0 0 0 28 0"/>
+    <line x1="1342" y1="580" x2="1342" y2="586"/>
+    <line x1="1370" y1="580" x2="1370" y2="586"/>
+  </g>
+  <text x="1408" y="558" font-size="16.5" font-weight="700" fill="#1F2933">severity calibration</text>
+  <text x="1408" y="580" font-size="16.5" font-weight="700" fill="#1F2933">anchors</text>
+  <text x="1408" y="606" font-size="13" fill="#5B6475">severity reference points</text>
+
+  <!-- s3 c4 ARGUS-vs-gold evaluation -->
+  <rect x="1322" y="668" width="376" height="126" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <g stroke="#F28E2B" stroke-width="2.2" fill="none">
+    <line x1="1342" y1="712" x2="1342" y2="746"/>
+    <line x1="1342" y1="746" x2="1376" y2="746"/>
+    <rect x="1348" y="732" width="7" height="14" fill="#FFF3DF"/>
+    <rect x="1359" y="724" width="7" height="22" fill="#FFF3DF"/>
+    <rect x="1370" y="718" width="7" height="28" fill="#FFF3DF"/>
+  </g>
+  <text x="1408" y="714" font-size="16.5" font-weight="700" fill="#1F2933">ARGUS-vs-gold</text>
+  <text x="1408" y="736" font-size="16.5" font-weight="700" fill="#1F2933">evaluation</text>
+  <text x="1408" y="762" font-size="13" fill="#5B6475">compare to gold labels</text>
+
+  <!-- s3 c5 calibration layer -->
+  <rect x="1322" y="824" width="376" height="126" rx="12" fill="#ffffff" stroke="#D8DEE9" stroke-width="1.5"/>
+  <g stroke="#F28E2B" stroke-width="2.2" fill="none">
+    <line x1="1340" y1="872" x2="1376" y2="872"/>
+    <circle cx="1352" cy="872" r="6" fill="#FFF3DF"/>
+    <line x1="1340" y1="892" x2="1376" y2="892"/>
+    <circle cx="1366" cy="892" r="6" fill="#FFF3DF"/>
+  </g>
+  <text x="1408" y="878" font-size="16.5" font-weight="700" fill="#1F2933">calibration layer</text>
+  <text x="1408" y="902" font-size="13" fill="#5B6475">anchor-based recalibration</text>
+
+  <!-- ===================== INTER-PANEL FLOW ===================== -->
+  <!-- Step 1 -> Step 2 -->
+  <text x="436" y="288" text-anchor="middle" font-size="12.5" fill="#5B6475">rubric +</text>
+  <text x="436" y="303" text-anchor="middle" font-size="12.5" fill="#5B6475">parsed evidence</text>
+  <line x1="412" y1="318" x2="478" y2="318" stroke="#5B6475" stroke-width="2.5" marker-end="url(#aGray)"/>
+
+  <!-- Audit Output -> Human (expert review, forward solid) -->
+  <line x1="1160" y1="812" x2="1298" y2="812" stroke="#5B6475" stroke-width="2.5" marker-end="url(#aGray)"/>
+  <rect x="1192" y="792" width="76" height="16" fill="#ffffff"/>
+  <text x="1230" y="805" text-anchor="middle" font-size="12.5" font-weight="600" fill="#5B6475">expert review</text>
+
+  <!-- Human -> Audit Output (labels & anchors, feedback dashed) -->
+  <line x1="1298" y1="864" x2="1160" y2="864" stroke="#F28E2B" stroke-width="2.2" stroke-dasharray="8 5" marker-end="url(#aOrange)"/>
+  <rect x="1186" y="876" width="88" height="16" fill="#ffffff"/>
+  <text x="1230" y="889" text-anchor="middle" font-size="12.5" font-style="italic" fill="#F28E2B">labels &amp; anchors</text>
+
+  <!-- Human -> LLM Assessment (calibrates severity, feedback dashed) -->
+  <path d="M1298 578 H1162" fill="none" stroke="#F28E2B" stroke-width="2.2" stroke-dasharray="8 5" marker-end="url(#aOrange)"/>
+  <rect x="1182" y="560" width="96" height="16" fill="#ffffff"/>
+  <text x="1230" y="573" text-anchor="middle" font-size="12.5" font-style="italic" fill="#F28E2B">calibrates severity</text>
+
+  <!-- ===================== CALLOUT ===================== -->
+  <rect x="460" y="1002" width="720" height="118" rx="14" fill="#FFFDF6" stroke="#E5A823" stroke-width="2"/>
+  <rect x="460" y="1002" width="9" height="118" rx="4" fill="#E5A823"/>
+  <!-- flag icon -->
+  <g stroke="#E5A823" stroke-width="2.4" fill="none">
+    <line x1="500" y1="1030" x2="500" y2="1092"/>
+    <path d="M500 1032 h40 l-9 11 l9 11 h-40 z" fill="#FFF8E8"/>
+  </g>
+  <text x="566" y="1048" font-size="21" font-weight="700" fill="#1F2933">Flag, not judge</text>
+  <text x="566" y="1082" font-size="15.5" fill="#5B6475">ARGUS audits reported-evidence adequacy, not causal truth.</text>
+
+  <!-- ===================== MINI LEGEND ===================== -->
+  <line x1="1300" y1="1024" x2="1336" y2="1024" stroke="#5B6475" stroke-width="2.5" marker-end="url(#aGray)"/>
+  <text x="1344" y="1029" font-size="13" fill="#5B6475">process flow</text>
+  <line x1="1300" y1="1052" x2="1336" y2="1052" stroke="#F28E2B" stroke-width="2.2" stroke-dasharray="8 5" marker-end="url(#aOrange)"/>
+  <text x="1344" y="1057" font-size="13" fill="#5B6475">human feedback</text>
 </svg>

@@ -15,36 +15,39 @@ Environmental Policy Evaluation}
 \titlerunning{ARGUS: Auditing Causal Identification Credibility}
 
 % DC papers are single-author (the PhD student); supervisor in acknowledgements.
-\author{Yonghong\inst{}}
-\authorrunning{Yonghong}
-\institute{Affiliation TBD \\ \email{yonghonglala@gmail.com}}
+\author{Yonghong Zhang}
+\authorrunning{Yonghong Zhang}
+\institute{Departamento de Financiaci\'on e Investigaci\'on Comercial,\\
+Universidad Aut\'onoma de Madrid, Madrid, Spain\\
+\email{yonghong.zhang@estudiante.uam.es}}
 
 \maketitle
 
 \begin{abstract}
-Empirical economics leans heavily on difference-in-differences (DID) designs---%
-nowhere more visibly than in environmental policy, our motivating case---whose
-credibility rests on identification assumptions that are often asserted rather
-than audited. We propose \textbf{ARGUS}, a responsible-AI framework that audits
-the \emph{identification credibility} of such studies rather than adjudicating
-the true causal effect, which is never observed. ARGUS decomposes identification
-into auditable dimensions, gathers in-paper evidence, assesses each
-assumption--implication--evidence chain, and localizes risk in a transparent,
-human-reviewable report. We validate the auditor with \emph{synthetic flaw
-injection}, which provides reproducible local ground truth without the true
-effect. Once the leakage that makes naive evaluation circular is removed, a
-deterministic keyword baseline detects only $0.182$ of injected flaws and is blind
-to flawed-but-present evidence; swapping only the assessment policy to a model that
-judges evidence \emph{adequacy} recovers detection to $1.000$ with no false alarms,
-showing that evidence presence is not evidence adequacy. On 27 real published DID
-papers the binding constraint shifts to \emph{evidence grounding}: the framework
-honestly reports retrieval failure rather than over-flagging, localizing where
-real-paper auditing is hard. We further build a pilot human-gold calibration set
-and find expert disagreement is mostly adjacent and partly driven by design
-applicability; comparing ARGUS to the adjudicated gold reveals a systematic
-over-severity bias that a lightweight, anchor-based calibration layer reduces
-while preserving high-risk recall---positioning ARGUS as a high-sensitivity
-screening tool that flags, not judges. The human-gold study is pilot-scale.
+Empirical economics leans heavily on difference-in-differences (DID) designs,
+and nowhere more visibly than in environmental policy, our motivating case. The
+credibility of these studies rests on identification assumptions that are often
+asserted rather than audited. We present \textbf{ARGUS}, a responsible-AI
+framework that audits the \emph{identification credibility} of such studies
+instead of adjudicating the true causal effect, which is never observed. ARGUS
+decomposes identification into auditable dimensions, gathers in-paper evidence,
+assesses each assumption--implication--evidence chain, and localizes risk in a
+transparent, human-reviewable report. We validate the auditor with synthetic flaw
+injection, which supplies reproducible local ground truth without the true effect.
+Once we remove the leakage that made naive evaluation circular, a deterministic
+keyword baseline detects only $0.182$ of injected flaws and cannot see
+flawed-but-present evidence; swapping only the assessment policy for a model that
+judges evidence \emph{adequacy} raises detection to $1.000$ with no false alarms.
+Evidence presence, in other words, is not evidence adequacy. On 27 real published
+DID papers the binding constraint shifts to evidence grounding: the framework
+reports retrieval failure rather than over-flagging, and localizes where
+real-paper auditing is hard. We also build a pilot human-gold calibration set,
+where expert disagreement is mostly adjacent and partly driven by design
+applicability. Comparing ARGUS to the adjudicated gold exposes a systematic
+over-severity bias; a lightweight, anchor-based calibration layer reduces it while
+preserving high-risk recall. ARGUS is thus a high-sensitivity screening tool that
+flags dimensions for expert review rather than issuing verdicts. The human-gold
+study is pilot-scale.
 \keywords{Responsible AI \and Causal inference \and Difference-in-differences
 \and Environmental policy \and LLM agents.}
 \end{abstract}
