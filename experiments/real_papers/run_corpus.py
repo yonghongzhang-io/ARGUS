@@ -101,11 +101,12 @@ def main() -> None:
 
     # aggregate table
     print(f"per-dimension risk distribution over {audited} {args.method} papers ({assessor}):")
-    print("{:28}{:>6}{:>8}{:>6}".format("dimension", "high", "medium", "low"))
-    print("-" * 48)
+    print("{:28}{:>6}{:>8}{:>6}{:>9}".format("dimension", "high", "medium", "low", "unknown"))
+    print("-" * 57)
     for dim_id in dims:
         c = dist[dim_id]
-        print("{:28}{:>6}{:>8}{:>6}".format(dim_id, c.get("high", 0), c.get("medium", 0), c.get("low", 0)))
+        print("{:28}{:>6}{:>8}{:>6}{:>9}".format(
+            dim_id, c.get("high", 0), c.get("medium", 0), c.get("low", 0), c.get("unknown", 0)))
     totals = Counter()
     for c in dist.values():
         totals.update(c)
