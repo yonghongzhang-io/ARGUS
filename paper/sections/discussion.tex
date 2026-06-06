@@ -13,6 +13,24 @@ and localization as necessary, not sufficient, evidence of an auditor's quality,
 and pair them with the false-alarm rate to guard against a system that flags
 everything.
 
+\paragraph{Construct validity: what ARGUS measures.}
+A measurement is only as good as the link between the construct and the task that
+operationalizes it~\cite{jacobs2021measurement,raji2021benchmark}. ARGUS audits
+whether a paper's identification assumptions are \emph{adequately supported by its
+reported evidence}---reported-evidence adequacy is an operational proxy for
+identification credibility, not causal validity itself. The two can diverge: a
+study may report every diagnostic yet still be invalid, or omit a check yet be
+sound. ARGUS therefore deliberately \emph{flags rather than judges}, and a further
+gap separates the construct from the task---retrieving the relevant evidence. Our
+real-paper runs show this is the binding constraint: a reasoning assessor handed
+off-target evidence over-flags every dimension, so ARGUS reports a
+\emph{retrieval-quality} status and an explicit \texttt{unknown} risk
+(``the system could not find the evidence'') distinct from a substantive
+high-risk judgement (``the paper lacks it''). The central methodological finding
+is thus that moving from synthetic fixtures to real papers is bottlenecked not by
+causal reasoning but by \emph{evidence grounding}, which is why ARGUS separates
+retrieval, relevance filtering, and adequacy assessment.
+
 \paragraph{Research plan.}
 The doctoral programme builds on the result in \S\ref{sec:results}, in four stages.
 \emph{(1)~Harden the reasoning assessor.} The adequacy-reasoning policy already
