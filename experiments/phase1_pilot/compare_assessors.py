@@ -36,15 +36,19 @@ def main() -> None:
     rows = [("keyword baseline", summarize("keyword"))]
 
     if os.environ.get("OPENAI_API_KEY"):
-        rows.append((f"LLM ({os.environ.get('ARGUS_LLM_MODEL', 'gpt-4o')})", summarize("llm")))
+        model = os.environ.get("ARGUS_LLM_MODEL", "gpt-4o")
+        # M4 ablation: single-pass (no architecture) vs two-stage (full
+        # architecture); same model + rubric + fixture, so only structure differs.
+        rows.append((f"single-pass LLM ({model})", summarize("single_pass")))
+        rows.append((f"two-stage LLM ({model})", summarize("llm")))
     else:
-        print("OPENAI_API_KEY not set — skipping the LLM run.")
-        print("Export it and re-run to get the keyword-vs-LLM comparison.\n")
+        print("OPENAI_API_KEY not set — skipping the LLM runs (single_pass + two-stage).")
+        print("Export it and re-run for the keyword vs single-pass vs two-stage table.\n")
 
-    print("{:<22}{:>11}{:>13}{:>15}".format("assessor", "detection", "false_alarm", "localization"))
-    print("-" * 61)
+    print("{:<26}{:>11}{:>13}{:>15}".format("assessor", "detection", "false_alarm", "localization"))
+    print("-" * 65)
     for name, s in rows:
-        print("{:<22}{:>11.3f}{:>13.3f}{:>15.3f}".format(
+        print("{:<26}{:>11.3f}{:>13.3f}{:>15.3f}".format(
             name, s["detection_rate"], s["false_alarm_rate"], s["localization_acc"]))
 
 
