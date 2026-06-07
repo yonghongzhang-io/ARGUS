@@ -4,13 +4,13 @@
 \paragraph{Threats to validity.}
 These results are preliminary by design. They span synthetic fixtures,
 27 real DID papers, and a human gold that is small (5 papers, two annotators, one
-adjudication round); the gold is indicative, not definitive, and its two
+adjudication round); we read this gold as a preliminary signal, and its two
 \emph{high} cells make high precision/recall noisy. The keyword baseline is an
-intentional lower bound. More fundamentally, flaw injection certifies an auditor
+intentional lower bound. Moreover, flaw injection certifies an auditor
 against the \emph{injected} threat on a single dimension; it does not certify the
 absence of other, un-injected threats, and it inherits whatever blind spots the
-flaw taxonomy has. We therefore treat detection and localization as necessary,
-not sufficient, evidence of an auditor's quality, and pair them with the
+flaw taxonomy has. We therefore treat detection and localization as necessary but
+not sufficient evidence of an auditor's quality, and pair them with the
 false-alarm rate and the human-gold comparison.
 
 \paragraph{Construct validity: what ARGUS measures.}
@@ -20,14 +20,14 @@ whether a paper's identification assumptions are \emph{adequately supported by i
 reported evidence}---reported-evidence adequacy is an operational proxy for
 identification credibility, not causal validity itself. The two can diverge: a
 study may report every diagnostic yet still be invalid, or omit a check yet be
-sound. ARGUS therefore flags rather than judges, and a further gap separates the
-construct from the task: retrieving the relevant evidence. Our real-paper runs
+sound. ARGUS therefore surfaces risk for an expert to weigh, and a further gap
+separates the construct from the task: retrieving the relevant evidence. Our real-paper runs
 show this is the binding constraint. A reasoning assessor handed off-target
 evidence over-flags every dimension, so ARGUS reports a \emph{retrieval-quality}
 status and an explicit \texttt{unknown} risk (``the system could not find the
 evidence'') distinct from a substantive high-risk judgement (``the paper lacks
-it''). The recurring constraint is evidence grounding, not causal reasoning, and
-it is why ARGUS separates retrieval, relevance filtering, and adequacy assessment.
+it''). The recurring constraint is evidence grounding, not the reasoning itself,
+which is why ARGUS separates retrieval, relevance filtering, and adequacy assessment.
 
 \paragraph{Research plan.}
 The doctoral programme builds on the result in \S\ref{sec:results}, in four stages.
