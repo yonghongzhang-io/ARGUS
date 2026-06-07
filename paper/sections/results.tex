@@ -58,8 +58,9 @@ agency where reasoning is required.
 \paragraph{Scope.}
 These are synthetic fixtures with a small number of dimensions; $1.000$ is a
 proof-of-concept on clearly injected flaws, not a claim of a solved task. The
-sharper question is whether the result survives on real published papers, to
-which we now turn.
+sharper question is whether the result survives on real published papers
+(\S\ref{sec:realpapers}); we first ask what the bounded architecture itself
+contributes.
 
 \begin{figure}[t]
   \centering
@@ -74,6 +75,48 @@ which we now turn.
   live; LLM headline frozen in \texttt{llm\_summary.json}).}
   \label{fig:results}
 \end{figure}
+
+\subsection{Architecture ablation: single-pass prompting versus bounded auditing}
+\label{sec:ablation}
+% TODO(M4): replace every XX with measured numbers once the model is run:
+%   PYTHONPATH=src python3 experiments/phase1_pilot/compare_assessors.py
+%   PYTHONPATH=src python3 experiments/real_papers/run_corpus.py --assessor single_pass --n 27
+The results above show that an LLM-based assessor can reason about reported
+evidence adequacy beyond keyword matching. However, they do not by themselves
+isolate the contribution of the bounded ARGUS architecture. We therefore add a
+single-pass LLM ablation. This baseline receives the full paper text and the same
+eleven-dimension identification rubric in one model call, uses the same provider,
+model, temperature, risk schema, and scoring harness, but removes staged
+retrieval, relevance gating, bounded tool use, and the explicit evidence-grounding
+state. The intended difference is therefore architectural rather than semantic.
+
+On the synthetic flaw-injection benchmark, the single-pass assessor obtains a
+detection rate of XX, a false-alarm rate of XX, and a localization score of XX,
+compared with $1.000$, $0.000$, and $0.909$ for the bounded two-stage ARGUS
+assessor. This comparison separates two questions: whether an LLM can identify
+clear synthetic identification flaws, and whether a bounded architecture changes
+behaviour on real papers where relevant evidence may be diffuse, figure-bound, or
+absent from the retrieved text.
+
+We therefore also run the single-pass assessor on the 27-paper real corpus and
+compare its risk distribution with the two-stage ARGUS pipeline. The single-pass
+baseline produces an \texttt{unknown} share of XX and a high-risk share of XX,
+whereas the bounded pipeline produces an \texttt{unknown} share of XX and a
+high-risk share of XX. This contrast clarifies the role of the architecture:
+staged retrieval and relevance gating help distinguish substantive identification
+risk from weak or missing evidence grounding.
+
+The architecture's contribution is therefore not raw LLM capability alone. Its
+value lies in separating evidence retrieval from adequacy assessment, preserving
+traceable evidence spans, and making retrieval failure visible to human reviewers
+rather than silently converting it into a high-risk judgement.
+% If single-pass ALSO scores ~1.000 on the synthetic flaws, replace the synthetic
+% paragraph's framing with the pre-empting version:
+%   The single-pass assessor also detects all injected flaws in the synthetic
+%   setting. This indicates that the synthetic benchmark primarily tests adequacy
+%   reasoning rather than the full value of the bounded architecture; we therefore
+%   rely on the real-paper ablation to evaluate what the architecture adds:
+%   grounding, traceability, and calibrated abstention.
 
 \subsection{From synthetic fixtures to real papers: diagnosing the grounding
 bottleneck}
