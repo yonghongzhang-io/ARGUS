@@ -61,36 +61,40 @@ the auditor with \emph{synthetic flaw injection}: we perturb a credible paper
 with one known identification flaw and check whether ARGUS detects it, stays
 quiet on the clean version, and localizes the right dimension. The injected flaw
 is local ground truth that requires no access to the true effect. Deploying ARGUS
-on real papers then exposes \emph{evidence grounding}---retrieving the right
-evidence---as the binding constraint, and a pilot human gold reveals a systematic
+on real papers then exposes \emph{evidence grounding} (retrieving the right
+evidence) as the binding constraint, and a pilot human gold reveals a systematic
 over-severity bias that a lightweight, anchor-based calibration layer reduces
 while preserving high-risk recall. ARGUS is thus best read as a high-sensitivity
 screening tool that flags dimensions for expert review rather than an autonomous
-arbiter of causal truth: it flags, it does not judge.
+arbiter of causal truth.
 
 \paragraph{Contributions.}
 This paper, presented as a doctoral-research plan, makes four contributions.
 \textbf{(i)}~a structured \textbf{11-dimension audit framework} for DID
-identification credibility that targets \emph{reported-evidence adequacy} rather
-than causal truth (\S\ref{sec:framework});
+identification credibility whose unit of audit is an explicit
+\emph{assumption--implication--evidence} chain, targeting reported-evidence
+adequacy rather than causal truth (\S\ref{sec:framework});
 \textbf{(ii)}~a \textbf{bounded-agentic} evidence-retrieval and assessment
 pipeline, with model agency confined to two scoped, traceable sub-tasks behind a
 fixed deterministic control flow;
-\textbf{(iii)}~a \textbf{multi-stage evaluation}: synthetic flaw injection, where
-adequacy reasoning lifts detection from a keyword baseline's $0.18$ to $1.0$, and
-real-paper deployment on 27 DID papers, which relocates the bottleneck from
-adequacy reasoning to \emph{evidence grounding} (\S\ref{sec:results}); and
+\textbf{(iii)}~a \textbf{multi-stage evaluation} built on \emph{flaw injection as
+local ground truth} for identification auditing (it needs no access to the
+true effect), showing that adequacy reasoning catches flawed-but-present evidence
+that keyword presence cannot, with a real-paper deployment on 27 DID papers that
+relocates the bottleneck to \emph{evidence grounding} and separates retrieval
+failure from substantive high risk (\S\ref{sec:results}); and
 \textbf{(iv)}~a \textbf{pilot human-gold calibration loop} (5 papers, 55
-dimension-level cells): comparing ARGUS to an adjudicated gold reveals a
+dimension-level cells) in which disagreement is largely
+design-applicability-driven: comparing ARGUS to an adjudicated gold reveals a
 one-directional over-severity bias (more severe than gold in 28/33 answered cells,
-less severe in none), and a lightweight calibration layer keyed on human anchors
+less severe in none), and an applicability-aware, anchor-based calibration layer
 reduces it while preserving high-risk recall. Expert annotation can therefore both
 evaluate and calibrate an identification audit. The human-gold analysis is
 pilot-scale; larger expert-labelled corpora are future work.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\textwidth]{figures/argus_framework_simplified}
+  \includegraphics[width=\textwidth]{figures/figure1}
   \caption{Overview of ARGUS. Step~1 converts an empirical DID paper into an
   auditable structure using an 11-dimension identification rubric. Step~2
   retrieves dimension-specific evidence, assesses reported-evidence adequacy with

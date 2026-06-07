@@ -60,11 +60,13 @@ follows.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\textwidth]{figures/figure3}
-  \caption{ARGUS architecture. \emph{Top:} the audit pipeline is a fixed
-  deterministic sequence; agency is confined to the two purple stages, each a
-  bounded ReAct loop with a fixed tool set, a hard step budget, and a logged
-  trace. \emph{Bottom:} the flaw-injection evaluation loop injects one known
+  \includegraphics[width=\textwidth]{figures/figure2}
+  \caption{ARGUS architecture. The top band is the audit pipeline, a fixed
+  deterministic sequence; agency is confined to the two agentic stages
+  (extraction and assessment), each a
+  bounded ReAct loop with a fixed tool set (evidence search, figure parse, policy
+  lookup), a hard step budget, and a logged trace. The bottom band shows the
+  flaw-injection evaluation loop, which injects one known
   flaw, audits the clean and injected versions, and scores detection, false
   alarm, and localization against the injected flaw as local ground truth---never
   against the unobserved true effect.}

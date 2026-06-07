@@ -10,18 +10,41 @@ D'Haultf{\oe}uille \cite{dechaisemartin2020} show such estimators can place
 negative weights on treatment effects; and Callaway and Sant'Anna
 \cite{callaway2021} and Sun and Abraham \cite{sunabraham2021} propose estimators
 robust to heterogeneous, staggered effects. Roth et al. \cite{roth2023} survey
-the design's assumptions and the subtleties of pre-trend testing. ARGUS does not
+the design's assumptions and the subtleties of pre-trend testing, while Bertrand
+et al.~\cite{bertrand2004trust} show that DID \emph{inference} is itself fragile
+once serial correlation is ignored. ARGUS does not
 add an estimator; it \emph{operationalizes} this literature as an auditable
 rubric, turning each known threat into a dimension whose supporting evidence can
 be checked in a given paper (\S\ref{sec:framework}).
 
+\paragraph{LLM causal reasoning and benchmarks.}
+A parallel line asks whether large language models can reason about causality at
+all. Benchmarks such as CLadder~\cite{jin2023cladder}, Corr2Cause
+\cite{jin2024corr2cause}, and CausalBench~\cite{zhou2024causalbench}, together
+with broader surveys and critiques~\cite{kiciman2023causal,yang2024criticalreview},
+find that models often reproduce causal \emph{language} without reliable causal
+\emph{inference}---``causal parrots'' that talk causality but do not perform it
+\cite{zecevic2023causalparrots}. Most such benchmarks score abstract or synthetic
+causal queries; a few move toward applied settings, including context-aware
+causal-direction judgement in social science~\cite{lee2025econcausal} and the
+disentangling of causal \emph{identification} from
+\emph{estimation}~\cite{sawarni2026causalreasoning}.
+ARGUS shares this last distinction but inverts the task: rather than asking a model
+to produce a causal answer, it audits whether a \emph{human} paper's
+identification assumptions are adequately evidenced, and abstains from a causal
+verdict by design.
+
 \paragraph{Responsible AI for empirical research.}
 A growing body of work applies AI to research reliability---automated
 reproducibility checking, statistical-reporting validation, and AI-assisted peer
-review. ARGUS is complementary but differs in target and in epistemic posture.
+review. The need is real: when many independent teams analyse the same data,
+defensible analytic choices alone produce a wide spread of
+results~\cite{silberzahn2018many,botviniknezer2020variability}, and causal work in
+economics shows evidence of specification searching and publication
+bias~\cite{brodeur2020methods}. ARGUS is complementary but differs in target and in epistemic posture.
 First, it audits \emph{identification credibility} specifically, the part of an
 empirical argument that determines whether a causal claim is licensed at all,
-rather than surface statistical reporting. Second, and centrally, it does not
+rather than surface statistical reporting. Second, it does not
 issue verdicts: it produces evidence-anchored, human-reviewable reports that
 localize risk, leaving adjudication to a domain expert. This human-in-the-loop,
 flag-not-judge stance follows from the counterfactual being unobserved: automated
@@ -30,15 +53,15 @@ causal verdicts would be both unreliable and unaccountable.
 \paragraph{Benchmark and evaluation methodology.}
 Our evaluation design follows three lessons from the benchmarking literature.
 Holistic evaluation~\cite{liang2023helm} argues against collapsing capability to a
-single accuracy number; ARGUS likewise reports a layered profile---retrieval
-quality, relevance, adequacy, and localized risk---rather than one detection rate.
+single accuracy number; ARGUS likewise reports a layered profile (retrieval
+quality, relevance, adequacy, and localized risk) rather than one detection rate.
 Dynamic, adversarial benchmarking~\cite{kiela2021dynabench} warns that static
 benchmarks saturate; our flaw-injection loop is an adversarial, model-in-the-loop
 construction that we intend to escalate as the assessor improves (our synthetic
 flaws already saturate, motivating harder ones). Finally, Raji et
 al.~\cite{raji2021benchmark} caution that turning an abstract capability into a
 measurable task is a consequential, non-neutral move; we take this seriously in
-\S\ref{sec:discussion}, where we state precisely what ARGUS does and does not
+\S\ref{sec:discussion}, where we state what ARGUS does and does not
 measure. Should the annotated corpus be released, we will document it with a
 datasheet~\cite{gebru2021datasheets}.
 
@@ -49,9 +72,8 @@ runs a model's generated estimation code against synthetic data and checks that
 the recovered effect matches the canonical estimator on the realised dataset.
 ARGUS audits a different layer: not whether the estimation is \emph{executed}
 correctly, but whether the identification \emph{assumptions} behind it are
-adequately supported by the paper's reported evidence---which CausalVerify
-explicitly places outside its scope (``identification judgment \dots\ and
-assumption checking \dots\ outside the direct scope''). ARGUS builds on the
+adequately supported by the paper's reported evidence---which that benchmark
+explicitly places outside its scope. ARGUS builds on the
 corpus of published economics papers released with that
 benchmark~\cite{causalverify_dataset}, adding a new dimension-level
 identification-risk annotation layer on top of it.
