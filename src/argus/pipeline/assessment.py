@@ -3,11 +3,13 @@
 For each dimension, assess the assumption -> implication -> evidence chain and
 emit a per-dimension risk judgement anchored to the extracted evidence.
 
-Two assessors are selectable, run over the SAME retrieved evidence so the
-comparison is clean:
-  - "keyword": the deterministic baseline (positive/negative signal scoring).
-  - "llm":     a model that judges evidence ADEQUACY (OpenAI backend).
-Both log a trace to results/traces/.
+Three assessors are selectable:
+  - "keyword":     the deterministic baseline (positive/negative signal scoring).
+  - "llm":         the two-stage model: retrieval -> relevance gate -> adequacy.
+  - "single_pass": M4 ablation -- whole paper + all dims in ONE call, no
+                   retrieval/gate (same model + rubric + adequacy standard as
+                   "llm"; only the architecture differs).
+All log a trace to results/traces/.
 """
 
 from __future__ import annotations
@@ -38,7 +40,13 @@ def assess(
         if paper is None:
             raise ValueError("the 'llm' assessor needs the paper for section-level retrieval")
         return _assess_llm(skeleton, paper)
-    raise ValueError(f"unknown assessor: {assessor!r} (expected 'keyword' or 'llm')")
+    if assessor == "single_pass":
+        if paper is None:
+            raise ValueError("the 'single_pass' assessor needs the paper")
+        return _assess_single_pass(skeleton, paper)
+    raise ValueError(
+        f"unknown assessor: {assessor!r} (expected 'keyword', 'llm', or 'single_pass')"
+    )
 
 
 def _assess_keyword(
@@ -60,6 +68,27 @@ def _assess_keyword(
         judgements[dim_id] = result["output"]
         trace_paths.append(result["trace_path"])
     return {"judgements": judgements, "trace_paths": trace_paths}
+
+
+def _assess_single_pass(skeleton: dict[str, Any], paper: dict[str, Any]) -> dict[str, Any]:
+    """M4 ablation: one whole-paper call over all dimensions (no retrieval/gate).
+
+    Same model, rubric, and adequacy standard as ``_assess_llm``; the only
+    difference is that there is no per-dimension retrieval or relevance gate, so
+    the model commits a risk for every dimension from the full text.
+    """
+    from ..agent.single_pass_assessor import assess_single_pass
+
+    TRACE_DIR.mkdir(parents=True, exist_ok=True)
+    judgements = assess_single_pass(skeleton["dimensions"], paper)
+    run_id = uuid.uuid4().hex[:8]
+    path = TRACE_DIR / f"assess_single_pass-{run_id}.json"
+    path.write_text(
+        json.dumps({"t": time.time(), "assessor": "single_pass",
+                    "judgements": judgements}, indent=2),
+        encoding="utf-8",
+    )
+    return {"judgements": judgements, "trace_paths": [str(path)]}
 
 
 def _assess_llm(skeleton: dict[str, Any], paper: dict[str, Any]) -> dict[str, Any]:
