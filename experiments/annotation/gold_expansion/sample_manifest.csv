@@ -1,0 +1,26 @@
+paper_id,method_family,direction,year,venue,md_size_bytes,stratum,design_type_hint,design_type,include_reason
+paper_01,DID,negative,2010,Journal of Financial Economics,92595,DID|negative,did_standard,,pilot_seed
+paper_03,DID,negative,2015,Journal of Financial Economics,119046,DID|negative,did_standard,,pilot_seed
+paper_07,DID,negative,2014,NBER Working Paper Series,97625,DID|negative,did_standard,,pilot_seed
+paper_08,DID,negative,2011,Journal of Monetary Economics (forthcoming),121390,DID|negative,did_standard,,pilot_seed
+paper_10,DID,negative,2014,The Journal of Finance,129306,DID|negative,did_standard,,pilot_seed
+paper_211,DID,mixed,2004,The American Economic Review,110542,DID|mixed,did_standard,,expansion
+paper_107,DID,negative,2012,The New England Journal of Medicine,45368,DID|negative,did_standard,,expansion
+paper_231,DID,negative,2016,The Review of Economics and Statistics,84169,DID|negative,did_standard,,expansion
+paper_145,DID,negative,2008,NBER Working Paper Series,108768,DID|negative,did_standard,,expansion
+paper_164,DID,negative,2001,NATIONAL BUREAU OF ECONOMIC RESEARCH,118434,DID|negative,environmental,,expansion
+paper_229,DID,negative,2009,American Economic Review,124946,DID|negative,did_standard,,expansion
+paper_172,DID,negative,,NeurIPS 2026 E&D Track,199110,DID|negative,environmental,,expansion
+paper_82,DID,null,2005,NBER Working Paper Series,83888,DID|null,did_standard,,expansion
+paper_48,DID,positive,1992,NBER Working Paper Series,49787,DID|positive,did_standard,,expansion
+paper_57,DID,positive,2002,Columbia University Department of Economics Discussion Paper Series,81336,DID|positive,did_standard,,expansion
+paper_248,DID,positive,2002,Journal of Public Economics,93427,DID|positive,did_standard,,expansion
+paper_37,DID,positive,2003,Journal of Labor Economics,110662,DID|positive,did_standard,,expansion
+paper_78,DID,positive,2019,American Economic Review,113311,DID|positive,did_standard,,expansion
+paper_60,DID,positive,2016,The Journal of Finance,131465,DID|positive,did_standard,,expansion
+paper_99,DID,positive,2010,NBER Working Paper Series,181236,DID|positive,did_standard,,expansion
+paper_31,EventStudy,negative,2001,The American Economic Review,30852,EventStudy|negative,event_study,,expansion
+paper_04,EventStudy,negative,2005,THE JOURNAL OF FINANCE,105765,EventStudy|negative,event_study,,expansion
+paper_64,EventStudy,negative,2012,The Review of Financial Studies,155165,EventStudy|negative,event_study,,expansion
+paper_28,EventStudy,positive,2001,The Journal of Finance,24285,EventStudy|positive,event_study,,expansion
+paper_62,EventStudy,positive,2008,The Journal of Finance,154788,EventStudy|positive,event_study,,expansion
