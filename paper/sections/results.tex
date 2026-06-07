@@ -1,32 +1,36 @@
 \section{Preliminary Results}
 \label{sec:results}
 
-We compare two assessment policies under the same flaw-injection protocol and the
-\emph{same retrieved evidence} (extraction is identical), so the comparison
-isolates how each judges that evidence. The first is a deterministic, non-LLM
-\textbf{keyword baseline}: it scores each dimension from the presence or absence
-of supporting and risk-indicating vocabulary. The second is an
-\textbf{LLM assessor} that judges evidence \emph{adequacy}---whether the reported
-evidence actually establishes the assumption. We run both over all eleven flaws on
-the \texttt{clean\_supported} fixture, injecting one flaw per run.
-Table~\ref{tab:results} reports the headline metrics; the per-flaw breakdown is in
-\texttt{experiments/phase1\_pilot/}, and Figure~\ref{fig:results} is generated
-from these runs.
+We compare three assessors under the same flaw-injection protocol on the
+\texttt{clean\_supported} fixture (one flaw injected per run, all eleven flaws). A
+deterministic, non-LLM \textbf{keyword baseline} scores each dimension from the
+presence or absence of supporting and risk-indicating vocabulary. The
+\textbf{two-stage ARGUS assessor} judges evidence \emph{adequacy}---whether the
+reported evidence actually establishes the assumption---over the \emph{same
+retrieved evidence} as the keyword baseline (extraction is identical), so that
+pair isolates the judgement policy. A \textbf{single-pass} ablation removes the
+architecture entirely (whole paper and all dimensions in one call;
+\S\ref{sec:ablation}). Table~\ref{tab:results} reports the headline metrics; the
+per-flaw breakdown is in \texttt{experiments/phase1\_pilot/}, and
+Figure~\ref{fig:results} is generated from these runs.
 
 \begin{table}[t]
   \centering
-  \caption{Keyword baseline vs LLM evidence-adequacy assessor under realistic
-  flaw injection (\texttt{clean\_supported}, $\mathrm{max\_steps}=1$, eleven
-  flaws). The keyword baseline collapses once the sentinel leakage that made
-  evaluation circular is removed; swapping only the assessment policy to a
-  reasoning model recovers detection.}
+  \caption{Synthetic flaw injection (\texttt{clean\_supported},
+  $\mathrm{max\_steps}=1$, eleven flaws): a keyword baseline, a same-model
+  \emph{single-pass} ablation, and the \emph{two-stage} ARGUS assessor. Keyword
+  and two-stage share the same retrieved evidence; single-pass uses the same model
+  and rubric but removes the architecture. Under matched conditions detection
+  rises from keyword presence, through single-pass adequacy reasoning, to bounded
+  per-dimension auditing. The final row is the leaked, pre-fix circular setup.}
   \label{tab:results}
   \begin{tabular}{lccc}
     \toprule
     Assessor & detection & false alarm & localization \\
     \midrule
-    keyword baseline        & 0.182 & 0.000 & 0.182 \\
-    \textbf{LLM (gpt-4o)}   & \textbf{1.000} & \textbf{0.000} & \textbf{0.909} \\
+    keyword baseline             & 0.182 & 0.000 & 0.182 \\
+    single-pass LLM (gpt-4o)     & 0.455 & 0.000 & 0.455 \\
+    \textbf{two-stage ARGUS (gpt-4o)} & \textbf{1.000} & \textbf{0.000} & \textbf{0.909} \\
     \midrule
     \textit{(circular, pre-fix)} & 1.000 & 0.000 & 1.000 \\
     \bottomrule
@@ -88,9 +92,9 @@ relevance gating, bounded tool use, and the explicit evidence-grounding
 (\texttt{unknown}) state. The only difference is architectural.
 
 \paragraph{Synthetic flaws.}
-On the flaw-injection benchmark the single-pass assessor detects only $0.455$ of
-injected flaws (false alarm $0.000$, localization $0.455$), against $1.000$,
-$0.000$, and $0.909$ for the bounded two-stage assessor. Judging eleven
+On the flaw-injection benchmark (Table~\ref{tab:results}) the single-pass assessor
+detects only $0.455$ of injected flaws (false alarm $0.000$, localization
+$0.455$), against $1.000$, $0.000$, and $0.909$ for the bounded two-stage assessor. Judging eleven
 dimensions from the whole paper at once, the model misses more than half of the
 planted flaws that per-dimension retrieval and assessment isolate. The
 architecture therefore contributes to detection itself, not only to how evidence

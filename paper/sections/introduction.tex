@@ -82,7 +82,11 @@ local ground truth} for identification auditing (it needs no access to the
 true effect), showing that adequacy reasoning catches flawed-but-present evidence
 that keyword presence cannot, with a real-paper deployment on 27 DID papers that
 relocates the bottleneck to \emph{evidence grounding} and separates retrieval
-failure from substantive high risk (\S\ref{sec:results}); and
+failure from substantive high risk; an \emph{architecture ablation} against a
+same-model single-pass baseline shows the bounded design raises synthetic flaw
+detection from $0.455$ to $1.000$ and, on real papers, preserves an explicit
+\texttt{unknown} state ($38.9\%$ vs $0.4\%$) that keeps evidence-grounding
+uncertainty visible rather than committing a guess (\S\ref{sec:results}); and
 \textbf{(iv)}~a \textbf{pilot human-gold calibration loop} (5 papers, 55
 dimension-level cells) in which disagreement is largely
 design-applicability-driven: comparing ARGUS to an adjudicated gold reveals a
