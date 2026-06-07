@@ -149,8 +149,8 @@ def main() -> None:
     fig.tight_layout(rect=[0, 0.03, 1, 0.96])
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "png"):
-        fig.savefig(OUT_DIR / f"figure2.{ext}", dpi=200, bbox_inches="tight", facecolor="white")
-    print(f"wrote {(OUT_DIR / 'figure2.pdf').relative_to(ROOT)} and figure2.png")
+        fig.savefig(OUT_DIR / f"figure_phase1.{ext}", dpi=200, bbox_inches="tight", facecolor="white")
+    print(f"wrote {(OUT_DIR / 'figure_phase1.pdf').relative_to(ROOT)} and figure_phase1.png")
     print(f"  keyword: detection={s['detection_rate']:.3f}  "
           f"LLM: detection={llm['detection_rate']:.3f}")
 
