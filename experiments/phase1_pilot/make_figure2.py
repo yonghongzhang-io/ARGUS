@@ -82,48 +82,64 @@ def panel_a(ax, kw: dict, llm: dict) -> None:
                  fontsize=11, fontweight="bold", loc="left", color=INK)
     ax.legend(fontsize=8.5, loc="lower right", frameon=False)
     ax.spines[["top", "right"]].set_visible(False)
-    ax.annotate("", xy=(1.0, 0.16), xytext=(0.182, 0.16),
+    ax.annotate("", xy=(1.0, 0.16), xytext=(0.30, 0.16),
                 arrowprops=dict(arrowstyle="->", color=GREEN, lw=1.6))
-    ax.text(0.58, -0.18, "0.18 → 1.00", fontsize=9, color=GREEN,
+    ax.text(0.62, -0.18, r"0.18 $\rightarrow$ 1.00", fontsize=9, color=GREEN,
             fontweight="bold", ha="center")
+
+
+def _donut(ax, caught: int, total: int, title: str, title_color: str,
+           title_bold: bool, center_color: str) -> None:
+    """One caught/missed donut: big fraction in the middle, 2px white spacers."""
+    missed = total - caught
+    vals = [v for v in (caught, missed) if v > 0]
+    cols = ([GREEN] if caught else []) + ([MISSED_FILL] if missed else [])
+    wedges, _ = ax.pie(
+        vals, colors=cols, startangle=90, counterclock=False,
+        wedgeprops=dict(width=0.40, edgecolor="white", linewidth=2))
+    for w, is_caught in zip(wedges, ([True] if caught else []) + ([False] if missed else [])):
+        if not is_caught:
+            w.set_edgecolor(MISSED_EDGE)
+            w.set_linewidth(1.2)
+    ax.text(0, 0.12, f"{caught}/{total}", ha="center", va="center",
+            fontsize=15, fontweight="bold", color=center_color)
+    ax.text(0, -0.30, "caught", ha="center", va="center", fontsize=8.5, color=MUTED)
+    ax.set_title(title, fontsize=9, color=title_color,
+                 fontweight="bold" if title_bold else "normal", pad=4)
+    ax.set_aspect("equal")
 
 
 def panel_b(ax, pairs: list[dict], llm: dict) -> None:
     omission = [p for p in pairs if p["ground_truth"]["injection_op"] == "remove"]
     commission = [p for p in pairs if p["ground_truth"]["injection_op"] == "replace"]
-    ordered = omission + commission
-    labels = [p["flaw_id"] for p in ordered]
-    detected = [p["score"]["detected"] for p in ordered]
-    n = len(ordered)
+    om_caught = [p["flaw_id"] for p in omission if p["score"]["detected"]]
+    cm_caught = [p["flaw_id"] for p in commission if p["score"]["detected"]]
 
-    for i, (lab, det) in enumerate(zip(labels, detected)):
-        yy = n - 1 - i
-        color = GREEN if det else MISSED_FILL
-        edge = GREEN if det else MISSED_EDGE
-        ax.add_patch(plt.Rectangle((0, yy - 0.42), 1, 0.84, facecolor=color,
-                                   edgecolor=edge, lw=1.2))
-        ax.text(0.5, yy, "caught" if det else "missed", ha="center", va="center",
-                fontsize=8.5, color="white" if det else MUTED,
-                fontweight="bold" if det else "normal")
-        ax.text(-0.08, yy, lab, ha="right", va="center", fontsize=8.5, color=INK)
-
-    ax.axhline(len(commission) - 0.5, color=MUTED, lw=0.8, ls=":")
-    n_om = len(omission)
-    ax.text(1.12, n - (n_om / 2) - 0.5, "omission\n(remove\nevidence)", fontsize=8,
-            color=MUTED, va="center", ha="left")
-    ax.text(1.12, (len(commission) / 2) - 0.5, "commission\n(flawed\nevidence)", fontsize=8,
-            color=RED, va="center", ha="left", fontweight="bold")
-
-    ax.set_xlim(-0.55, 1.5)
-    ax.set_ylim(-1.15, n - 0.4)
     ax.axis("off")
     ax.set_title("B  Keyword baseline: blind to commission-type flaws",
                  fontsize=11, fontweight="bold", loc="left", color=INK)
+
+    ax_om = ax.inset_axes([0.02, 0.28, 0.46, 0.58])
+    ax_cm = ax.inset_axes([0.52, 0.28, 0.46, 0.58])
+    _donut(ax_om, len(om_caught), len(omission),
+           "omission (remove evidence)", MUTED, False, INK)
+    _donut(ax_cm, len(cm_caught), len(commission),
+           "commission (flawed evidence)", RED, True, RED)
+
+    caught_names = ", ".join(om_caught) if om_caught else "none"
+    ax.text(0.25, 0.16, f"caught: {caught_names}", ha="center", va="center",
+            fontsize=7.5, color=MUTED, transform=ax.transAxes, wrap=True)
+    ax.text(0.75, 0.16, "every flawed-but-present\nrewrite goes undetected",
+            ha="center", va="center", fontsize=7.5, color=RED,
+            transform=ax.transAxes)
+
+    n = len(omission) + len(commission)
     det = llm["detection_rate"]
-    ax.text(0.5, -0.95,
-            f"LLM ({llm.get('model', 'gpt-4o')}) catches all {len(ordered)} "
+    ax.text(0.5, 0.02,
+            f"LLM ({llm.get('model', 'gpt-4o')}) catches all {n} "
             f"(detection {det:.2f})",
-            ha="center", va="center", fontsize=9, color=GREEN, fontweight="bold")
+            ha="center", va="center", fontsize=9, color=GREEN, fontweight="bold",
+            transform=ax.transAxes)
 
 
 def main() -> None:
