@@ -3,10 +3,13 @@
 For each dimension, assess the assumption -> implication -> evidence chain and
 emit a per-dimension risk judgement anchored to the extracted evidence.
 
-Two assessors are selectable, run over the SAME retrieved evidence so the
-comparison is clean:
-  - "keyword": the deterministic baseline (positive/negative signal scoring).
-  - "llm":     a model that judges evidence ADEQUACY (OpenAI backend).
+Two assessors are selectable:
+  - "keyword": the deterministic baseline (positive/negative signal scoring),
+    judged over the stage-2 extraction evidence.
+  - "llm":     a model that judges evidence ADEQUACY (OpenAI backend); this
+    path does its OWN section-level retrieval + relevance gating and does not
+    consume the stage-2 bundle, so keyword-vs-llm is an end-to-end pipeline
+    comparison, not a same-evidence judgement swap.
 Both log a trace to results/traces/.
 """
 
