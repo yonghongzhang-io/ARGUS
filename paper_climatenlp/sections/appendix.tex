@@ -11,7 +11,7 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
   \centering\small
   \caption{\sys{}-LLM vs adjudicated human gold (55 cells, 5 papers) under two
   \texttt{unknown} policies: coverage (drop abstentions) and strict
-  (\texttt{unknown} counts as mismatch). Pilot-scale---only 2 gold cells are
+  (\texttt{unknown} counts as mismatch). Pilot-scale: only 2 gold cells are
   \emph{high}; the robust signal is the one-directional over-severity and the
   abstention rate.}
   \label{tab:vsgold}
@@ -21,7 +21,7 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
     \texttt{unknown} policy & $n$ & exact & $\kappa$ & wt.\ $\kappa$ \\
     \midrule
     exclude (coverage) & 33 & 0.152 & 0.019 & 0.044 \\
-    mismatch (strict)  & 55 & 0.091 & 0.002 & --- \\
+    mismatch (strict)  & 55 & 0.091 & 0.002 & -- \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -54,7 +54,7 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
   \caption{Deterministic calibration vs the human gold (55 cells), two policies
   for weak-retrieval \emph{high}: demote to \emph{medium} (keep coverage) or
   abstain to \texttt{unknown}. Both cut over-severity and preserve high recall.
-  Pilot scale---only 2 gold cells are \emph{high}.}
+  Pilot scale: only 2 gold cells are \emph{high}.}
   \label{tab:calib}
   \setlength{\tabcolsep}{4pt}
   \begin{tabular}{lccc}

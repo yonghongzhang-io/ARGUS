@@ -5,8 +5,8 @@ Difference-in-differences (DID) is a workhorse design for evaluating climate and
 environmental policy: studies of carbon pricing, emissions-trading pilots, and
 emission standards compare treated and untreated units before and after a policy
 to recover its effect. The credibility of any such estimate rests on a chain of
-\emph{identification assumptions}---parallel trends, no anticipation, appropriate
-handling of staggered adoption, no interference between units---each of which a
+\emph{identification assumptions} (parallel trends, no anticipation, appropriate
+handling of staggered adoption, no interference between units), each of which a
 decade of methodological work has shown to be fragile, and which a standard
 two-way fixed-effects specification can silently violate under heterogeneous,
 staggered treatment timing
@@ -18,9 +18,9 @@ Yet in practice these assumptions are more often \emph{asserted} than
 \emph{audited}: a paper states that parallel trends ``hold'', shows an event-study
 plot, and moves on. Checking whether the identification argument is actually
 supported by the reported evidence is slow, expert-intensive, and inconsistent
-across reviewers---one facet of a broader reliability gap in empirical research,
-where undisclosed analytic flexibility and specification search---researcher
-degrees of freedom, the garden of forking paths---move published conclusions
+across reviewers: one facet of a broader reliability gap in empirical research,
+where undisclosed analytic flexibility and specification search (researcher
+degrees of freedom, the garden of forking paths) move published conclusions
 \cite{leamer1983,ioannidis2005,simmons2011,gelmanloken2014,silberzahn2018many,brodeur2020methods,botviniknezer2020variability}.
 Large language models are an obvious candidate for scaling such checks: they are
 increasingly used to judge model outputs \cite{zheng2023judge}, to give feedback
@@ -36,7 +36,7 @@ unreliable and unaccountable.
 
 \paragraph{Our approach.}
 We argue that identification \emph{credibility} is auditable even when the causal
-\emph{effect} is not---extending the research-design tradition in applied
+\emph{effect} is not, extending the research-design tradition in applied
 econometrics \cite{angristpischke2010,atheyimbens2017} and recent work that treats
 an assumption like parallel trends as a matter of degree rather than a binary
 \cite{rambachanroth2023}. Because the counterfactual is never observed, we do not
@@ -53,9 +53,9 @@ a transparent, evidence-anchored report for a human expert
 the audit traceable and reproducible, unlike free-roaming agents whose control flow
 is model-decided \cite{yao2023react}. \sys{} flags dimensions for review; it does
 not adjudicate causal truth. Because the true effect is unavailable as ground
-truth, we validate the auditor by \emph{flaw injection}---perturbing a credible
+truth, we validate the auditor by \emph{flaw injection} (perturbing a credible
 paper with one known flaw and checking that \sys{} catches it, stays quiet on the
-clean version, and localizes the right dimension---in the spirit of adversarial and
+clean version, and localizes the right dimension) in the spirit of adversarial and
 holistic model evaluation \cite{kiela2021dynabench,liang2023helm}, and needing no
 access to the effect. A pilot expert gold then both evaluates and calibrates
 severity, since credibility is a graded, partly design-dependent judgement rather
