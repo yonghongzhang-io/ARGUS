@@ -22,3 +22,4 @@ __pycache__/
 paper/.Rhistory
 paper/.RData
 paper/.Rproj.user/
+experiments/variants/variant_results.json
