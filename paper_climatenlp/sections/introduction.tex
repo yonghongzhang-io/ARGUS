@@ -1,71 +1,51 @@
 \section{Introduction}
 \label{sec:intro}
 
-Difference-in-differences (DID) is one of the most widely used research designs
-in empirical economics, and a central tool for evaluating climate and
-environmental policy. Studies of carbon pricing, emissions-trading pilots, and
-industrial-emission standards routinely compare treated and untreated units
-before and after a policy to recover its causal effect. The credibility of any
-such estimate rests entirely on a chain of \emph{identification assumptions}:
-that treated and control units would have moved in parallel absent the policy,
-that units did not anticipate it, that staggered adoption is handled with an
-appropriate estimator, that there is no interference between treated and control
-units, and so on. A decade of methodological work has shown how fragile each of
-these assumptions can be, and how easily a standard two-way fixed-effects
-specification can mislead under heterogeneous and staggered treatment timing
-\cite{goodmanbacon2021,callaway2021,sunabraham2021,dechaisemartin2020,roth2023}.
+Difference-in-differences (DID) is a workhorse design for evaluating climate and
+environmental policy: studies of carbon pricing, emissions-trading pilots, and
+emission standards compare treated and untreated units before and after a policy
+to recover its effect. The credibility of any such estimate rests on a chain of
+\emph{identification assumptions}---parallel trends, no anticipation, appropriate
+handling of staggered adoption, no interference between units---each of which a
+decade of methodological work has shown to be fragile, and which a standard
+two-way fixed-effects specification can silently violate under heterogeneous,
+staggered treatment timing
+\cite{bertrand2004trust,goodmanbacon2021,callaway2021,sunabraham2021,dechaisemartin2020,roth2023}.
 
-Yet in applied work these assumptions are frequently \emph{asserted} rather than
-\emph{audited}. A paper states that parallel trends ``hold'', shows an
-event-study plot, and moves on; a reader who wants to know whether the
-identification argument is actually supported by the reported evidence must
-reconstruct it by hand, dimension by dimension. This is slow, expert-intensive,
-and inconsistent across reviewers---a reliability gap in a body of evidence that
-increasingly informs climate and environmental policy.
+In applied work, however, these assumptions are more often \emph{asserted} than
+\emph{audited}: a paper states that parallel trends ``hold'', shows an event-study
+plot, and moves on. Checking whether the identification argument is actually
+supported by the reported evidence is slow, expert-intensive, and inconsistent
+across reviewers---one facet of a broader reliability gap in empirical research,
+where flexible analytic choices and specification searching move published
+conclusions \cite{silberzahn2018many,brodeur2020methods,botviniknezer2020variability}.
+Large language models are an obvious candidate for scaling such checks, but they
+reproduce causal \emph{language} more readily than causal \emph{inference}
+\cite{kiciman2023causal,zecevic2023causalparrots,jin2024corr2cause}, so a system
+that issued causal verdicts would be both unreliable and unaccountable.
 
-\paragraph{Our stance.}
-We argue that identification \emph{credibility} is auditable even though the
-causal \emph{effect} is not. In a DID design the counterfactual is never
-observed, so asking an automated system whether the estimated effect is true is
-both hopeless and the wrong target. We ask instead a question that can be
-grounded in the paper itself: \emph{is each identification assumption supported
-by the evidence the study reports, and where is that support weakest?} This
-reframing turns an unanswerable causal question into a tractable auditing
+\paragraph{Our approach.}
+We argue that identification \emph{credibility} is auditable even when the causal
+\emph{effect} is not. Because the counterfactual is never observed, we do not ask
+whether an estimate is true; we ask whether each identifying assumption is
+adequately supported by the evidence the paper reports, and where that support is
+weakest. This turns an unanswerable causal question into a tractable auditing
 problem over assumptions, their testable implications, and the in-paper evidence
-that bears on them---localizing where support is fragile rather than issuing a
-verdict.
-
-\paragraph{Why human calibration.}
-Identification credibility is not a binary truth label. A dimension is rarely
-simply ``satisfied'' or ``violated''; reviewers grade it on a severity scale,
-and where the low/medium/high boundaries fall is a matter of expert judgement.
-Some disagreement is therefore intrinsic, especially when a DID-specific check is
-applied to a non-standard design where the dimension may not apply as
-conventionally defined. We treat this ambiguity as a feature of the task, not
-noise: \sys{} pairs automated, evidence-grounded auditing with a
-\emph{human-calibrated severity} scale, using a pilot expert gold both to
-\emph{evaluate} the auditor and to \emph{calibrate} how severely it flags.
-
-\paragraph{\sys{}.}
-We introduce \sys{}, a responsible-AI framework that audits the identification
-credibility of DID environmental-policy studies. \sys{} decomposes
-identification into a fixed set of auditable dimensions, gathers the supporting
-evidence each dimension requires, assesses every
-assumption--implication--evidence chain, localizes risk across dimensions, and
-produces a transparent, evidence-anchored report for a human expert
-(Figure~\ref{fig:overview}). It is a \emph{bounded-agentic} system by design: the
-pipeline between modules is fixed and deterministic, and model-driven agency is
-confined to two scoped sub-tasks. Because the true effect is unavailable as
-ground truth, we validate the auditor with \emph{synthetic flaw injection}: we
-perturb a credible paper with one known identification flaw and check whether
-\sys{} detects it, stays quiet on the clean version, and localizes the right
-dimension. The injected flaw is local ground truth that requires no access to the
-true effect. Deploying \sys{} on real papers then exposes \emph{evidence
-grounding} (retrieving the right evidence) as the binding constraint, and a pilot
-human gold reveals a systematic over-severity bias that a lightweight,
-anchor-based calibration layer reduces while preserving high-risk recall. \sys{}
-is thus best read as a high-sensitivity screening tool that flags dimensions for
-expert review rather than an autonomous arbiter of causal truth.
+that bears on them. We introduce \sys{}, a \emph{bounded-agentic} auditor: model
+agency is confined to two scoped, traceable sub-tasks behind a fixed,
+deterministic pipeline that decomposes a DID study into an 11-dimension rubric,
+retrieves dimension-specific evidence, judges its adequacy, and localizes risk in
+an evidence-anchored report for a human expert (Figure~\ref{fig:overview}). This
+bounded design keeps the audit traceable and reproducible, unlike free-roaming
+agents whose control flow is model-decided \cite{yao2023react}. \sys{} flags
+dimensions for review; it does not adjudicate causal truth. Because the true
+effect is unavailable as ground truth, we validate the auditor by \emph{flaw
+injection}---perturbing a credible paper with one known flaw and checking that
+\sys{} catches it, stays quiet on the clean version, and localizes the right
+dimension---which needs no access to the effect. A pilot expert gold then both
+evaluates and calibrates severity, since credibility is a graded, partly
+design-dependent judgement rather than a binary label
+\cite{jacobs2021measurement,raji2021benchmark}.
 
 \begin{figure*}[t]
   \centering
@@ -81,29 +61,20 @@ expert review rather than an autonomous arbiter of causal truth.
 \end{figure*}
 
 \paragraph{Contributions.}
-This paper makes four contributions.
-\textbf{(i)}~a structured \textbf{11-dimension audit framework} for DID
-identification credibility whose unit of audit is an explicit
+\textbf{(i)}~an \textbf{11-dimension audit framework} for DID identification
+credibility whose unit of audit is an explicit
 \emph{assumption--implication--evidence} chain, targeting reported-evidence
 adequacy rather than causal truth (\S\ref{sec:framework});
 \textbf{(ii)}~a \textbf{bounded-agentic} evidence-retrieval and assessment
 pipeline, with model agency confined to two scoped, traceable sub-tasks behind a
 fixed deterministic control flow;
 \textbf{(iii)}~a \textbf{multi-stage evaluation} built on \emph{flaw injection as
-local ground truth} (it needs no access to the true effect), showing that
-adequacy reasoning catches flawed-but-present evidence that keyword presence
-cannot; a real-paper deployment on 27 DID papers relocates the bottleneck to
-\emph{evidence grounding} and separates retrieval failure from substantive high
-risk, and an \emph{architecture ablation} against a same-model single-pass
-baseline shows the bounded design raises synthetic flaw detection from $0.455$ to
-$1.000$ and, on real papers, preserves an explicit \texttt{unknown} state
-($38.9\%$ vs $0.4\%$) that keeps evidence-grounding uncertainty visible rather
-than committing a guess (\S\ref{sec:results}); and
-\textbf{(iv)}~a \textbf{pilot human-gold calibration loop} (5 papers, 55
-dimension-level cells) in which disagreement is largely
-design-applicability-driven: comparing \sys{} to an adjudicated gold reveals a
-one-directional over-severity bias (more severe than gold in 28/33 answered
-cells, less severe in none), and an applicability-aware, anchor-based calibration
-layer reduces it while preserving high-risk recall. Expert annotation can
-therefore both evaluate and calibrate an identification audit; the human-gold
-analysis is pilot-scale, and larger expert-labelled corpora are future work.
+local ground truth}, showing that adequacy reasoning catches flawed-but-present
+evidence keyword matching cannot, and a real-paper deployment (27 DID papers) that
+relocates the bottleneck to \emph{evidence grounding}; an architecture ablation
+against a same-model single-pass baseline isolates the bounded design as the
+source of the gain (\S\ref{sec:results}); and
+\textbf{(iv)}~a \textbf{pilot expert-gold calibration loop} (5 papers, 55
+dimension-level cells) that exposes a one-directional over-severity bias and a
+lightweight, applicability-aware calibration layer that reduces it while
+preserving high-risk recall.
