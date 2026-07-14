@@ -61,13 +61,14 @@ def main() -> None:
     answered = len(ans)
     unknown = len(keys) - answered
     axA.pie([answered, unknown], colors=[ACCENT, C["unknown"]],
-            startangle=90, counterclock=False,
-            wedgeprops=dict(width=0.42, edgecolor="white"))
-    axA.text(0, 0, f"{len(keys)}\ncells", ha="center", va="center", fontsize=11, fontweight="bold")
+            startangle=90, counterclock=False, radius=1.38,
+            wedgeprops=dict(width=0.58, edgecolor="white"))
+    axA.set_xlim(-1.5, 1.5); axA.set_ylim(-1.5, 1.5)   # room for the enlarged donut
+    axA.text(0, 0, f"{len(keys)}\ncells", ha="center", va="center", fontsize=13, fontweight="bold")
     axA.set_title("A  Coverage", fontsize=11, fontweight="bold", loc="left", color=INK)
     axA.legend(handles=[Patch(facecolor=ACCENT, label=f"answered ({answered})"),
                         Patch(facecolor=C["unknown"], label=f"unknown ({unknown})")],
-               fontsize=8.5, loc="center", bbox_to_anchor=(0.5, -0.12), frameon=False, ncol=1)
+               fontsize=8.5, loc="center", bbox_to_anchor=(0.5, -0.16), frameon=False, ncol=1)
 
     # ---- Panel B: risk distributions (gold vs ARGUS) ----
     def stack(ax, y, dist, order):
