@@ -1,0 +1,67 @@
+% ClimateNLP 2026 (EMNLP workshop) — long paper, ARCHIVAL submission.
+% ARGUS condensed from the 17pp LNCS version to 8pp ACL, climate-framed, anonymized.
+% Compile: tectonic main.tex
+\documentclass[11pt]{article}
+\usepackage[review]{acl}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+
+\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\NUM}[1]{#1}   % ARGUS numbers are real (not pending) — render as-is
+\newcommand{\sys}{ARGUS}
+
+\title{\sys{}: Auditing the Identification Credibility of\\
+Climate-Policy Causal Evaluations}
+
+\author{Anonymous ACL submission}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Climate policy leans on ex-post causal evaluations---difference-in-differences
+(DID) studies of carbon pricing, emissions-trading pilots, and emission
+standards---whose credibility rests on identification assumptions that are
+often \emph{asserted} rather than \emph{audited}. Because the counterfactual is
+never observed, asking whether an estimated effect is \emph{true} is the wrong
+target; we ask instead whether each identifying assumption is supported by the
+evidence the paper reports, and where that support is weakest. We present
+\sys{}, a responsible-AI framework that decomposes DID identification into an
+11-dimension rubric of assumption--implication--evidence chains, retrieves
+dimension-specific evidence, assesses reported-evidence adequacy with a
+\emph{bounded-agentic} audit module, and localizes risk in a human-reviewable
+report---flagging dimensions for expert review, not adjudicating causal truth.
+We validate the auditor with \emph{flaw injection} as local ground truth (no
+access to the true effect): adequacy reasoning catches flawed-but-present
+evidence that keyword presence cannot, raising synthetic flaw detection from
+\NUM{0.455} to \NUM{1.000} over a same-model single-pass baseline, which on 27
+real DID papers preserves an explicit \texttt{unknown} state
+(\NUM{38.9\%} vs \NUM{0.4\%}) that keeps evidence-grounding uncertainty visible.
+A pilot expert gold (5 papers, 55 cells) reveals a one-directional
+over-severity bias that an applicability-aware, anchor-based calibration layer
+reduces while preserving high-risk recall. \sys{} is best read as a
+high-sensitivity screening tool for the credibility of climate-policy evidence.
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/framework}
+\input{sections/evaluation}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/conclusion}
+\input{sections/limitations}
+
+\bibliography{references}
+\bibliographystyle{acl_natbib}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}
