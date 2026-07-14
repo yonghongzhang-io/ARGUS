@@ -1,0 +1,71 @@
+\section{Supplementary Figures and Tables}
+\label{app:supp}
+
+This appendix collects supporting material referenced from the main text:
+the per-dimension risk distribution on the 27-paper real corpus
+(Figure~\ref{fig:realcorpus}), and the deterministic calibration results against
+the adjudicated human gold (Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}),
+and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgold}).
+
+\begin{table}[t]
+  \centering\small
+  \caption{\sys{}-LLM vs adjudicated human gold (55 cells, 5 papers) under two
+  \texttt{unknown} policies: coverage (drop abstentions) and strict
+  (\texttt{unknown} counts as mismatch). Pilot-scale---only 2 gold cells are
+  \emph{high}; the robust signal is the one-directional over-severity and the
+  abstention rate.}
+  \label{tab:vsgold}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lcccc}
+    \toprule
+    \texttt{unknown} policy & $n$ & exact & $\kappa$ & wt.\ $\kappa$ \\
+    \midrule
+    exclude (coverage) & 33 & 0.152 & 0.019 & 0.044 \\
+    mismatch (strict)  & 55 & 0.091 & 0.002 & --- \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/figure_realcorpus}
+  \caption{Per-dimension risk distribution on 27 real DID papers (CausalVerify
+  corpus). The keyword baseline (left) is almost entirely \emph{low}; the
+  two-stage LLM (right) is differentiated, with a large \texttt{unknown} share
+  that marks retrieval failure rather than over-flagging.}
+  \label{fig:realcorpus}
+\end{figure}
+
+\begin{table}[t]
+  \centering\small
+  \caption{Deterministic calibration vs the human gold (55 cells), two policies
+  for weak-retrieval \emph{high}: demote to \emph{medium} (keep coverage) or
+  abstain to \texttt{unknown}. Both cut over-severity and preserve high recall.
+  Pilot scale---only 2 gold cells are \emph{high}.}
+  \label{tab:calib}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lccc}
+    \toprule
+    metric & before & demote$\to$med & abstain$\to$unk \\
+    \midrule
+    over-severe (answ.)     & 29 & 18 & 6 \\
+    high prec.\ / rec.      & 0.04 / 0.50 & 0.50 / 0.50 & 0.50 / 0.50 \\
+    exact agr.\ (answ.)     & 0.12 & 0.45 & 0.54 \\
+    wt.\ $\kappa$ (answ.)   & 0.06 & 0.13 & 0.25 \\
+    answered / \texttt{unk} & 33 / 22 & 33 / 22 & 13 / 42 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\columnwidth]{figures/calibration_tradeoff}
+  \caption{\textbf{Calibration trade-off: severity reduction versus coverage}
+  against the adjudicated human gold. Demoting weak-retrieval \emph{high}s to
+  \emph{medium} preserves coverage (33 answered) while cutting over-severe
+  judgments from 29 to 18; abstaining gives the strongest correction
+  (over-severe 6, weighted $\kappa$ $0.25$) but leaves only 13 answered cells.
+  Calibration corrects severity bias; the remaining bottleneck is evidence
+  grounding, not severity thresholding alone.}
+  \label{fig:calib_tradeoff}
+\end{figure}

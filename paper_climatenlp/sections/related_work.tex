@@ -1,0 +1,54 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{DID identification and its threats.}
+A large econometrics literature formalizes when DID estimators fail under
+staggered timing and heterogeneous effects---the ``forbidden'' comparisons of
+two-way fixed effects~\cite{goodmanbacon2021}, negative
+weights~\cite{dechaisemartin2020}, robust
+estimators~\cite{callaway2021,sunabraham2021}, assumption and pre-trend
+surveys~\cite{roth2023}, and fragile inference under serial
+correlation~\cite{bertrand2004trust}. \sys{} adds no estimator: it
+\emph{operationalizes} this literature as an auditable rubric, turning each
+known threat into a dimension whose supporting evidence can be checked in a
+given paper (\S\ref{sec:framework}).
+
+\paragraph{LLM causal reasoning and benchmarks.}
+A parallel line asks whether LLMs reason about causality. Benchmarks
+(CLadder~\cite{jin2023cladder}, Corr2Cause~\cite{jin2024corr2cause},
+CausalBench~\cite{zhou2024causalbench}) and
+critiques~\cite{kiciman2023causal,yang2024criticalreview,zecevic2023causalparrots}
+find models often reproduce causal \emph{language} without reliable causal
+\emph{inference}; a few move toward applied settings and toward separating
+\emph{identification} from
+\emph{estimation}~\cite{lee2025econcausal,sawarni2026causalreasoning}. \sys{}
+inverts the task: rather than producing a causal answer, it audits whether a
+\emph{human} paper's identification assumptions are adequately evidenced, and
+abstains from a causal verdict by design.
+
+\paragraph{Responsible AI for empirical research.}
+AI is increasingly applied to research reliability---reproducibility checking,
+statistical-reporting validation, and AI-assisted review---motivated by wide
+analyst-driven result spreads~\cite{silberzahn2018many,botviniknezer2020variability}
+and specification searching in causal economics~\cite{brodeur2020methods}. \sys{}
+differs in target and posture: it audits \emph{identification credibility}
+specifically---the part of an argument that licenses a causal claim---and issues
+no verdicts, producing evidence-anchored, human-reviewable reports that localize
+risk and leave adjudication to an expert. A complementary line asks whether a
+model can \emph{carry out} inference: CausalVerify~\cite{causalverify} runs
+generated estimation code against synthetic data; \sys{} audits the prior
+layer---whether identification \emph{assumptions} are supported by reported
+evidence---and builds on that benchmark's released economics
+corpus~\cite{causalverify_dataset}.
+
+\paragraph{Evaluation methodology and bounded agents.}
+Our evaluation follows benchmarking lessons: holistic
+evaluation~\cite{liang2023helm} over a single number (we report a layered
+retrieval/relevance/adequacy/risk profile); dynamic, adversarial
+benchmarking~\cite{kiela2021dynabench} (our model-in-the-loop flaw injection);
+and the caution that operationalizing a capability is
+non-neutral~\cite{raji2021benchmark,gebru2021datasheets}
+(\S\ref{sec:discussion}). Where ReAct-style agents~\cite{yao2023react} act over
+an open horizon, \sys{} \emph{bounds} the paradigm---agency confined to two
+scoped sub-tasks behind deterministic control flow---trading autonomy for
+reproducibility and evidence-traceability.

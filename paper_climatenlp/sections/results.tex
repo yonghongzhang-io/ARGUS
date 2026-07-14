@@ -1,0 +1,212 @@
+\section{Results}
+\label{sec:results}
+
+We evaluate \sys{} along four axes: a synthetic flaw-injection protocol, an
+architecture ablation, a run over 27 real difference-in-differences (DID) papers
+(empirical economics broadly, with environmental policy---carbon pricing,
+emissions trading, emission standards---as the motivating case), and a calibrated
+human-gold pilot. Four findings emerge: (i)~judging evidence \emph{adequacy},
+not keyword presence, is what detects identification flaws; (ii)~the bounded
+architecture---not raw model capability---recovers flaws a single pass misses and
+turns retrieval failure into an auditable \texttt{unknown} signal; (iii)~on real
+papers the binding constraint shifts from causal reasoning to evidence grounding;
+and (iv)~against a human gold \sys{} is systematically over-severe, a bias that a
+lightweight calibration layer reduces while preserving high-risk recall.
+
+\subsection{Adequacy beats presence; architecture beats a single pass}
+\label{sec:ablation}
+
+We compare three assessors under one flaw-injection protocol on the
+\texttt{clean\_supported} fixture (one flaw injected per run, all eleven flaws;
+$\mathrm{max\_steps}{=}1$). A deterministic \textbf{keyword baseline} scores each
+dimension from the presence of supporting and risk-indicating vocabulary. The
+\textbf{two-stage \sys{} assessor} judges evidence \emph{adequacy}---whether the
+reported evidence actually establishes the assumption---over the \emph{same
+retrieved evidence} as the keyword baseline, so that pair isolates the judgement
+policy. A \textbf{single-pass} ablation removes the architecture entirely: the
+full paper and all eleven dimensions in one \texttt{gpt-4o} call, with the same
+model, temperature, risk schema, and scoring harness, but no staged retrieval,
+relevance gating, bounded tool use, or explicit \texttt{unknown} state. The only
+difference is architectural. Table~\ref{tab:results} reports the headline metrics.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Synthetic flaw injection (\texttt{clean\_supported}, eleven flaws):
+  keyword baseline, a same-model \emph{single-pass} ablation, and the
+  \emph{two-stage} \sys{} assessor. Keyword and two-stage share the same retrieved
+  evidence; single-pass shares the model and rubric but removes the architecture.
+  Detection rises from keyword presence, through single-pass adequacy reasoning,
+  to bounded per-dimension auditing. The final row is the leaked, pre-fix circular
+  setup.}
+  \label{tab:results}
+  \begin{tabular}{lccc}
+    \toprule
+    Assessor & detection & false alarm & localization \\
+    \midrule
+    keyword baseline             & 0.182 & 0.000 & 0.182 \\
+    single-pass LLM (gpt-4o)     & 0.455 & 0.000 & 0.455 \\
+    \textbf{two-stage \sys{} (gpt-4o)} & \textbf{1.000} & \textbf{0.000} & \textbf{0.909} \\
+    \midrule
+    \textit{(circular, pre-fix)} & 1.000 & 0.000 & 1.000 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{The keyword baseline is blind to commission flaws.}
+The baseline never raises a false alarm and correctly flags the two omission
+flaws (\texttt{measurement\_break}, \texttt{spillover\_contamination}) by the
+\emph{absence} of their vocabulary, but beyond those detection is only $0.182$
+(Figure~\ref{fig:results}B). Two failure modes explain it: \emph{cross-section
+vocabulary bleed}, where deleting the placebo section does not help because
+another section also mentions ``placebo,'' and, more fundamentally, blindness to
+\emph{every} commission flaw, where flawed-but-plausible evidence is present in
+the expected topic vocabulary. Keyword presence is not evidence adequacy.
+
+\paragraph{Reasoning over adequacy closes the gap.}
+Swapping \emph{only} the assessment policy---extraction unchanged, so both see the
+same evidence---to an LLM that judges adequacy raises detection from $0.182$ to
+$1.000$ with no false alarms and $0.909$ localization. The model reads
+flawed-but-natural prose the keyword scorer cannot: for the injected anticipation
+flaw it returns \emph{high\,/\,flawed}, reasoning that ``outcomes began changing
+between the policy announcement and rollout,'' with no sentinel keyword present.
+This is the empirical core of the design: placing agency where reasoning is
+required.
+
+\paragraph{The architecture, not the model, does the work.}
+The single-pass ablation isolates the bounded design. On the flaw-injection
+benchmark it detects only $0.455$ of flaws (false alarm $0.000$, localization
+$0.455$), against $1.000$/$0.000$/$0.909$ for the two-stage assessor: judging
+eleven dimensions from the whole paper at once misses more than half the planted
+flaws that per-dimension retrieval isolates. On the 25 papers common to both runs
+($275$ cells) the contrast sharpens. Single-pass almost never abstains---its
+\texttt{unknown} share is $0.4\%$ versus $38.9\%$ for the two-stage pipeline. The
+cells the bounded pipeline marks \texttt{unknown} become confident judgements
+under single-pass, mostly \emph{low} ($1.8\%\!\to\!14.9\%$) or \emph{medium}
+($14.2\%\!\to\!43.6\%$), while the high-risk share is comparable ($41.1\%$ vs
+$45.1\%$). Without a gate the model commits a substantive risk for nearly every
+dimension instead of reporting that it could not ground the evidence. The bounded
+design thus recovers flaws a single pass misses and turns retrieval failure into a
+visible, auditable signal---the distinction the rest of the section relies on.
+
+\paragraph{Scope.}
+These are synthetic fixtures with few dimensions; $1.000$ is a proof-of-concept on
+clearly injected flaws, not a solved task. The sharper question is whether the
+behaviour survives on real published papers.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.80\textwidth]{figures/figure_phase1}
+  \caption{Keyword baseline vs LLM evidence-adequacy assessor under realistic
+  flaw injection. (A)~Swapping only the assessment policy raises detection from
+  $0.182$ to $1.000$, false alarm fixed at $0$, localization $0.909$.
+  (B)~Per-flaw keyword outcomes by injection type: the baseline catches only
+  omission-type threats whose vocabulary is not echoed elsewhere and is blind to
+  every commission-type threat, all of which the LLM catches.}
+  \label{fig:results}
+\end{figure*}
+
+\subsection{From synthetic fixtures to real papers: a relocated bottleneck}
+\label{sec:realpapers}
+
+We next audit 27 published DID papers from the CausalVerify
+corpus~\cite{causalverify_dataset}. There is no injected ground truth; we report
+the raw per-dimension risk distribution of each assessor
+(Figure~\ref{fig:realcorpus}). The keyword baseline is permissive---$91\%$ of its
+judgements are \emph{low}: it sees topic vocabulary, declares the dimension
+supported, and flags almost nothing. The two-stage LLM is differentiated, and its
+most informative output is that ${\sim}39\%$ of judgements are \texttt{unknown}:
+the relevance gate could not surface evidence, so the system says so rather than
+over-flagging. Two regimes appear---dimensions whose discussion is diffuse or
+lives in figures the text retrieval cannot reach (parallel trends, no
+anticipation, placebo) are dominated by \texttt{unknown}, while dimensions where a
+section is retrieved (sample period, concurrent policies, SUTVA) are judged
+inadequate. The finding is methodological: moving to real papers is bottlenecked
+not by causal reasoning but by \emph{evidence grounding}, which is why the design
+reports retrieval quality and an explicit \texttt{unknown} state distinct from a
+substantive high-risk judgement.
+
+\paragraph{Judgements are grounded, not pattern-matched.}
+On a trade-and-wages paper \sys{} retrieves the employment-results section and
+flags \emph{inference} as high because ``the paper only mentions
+heteroskedastic-consistent standard errors and does not provide information on
+clustering or the number of clusters''---a specific econometric observation, not a
+keyword hit. On another it retrieves an ``Alternative Market Share
+Specification'' section and flags \emph{robustness/placebo} as high, noting this
+``only discusses an alternative specification'' and is not a placebo or
+falsification test. In both cases the model distinguishes a \emph{related but
+different} reported check from the one the assumption requires. Roughly $45\%$ of
+its judgements on these top-journal papers are \emph{high}; without dimension-level
+expert labels we cannot yet say whether this is warranted or over-strict where
+retrieval succeeds. We claim the contrast in behaviour and the localization of the
+grounding bottleneck, not the correctness of any individual flag.
+
+\subsection{A calibrated human gold (pilot)}
+\label{sec:gold}
+
+To test whether \sys{}'s flags agree with expert judgement, we built a small
+expert gold: two annotators independently labelled risk on 5 DID papers $\times$
+11 dimensions (55 cells). Round-1 agreement was low on the raw 3-level scale
+(Cohen's $\kappa=0.17$), but the disagreement is almost entirely ordinal
+(weighted $\kappa=0.31$; $96\%$ of disagreements are a single severity step, so
+annotators almost never reverse direction). A calibration round adjudicated the 27
+disagreements: 16 resolved to a single label once the low/medium boundary was
+anchored, and 11 were flagged intrinsically ambiguous. Those ambiguous cells are
+not random---they concentrate on \emph{non-canonical DID designs}
+(continuous-shock, event-study) where a dimension like staggered timing is not
+applicable as conventionally defined. A real share of ``expert disagreement'' is
+thus \emph{design applicability}, not severity, which is itself why even experts
+abstain. The adjudicated gold (55 cells) is low 29, medium 24, high 2. This is a
+pilot ($n{=}5$, two annotators, one adjudication round), read as preliminary.
+
+\subsection{\sys{} versus the human gold}
+\label{sec:vsgold}
+
+Comparing \sys{}-LLM's risk to this gold gives the first calibration signal
+(Table~\ref{tab:vsgold}, Figure~\ref{fig:vsgold}). The errors are systematic, not
+random. \sys{} abstains on 22/55 cells, and when it answers its errors are almost
+entirely one-directional: 28/33 answered cells are more severe than the
+adjudicated gold, and none are less severe. Human gold contains only two
+high-risk cells, whereas \sys{} assigns high risk to 24. Because the pilot gold
+has so few high labels, high precision and recall are noisy; the robust
+conclusion is that the current assessor is over-sensitive to missing or partial
+evidence and is best read as a \emph{high-sensitivity screening tool} for
+prioritizing human review.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.72\textwidth]{figures/figure_vsgold}
+  \caption{\sys{}-LLM versus adjudicated human gold on 55 dimension-level cells
+  (5 papers). (A)~coverage, separating answered judgments from abstentions;
+  (B)~severity distributions of human gold and \sys{}; (C)~error direction among
+  the 33 answered cells; (D)~the \sys{}-by-gold confusion matrix. The dominant
+  signal is one-directional over-severity: \sys{} assigns higher risk than gold in
+  28/33 answered cases and lower risk in none.}
+  \label{fig:vsgold}
+\end{figure*}
+
+\subsection{Calibration: from diagnosis to improvement}
+\label{sec:calib}
+
+The gold comparison also points to a fix. An error analysis of the over-severe
+cells is sharp: of \sys{}'s over-severe \emph{high} judgements, $23/24$ have
+\texttt{evidence\_status=missing} and $20/24$ have
+\texttt{retrieval\_quality=weak}. \sys{} treats ``weak retrieval found nothing''
+as a substantive \emph{high}, conflating a \emph{retrieval failure} with the paper
+lacking the evidence---which the human, reading the full PDF, resolves to
+low/medium. This is a fixable calibration target.
+
+We add a deterministic calibration layer over the LLM output, keyed on fields it
+already produces: the dominant rule converts a weak-retrieval \emph{high} (no
+contradiction signalled in the rationale) either to \emph{medium} (keep coverage)
+or to \texttt{unknown} (abstain); smaller rules soften a few anachronistic or
+reporting-gap \emph{high}s. Against the gold (Table~\ref{tab:calib},
+Figure~\ref{fig:calib_tradeoff}) both policies cut over-severity and preserve
+high-risk recall ($0.50$): severity falls without losing detection. The
+keep-coverage policy keeps all 33 answers and raises exact agreement from $0.12$
+to $0.45$; the abstain policy reaches the highest weighted $\kappa$ ($0.25$) but
+collapses coverage to 13 answered cells. Neither addresses the root cause---weak
+retrieval---so correct \emph{coverage} must come from better evidence grounding.
+Calibration can convert erroneous high-risk judgments into medium-risk judgments
+or honest abstentions, but cannot by itself recover the missing evidence. The
+human gold thus does more than evaluate \sys{}; it calibrates it.
+
