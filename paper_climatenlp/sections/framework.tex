@@ -20,9 +20,9 @@ dimension, which both documents the rubric's coverage and supplies the
 perturbations used for evaluation.
 
 \subsection{Bounded-agentic pipeline}
-The audit runs a fixed, deterministic sequence---\emph{decomposition
+The audit runs a fixed, deterministic sequence, \emph{decomposition
 $\rightarrow$ extraction $\rightarrow$ assessment $\rightarrow$ localization
-$\rightarrow$ report}---shown in the top band of Figure~\ref{fig:arch}. The stage
+$\rightarrow$ report}, shown in the top band of Figure~\ref{fig:arch}. The stage
 order is written in code and never chosen by a model. \emph{Decomposition}
 instantiates the rubric for the paper at hand; \emph{extraction} gathers, per
 dimension, the in-paper evidence relevant to that assumption; \emph{assessment}
@@ -33,8 +33,8 @@ aggregates these judgements into a risk map ranking where support is weakest; an
 reviewer.
 
 Agency is confined to the two stages where open-ended judgement actually
-helps---extraction and assessment. Each invokes a bounded ReAct-style loop with
-three constraints: (i)~a \emph{small fixed tool set} passed in per call---%
+helps: extraction and assessment. Each invokes a bounded ReAct-style loop with
+three constraints: (i)~a \emph{small fixed tool set} passed in per call: %
 \texttt{evidence\_search} over the paper's text, figures and tables,
 \texttt{figure\_parse} for structured figure/table content, and
 \texttt{policy\_lookup} for policy metadata such as announcement versus
@@ -69,6 +69,6 @@ system both auditable by a human and measurable by the evaluation that follows.
   logged trace. The bottom band shows the flaw-injection evaluation loop, which
   injects one known flaw, audits the clean and injected versions, and scores
   detection, false alarm, and localization against the injected flaw as local
-  ground truth---never against the unobserved true effect.}
+  ground truth, never against the unobserved true effect.}
   \label{fig:arch}
 \end{figure*}
