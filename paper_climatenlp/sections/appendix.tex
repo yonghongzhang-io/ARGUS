@@ -1,22 +1,45 @@
-\section{Why climate-policy DID is especially hard to audit}
-\label{app:climate}
+\section{Domain Motivation and Design Rationale}
+\label{app:motivation}
 
-Climate-policy DID studies concentrate several of the identification threats the
-methodological literature already flags as fragile, which is what makes an
-evidence-adequacy audit especially consequential here. \emph{Staggered and phased
-rollouts} across jurisdictions invite the heterogeneous-timing failures of two-way
-fixed effects. \emph{Spatial spillovers and cross-border leakage} under emissions
-trading violate no-interference (SUTVA) when emitting or abating activity relocates
-to control regions. \emph{Overlapping national and subnational regulations} are
-routinely co-timed with the policy of interest, threatening the
-no-confounding-policy assumption. \emph{Anticipatory abatement} in the gap between
-a policy's announcement and its enforcement breaks no-anticipation. And
-\emph{heterogeneous, noisy emissions measurement} (reporting-standard changes,
-coverage differences, and estimation error) threatens consistent measurement of
-the outcome. Each of these makes an identification assumption both more likely to
-fail and harder to verify from a paper's reported evidence, which is why \sys{}
-treats abstention (an explicit \texttt{unknown}) as a first-class output rather
-than committing a confident but ungrounded judgement.
+\subsection{Why climate-policy DID is a demanding audit setting}
+Climate-policy evaluations present several recurring identification challenges.
+First, policy announcement, legal adoption, and actual implementation may occur at
+different dates, creating scope for anticipation. Second, carbon markets and
+environmental regulations are commonly introduced at different times across
+jurisdictions, making heterogeneous and staggered treatment effects central rather
+than exceptional. Third, emissions, investment, and production responses can spill
+across regional borders, challenging no-interference assumptions. Fourth, climate
+policies frequently overlap with industrial, energy, and air-pollution regulations,
+complicating the exclusion of concurrent interventions. Fifth, policy effects may
+emerge with long and heterogeneous lags. Finally, emissions and environmental
+outcomes are assembled from administrative, modeled, or remotely sensed sources
+whose measurement properties vary across places and time. These features do not make
+DID unique to climate policy, but they make the quality of identification evidence
+especially consequential for policy interpretation and comparison.
+
+\subsection{Identification auditing and research reliability}
+\sys{} addresses one component of a broader research-reliability problem: published
+conclusions can vary with specification choices, undisclosed analytic flexibility,
+and researcher degrees of freedom
+\cite{leamer1983,ioannidis2005,simmons2011,gelmanloken2014,silberzahn2018many,brodeur2020methods,botviniknezer2020variability}.
+This is the identification-credibility component of the broader research-design or
+``credibility revolution'' program in applied econometrics
+\cite{angristpischke2010,atheyimbens2017}, which increasingly treats an assumption
+like parallel trends as a matter of degree rather than a binary
+\cite{rambachanroth2023,roth2022}. Rather than attempting to audit every component
+of an empirical paper, \sys{} focuses on the identification argument that licenses a
+causal interpretation.
+
+\subsection{Why \sys{} uses bounded agency}
+Open-ended agents may choose different tools and reasoning paths across runs, making
+their outputs difficult to reproduce and compare. Large language models are
+increasingly used for evaluative and reviewing tasks
+\cite{zheng2023judge,liang2024feedback,lu2024aiscientist}, but as open-ended agents
+their reasoning traces are hard to audit. \sys{} instead fixes the pipeline order in
+code and confines model-driven decisions to evidence retrieval and adequacy
+assessment. Each model call operates under a fixed tool set, a hard step budget, and
+a logged trace. This design trades autonomy for reproducibility, inspectability, and
+controlled evaluation under flaw injection.
 
 \section{Supplementary Figures and Tables}
 \label{app:supp}

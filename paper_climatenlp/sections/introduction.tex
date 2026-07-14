@@ -1,63 +1,40 @@
 \section{Introduction}
 \label{sec:intro}
 
-Difference-in-differences (DID) is a workhorse design for evaluating climate and
-environmental policy: studies of carbon pricing, emissions-trading pilots, and
-emission standards compare treated and untreated units before and after a policy
-to recover its effect. The credibility of any such estimate rests on a chain of
-\emph{identification assumptions} (parallel trends, no anticipation, appropriate
-handling of staggered adoption, no interference between units), each of which a
-decade of methodological work has shown to be fragile and which a standard
-two-way fixed-effects specification can silently violate under heterogeneous,
-staggered treatment timing
-\cite{bertrand2004trust,goodmanbacon2021,callaway2021,sunabraham2021,dechaisemartin2020,roth2023};
-even the pre-trends tests used to defend these designs are themselves unreliable
-\cite{roth2022}. These difficulties are sharpened in the climate-policy setting,
-where staggered rollouts, spatial spillovers, overlapping regulations,
-anticipatory abatement, and noisy emissions measurement stress several assumptions
-at once (Appendix~\ref{app:climate}).
+Difference-in-differences (DID) is widely used to evaluate climate and
+environmental policy, including carbon pricing, emissions-trading schemes, and
+emission standards. The credibility of these estimates depends on identification
+assumptions such as parallel trends, no anticipation, appropriate treatment of
+staggered adoption, and limited interference between units. These assumptions are
+often difficult to assess in climate settings, where policies overlap,
+implementation is staggered, spillovers cross administrative boundaries, and
+emissions outcomes are imperfectly measured (Appendix~\ref{app:motivation}).
 
-Yet in practice these assumptions are more often \emph{asserted} than
-\emph{audited}: a paper states that parallel trends ``hold'', shows an event-study
-plot, and moves on. Checking whether the identification argument is actually
-supported by the reported evidence is slow, expert-intensive, and inconsistent
-across reviewers, one facet of a broader reliability gap in empirical research
-where undisclosed analytic flexibility and specification search move published
-conclusions
-\cite{leamer1983,ioannidis2005,simmons2011,gelmanloken2014,silberzahn2018many,brodeur2020methods,botviniknezer2020variability}.
-Large language models can scale such checks
-\cite{zheng2023judge,liang2024feedback,lu2024aiscientist}, but they reproduce
-causal \emph{language} more readily than causal \emph{inference}
-\cite{kiciman2023causal,zecevic2023causalparrots,jin2024corr2cause}, and existing
-benchmarks probe causal reasoning on curated tasks rather than the identification
-credibility of real published designs
-\cite{jin2023cladder,zhou2024causalbench,lee2025econcausal,sawarni2026causalreasoning,yang2024criticalreview}.
-A system that issued causal verdicts would thus be both unreliable and
-unaccountable.
+Yet applied papers often assert these assumptions rather than audit whether the
+reported evidence supports them. A paper may state that parallel trends hold after
+presenting an event-study figure, while leaving the reader to determine whether the
+design, pre-period estimates, inference, and policy timing actually justify that
+claim. Performing this assessment manually is slow, expert-intensive, and difficult
+to standardize.
 
-\paragraph{Our approach.}
-We argue that identification \emph{credibility} is auditable even when the causal
-\emph{effect} is not, extending the research-design tradition in applied
-econometrics and its move to treat assumptions like parallel trends as a matter of
-degree rather than a binary
-\cite{angristpischke2010,atheyimbens2017,rambachanroth2023}. Because the
-counterfactual is never observed, we ask not whether an estimate is true but
-whether each identifying assumption is adequately supported by the evidence the
-paper reports, and where that support is weakest. We introduce \sys{}, a
-\emph{bounded-agentic} auditor: model agency is confined to two scoped, traceable
-sub-tasks behind a fixed, deterministic pipeline that decomposes a DID study into
-an 11-dimension rubric, retrieves dimension-specific evidence, judges its adequacy,
-and localizes risk in a transparent, evidence-anchored report
-\cite{gebru2021datasheets} (Figure~\ref{fig:overview}); unlike free-roaming agents
-whose control flow is model-decided \cite{yao2023react}, this keeps the audit
-traceable and reproducible. \sys{} flags dimensions for review; it does not
-adjudicate causal truth. Lacking the true effect as ground truth, we validate the
-auditor by \emph{flaw injection}, perturbing a credible paper with one known flaw
-and checking that \sys{} catches it, stays quiet on the clean version, and
-localizes the right dimension, in the spirit of adversarial and holistic model
-evaluation \cite{kiela2021dynabench,liang2023helm}; a pilot expert gold then
-calibrates severity, since credibility is a graded, partly design-dependent
-judgement rather than a binary label \cite{jacobs2021measurement,raji2021benchmark}.
+We argue that identification credibility is auditable even when the true causal
+effect is not. Because the counterfactual is unobserved, \sys{} does not ask
+whether an estimated effect is true. Instead, it asks whether each identifying
+assumption is adequately supported by the evidence reported in the paper, and where
+that support is weakest. \sys{} represents a DID study through an 11-dimension
+\emph{assumption--implication--evidence} rubric and uses a bounded-agentic pipeline
+to retrieve relevant evidence, assess its adequacy, and produce an evidence-anchored
+risk report for expert review (Figure~\ref{fig:overview}). Model agency is confined
+to scoped retrieval and assessment tasks behind a fixed, deterministic control flow;
+\sys{} flags potential weaknesses rather than adjudicating causal truth.
+
+Evaluating such an auditor is difficult because the true policy effect is
+unobserved. We therefore use \emph{flaw injection} as local ground truth: starting
+from a supported study fixture, we introduce one known identification flaw and test
+whether \sys{} detects it, remains quiet on the clean version, and localizes the
+affected dimension. We complement this controlled evaluation with deployment on 27
+real DID papers and a small expert-labelled diagnostic pilot used to identify
+calibration and applicability failures.
 
 \begin{figure*}[t]
   \centering
@@ -73,20 +50,14 @@ judgement rather than a binary label \cite{jacobs2021measurement,raji2021benchma
 \end{figure*}
 
 \paragraph{Contributions.}
-\textbf{(i)}~an \textbf{11-dimension audit framework} for DID identification
-credibility whose unit of audit is an explicit
-\emph{assumption--implication--evidence} chain, targeting reported-evidence
-adequacy rather than causal truth (\S\ref{sec:framework});
-\textbf{(ii)}~a \textbf{bounded-agentic} evidence-retrieval and assessment
-pipeline, with model agency confined to two scoped, traceable sub-tasks behind a
-fixed deterministic control flow;
-\textbf{(iii)}~a \textbf{multi-stage evaluation} built on \emph{flaw injection as
-local ground truth}, showing that adequacy reasoning catches flawed-but-present
-evidence keyword matching cannot, and a real-paper deployment (27 DID papers) that
-relocates the bottleneck to \emph{evidence grounding}; an architecture ablation
-against a same-model single-pass baseline isolates the bounded design as the
-source of the gain (\S\ref{sec:results}); and
-\textbf{(iv)}~a \textbf{pilot expert-gold calibration loop} (5 papers, 55
-dimension-level cells) that exposes a one-directional over-severity bias and a
-lightweight, applicability-aware calibration layer that reduces it while
-preserving high-risk recall.
+Our contributions are:
+\begin{enumerate}
+  \item an 11-dimension framework that operationalizes DID identification
+  credibility as auditable \emph{assumption--implication--evidence} chains
+  (\S\ref{sec:framework});
+  \item a bounded-agentic, evidence-grounded auditing pipeline that separates
+  retrieval uncertainty from substantive identification risk;
+  \item a layered evaluation combining realistic flaw injection, same-model
+  architectural ablation, real-paper deployment, and a diagnostic
+  expert-calibration pilot (\S\ref{sec:results}).
+\end{enumerate}
