@@ -56,100 +56,116 @@ def keyword_result() -> dict:
     return evaluate_flaws(paper, sorted(load_flaws()), max_steps=1, assessor="keyword")
 
 
+def _pretty(lab: str) -> str:
+    return lab.replace("_", " ")
+
+
+def _panel_label(ax, letter: str) -> None:
+    ax.text(-0.02, 1.06, letter, transform=ax.transAxes, fontsize=11,
+            fontweight="bold", va="bottom", ha="right", color=INK)
+
+
 def panel_a(ax, kw: dict, llm: dict) -> None:
-    metrics = ["detection", "false alarm", "localization"]
-    kw_vals = [kw["detection_rate"], kw["false_alarm_rate"], kw["localization_acc"]]
-    llm_vals = [llm["detection_rate"], llm["false_alarm_rate"], llm["localization_acc"]]
-
-    y = range(len(metrics))
-    h = 0.36
-    ax.barh([i + h / 2 for i in y], kw_vals, height=h, color=GRAY, label="keyword baseline")
-    ax.barh([i - h / 2 for i in y], llm_vals, height=h, color=GREEN,
-            label=f"LLM ({llm.get('model', 'gpt-4o')})")
-
-    for i, v in enumerate(kw_vals):
-        ax.text(v + 0.02, i + h / 2, f"{v:.2f}", va="center", fontsize=9, color=MUTED)
-    for i, v in enumerate(llm_vals):
-        ax.text(v + 0.02, i - h / 2, f"{v:.2f}", va="center", fontsize=9,
-                fontweight="bold", color=GREEN)
-
-    ax.set_yticks(list(y))
-    ax.set_yticklabels(metrics, fontsize=10)
-    ax.set_xlim(0, 1.18)
+    """Dumbbell: keyword (hollow) -> LLM (filled) per metric; the connecting bar
+    reads the recovery directly (detection 0.18 -> 1.00)."""
+    rows = [("detection", kw["detection_rate"], llm["detection_rate"]),
+            ("localization", kw["localization_acc"], llm["localization_acc"]),
+            ("false alarm", kw["false_alarm_rate"], llm["false_alarm_rate"])]
+    ys = list(range(len(rows)))[::-1]
+    for y, (name, kv, lv) in zip(ys, rows):
+        if abs(lv - kv) > 1e-6:
+            ax.plot([kv, lv], [y, y], color=PALETTE["border"], lw=3.0, zorder=1,
+                    solid_capstyle="round")
+        ax.scatter([kv], [y], s=42, facecolor="white", edgecolor=GRAY, lw=1.5, zorder=3)
+        ax.scatter([lv], [y], s=48, facecolor=GREEN, edgecolor="white", lw=0.8, zorder=4)
+        if abs(lv - kv) <= 1e-6:                      # coincident (e.g. false alarm 0=0)
+            ax.text(lv + 0.04, y, f"{lv:.2f}", ha="left", va="center", fontsize=7.6,
+                    color=MUTED)
+        else:
+            ax.text(kv - 0.035, y, f"{kv:.2f}", ha="right", va="center", fontsize=7.5,
+                    color=MUTED)
+            ax.text(lv + 0.038, y, f"{lv:.2f}", ha="left", va="center", fontsize=7.8,
+                    color=GREEN, fontweight="bold")
+    ax.set_yticks(ys)
+    ax.set_yticklabels([r[0] for r in rows], fontsize=9)
+    ax.set_ylim(-0.6, len(rows) - 0.4)
+    ax.set_xlim(-0.02, 1.16)
     ax.set_xticks([0, 0.5, 1.0])
-    ax.invert_yaxis()
-    ax.set_title("A  Reasoning over evidence adequacy recovers detection",
-                 fontsize=11, fontweight="bold", loc="left", color=INK)
-    ax.legend(fontsize=8.5, loc="lower right", frameon=False)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.annotate("", xy=(1.0, 0.16), xytext=(0.182, 0.16),
-                arrowprops=dict(arrowstyle="->", color=GREEN, lw=1.6))
-    ax.text(0.58, -0.18, "0.18 → 1.00", fontsize=9, color=GREEN,
-            fontweight="bold", ha="center")
+    ax.set_xlabel("rate", fontsize=8.5)
+    ax.spines[["top", "right", "left"]].set_visible(False)
+    ax.tick_params(axis="y", length=0)
+    # compact legend (open = keyword, filled = LLM)
+    ax.scatter([], [], s=42, facecolor="white", edgecolor=GRAY, lw=1.5, label="keyword")
+    ax.scatter([], [], s=48, facecolor=GREEN, edgecolor="white", lw=0.8,
+               label=f"LLM ({llm.get('model', 'gpt-4o')})")
+    ax.legend(fontsize=7.6, loc="lower right", frameon=False, handletextpad=0.3,
+              borderpad=0.2)
+    _panel_label(ax, "a")
 
 
 def panel_b(ax, pairs: list[dict], llm: dict) -> None:
+    """Per-flaw caught/missed matrix, keyword vs LLM, grouped omission/commission.
+    Makes the commission-blindness of the keyword column visible against the fully
+    green LLM column."""
     omission = [p for p in pairs if p["ground_truth"]["injection_op"] == "remove"]
     commission = [p for p in pairs if p["ground_truth"]["injection_op"] == "replace"]
     ordered = omission + commission
-    labels = [p["flaw_id"] for p in ordered]
-    detected = [p["score"]["detected"] for p in ordered]
     n = len(ordered)
+    cols = [("keyword", None), (f"LLM", None)]
 
-    for i, (lab, det) in enumerate(zip(labels, detected)):
+    for i, p in enumerate(ordered):
         yy = n - 1 - i
-        color = GREEN if det else MISSED_FILL
-        edge = GREEN if det else MISSED_EDGE
-        ax.add_patch(plt.Rectangle((0, yy - 0.42), 1, 0.84, facecolor=color,
-                                   edgecolor=edge, lw=1.2))
-        ax.text(0.5, yy, "caught" if det else "missed", ha="center", va="center",
-                fontsize=8.5, color="white" if det else MUTED,
-                fontweight="bold" if det else "normal")
-        ax.text(-0.08, yy, lab, ha="right", va="center", fontsize=8.5, color=INK)
+        outcomes = [bool(p["score"]["detected"]), True]  # LLM detection == 1.00
+        for cx, det in enumerate(outcomes):
+            face = GREEN if det else MISSED_FILL
+            ax.add_patch(plt.Rectangle((cx + 0.09, yy - 0.40), 0.82, 0.80,
+                         facecolor=face, edgecolor=MISSED_EDGE, lw=0.6, zorder=2))
+            if not det:  # a light dot marks a miss (redundant with fill for colour-blind)
+                ax.plot(cx + 0.5, yy, marker="x", ms=4.5, mew=1.2, color=MUTED, zorder=3)
+        ax.text(-0.12, yy, _pretty(p["flaw_id"]), ha="right", va="center",
+                fontsize=7.4, color=INK)
 
-    ax.axhline(len(commission) - 0.5, color=MUTED, lw=0.8, ls=":")
-    n_om = len(omission)
-    ax.text(1.12, n - (n_om / 2) - 0.5, "omission\n(remove\nevidence)", fontsize=8,
-            color=MUTED, va="center", ha="left")
-    ax.text(1.12, (len(commission) / 2) - 0.5, "commission\n(flawed\nevidence)", fontsize=8,
-            color=RED, va="center", ha="left", fontweight="bold")
+    for cx, (c, _) in enumerate(cols):
+        ax.text(cx + 0.5, n - 0.28, c, ha="center", va="bottom", fontsize=8,
+                fontweight="bold", color=INK)
+    # omission / commission grouping brackets on the RIGHT (clear of the flaw labels)
+    div = len(commission) - 0.5
+    rx = 2.06
+    ax.plot([rx, rx], [div, n - 0.5], color=MUTED, lw=1.4, zorder=1)          # omission (top)
+    ax.plot([rx, rx], [-0.5, div], color=RED, lw=1.4, zorder=1)               # commission (bottom)
+    ax.text(rx + 0.07, (div + n - 0.5) / 2, "omission", fontsize=7.5,
+            color=MUTED, va="center", ha="left", rotation=90)
+    ax.text(rx + 0.07, (-0.5 + div) / 2, "commission", fontsize=7.5,
+            color=RED, va="center", ha="left", rotation=90, fontweight="bold")
 
-    ax.set_xlim(-0.55, 1.5)
-    ax.set_ylim(-1.15, n - 0.4)
+    ax.set_xlim(-1.15, 2.55)
+    ax.set_ylim(-0.75, n + 0.05)
     ax.axis("off")
-    ax.set_title("B  Keyword baseline: blind to commission-type flaws",
-                 fontsize=11, fontweight="bold", loc="left", color=INK)
-    det = llm["detection_rate"]
-    ax.text(0.5, -0.95,
-            f"LLM ({llm.get('model', 'gpt-4o')}) catches all {len(ordered)} "
-            f"(detection {det:.2f})",
-            ha="center", va="center", fontsize=9, color=GREEN, fontweight="bold")
+    _panel_label(ax, "b")
 
 
 def main() -> None:
     kw = keyword_result()
     llm = json.loads(LLM_SUMMARY.read_text())
 
-    fig, axes = plt.subplots(1, 2, figsize=(11, 5.0), gridspec_kw={"width_ratios": [1, 1.05]})
+    fig, axes = plt.subplots(1, 2, figsize=(7.0, 3.5),
+                             gridspec_kw={"width_ratios": [1.15, 1.0]})
     fig.patch.set_facecolor("white")
     panel_a(axes[0], kw["summary"], llm)
     panel_b(axes[1], kw["pairs"], llm)
-
-    s = kw["summary"]
-    fig.suptitle(
-        "Keyword baseline vs LLM evidence-adequacy assessor "
-        f"(n={s['n']} flaws, realistic injection)",
-        fontsize=12.5, fontweight="bold", color=INK, y=0.99,
-    )
+    # shared caught/missed key, unobtrusive at the foot
     fig.legend(handles=[
-        Patch(facecolor=GREEN, label="caught"),
+        Patch(facecolor=GREEN, edgecolor="none", label="caught"),
         Patch(facecolor=MISSED_FILL, edgecolor=MISSED_EDGE, label="missed"),
-    ], loc="lower center", ncol=2, fontsize=9, frameon=False, bbox_to_anchor=(0.5, -0.02))
+    ], loc="lower center", ncol=2, fontsize=8, frameon=False, bbox_to_anchor=(0.5, -0.02),
+        handlelength=1.1, columnspacing=1.4)
 
-    fig.tight_layout(rect=[0, 0.03, 1, 0.96])
+    fig.tight_layout(rect=[0, 0.04, 1, 1.0], w_pad=2.2)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for ext in ("pdf", "png"):
-        fig.savefig(OUT_DIR / f"figure_phase1.{ext}", dpi=200, bbox_inches="tight", facecolor="white")
+        fig.savefig(OUT_DIR / f"figure_phase1.{ext}", dpi=400, bbox_inches="tight",
+                    facecolor="white")
+    s = kw["summary"]
     print(f"wrote {(OUT_DIR / 'figure_phase1.pdf').relative_to(ROOT)} and figure_phase1.png")
     print(f"  keyword: detection={s['detection_rate']:.3f}  "
           f"LLM: detection={llm['detection_rate']:.3f}")

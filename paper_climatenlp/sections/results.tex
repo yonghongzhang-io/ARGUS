@@ -95,13 +95,13 @@ behaviour survives on real published papers.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.80\textwidth]{figures/figure_phase1}
-  \caption{Keyword baseline vs LLM evidence-adequacy assessor under realistic
-  flaw injection. (A)~Swapping only the assessment policy raises detection from
-  $0.182$ to $1.000$, false alarm fixed at $0$, localization $0.909$.
-  (B)~Per-flaw keyword outcomes by injection type: the baseline catches only
-  omission-type threats whose vocabulary is not echoed elsewhere and is blind to
-  every commission-type threat, all of which the LLM catches.}
+  \includegraphics[width=0.70\textwidth]{figures/figure_phase1}
+  \caption{Keyword baseline vs.\ LLM evidence-adequacy assessor ($n{=}11$ flaws,
+  realistic injection). \textbf{(a)}~Swapping \emph{only} the assessment
+  policy---same retrieved evidence---recovers detection $0.182\,{\to}\,1.000$ and
+  localization $0.182\,{\to}\,0.909$; false alarm $0$. \textbf{(b)}~Per-flaw
+  caught/missed: the keyword baseline is \emph{blind to every commission-type
+  flaw}, all of which the LLM catches.}
   \label{fig:results}
 \end{figure*}
 
