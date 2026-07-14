@@ -120,11 +120,11 @@ def panel_b(ax, pairs: list[dict], llm: dict) -> None:
         yy = n - 1 - i
         outcomes = [bool(p["score"]["detected"]), True]  # LLM detection == 1.00
         for cx, det in enumerate(outcomes):
-            face = GREEN if det else MISSED_FILL
+            face = GREEN if det else GRAY   # missed = the shared "unknown" gray (#9BA1A9)
             ax.add_patch(plt.Rectangle((cx + 0.09, yy - 0.40), 0.82, 0.80,
-                         facecolor=face, edgecolor=MISSED_EDGE, lw=0.6, zorder=2))
-            if not det:  # a light dot marks a miss (redundant with fill for colour-blind)
-                ax.plot(cx + 0.5, yy, marker="x", ms=4.5, mew=1.2, color=MUTED, zorder=3)
+                         facecolor=face, edgecolor="white", lw=0.8, zorder=2))
+            if not det:  # white x marks a miss (redundant with fill for colour-blind)
+                ax.plot(cx + 0.5, yy, marker="x", ms=4.5, mew=1.3, color="white", zorder=3)
         ax.text(-0.12, yy, _pretty(p["flaw_id"]), ha="right", va="center",
                 fontsize=7.4, color=INK)
 
@@ -159,7 +159,7 @@ def main() -> None:
     # shared caught/missed key, unobtrusive at the foot
     fig.legend(handles=[
         Patch(facecolor=GREEN, edgecolor="none", label="caught"),
-        Patch(facecolor=MISSED_FILL, edgecolor=MISSED_EDGE, label="missed"),
+        Patch(facecolor=GRAY, edgecolor="none", label="missed"),
     ], loc="lower center", ncol=2, fontsize=8, frameon=False, bbox_to_anchor=(0.5, -0.02),
         handlelength=1.1, columnspacing=1.4)
 
