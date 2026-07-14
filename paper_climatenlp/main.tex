@@ -25,28 +25,27 @@ Climate-Policy Causal Evaluations}
 \maketitle
 
 \begin{abstract}
-Climate policy leans on ex-post causal evaluations---difference-in-differences
-(DID) studies of carbon pricing, emissions-trading pilots, and emission
-standards---whose credibility rests on identification assumptions that are
-often \emph{asserted} rather than \emph{audited}. Because the counterfactual is
-never observed, asking whether an estimated effect is \emph{true} is the wrong
-target; we ask instead whether each identifying assumption is supported by the
-evidence the paper reports, and where that support is weakest. We present
-\sys{}, a responsible-AI framework that decomposes DID identification into an
-11-dimension rubric of assumption--implication--evidence chains, retrieves
-dimension-specific evidence, assesses reported-evidence adequacy with a
-\emph{bounded-agentic} audit module, and localizes risk in a human-reviewable
-report---flagging dimensions for expert review, not adjudicating causal truth.
-We validate the auditor with \emph{flaw injection} as local ground truth (no
-access to the true effect): adequacy reasoning catches flawed-but-present
-evidence that keyword presence cannot, raising synthetic flaw detection from
-\NUM{0.455} to \NUM{1.000} over a same-model single-pass baseline, which on 27
-real DID papers preserves an explicit \texttt{unknown} state
-(\NUM{38.9\%} vs \NUM{0.4\%}) that keeps evidence-grounding uncertainty visible.
-A pilot expert gold (5 papers, 55 cells) reveals a one-directional
-over-severity bias that an applicability-aware, anchor-based calibration layer
-reduces while preserving high-risk recall. \sys{} is best read as a
-high-sensitivity screening tool for the credibility of climate-policy evidence.
+Difference-in-differences (DID) studies are widely used to evaluate climate
+policy, yet their identification assumptions are often \emph{asserted} rather
+than systematically \emph{audited}. Because the true counterfactual is
+unobserved, we ask a more tractable question: whether each identifying
+assumption is adequately supported by the evidence reported in the paper.
+
+We introduce \sys{}, an end-to-end, \emph{bounded-agentic} auditing
+system---an LLM behind a fixed, deterministic pipeline---that audits DID studies
+through an 11-dimension assumption--implication--evidence rubric. Its pipeline
+retrieves relevant evidence, assesses its adequacy, and produces an
+evidence-grounded risk report for expert review rather than judging causal
+truth.
+
+Using realistic flaw injection, \sys{} detects all 11 injected identification
+flaws, compared with 5 under a same-model single-pass baseline, with no false
+alarms on clean cases. On 27 real papers, it exposes evidence grounding as the
+main bottleneck by explicitly abstaining when relevant support cannot be found.
+A pilot expert study further reveals systematic over-severity, which a
+lightweight calibration layer partially reduces. \sys{} is therefore best viewed
+as a high-sensitivity screening tool for identifying weakly supported causal
+claims.
 \end{abstract}
 
 \input{sections/introduction}
