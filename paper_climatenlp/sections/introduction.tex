@@ -5,27 +5,33 @@ Difference-in-differences (DID) is widely used to evaluate climate and
 environmental policy, including carbon pricing, emissions-trading schemes, and
 emission standards. The credibility of these estimates depends on identification
 assumptions such as parallel trends, no anticipation, appropriate treatment of
-staggered adoption, and limited interference between units. These assumptions are
-often difficult to assess in climate settings, where policies overlap,
+staggered adoption, and limited interference between units, each of which a decade
+of methodological work has shown to be fragile
+\cite{bertrand2004trust,goodmanbacon2021,callaway2021,sunabraham2021,dechaisemartin2020,roth2023}.
+These assumptions are often difficult to assess in climate settings, where policies overlap,
 implementation is staggered, spillovers cross administrative boundaries, and
 emissions outcomes are imperfectly measured (Appendix~\ref{app:motivation}).
 
 Yet applied papers often assert these assumptions rather than audit whether the
-reported evidence supports them. A paper may state that parallel trends hold after
+reported evidence supports them, one facet of a broader reliability gap in
+empirical research \cite{ioannidis2005,silberzahn2018many,brodeur2020methods}. A paper may state that parallel trends hold after
 presenting an event-study figure, while leaving the reader to determine whether the
 design, pre-period estimates, inference, and policy timing actually justify that
 claim. Performing this assessment manually is slow, expert-intensive, and difficult
 to standardize.
 
 We argue that identification credibility is auditable even when the true causal
-effect is not. Because the counterfactual is unobserved, \sys{} does not ask
-whether an estimated effect is true. Instead, it asks whether each identifying
+effect is not, building on the research-design tradition in applied econometrics
+\cite{angristpischke2010,atheyimbens2017,rambachanroth2023}. Because the
+counterfactual is unobserved, \sys{} does not ask whether an estimated effect is
+true. Instead, it asks whether each identifying
 assumption is adequately supported by the evidence reported in the paper, and where
 that support is weakest. \sys{} represents a DID study through an 11-dimension
 \emph{assumption--implication--evidence} rubric and uses a bounded-agentic pipeline
 to retrieve relevant evidence, assess its adequacy, and produce an evidence-anchored
 risk report for expert review (Figure~\ref{fig:overview}). Model agency is confined
-to scoped retrieval and assessment tasks behind a fixed, deterministic control flow;
+to scoped retrieval and assessment tasks behind a fixed, deterministic control flow,
+unlike free-roaming agents whose control flow is model-decided \cite{yao2023react};
 \sys{} flags potential weaknesses rather than adjudicating causal truth.
 
 Evaluating such an auditor is difficult because the true policy effect is
