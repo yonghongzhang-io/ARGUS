@@ -1,0 +1,43 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{What \sys{} measures.} A measurement is only as good as the link
+between the construct and the task that operationalizes
+it~\cite{jacobs2021measurement,raji2021benchmark}. \sys{} audits whether a
+climate-policy study's identification assumptions are \emph{adequately supported
+by its reported evidence}: reported-evidence adequacy is an operational proxy for
+identification credibility, not causal validity itself. The two can diverge---a
+study may report every diagnostic yet still be invalid, or omit a check yet be
+sound---so \sys{} surfaces risk for an expert to weigh rather than adjudicating the
+effect it estimates.
+
+\paragraph{Evidence grounding is the binding constraint.} A further gap separates
+the construct from the task: retrieving the relevant evidence. Our real-paper runs
+show this, and not the reasoning, is the limiting factor. A reasoning assessor
+handed off-target evidence over-flags every dimension, so \sys{} reports a
+\emph{retrieval-quality} status and an explicit \texttt{unknown} risk (``the system
+could not find the evidence'') distinct from a substantive high-risk judgement
+(``the paper lacks it''). This is why the pipeline separates retrieval, relevance
+filtering, and adequacy assessment.
+
+\paragraph{Threats to validity.} These results are preliminary by design, spanning
+synthetic fixtures, 27 real DID papers, and a human gold that is small (5 papers,
+two annotators, one adjudication round); its two \emph{high} cells make high
+precision/recall noisy, and the keyword baseline is an intentional lower bound.
+Flaw injection certifies an auditor against the \emph{injected} threat on a single
+dimension---it does not certify the absence of un-injected threats and inherits
+whatever blind spots the flaw taxonomy has. We therefore treat detection and
+localization as necessary but not sufficient evidence of an auditor's quality,
+pairing them with the false-alarm rate and the human-gold comparison.
+
+\paragraph{Future work.} Four directions follow from \S\ref{sec:results}:
+\emph{(1)}~harden the reasoning assessor on subtler flaws, studying calibration,
+cross-model robustness, and cited-evidence traceability under the same
+flaw-injection protocol; \emph{(2)}~collect \emph{dimension-level} expert
+annotation (the real corpus is labelled per method/claim, not per assumption) to
+test whether \sys{}'s judgements match expert opinion; \emph{(3)}~run
+human-expert studies of whether \sys{} reports actually help (trust, time,
+errors avoided), since the system assists rather than replaces expert judgement;
+and \emph{(4)}~extend beyond the China emissions-trading case to broader
+environmental and empirical-economics settings, testing how far the
+rubric-plus-injection methodology generalizes.

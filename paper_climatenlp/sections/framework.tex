@@ -1,0 +1,74 @@
+\section{The \sys{} Framework}
+\label{sec:framework}
+
+\subsection{Identification rubric}
+\sys{} decomposes a DID study into eleven auditable dimensions: parallel
+trends, no anticipation, staggered-timing handling, SUTVA/spillovers,
+control-group construction, specification, inference, sample-period selection,
+concurrent policies, placebo/robustness, and data measurement. Each dimension is
+expressed as an \emph{assumption} (what must hold for identification), a testable
+\emph{implication} (what should therefore be observable), and the
+\emph{evidence} a credible paper would report to support it. For a carbon-pricing
+or emissions-trading evaluation, for instance, the parallel-trends dimension
+expects an event-study or pre-trend test with null pre-period coefficients, while
+no-anticipation turns on the gap between a scheme's \emph{announcement} and
+\emph{implementation} dates. The rubric is declarative, stored in a configuration
+file (\texttt{identification\_dimensions.yaml}), so the audited dimensions are
+explicit and inspectable rather than buried in code. A companion flaw taxonomy
+(\S\ref{sec:evaluation}) maps each known identification threat one-to-one onto a
+dimension, which both documents the rubric's coverage and supplies the
+perturbations used for evaluation.
+
+\subsection{Bounded-agentic pipeline}
+The audit runs a fixed, deterministic sequence---\emph{decomposition
+$\rightarrow$ extraction $\rightarrow$ assessment $\rightarrow$ localization
+$\rightarrow$ report}---shown in the top band of Figure~\ref{fig:arch}. The stage
+order is written in code and never chosen by a model. \emph{Decomposition}
+instantiates the rubric for the paper at hand; \emph{extraction} gathers, per
+dimension, the in-paper evidence relevant to that assumption; \emph{assessment}
+evaluates each assumption--implication--evidence chain and emits a per-dimension
+risk judgement with a rationale and cited evidence; \emph{localization}
+aggregates these judgements into a risk map ranking where support is weakest; and
+\emph{report} renders a transparent, evidence-anchored document for a human
+reviewer.
+
+Agency is confined to the two stages where open-ended judgement actually
+helps---extraction and assessment. Each invokes a bounded ReAct-style loop with
+three constraints: (i)~a \emph{small fixed tool set} passed in per call---%
+\texttt{evidence\_search} over the paper's text, figures and tables,
+\texttt{figure\_parse} for structured figure/table content, and
+\texttt{policy\_lookup} for policy metadata such as announcement versus
+implementation dates; (ii)~a \emph{hard step budget} (\texttt{max\_steps}) so a
+run cannot wander indefinitely; and (iii)~a \emph{logged trace} of every step,
+tool call, and cited piece of evidence. All other stages are plain orchestration
+with no agent loop.
+
+\paragraph{Why bound the agency.}
+A fully autonomous agent would make per-run behaviour path-dependent and
+high-variance, undermining the central evaluation claim of
+\S\ref{sec:evaluation}: that flaw injection provides \emph{reproducible} local
+ground truth. Restricting agency to two clearly scoped sub-tasks preserves
+reproducibility (stable, comparable metrics) and evidence-traceability (every
+judgement anchored to logged evidence a human can inspect). The expert sits at
+the end of the pipeline: \sys{} surfaces and localizes identification risk, it
+does not adjudicate it.
+
+\subsection{Output}
+\sys{} emits \emph{(study, identification dimension, risk)} triplets, each with an
+evidence-grounded rationale, alongside the human-readable report. It never
+produces a verdict on the true causal effect. This output shape is what makes the
+system both auditable by a human and measurable by the evaluation that follows.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{figures/figure2}
+  \caption{\sys{} architecture. The top band is the audit pipeline, a fixed
+  deterministic sequence; agency is confined to the two agentic stages
+  (extraction and assessment), each a bounded ReAct loop with a fixed tool set
+  (evidence search, figure parse, policy lookup), a hard step budget, and a
+  logged trace. The bottom band shows the flaw-injection evaluation loop, which
+  injects one known flaw, audits the clean and injected versions, and scores
+  detection, false alarm, and localization against the injected flaw as local
+  ground truth---never against the unobserved true effect.}
+  \label{fig:arch}
+\end{figure*}
