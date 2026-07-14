@@ -3,11 +3,11 @@
 
 We evaluate \sys{} along four axes: a synthetic flaw-injection protocol, an
 architecture ablation, a run over 27 real difference-in-differences (DID) papers
-(empirical economics broadly, with environmental policy---carbon pricing,
-emissions trading, emission standards---as the motivating case), and a calibrated
+(empirical economics broadly, with environmental policy (carbon pricing,
+emissions trading, emission standards) as the motivating case), and a calibrated
 human-gold pilot. Four findings emerge: (i)~judging evidence \emph{adequacy},
 not keyword presence, is what detects identification flaws; (ii)~the bounded
-architecture---not raw model capability---recovers flaws a single pass misses and
+architecture, not raw model capability, recovers flaws a single pass misses and
 turns retrieval failure into an auditable \texttt{unknown} signal; (iii)~on real
 papers the binding constraint shifts from causal reasoning to evidence grounding;
 and (iv)~against a human gold \sys{} is systematically over-severe, a bias that a
@@ -20,8 +20,8 @@ We compare three assessors under one flaw-injection protocol on the
 \texttt{clean\_supported} fixture (one flaw injected per run, all eleven flaws;
 $\mathrm{max\_steps}{=}1$). A deterministic \textbf{keyword baseline} scores each
 dimension from the presence of supporting and risk-indicating vocabulary. The
-\textbf{two-stage \sys{} assessor} judges evidence \emph{adequacy}---whether the
-reported evidence actually establishes the assumption---over the \emph{same
+\textbf{two-stage \sys{} assessor} judges evidence \emph{adequacy} (whether the
+reported evidence actually establishes the assumption) over the \emph{same
 retrieved evidence} as the keyword baseline, so that pair isolates the judgement
 policy. A \textbf{single-pass} ablation removes the architecture entirely: the
 full paper and all eleven dimensions in one \texttt{gpt-4o} call, with the same
@@ -65,8 +65,8 @@ another section also mentions ``placebo,'' and, more fundamentally, blindness to
 the expected topic vocabulary. Keyword presence is not evidence adequacy.
 
 \paragraph{Reasoning over adequacy closes the gap.}
-Swapping \emph{only} the assessment policy---extraction unchanged, so both see the
-same evidence---to an LLM that judges adequacy raises detection from $0.182$ to
+Swapping \emph{only} the assessment policy (extraction unchanged, so both see the
+same evidence) to an LLM that judges adequacy raises detection from $0.182$ to
 $1.000$ with no false alarms and $0.909$ localization. The model reads
 flawed-but-natural prose the keyword scorer cannot: for the injected anticipation
 flaw it returns \emph{high\,/\,flawed}, reasoning that ``outcomes began changing
@@ -80,7 +80,7 @@ benchmark it detects only $0.455$ of flaws (false alarm $0.000$, localization
 $0.455$), against $1.000$/$0.000$/$0.909$ for the two-stage assessor: judging
 eleven dimensions from the whole paper at once misses more than half the planted
 flaws that per-dimension retrieval isolates. On the 25 papers common to both runs
-($275$ cells) the contrast sharpens. Single-pass almost never abstains---its
+($275$ cells) the contrast sharpens. Single-pass almost never abstains: its
 \texttt{unknown} share is $0.4\%$ versus $38.9\%$ for the two-stage pipeline. The
 cells the bounded pipeline marks \texttt{unknown} become confident judgements
 under single-pass, mostly \emph{low} ($1.8\%\!\to\!14.9\%$) or \emph{medium}
@@ -88,7 +88,7 @@ under single-pass, mostly \emph{low} ($1.8\%\!\to\!14.9\%$) or \emph{medium}
 $45.1\%$). Without a gate the model commits a substantive risk for nearly every
 dimension instead of reporting that it could not ground the evidence. The bounded
 design thus recovers flaws a single pass misses and turns retrieval failure into a
-visible, auditable signal---the distinction the rest of the section relies on.
+visible, auditable signal: the distinction the rest of the section relies on.
 
 \paragraph{Scope.}
 These are synthetic fixtures with few dimensions; $1.000$ is a proof-of-concept on
@@ -100,7 +100,7 @@ behaviour survives on real published papers.
   \includegraphics[width=0.70\textwidth]{figures/figure_phase1}
   \caption{Keyword baseline vs.\ LLM evidence-adequacy assessor ($n{=}11$ flaws,
   realistic injection). \textbf{(a)}~Swapping \emph{only} the assessment
-  policy---same retrieved evidence---recovers detection $0.182\,{\to}\,1.000$ and
+  policy (same retrieved evidence) recovers detection $0.182\,{\to}\,1.000$ and
   localization $0.182\,{\to}\,0.909$; false alarm $0$. \textbf{(b)}~Per-flaw
   caught/missed: the keyword baseline is \emph{blind to every commission-type
   flaw}, all of which the LLM catches.}
@@ -113,12 +113,12 @@ behaviour survives on real published papers.
 We next audit a corpus of 27 published DID papers. There is no injected ground
 truth; we report
 the raw per-dimension risk distribution of each assessor
-(Figure~\ref{fig:realcorpus}). The keyword baseline is permissive---$91\%$ of its
+(Figure~\ref{fig:realcorpus}). The keyword baseline is permissive, $91\%$ of its
 judgements are \emph{low}: it sees topic vocabulary, declares the dimension
 supported, and flags almost nothing. The two-stage LLM is differentiated, and its
 most informative output is that ${\sim}39\%$ of judgements are \texttt{unknown}:
 the relevance gate could not surface evidence, so the system says so rather than
-over-flagging. Two regimes appear---dimensions whose discussion is diffuse or
+over-flagging. Two regimes appear: dimensions whose discussion is diffuse or
 lives in figures the text retrieval cannot reach (parallel trends, no
 anticipation, placebo) are dominated by \texttt{unknown}, while dimensions where a
 section is retrieved (sample period, concurrent policies, SUTVA) are judged
@@ -131,7 +131,7 @@ substantive high-risk judgement.
 On a trade-and-wages paper \sys{} retrieves the employment-results section and
 flags \emph{inference} as high because ``the paper only mentions
 heteroskedastic-consistent standard errors and does not provide information on
-clustering or the number of clusters''---a specific econometric observation, not
+clustering or the number of clusters'': a specific econometric observation, not
 a keyword hit; elsewhere it distinguishes a \emph{related but different} reported
 check (an alternative-specification section) from the placebo test an assumption
 actually requires. Roughly $45\%$ of
@@ -151,7 +151,7 @@ expert gold: two annotators independently labelled risk on 5 DID papers $\times$
 annotators almost never reverse direction). A calibration round adjudicated the 27
 disagreements: 16 resolved to a single label once the low/medium boundary was
 anchored, and 11 were flagged intrinsically ambiguous. Those ambiguous cells are
-not random---they concentrate on \emph{non-canonical DID designs}
+not random: they concentrate on \emph{non-canonical DID designs}
 (continuous-shock, event-study) where a dimension like staggered timing is not
 applicable as conventionally defined. A real share of ``expert disagreement'' is
 thus \emph{design applicability}, not severity, which is itself why even experts
@@ -180,16 +180,16 @@ cells is sharp: of \sys{}'s over-severe \emph{high} judgements, $23/24$ have
 \texttt{evidence\_status=missing} and $20/24$ have
 \texttt{retrieval\_quality=weak}. \sys{} treats ``weak retrieval found nothing''
 as a substantive \emph{high}, conflating a \emph{retrieval failure} with the paper
-lacking the evidence---which the human, reading the full PDF, resolves to
+lacking the evidence, which the human, reading the full PDF, resolves to
 low/medium. This is a fixable calibration target.
 
-A deterministic calibration layer over fields the LLM already produces---the
+A deterministic calibration layer over fields the LLM already produces, the
 dominant rule demotes a weak-retrieval \emph{high} to \emph{medium} (keep
-coverage) or \texttt{unknown} (abstain)---cuts over-severity while preserving
+coverage) or \texttt{unknown} (abstain), cuts over-severity while preserving
 high-risk recall ($0.50$): keeping coverage raises exact agreement from $0.12$ to
 $0.45$; abstaining reaches weighted $\kappa=0.25$ but leaves 13 answered cells
 (Appendix, Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}). Calibration
-corrects severity but cannot recover missing evidence---correct \emph{coverage}
-needs better grounding---so the human gold does more than evaluate \sys{}; it
+corrects severity but cannot recover missing evidence (correct \emph{coverage}
+needs better grounding), so the human gold does more than evaluate \sys{}; it
 calibrates it.
 

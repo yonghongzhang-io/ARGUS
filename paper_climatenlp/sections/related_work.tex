@@ -3,7 +3,7 @@
 
 \paragraph{DID identification and its threats.}
 A large econometrics literature formalizes when DID estimators fail under
-staggered timing and heterogeneous effects---the ``forbidden'' comparisons of
+staggered timing and heterogeneous effects: the ``forbidden'' comparisons of
 two-way fixed effects~\cite{goodmanbacon2021}, negative
 weights~\cite{dechaisemartin2020}, robust
 estimators~\cite{callaway2021,sunabraham2021}, assumption and pre-trend
@@ -27,15 +27,15 @@ inverts the task: rather than producing a causal answer, it audits whether a
 abstains from a causal verdict by design.
 
 \paragraph{Responsible AI for empirical research.}
-AI is increasingly applied to research reliability---reproducibility checking,
-statistical-reporting validation, and AI-assisted review---motivated by wide
+AI is increasingly applied to research reliability: reproducibility checking,
+statistical-reporting validation, and AI-assisted review, motivated by wide
 analyst-driven result spreads~\cite{silberzahn2018many,botviniknezer2020variability}
 and specification searching in causal economics~\cite{brodeur2020methods}. \sys{}
 differs in target and posture: it audits \emph{identification credibility}
-specifically---the part of an argument that licenses a causal claim---and issues
+specifically (the part of an argument that licenses a causal claim) and issues
 no verdicts, producing evidence-anchored, human-reviewable reports that localize
 risk and leave adjudication to an expert. A complementary line asks whether a
-model can \emph{carry out} inference---running generated estimation code against
+model can \emph{carry out} inference: running generated estimation code against
 synthetic data; \sys{} instead audits the prior layer, whether identification
 \emph{assumptions} are supported by the evidence a paper reports.
 
@@ -47,6 +47,6 @@ benchmarking~\cite{kiela2021dynabench} (our model-in-the-loop flaw injection);
 and the caution that operationalizing a capability is
 non-neutral~\cite{raji2021benchmark,gebru2021datasheets}
 (\S\ref{sec:discussion}). Where ReAct-style agents~\cite{yao2023react} act over
-an open horizon, \sys{} \emph{bounds} the paradigm---agency confined to two
-scoped sub-tasks behind deterministic control flow---trading autonomy for
+an open horizon, \sys{} \emph{bounds} the paradigm (agency confined to two
+scoped sub-tasks behind deterministic control flow), trading autonomy for
 reproducibility and evidence-traceability.
