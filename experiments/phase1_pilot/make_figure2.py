@@ -92,7 +92,10 @@ def panel_a(ax, kw: dict, llm: dict) -> None:
     ax.set_xlim(-0.02, 1.16)
     ax.set_xticks([0, 0.5, 1.0])
     ax.set_xlabel("rate", fontsize=8.5)
-    ax.spines[["top", "right", "left"]].set_visible(False)
+    ax.set_ylabel("metric", fontsize=8.5)
+    # keep both axes drawn (x = rate at the bottom, y = metric on the left);
+    # only the top/right frame is dropped.
+    ax.spines[["top", "right"]].set_visible(False)
     ax.tick_params(axis="y", length=0)
     # compact legend (open = keyword, filled = LLM)
     ax.scatter([], [], s=42, facecolor="white", edgecolor=GRAY, lw=1.5, label="keyword")
