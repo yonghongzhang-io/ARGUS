@@ -2,16 +2,17 @@
 \label{sec:results}
 
 We evaluate \sys{} along four axes: a synthetic flaw-injection protocol, an
-architecture ablation, a run over 27 real difference-in-differences (DID) papers
-(empirical economics broadly, with environmental policy (carbon pricing,
-emissions trading, emission standards) as the motivating case), and a calibrated
-human-gold pilot. Four findings emerge: (i)~judging evidence \emph{adequacy},
+architecture ablation, a run over 27 published difference-in-differences (DID)
+papers that stress-test the audit architecture across empirical economics, beyond
+the climate-policy setting (carbon pricing, emissions trading, emission standards)
+that defines its target deployment, and a calibrated human-gold pilot. Four findings emerge: (i)~judging evidence \emph{adequacy},
 not keyword presence, is what detects identification flaws; (ii)~the bounded
 architecture, not raw model capability, recovers flaws a single pass misses and
 turns retrieval failure into an auditable \texttt{unknown} signal; (iii)~on real
 papers the binding constraint shifts from causal reasoning to evidence grounding;
 and (iv)~against a human gold \sys{} is systematically over-severe, a bias that a
-lightweight calibration layer reduces while preserving high-risk recall.
+lightweight calibration layer reduces without lowering high-risk detection on the
+pilot's few high cells.
 
 \subsection{Adequacy beats presence; architecture beats a single pass}
 \label{sec:ablation}
@@ -97,7 +98,7 @@ behaviour survives on real published papers.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.70\textwidth]{figures/figure_phase1}
+  \includegraphics[width=0.60\textwidth]{figures/figure_phase1}
   \caption{Keyword baseline vs.\ LLM evidence-adequacy assessor ($n{=}11$ flaws,
   realistic injection). \textbf{(a)}~Swapping \emph{only} the assessment
   policy (same retrieved evidence) recovers detection $0.182\,{\to}\,1.000$ and
@@ -161,7 +162,9 @@ pilot ($n{=}5$, two annotators, one adjudication round), read as preliminary.
 \subsection{\sys{} versus the human gold}
 \label{sec:vsgold}
 
-Comparing \sys{}-LLM's risk to this gold gives the first calibration signal
+We use this gold as a \emph{diagnostic pilot}, not a validation of accuracy: with
+only two high-risk gold cells across five papers it cannot establish agreement
+with experts, but it is enough to localize \emph{how} \sys{} errs
 (Table~\ref{tab:vsgold}, Figure~\ref{fig:vsgold}). The errors are systematic, not
 random. \sys{} abstains on 22/55 cells, and when it answers its errors are almost
 entirely one-directional: 28/33 answered cells are more severe than the
@@ -185,8 +188,9 @@ low/medium. This is a fixable calibration target.
 
 A deterministic calibration layer over fields the LLM already produces, the
 dominant rule demotes a weak-retrieval \emph{high} to \emph{medium} (keep
-coverage) or \texttt{unknown} (abstain), cuts over-severity while preserving
-high-risk recall ($0.50$): keeping coverage raises exact agreement from $0.12$ to
+coverage) or \texttt{unknown} (abstain), cuts over-severity while holding
+high-risk detection unchanged on the pilot's two high cells: keeping coverage
+raises exact agreement from $0.15$ to
 $0.45$; abstaining reaches weighted $\kappa=0.25$ but leaves 13 answered cells
 (Appendix, Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}). Calibration
 corrects severity but cannot recover missing evidence (correct \emph{coverage}
