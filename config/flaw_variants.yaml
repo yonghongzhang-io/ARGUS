@@ -1,0 +1,858 @@
+# Multi-variant flaw-injection catalog. Several naturalistic flaw variants
+# per identification dimension, extending the base 11-flaw benchmark.
+# flaw_type: commission (replace a section with flawed-but-natural prose) or
+# omission (remove the supporting evidence). Every variant is leak-free: it
+# contains none of the detector's sentinel phrases (enforced by
+# tests/test_flaw_variants.py). See experiments/variants/README.md.
+variants:
+- variant_id: concurrent_policies_commission_01
+  target_dimension: concurrent_policies
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      concurrent policies: The carbon trading pilots were launched during a broad wave of environmental
+        policymaking, including the 2013 Air Pollution Prevention and Control Action Plan and the national
+        low-carbon city pilot program, both rolled out across many of the same provinces. Because these
+        initiatives belonged to the same national reform agenda, we treat them as common macroeconomic
+        shocks and absorb them through year fixed effects, which flexibly capture nationwide shifts
+        in environmental regulation. The identifying variation therefore comes from the gap between
+        pilot and non-pilot provinces net of these common-year effects, which we read as the causal
+        contribution of emissions trading. We accordingly attribute the full estimated decline in provincial
+        emissions intensity to the carbon market.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - unaddressed co-timed policy
+  - unaddressed concurrent policy
+  - left unaddressed
+  - confounding policy
+  - another policy explains
+  - is confounded
+  - is biased
+  - we ignore
+  - this violates
+- variant_id: concurrent_policies_commission_02
+  target_dimension: concurrent_policies
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      concurrent policies: Among contemporaneous measures, the most salient is the binding provincial
+        energy-intensity target set under the Five-Year Plan, which we control for by adding each province's
+        target as a time-varying covariate. Once this term is included, the pilot coefficient is essentially
+        unchanged, indicating that our estimate reflects the emissions-trading scheme rather than energy-intensity
+        regulation. We therefore adopt the energy-intensity-adjusted specification as our preferred
+        model and read the remaining treatment effect as the impact of the carbon market. The other
+        environmental measures introduced over the sample were national in scope and are captured by
+        the common time controls.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - unaddressed co-timed policy
+  - unaddressed concurrent policy
+  - left unaddressed
+  - confounding policy
+  - another policy explains
+  - is confounded
+  - is biased
+  - we ignore
+  - this violates
+- variant_id: concurrent_policies_omission_01
+  target_dimension: concurrent_policies
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - concurrent policies
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - unaddressed co-timed policy
+  - unaddressed concurrent policy
+  - left unaddressed
+  - confounding policy
+  - another policy explains
+  - is confounded
+  - is biased
+  - we ignore
+  - this violates
+- variant_id: control_group_commission_01
+  target_dimension: control_group
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      control group: Table 4 reports pre-treatment averages for the pilot and non-pilot provinces over
+        2006 to 2010. The pilot provinces have higher GDP per capita, larger secondary-industry shares,
+        and greater total energy consumption than the non-pilot provinces we use as the comparison group.
+        We enter these variables as linear controls in the regression and estimate the baseline model
+        on the full set of remaining provinces. Because this retains every non-pilot province, the comparison
+        draws on the largest available sample of untreated units.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - large pre-treatment imbalance
+  - poorly matched
+  - noncomparable controls
+  - no balance table
+  - without balance
+  - selection bias
+  - not comparable
+  - is biased
+  - is confounded
+- variant_id: control_group_commission_02
+  target_dimension: control_group
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      control group: Because the seven pilots are among China's most economically advanced municipalities
+        and coastal provinces, we draw the comparison group from the interior and western provinces
+        for which a consistent emissions series is available. We do not separately adjust for pre-treatment
+        differences between the two groups, since all provinces operate under the same national macroeconomic
+        environment and are subject to common annual shocks that the year fixed effects absorb. The
+        comparison provinces are therefore chosen primarily on the basis of data coverage, and the baseline
+        regression pools them directly against the pilots. Identification rests on the timing of pilot
+        assignment rather than on a detailed comparison of the two groups' pre-treatment characteristics.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - large pre-treatment imbalance
+  - poorly matched
+  - noncomparable controls
+  - no balance table
+  - without balance
+  - selection bias
+  - systematically different
+  - endogenous selection
+  - this violates
+  - we ignore
+- variant_id: control_group_omission_01
+  target_dimension: control_group
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - control group
+    tables:
+    - table_balance
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - large pre-treatment imbalance
+  - poorly matched
+  - noncomparable controls
+  - no balance table
+  - without balance
+- variant_id: data_measurement_commission_01
+  target_dimension: data_measurement
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      data measurement: Provincial carbon emissions are drawn from two complementary sources. For the
+        years before each pilot began, we use the emissions estimates implied by the provincial energy
+        balances in the statistical yearbooks; for pilot provinces from their launch year onward, we
+        use the verified emissions totals compiled through the trading-scheme registry, which offer
+        facility-level completeness. The two series are joined into a single outcome for each pilot
+        province. Non-pilot provinces are measured with the energy-balance estimates throughout the
+        sample. We regard the registry totals as the more accurate figure wherever they are available.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - measurement break
+  - definition change
+  - unaddressed reporting change
+  - co-timed reporting change
+  - measurement regime shift
+  - coincides with treatment
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+  - differential measurement error
+- variant_id: data_measurement_commission_02
+  target_dimension: data_measurement
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      data measurement: Provincial emissions cover energy-related CO2 from fuel combustion. Following
+        methodological guidance issued around the start of the pilot phase, the compilers began accounting
+        for emissions from imported electricity on a consumption basis rather than a production basis,
+        and we use the figures as published in each year. This adjustment changes how power-sector emissions
+        are allocated across provinces while leaving the national total unchanged. Because the published
+        series already incorporate the update, we take each year's reported value directly as the outcome.
+        The assembled panel therefore reflects the compilers' current best practice for every province-year.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - measurement break
+  - definition change
+  - unaddressed reporting change
+  - co-timed reporting change
+  - measurement regime shift
+  - coincides with treatment
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: data_measurement_omission_01
+  target_dimension: data_measurement
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - data measurement
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - measurement break
+  - definition change
+  - unaddressed reporting change
+  - co-timed reporting change
+  - measurement regime shift
+  - coincides with treatment
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: inference_commission_01
+  target_dimension: inference
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      inference: Standard errors are clustered at the province level to allow for arbitrary correlation
+        across years within each province. Treatment is confined to the seven officially designated
+        pilot provinces, so the cluster-robust variance estimator combines these treated units with
+        the remaining control provinces. We report asymptotic t-statistics evaluated against standard
+        normal critical values, and the coefficient on the pilot indicator is significant at the one
+        percent level in every specification. Given the precision of these estimates, we do not pursue
+        additional resampling procedures.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - few clusters without
+  - unclustered standard errors
+  - wrongly clustered
+  - is biased
+  - over-rejects
+  - downward-biased standard errors
+  - we ignore
+  - this violates
+- variant_id: inference_commission_02
+  target_dimension: inference
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      inference: Standard errors are clustered at the province level, which permits unrestricted correlation
+        across years within each province. The pilot provinces are geographically dispersed across northern,
+        coastal, and central China, so we treat the province clusters as independent units when forming
+        the variance estimate. Inference throughout the tables is based on these province-clustered
+        standard errors, and the estimated treatment effects remain significant at conventional levels.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - spatial correlation ignored
+  - wrongly clustered
+  - is biased
+  - is confounded
+  - we ignore
+  - this violates
+  - cross-sectional dependence
+  - Conley standard errors
+- variant_id: inference_omission_01
+  target_dimension: inference
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - inference
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - serial correlation ignored
+  - spatial correlation ignored
+  - unclustered standard errors
+  - wrongly clustered
+  - few clusters without
+  - is biased
+  - we ignore
+- variant_id: no_anticipation_commission_01
+  target_dimension: no_anticipation
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      no anticipation: Treatment is coded at each province's 2013-2014 pilot launch, and the years from
+        the 2011 policy announcement through 2012 serve as part of the pre-treatment baseline. Provincial
+        emissions in the pilot regions were already easing over 2011-2012 as large emitters and local
+        governments prepared compliance systems and drafted allowance allocations ahead of launch. Because
+        our event-study window is centred on the launch year, these preparatory-period movements are
+        absorbed into the reference period rather than estimated as separate coefficients. We therefore
+        treat the pre-launch trend as the counterfactual baseline against which post-launch effects
+        are measured.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - anticipation effect
+  - behaviour shifts before
+  - behavior shifts before
+  - announcement precedes
+  - significant lead
+  - shift before implementation
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: no_anticipation_commission_02
+  target_dimension: no_anticipation
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      no anticipation: To keep the event-study window balanced across the staggered pilots, we bin all
+        periods more than one year before launch into a single reference category and estimate leads
+        only for the final pre-launch year. The estimated lead coefficient for that year is small and
+        statistically insignificant, which we read as consistent with the coded timeline. The interval
+        between the 2011 announcement and the 2013-2014 launches falls inside the binned reference category
+        and is not estimated on its own. We interpret the near-zero final-year lead as evidence that
+        the coded launch date is the relevant treatment date.
+    figure_captions:
+      fig_event_study: Event-study plot for China carbon ETS pilots; pre-launch periods earlier than
+        the final year are binned into a single reference category, and the final-year lead is near
+        zero.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - anticipation effect
+  - behaviour shifts before
+  - behavior shifts before
+  - announcement precedes
+  - significant lead
+  - shift before implementation
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: no_anticipation_omission_01
+  target_dimension: no_anticipation
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - no anticipation
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - anticipation effect
+  - behaviour shifts before
+  - behavior shifts before
+  - announcement precedes
+  - significant lead
+  - shift before implementation
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: parallel_trends_commission_01
+  target_dimension: parallel_trends
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      parallel trends: Figure 2 reports event-study estimates in the six years surrounding each province's
+        pilot launch, normalized to the year before treatment. The individual lead coefficients are
+        estimated imprecisely, but a joint Wald test of the pre-treatment leads returns a p-value of
+        0.34, so we do not reject the hypothesis that pilot and non-pilot provinces followed common
+        paths before the scheme. We read this non-rejection as reassurance that the identifying assumption
+        holds and turn to the dynamic effects after launch. Because the pre-period estimates are statistically
+        indistinguishable from zero, we proceed with the baseline two-way fixed-effects specification.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - significant pre-period
+  - non-zero pre-period
+  - significant leads
+  - failed pre-trend
+  - fail the pre-trend
+  - not parallel
+  - without a pre-trend test
+  - no pre-trend test
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: parallel_trends_commission_02
+  target_dimension: parallel_trends
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      parallel trends: Our provincial panel begins in 2012, the year before the first pilots took effect,
+        so the event study contains a single pre-treatment period alongside the post-launch coefficients.
+        We assess the identifying assumption by comparing 2012 emissions-intensity levels across pilot
+        and non-pilot provinces, and a balance test shows the two groups to be similar at baseline.
+        Given this similarity in the pre-treatment year, we treat pilot and non-pilot provinces as comparable
+        and read the post-2013 divergence as the causal effect of the scheme. Extending the panel further
+        back is infeasible given data coverage, but the baseline balance gives us confidence in the
+        common-trends condition.
+    figure_captions:
+      fig_event_study: Event-study plot for the carbon ETS pilots; the panel provides a single pre-treatment
+        period (2012) relative to the 2013 launch.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - different pre-treatment trends
+  - divergent pre-treatment
+  - not parallel
+  - without a pre-trend test
+  - no pre-trend test
+  - significant leads
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: parallel_trends_omission_01
+  target_dimension: parallel_trends
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - parallel trends
+    figures:
+    - fig_event_study
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - different pre-treatment trends
+  - divergent pre-treatment
+  - non-zero pre-period
+  - significant pre-period
+  - significant leads
+  - failed pre-trend
+  - fail the pre-trend
+  - not parallel
+  - without a pre-trend test
+  - no pre-trend test
+- variant_id: robustness_placebo_commission_01
+  target_dimension: robustness_placebo
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      robustness placebo: We assess sensitivity to the coded start date by running a placebo-in-time
+        test that reassigns each pilot's treatment to 2009, two years before the official announcement.
+        The reassigned coefficient is positive and significant at the 5% level, which we attribute to
+        the industrial expansion that pilot provinces were already undergoing and which our province
+        and year fixed effects absorb in the main specification. Because this placebo estimate is smaller
+        in magnitude than our headline coefficient, we regard the baseline results as broadly consistent
+        with the falsification exercise and retain them without adjustment. Placebo-in-space checks
+        yield null coefficients and are reported alongside the main table.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - no placebo
+  - missing placebo
+  - without falsification
+  - no falsification
+  - no permutation
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+  - failed falsification
+  - placebo fails
+- variant_id: robustness_placebo_commission_02
+  target_dimension: robustness_placebo
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      robustness placebo: To gauge whether the estimated effect could arise by chance, we conduct randomization
+        inference by reassigning pilot status at random among the ten most industrialized eastern provinces
+        and re-estimating the model on each draw. Across the fifty draws we generate, the placebo coefficients
+        cluster tightly around zero and none reaches conventional significance, which we take as confirmation
+        that the pilot effect is not an artifact of the particular provinces coded as treated. We complement
+        this with a placebo-in-time test that shifts the start date within the 2013-2015 window and
+        obtain a similar pattern of small, insignificant coefficients. Together these exercises support
+        the credibility of the design.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - no placebo
+  - missing placebo
+  - without falsification
+  - no falsification
+  - no permutation
+  - is biased
+  - is confounded
+  - underpowered
+  - uninformative
+  - self-defeating
+  - this violates
+- variant_id: robustness_placebo_omission_01
+  target_dimension: robustness_placebo
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - robustness placebo
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - no placebo
+  - missing placebo
+  - without falsification
+  - no falsification
+  - no permutation
+  - is biased
+  - is confounded
+  - this violates
+  - we ignore
+- variant_id: sample_period_commission_01
+  target_dimension: sample_period
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      sample period: We restrict the estimation sample to 2009 through 2016, a window that brackets
+        the pilot rollout and delivers the cleanest contrast between treated and control provinces.
+        In preliminary work we extended the panel through 2019, but the later years add considerable
+        variation that dilutes the estimated abatement effect, so we adopt 2009-2016 as our preferred
+        window. The narrower span also keeps the pre-period compact and makes the treatment signal easier
+        to distinguish from background trends. The coefficients reported in the remainder of the paper
+        are all drawn from this window.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - cherry-picked window
+  - cherrypicked window
+  - favourable window
+  - favorable window
+  - no window sensitivity
+  - result concentrated in a narrow span
+  - is biased
+  - this violates the sample-period assumption
+  - chosen to favour the result
+- variant_id: sample_period_commission_02
+  target_dimension: sample_period
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      sample period: The estimation sample spans 2010 to 2015, an interval that centers on the 2013-2014
+        rollout and lines up with the first national policy-evaluation cycle. We arrived at these endpoints
+        after examining the provincial emissions series and selecting the range over which the treated-control
+        gap is most sharply defined. Because the window already includes two pre-rollout and two post-rollout
+        years for each pilot, re-estimating under alternative start and end dates was not pursued. All
+        reported estimates use this fixed 2010-2015 window.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - cherry-picked window
+  - cherrypicked window
+  - favourable window
+  - favorable window
+  - no window sensitivity
+  - result concentrated in a narrow span
+  - is biased
+  - we ignore window sensitivity
+  - post-hoc window selection
+- variant_id: sample_period_omission_01
+  target_dimension: sample_period
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - sample period
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - cherry-picked window
+  - cherrypicked window
+  - favourable window
+  - favorable window
+  - no window sensitivity
+  - result concentrated in a narrow span
+- variant_id: specification_commission_01
+  target_dimension: specification
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      specification: Our preferred specification augments the two-way fixed-effects model with a vector
+        of time-varying provincial controls - energy consumption per unit of GDP, the output share of
+        the regulated high-emitting sectors, and total electricity use - each entered contemporaneously
+        for every year of the panel. Because these variables closely track the industrial structure
+        of each province, including them isolates the trading-scheme effect net of shifts in energy
+        use and sectoral composition. Columns that add the full control vector yield a somewhat smaller
+        but still significant coefficient, which we report as our headline estimate. We read the reduction
+        relative to the sparse model as evidence that the added controls successfully absorb province-specific
+        economic fluctuations.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - bad control
+  - post-treatment control
+  - on the causal path
+  - outcome-affected control
+  - sensitive to controls
+  - is biased
+  - is confounded
+  - we ignore
+  - this violates
+  - endogenous control
+  - mediator
+- variant_id: specification_commission_02
+  target_dimension: specification
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      specification: To account for differences in economic conditions across provinces and years, all
+        models control for annual real GDP growth and the log of provincial fixed-asset investment.
+        These macroeconomic controls are standard in the provincial-panel literature and enter alongside
+        the province and year fixed effects. Adding them leaves the estimated treatment effect close
+        to its baseline value, which we take as evidence that the estimate is stable across the conditioning
+        set. We therefore retain this specification as our preferred model throughout the analysis.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - bad control
+  - post-treatment control
+  - on the causal path
+  - outcome-affected control
+  - sensitive to controls
+  - is biased
+  - is confounded
+  - we ignore
+  - this violates
+  - endogenous control
+  - mediator
+- variant_id: specification_omission_01
+  target_dimension: specification
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - specification
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - bad control
+  - post-treatment control
+  - on the causal path
+  - outcome-affected control
+  - sensitive to controls
+  - is biased
+  - is confounded
+  - we ignore
+  - this violates
+  - endogenous control
+  - mediator
+- variant_id: treatment_definition_sutva_commission_01
+  target_dimension: treatment_definition_sutva
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      sutva: To construct the counterfactual we draw the control group from the provinces that share
+        a land border with each pilot region, since these neighbors match the pilots most closely on
+        industrial composition, energy mix, and factor prices. This proximity makes them the most credible
+        stand-in for how pilot provinces would have evolved in the absence of the trading scheme, and
+        it sharpens the comparison relative to using distant provinces. We estimate the standard two-way
+        fixed-effects specification on this pilot-versus-neighbor panel and read the coefficient on
+        the post-treatment interaction as the effect of the scheme. Because the regulation binds only
+        on installations physically sited within pilot boundaries, the neighboring provinces provide
+        an untreated benchmark for the pilot trajectory.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - spillover contamination
+  - unaddressed carbon leakage
+  - leakage omitted
+  - untested leakage
+  - adjacent provinces as controls
+  - no interference discussion
+  - treated as clean controls
+- variant_id: treatment_definition_sutva_commission_02
+  target_dimension: treatment_definition_sutva
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      sutva: We recognize that regulated firms could in principle shift output toward unregulated regions,
+        so before proceeding we confirmed that aggregate national emissions kept rising across 2013
+        to 2015. Since the national total did not fall, we are confident that the pilots did not merely
+        push production across provincial lines, and the non-pilot provinces remain valid comparison
+        units. The seven pilots were also spread across coastal and inland provinces rather than concentrated
+        in a single corridor, which further limits any systematic movement of activity into particular
+        comparison provinces. On this basis we retain all non-pilot provinces in the donor pool and
+        apply the baseline estimator without further adjustment.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - spillover contamination
+  - unaddressed carbon leakage
+  - leakage omitted
+  - untested leakage
+  - adjacent provinces as controls
+  - no interference discussion
+  - treated as clean controls
+- variant_id: treatment_definition_sutva_omission_01
+  target_dimension: treatment_definition_sutva
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - sutva
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - spillover contamination
+  - unaddressed carbon leakage
+  - leakage omitted
+  - untested leakage
+  - adjacent provinces as controls
+  - no interference discussion
+  - treated as clean controls
+- variant_id: treatment_timing_commission_01
+  target_dimension: treatment_timing
+  flaw_type: commission
+  severity: high
+  injection:
+    op: replace
+    sections:
+      treatment timing: Because the pilots came online in different years, we pool all province-year
+        observations into a single two-way fixed-effects specification with province and year effects
+        and a binary indicator that switches on once a province's pilot begins. The coefficient on this
+        indicator is our headline estimate of the average pilot effect. Provinces whose pilots are already
+        running, together with those that have not yet launched, jointly supply the counterfactual variation
+        that identifies the coefficient. We retain the full 2005-2019 panel so that every pilot contributes
+        to the estimate regardless of its launch year.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - plain twfe
+  - two-way fixed effects only
+  - forbidden comparison
+  - already-treated units as controls
+  - negative-weight
+  - no staggered-adoption robustness
+  - is biased
+  - is confounded
+  - this violates
+- variant_id: treatment_timing_commission_02
+  target_dimension: treatment_timing
+  flaw_type: commission
+  severity: medium
+  injection:
+    op: replace
+    sections:
+      treatment timing: The pilots were introduced in a staggered fashion between 2013 and 2014, so
+        we estimate an event-study version of the model that replaces the single post indicator with
+        a full set of leads and lags measured in event time relative to each province's own launch year.
+        Province and year fixed effects absorb level differences and common annual shocks, and we read
+        the treatment effect off the average of the post-launch event-time coefficients. Because event
+        time is centered separately for each cohort, provinces that adopted earlier and later enter
+        on a common relative-time axis. This dynamic specification accommodates the differing adoption
+        dates while retaining the full panel of pilot and non-pilot provinces.
+  expected:
+    clean_risk_max: low
+    injected_risk_min: medium
+  forbidden_leakage_terms:
+  - plain twfe
+  - two-way fixed effects only
+  - forbidden comparison
+  - already-treated units as controls
+  - negative-weight
+  - no staggered-adoption robustness
+  - is biased
+  - is confounded
+  - this violates
+- variant_id: treatment_timing_omission_01
+  target_dimension: treatment_timing
+  flaw_type: omission
+  severity: high
+  injection:
+    op: remove
+    sections:
+    - treatment timing
+  expected:
+    clean_risk_max: low
+    injected_risk_min: high
+  forbidden_leakage_terms:
+  - plain twfe
+  - two-way fixed effects only
+  - forbidden comparison
+  - already-treated units as controls
+  - negative-weight
+  - no staggered-adoption robustness
+  - is biased
+  - is confounded
+  - this violates
