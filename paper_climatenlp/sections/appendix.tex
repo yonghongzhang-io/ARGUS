@@ -28,9 +28,22 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
 
 \begin{figure}[t]
   \centering
+  \includegraphics[width=\columnwidth]{figures/figure_vsgold}
+  \caption{\sys{}-LLM versus adjudicated human gold on 55 dimension-level cells
+  (5 papers). \textbf{(a)}~coverage, separating answered judgments from
+  abstentions; \textbf{(b)}~severity distributions of human gold and \sys{};
+  \textbf{(c)}~error direction among the 33 answered cells; \textbf{(d)}~the
+  \sys{}-by-gold confusion matrix. The dominant signal is one-directional
+  over-severity: \sys{} assigns higher risk than gold in 28/33 answered cases and
+  lower risk in none.}
+  \label{fig:vsgold}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
   \includegraphics[width=\columnwidth]{figures/figure_realcorpus}
-  \caption{Per-dimension risk distribution on 27 real DID papers (CausalVerify
-  corpus). The keyword baseline (left) is almost entirely \emph{low}; the
+  \caption{Per-dimension risk distribution on 27 real DID papers. The keyword
+  baseline (left) is almost entirely \emph{low}; the
   two-stage LLM (right) is differentiated, with a large \texttt{unknown} share
   that marks retrieval failure rather than over-flagging.}
   \label{fig:realcorpus}
