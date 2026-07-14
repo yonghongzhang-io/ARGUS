@@ -30,14 +30,12 @@ policy, yet their identification assumptions are often \emph{asserted} rather
 than systematically \emph{audited}. Because the true counterfactual is
 unobserved, we ask a more tractable question: whether each identifying
 assumption is adequately supported by the evidence reported in the paper.
-
 We introduce \sys{}, an end-to-end, \emph{bounded-agentic} auditing
 system---an LLM behind a fixed, deterministic pipeline---that audits DID studies
 through an 11-dimension assumption--implication--evidence rubric. Its pipeline
 retrieves relevant evidence, assesses its adequacy, and produces an
 evidence-grounded risk report for expert review rather than judging causal
 truth.
-
 Using realistic flaw injection, \sys{} detects all 11 injected identification
 flaws, compared with 5 under a same-model single-pass baseline, with no false
 alarms on clean cases. On 27 real papers, it exposes evidence grounding as the
