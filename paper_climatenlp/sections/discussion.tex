@@ -20,15 +20,11 @@ could not find the evidence'') distinct from a substantive high-risk judgement
 (``the paper lacks it''). This is why the pipeline separates retrieval, relevance
 filtering, and adequacy assessment.
 
-\paragraph{Threats to validity.} These results are preliminary by design, spanning
-synthetic fixtures, 27 real DID papers, and a human gold that is small (5 papers,
-two annotators, one adjudication round); its two \emph{high} cells make high
-precision/recall noisy, and the keyword baseline is an intentional lower bound.
-Flaw injection certifies an auditor against the \emph{injected} threat on a single
-dimension---it does not certify the absence of un-injected threats and inherits
-whatever blind spots the flaw taxonomy has. We therefore treat detection and
-localization as necessary but not sufficient evidence of an auditor's quality,
-pairing them with the false-alarm rate and the human-gold comparison.
+\paragraph{Threats to validity.} Flaw injection certifies an auditor against the
+\emph{injected} threat on a single dimension---not against un-injected threats,
+and it inherits the flaw taxonomy's blind spots---so we treat detection and
+localization as necessary but not sufficient, pairing them with the false-alarm
+rate and the human-gold comparison. Further limitations are stated below.
 
 \paragraph{Future work.} Four directions follow from \S\ref{sec:results}:
 \emph{(1)}~harden the reasoning assessor on subtler flaws, studying calibration,

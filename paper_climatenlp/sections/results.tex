@@ -31,25 +31,27 @@ difference is architectural. Table~\ref{tab:results} reports the headline metric
 
 \begin{table}[t]
   \centering\small
-  \caption{Synthetic flaw injection (\texttt{clean\_supported}, eleven flaws):
-  keyword baseline, a same-model \emph{single-pass} ablation, and the
-  \emph{two-stage} \sys{} assessor. Keyword and two-stage share the same retrieved
-  evidence; single-pass shares the model and rubric but removes the architecture.
-  Detection rises from keyword presence, through single-pass adequacy reasoning,
-  to bounded per-dimension auditing. The final row is the leaked, pre-fix circular
-  setup.}
+  \caption{Synthetic flaw injection (\texttt{clean\_supported}, eleven flaws;
+  all LLM rows gpt-4o): keyword baseline, a same-model \emph{single-pass}
+  ablation, and the \emph{two-stage} \sys{} assessor. Keyword and two-stage
+  share the same retrieved evidence; single-pass shares the model and rubric but
+  removes the architecture. Detection rises from keyword presence, through
+  single-pass adequacy reasoning, to bounded per-dimension auditing. The final
+  row is the leaked, pre-fix circular setup.}
   \label{tab:results}
+  \setlength{\tabcolsep}{5pt}
+  \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lccc}
     \toprule
     Assessor & detection & false alarm & localization \\
     \midrule
     keyword baseline             & 0.182 & 0.000 & 0.182 \\
-    single-pass LLM (gpt-4o)     & 0.455 & 0.000 & 0.455 \\
-    \textbf{two-stage \sys{} (gpt-4o)} & \textbf{1.000} & \textbf{0.000} & \textbf{0.909} \\
+    single-pass (ablation)       & 0.455 & 0.000 & 0.455 \\
+    \textbf{two-stage \sys{}}    & \textbf{1.000} & \textbf{0.000} & \textbf{0.909} \\
     \midrule
     \textit{(circular, pre-fix)} & 1.000 & 0.000 & 1.000 \\
     \bottomrule
-  \end{tabular}
+  \end{tabular}}
 \end{table}
 
 \paragraph{The keyword baseline is blind to commission flaws.}
@@ -108,8 +110,8 @@ behaviour survives on real published papers.
 \subsection{From synthetic fixtures to real papers: a relocated bottleneck}
 \label{sec:realpapers}
 
-We next audit 27 published DID papers from the CausalVerify
-corpus~\cite{causalverify_dataset}. There is no injected ground truth; we report
+We next audit a corpus of 27 published DID papers. There is no injected ground
+truth; we report
 the raw per-dimension risk distribution of each assessor
 (Figure~\ref{fig:realcorpus}). The keyword baseline is permissive---$91\%$ of its
 judgements are \emph{low}: it sees topic vocabulary, declares the dimension
@@ -129,12 +131,10 @@ substantive high-risk judgement.
 On a trade-and-wages paper \sys{} retrieves the employment-results section and
 flags \emph{inference} as high because ``the paper only mentions
 heteroskedastic-consistent standard errors and does not provide information on
-clustering or the number of clusters''---a specific econometric observation, not a
-keyword hit. On another it retrieves an ``Alternative Market Share
-Specification'' section and flags \emph{robustness/placebo} as high, noting this
-``only discusses an alternative specification'' and is not a placebo or
-falsification test. In both cases the model distinguishes a \emph{related but
-different} reported check from the one the assumption requires. Roughly $45\%$ of
+clustering or the number of clusters''---a specific econometric observation, not
+a keyword hit; elsewhere it distinguishes a \emph{related but different} reported
+check (an alternative-specification section) from the placebo test an assumption
+actually requires. Roughly $45\%$ of
 its judgements on these top-journal papers are \emph{high}; without dimension-level
 expert labels we cannot yet say whether this is warranted or over-strict where
 retrieval succeeds. We claim the contrast in behaviour and the localization of the
@@ -172,18 +172,6 @@ conclusion is that the current assessor is over-sensitive to missing or partial
 evidence and is best read as a \emph{high-sensitivity screening tool} for
 prioritizing human review.
 
-\begin{figure*}[t]
-  \centering
-  \includegraphics[width=0.72\textwidth]{figures/figure_vsgold}
-  \caption{\sys{}-LLM versus adjudicated human gold on 55 dimension-level cells
-  (5 papers). (A)~coverage, separating answered judgments from abstentions;
-  (B)~severity distributions of human gold and \sys{}; (C)~error direction among
-  the 33 answered cells; (D)~the \sys{}-by-gold confusion matrix. The dominant
-  signal is one-directional over-severity: \sys{} assigns higher risk than gold in
-  28/33 answered cases and lower risk in none.}
-  \label{fig:vsgold}
-\end{figure*}
-
 \subsection{Calibration: from diagnosis to improvement}
 \label{sec:calib}
 
@@ -195,18 +183,13 @@ as a substantive \emph{high}, conflating a \emph{retrieval failure} with the pap
 lacking the evidence---which the human, reading the full PDF, resolves to
 low/medium. This is a fixable calibration target.
 
-We add a deterministic calibration layer over the LLM output, keyed on fields it
-already produces: the dominant rule converts a weak-retrieval \emph{high} (no
-contradiction signalled in the rationale) either to \emph{medium} (keep coverage)
-or to \texttt{unknown} (abstain); smaller rules soften a few anachronistic or
-reporting-gap \emph{high}s. Against the gold (Table~\ref{tab:calib},
-Figure~\ref{fig:calib_tradeoff}) both policies cut over-severity and preserve
-high-risk recall ($0.50$): severity falls without losing detection. The
-keep-coverage policy keeps all 33 answers and raises exact agreement from $0.12$
-to $0.45$; the abstain policy reaches the highest weighted $\kappa$ ($0.25$) but
-collapses coverage to 13 answered cells. Neither addresses the root cause---weak
-retrieval---so correct \emph{coverage} must come from better evidence grounding.
-Calibration can convert erroneous high-risk judgments into medium-risk judgments
-or honest abstentions, but cannot by itself recover the missing evidence. The
-human gold thus does more than evaluate \sys{}; it calibrates it.
+A deterministic calibration layer over fields the LLM already produces---the
+dominant rule demotes a weak-retrieval \emph{high} to \emph{medium} (keep
+coverage) or \texttt{unknown} (abstain)---cuts over-severity while preserving
+high-risk recall ($0.50$): keeping coverage raises exact agreement from $0.12$ to
+$0.45$; abstaining reaches weighted $\kappa=0.25$ but leaves 13 answered cells
+(Appendix, Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}). Calibration
+corrects severity but cannot recover missing evidence---correct \emph{coverage}
+needs better grounding---so the human gold does more than evaluate \sys{}; it
+calibrates it.
 
