@@ -35,10 +35,15 @@ This validates leak-freedom and runs the deterministic keyword baseline.
 **Commission variants are expected to be under-detected by the keyword baseline**
 — that gap is the whole point, and closing it is the LLM assessor's job.
 
-## Real detection numbers (only when authorized)
+## Real detection numbers (frozen)
+A three-run gpt-4o pass (temperature 0) is frozen in `llm_variant_summary.json`
+(raw runs in `llm_runs/run_{1,2,3}.json`) and reported in the paper (Results,
+"Robustness"). Results are near-deterministic (32/33 verdicts identical across
+runs): detection 0.75 (0.73--0.76), **commission 0.89**, **omission 0.45**
+(the misses abstain to `unknown` -- the evidence-grounding bottleneck), false
+alarm 0.09 (concentrated in `inference`). Reproduce (issues **paid API calls**):
 ```
 PYTHONPATH=src python3 experiments/variants/run_variants.py \
     --assessor llm --i-understand-this-costs-money
+# or three runs -> llm_runs/: python3 experiments/variants/run_multi.py
 ```
-This issues **paid API calls**. Per-variant LLM detection numbers are not
-committed and are not reported in the paper without a separately authorized run.
