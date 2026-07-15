@@ -1,0 +1,381 @@
+{
+ "arm": "per-dimension, no retrieval",
+ "model": "gpt-4o",
+ "calls_per_paper": 11,
+ "n_variants": 33,
+ "summary": {
+  "n": 33,
+  "detection_rate": 0.8787878787878788,
+  "false_alarm_rate": 0.0,
+  "localization_acc": 0.8787878787878788
+ },
+ "commission_detection": 0.864,
+ "omission_detection": 0.909,
+ "commission_localization": 0.864,
+ "omission_localization": 0.909,
+ "pairs": [
+  {
+   "variant_id": "concurrent_policies_commission_01",
+   "target_dimension": "concurrent_policies",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "concurrent_policies",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "concurrent_policies_commission_02",
+   "target_dimension": "concurrent_policies",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "concurrent_policies",
+    "detected": false,
+    "false_alarm": false,
+    "localized": false
+   }
+  },
+  {
+   "variant_id": "concurrent_policies_omission_01",
+   "target_dimension": "concurrent_policies",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "concurrent_policies",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "control_group_commission_01",
+   "target_dimension": "control_group",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "control_group",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "control_group_commission_02",
+   "target_dimension": "control_group",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "control_group",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "control_group_omission_01",
+   "target_dimension": "control_group",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "control_group",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "data_measurement_commission_01",
+   "target_dimension": "data_measurement",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "data_measurement",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "data_measurement_commission_02",
+   "target_dimension": "data_measurement",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "data_measurement",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "data_measurement_omission_01",
+   "target_dimension": "data_measurement",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "data_measurement",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "inference_commission_01",
+   "target_dimension": "inference",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "inference",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "inference_commission_02",
+   "target_dimension": "inference",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "inference",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "inference_omission_01",
+   "target_dimension": "inference",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "inference",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "no_anticipation_commission_01",
+   "target_dimension": "no_anticipation",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "no_anticipation",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "no_anticipation_commission_02",
+   "target_dimension": "no_anticipation",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "no_anticipation",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "no_anticipation_omission_01",
+   "target_dimension": "no_anticipation",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "no_anticipation",
+    "detected": false,
+    "false_alarm": false,
+    "localized": false
+   }
+  },
+  {
+   "variant_id": "parallel_trends_commission_01",
+   "target_dimension": "parallel_trends",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "parallel_trends",
+    "detected": false,
+    "false_alarm": false,
+    "localized": false
+   }
+  },
+  {
+   "variant_id": "parallel_trends_commission_02",
+   "target_dimension": "parallel_trends",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "parallel_trends",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "parallel_trends_omission_01",
+   "target_dimension": "parallel_trends",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "parallel_trends",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "robustness_placebo_commission_01",
+   "target_dimension": "robustness_placebo",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "robustness_placebo",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "robustness_placebo_commission_02",
+   "target_dimension": "robustness_placebo",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "robustness_placebo",
+    "detected": false,
+    "false_alarm": false,
+    "localized": false
+   }
+  },
+  {
+   "variant_id": "robustness_placebo_omission_01",
+   "target_dimension": "robustness_placebo",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "robustness_placebo",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "sample_period_commission_01",
+   "target_dimension": "sample_period",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "sample_period",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "sample_period_commission_02",
+   "target_dimension": "sample_period",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "sample_period",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "sample_period_omission_01",
+   "target_dimension": "sample_period",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "sample_period",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "specification_commission_01",
+   "target_dimension": "specification",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "specification",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "specification_commission_02",
+   "target_dimension": "specification",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "specification",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "specification_omission_01",
+   "target_dimension": "specification",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "specification",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "treatment_definition_sutva_commission_01",
+   "target_dimension": "treatment_definition_sutva",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "treatment_definition_sutva",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "treatment_definition_sutva_commission_02",
+   "target_dimension": "treatment_definition_sutva",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "treatment_definition_sutva",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "treatment_definition_sutva_omission_01",
+   "target_dimension": "treatment_definition_sutva",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "treatment_definition_sutva",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "treatment_timing_commission_01",
+   "target_dimension": "treatment_timing",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "treatment_timing",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "treatment_timing_commission_02",
+   "target_dimension": "treatment_timing",
+   "flaw_type": "commission",
+   "score": {
+    "target_dimension": "treatment_timing",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  },
+  {
+   "variant_id": "treatment_timing_omission_01",
+   "target_dimension": "treatment_timing",
+   "flaw_type": "omission",
+   "score": {
+    "target_dimension": "treatment_timing",
+    "detected": true,
+    "false_alarm": false,
+    "localized": true
+   }
+  }
+ ]
+}
