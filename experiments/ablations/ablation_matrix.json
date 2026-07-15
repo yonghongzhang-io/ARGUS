@@ -1,0 +1,638 @@
+{
+ "singlepass_33variants": {
+  "summary": {
+   "n": 33,
+   "detection_rate": 0.7272727272727273,
+   "false_alarm_rate": 0.0,
+   "localization_acc": 0.7272727272727273
+  },
+  "pairs": [
+   {
+    "id": "concurrent_policies_commission_01",
+    "flaw_type": "commission",
+    "target": "concurrent_policies",
+    "score": {
+     "target_dimension": "concurrent_policies",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "concurrent_policies_commission_02",
+    "flaw_type": "commission",
+    "target": "concurrent_policies",
+    "score": {
+     "target_dimension": "concurrent_policies",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "concurrent_policies_omission_01",
+    "flaw_type": "omission",
+    "target": "concurrent_policies",
+    "score": {
+     "target_dimension": "concurrent_policies",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "control_group_commission_01",
+    "flaw_type": "commission",
+    "target": "control_group",
+    "score": {
+     "target_dimension": "control_group",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "control_group_commission_02",
+    "flaw_type": "commission",
+    "target": "control_group",
+    "score": {
+     "target_dimension": "control_group",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "control_group_omission_01",
+    "flaw_type": "omission",
+    "target": "control_group",
+    "score": {
+     "target_dimension": "control_group",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "data_measurement_commission_01",
+    "flaw_type": "commission",
+    "target": "data_measurement",
+    "score": {
+     "target_dimension": "data_measurement",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "data_measurement_commission_02",
+    "flaw_type": "commission",
+    "target": "data_measurement",
+    "score": {
+     "target_dimension": "data_measurement",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "data_measurement_omission_01",
+    "flaw_type": "omission",
+    "target": "data_measurement",
+    "score": {
+     "target_dimension": "data_measurement",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "inference_commission_01",
+    "flaw_type": "commission",
+    "target": "inference",
+    "score": {
+     "target_dimension": "inference",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "inference_commission_02",
+    "flaw_type": "commission",
+    "target": "inference",
+    "score": {
+     "target_dimension": "inference",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "inference_omission_01",
+    "flaw_type": "omission",
+    "target": "inference",
+    "score": {
+     "target_dimension": "inference",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "no_anticipation_commission_01",
+    "flaw_type": "commission",
+    "target": "no_anticipation",
+    "score": {
+     "target_dimension": "no_anticipation",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "no_anticipation_commission_02",
+    "flaw_type": "commission",
+    "target": "no_anticipation",
+    "score": {
+     "target_dimension": "no_anticipation",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "no_anticipation_omission_01",
+    "flaw_type": "omission",
+    "target": "no_anticipation",
+    "score": {
+     "target_dimension": "no_anticipation",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "parallel_trends_commission_01",
+    "flaw_type": "commission",
+    "target": "parallel_trends",
+    "score": {
+     "target_dimension": "parallel_trends",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "parallel_trends_commission_02",
+    "flaw_type": "commission",
+    "target": "parallel_trends",
+    "score": {
+     "target_dimension": "parallel_trends",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "parallel_trends_omission_01",
+    "flaw_type": "omission",
+    "target": "parallel_trends",
+    "score": {
+     "target_dimension": "parallel_trends",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "robustness_placebo_commission_01",
+    "flaw_type": "commission",
+    "target": "robustness_placebo",
+    "score": {
+     "target_dimension": "robustness_placebo",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "robustness_placebo_commission_02",
+    "flaw_type": "commission",
+    "target": "robustness_placebo",
+    "score": {
+     "target_dimension": "robustness_placebo",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "robustness_placebo_omission_01",
+    "flaw_type": "omission",
+    "target": "robustness_placebo",
+    "score": {
+     "target_dimension": "robustness_placebo",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "sample_period_commission_01",
+    "flaw_type": "commission",
+    "target": "sample_period",
+    "score": {
+     "target_dimension": "sample_period",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "sample_period_commission_02",
+    "flaw_type": "commission",
+    "target": "sample_period",
+    "score": {
+     "target_dimension": "sample_period",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "sample_period_omission_01",
+    "flaw_type": "omission",
+    "target": "sample_period",
+    "score": {
+     "target_dimension": "sample_period",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "specification_commission_01",
+    "flaw_type": "commission",
+    "target": "specification",
+    "score": {
+     "target_dimension": "specification",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "specification_commission_02",
+    "flaw_type": "commission",
+    "target": "specification",
+    "score": {
+     "target_dimension": "specification",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "specification_omission_01",
+    "flaw_type": "omission",
+    "target": "specification",
+    "score": {
+     "target_dimension": "specification",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "treatment_definition_sutva_commission_01",
+    "flaw_type": "commission",
+    "target": "treatment_definition_sutva",
+    "score": {
+     "target_dimension": "treatment_definition_sutva",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "treatment_definition_sutva_commission_02",
+    "flaw_type": "commission",
+    "target": "treatment_definition_sutva",
+    "score": {
+     "target_dimension": "treatment_definition_sutva",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "treatment_definition_sutva_omission_01",
+    "flaw_type": "omission",
+    "target": "treatment_definition_sutva",
+    "score": {
+     "target_dimension": "treatment_definition_sutva",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "treatment_timing_commission_01",
+    "flaw_type": "commission",
+    "target": "treatment_timing",
+    "score": {
+     "target_dimension": "treatment_timing",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "treatment_timing_commission_02",
+    "flaw_type": "commission",
+    "target": "treatment_timing",
+    "score": {
+     "target_dimension": "treatment_timing",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "treatment_timing_omission_01",
+    "flaw_type": "omission",
+    "target": "treatment_timing",
+    "score": {
+     "target_dimension": "treatment_timing",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   }
+  ]
+ },
+ "perdim_11flaws": {
+  "summary": {
+   "n": 11,
+   "detection_rate": 1.0,
+   "false_alarm_rate": 0.0,
+   "localization_acc": 1.0
+  },
+  "pairs": [
+   {
+    "id": "anticipation_effect",
+    "flaw_type": null,
+    "target": "no_anticipation",
+    "score": {
+     "target_dimension": "no_anticipation",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "bad_control",
+    "flaw_type": null,
+    "target": "specification",
+    "score": {
+     "target_dimension": "specification",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "cherrypicked_window",
+    "flaw_type": null,
+    "target": "sample_period",
+    "score": {
+     "target_dimension": "sample_period",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "confounding_policy",
+    "flaw_type": null,
+    "target": "concurrent_policies",
+    "score": {
+     "target_dimension": "concurrent_policies",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "forbidden_comparison",
+    "flaw_type": null,
+    "target": "treatment_timing",
+    "score": {
+     "target_dimension": "treatment_timing",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "measurement_break",
+    "flaw_type": null,
+    "target": "data_measurement",
+    "score": {
+     "target_dimension": "data_measurement",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "missing_placebo",
+    "flaw_type": null,
+    "target": "robustness_placebo",
+    "score": {
+     "target_dimension": "robustness_placebo",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "noncomparable_controls",
+    "flaw_type": null,
+    "target": "control_group",
+    "score": {
+     "target_dimension": "control_group",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "pretrend_divergence",
+    "flaw_type": null,
+    "target": "parallel_trends",
+    "score": {
+     "target_dimension": "parallel_trends",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "spillover_contamination",
+    "flaw_type": null,
+    "target": "treatment_definition_sutva",
+    "score": {
+     "target_dimension": "treatment_definition_sutva",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "understated_se",
+    "flaw_type": null,
+    "target": "inference",
+    "score": {
+     "target_dimension": "inference",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   }
+  ]
+ },
+ "singlepass_11flaws_replication": {
+  "summary": {
+   "n": 11,
+   "detection_rate": 0.8181818181818182,
+   "false_alarm_rate": 0.0,
+   "localization_acc": 0.8181818181818182
+  },
+  "pairs": [
+   {
+    "id": "anticipation_effect",
+    "flaw_type": null,
+    "target": "no_anticipation",
+    "score": {
+     "target_dimension": "no_anticipation",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "bad_control",
+    "flaw_type": null,
+    "target": "specification",
+    "score": {
+     "target_dimension": "specification",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "cherrypicked_window",
+    "flaw_type": null,
+    "target": "sample_period",
+    "score": {
+     "target_dimension": "sample_period",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "confounding_policy",
+    "flaw_type": null,
+    "target": "concurrent_policies",
+    "score": {
+     "target_dimension": "concurrent_policies",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "forbidden_comparison",
+    "flaw_type": null,
+    "target": "treatment_timing",
+    "score": {
+     "target_dimension": "treatment_timing",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "measurement_break",
+    "flaw_type": null,
+    "target": "data_measurement",
+    "score": {
+     "target_dimension": "data_measurement",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "missing_placebo",
+    "flaw_type": null,
+    "target": "robustness_placebo",
+    "score": {
+     "target_dimension": "robustness_placebo",
+     "detected": false,
+     "false_alarm": false,
+     "localized": false
+    }
+   },
+   {
+    "id": "noncomparable_controls",
+    "flaw_type": null,
+    "target": "control_group",
+    "score": {
+     "target_dimension": "control_group",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "pretrend_divergence",
+    "flaw_type": null,
+    "target": "parallel_trends",
+    "score": {
+     "target_dimension": "parallel_trends",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "spillover_contamination",
+    "flaw_type": null,
+    "target": "treatment_definition_sutva",
+    "score": {
+     "target_dimension": "treatment_definition_sutva",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   },
+   {
+    "id": "understated_se",
+    "flaw_type": null,
+    "target": "inference",
+    "score": {
+     "target_dimension": "inference",
+     "detected": true,
+     "false_alarm": false,
+     "localized": true
+    }
+   }
+  ]
+ },
+ "note": "single-pass reimplemented from the paper's description (original runner not in repo); 11-flaw replication checks the historical 0.455."
+}
