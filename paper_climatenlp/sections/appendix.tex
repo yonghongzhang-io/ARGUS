@@ -54,6 +54,40 @@ times end-to-end (roughly $750$ model calls per run); verdicts were
 near-deterministic (32/33 identical across runs), and Table~\ref{tab:variants}
 reports the three-run mean.
 
+\section{The Real-Paper Corpus}
+\label{app:corpus}
+
+The 27 published DID studies audited in \S\ref{sec:realpapers} are drawn from
+top general-interest and field economics journals
+(Table~\ref{tab:corpus}). By topic, the corpus spans finance and banking (5),
+environment and energy (5), health (4), education (4), international trade (3),
+labour (3), crime and social policy (2), and industrial location (1); the
+environment-and-energy subset covers industrial-activity effects of
+environmental regulation, air quality and early-life mortality, and energy
+pricing. Audit behaviour is not driven by domain: the environment-and-energy
+subset's risk distribution (high $0.40$, \texttt{unknown} $0.38$; 55 cells) is
+close to the remainder's (high $0.46$, \texttt{unknown} $0.39$; 242 cells).
+Paper-level identities are withheld here to preserve double-blind review of the
+associated dataset and will be listed in the camera-ready version.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Journal composition of the 27-paper real corpus.}
+  \label{tab:corpus}
+  \begin{tabular}{lc}
+    \toprule
+    journal & papers \\
+    \midrule
+    Quarterly Journal of Economics & 7 \\
+    American Economic Review & 6 \\
+    Journal of Political Economy & 4 \\
+    Review of Economics and Statistics & 4 \\
+    Journal of Finance & 3 \\
+    AEJ: Economic Policy / J.\ Monetary Econ.\ / ILRR & 3 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \section{Qualitative Audit Example}
 \label{app:qual}
 
