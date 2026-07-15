@@ -39,10 +39,17 @@ are comparable across papers and measurable against injected ground truth. \sys{
 differs in target and posture: it audits \emph{identification credibility}
 specifically (the part of an argument that licenses a causal claim) and issues
 no verdicts, producing evidence-grounded, human-reviewable reports that localize
-risk for the expert's final call. A complementary line asks whether a
-model can \emph{carry out} inference: running generated estimation code against
-synthetic data; \sys{} instead audits the prior layer, whether identification
-\emph{assumptions} are supported by the evidence a paper reports.
+risk for the expert's final call.
+
+\paragraph{NLP for climate evidence.}
+Climate-NLP systems verify claims against evidence
+(CLIMATE-FEVER~\cite{climatefever2020}), detect environmental
+claims~\cite{stammbach2023environmental}, analyse corporate climate disclosures
+with traceable LLM answers~\cite{ni2023chatreport}, and tune models for
+faithful evidence-based question answering~\cite{schimanski2024faithful}.
+These systems ground answers in documents; \sys{} extends document-grounded
+verification from \emph{claims} to the \emph{identification argument} of a
+causal study, auditing whether reported evidence supports each assumption.
 
 \paragraph{Evaluation methodology and bounded agents.}
 Our evaluation follows benchmarking lessons: holistic

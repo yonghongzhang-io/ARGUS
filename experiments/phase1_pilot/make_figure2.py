@@ -42,7 +42,9 @@ _mpl.rcParams.update({"font.size": 12.0, "axes.titlesize": 13.0, "axes.labelsize
                       "xtick.labelsize": 10.5, "ytick.labelsize": 10.5, "legend.fontsize": 10.5})
 
 PAPER = ROOT / "examples" / "papers" / "clean_supported.json"
-LLM_SUMMARY = Path(__file__).resolve().parent / "llm_summary.json"
+# Current-era summary (July 2026); the June-era llm_summary.json is kept for
+# provenance but no longer reproduces (serving drift; see the paper's appendix).
+LLM_SUMMARY = Path(__file__).resolve().parent / "llm_summary_current.json"
 OUT_DIR = ROOT / "paper" / "figures"
 
 # Shared palette (see experiments/figstyle.py).
@@ -120,9 +122,11 @@ def panel_b(ax, pairs: list[dict], llm: dict) -> None:
     n = len(ordered)
     cols = [("keyword", None), (f"LLM", None)]
 
+    llm_flaws = llm.get("per_flaw_detected", {})
     for i, p in enumerate(ordered):
         yy = n - 1 - i
-        outcomes = [bool(p["score"]["detected"]), True]  # LLM detection == 1.00
+        outcomes = [bool(p["score"]["detected"]),
+                    bool(llm_flaws.get(p["flaw_id"], True))]
         for cx, det in enumerate(outcomes):
             face = GREEN if det else GRAY   # missed = the shared "unknown" gray (#9BA1A9)
             ax.add_patch(plt.Rectangle((cx + 0.09, yy - 0.40), 0.82, 0.80,
