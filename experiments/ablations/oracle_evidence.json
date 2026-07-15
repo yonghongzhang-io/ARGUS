@@ -1,0 +1,461 @@
+{
+ "model": "gpt-4o",
+ "n_cells": 55,
+ "oracle_vs_gold": {
+  "answered": 55,
+  "exact": 4,
+  "exact_rate": 0.073,
+  "over": 50,
+  "under": 1
+ },
+ "pipeline_vs_gold": {
+  "answered": 33,
+  "exact": 5,
+  "exact_rate": 0.152,
+  "over": 28,
+  "under": 0
+ },
+ "pipeline_unknowns_where_expert_found_evidence": 22,
+ "cells": [
+  {
+   "paper_id": "paper_01",
+   "dimension": "parallel_trends",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "high",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "no_anticipation",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "treatment_timing",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "treatment_definition_sutva",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "control_group",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "specification",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "inference",
+   "oracle_risk": "high",
+   "evidence_status": "flawed",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "sample_period",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "concurrent_policies",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "robustness_placebo",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_01",
+   "dimension": "data_measurement",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "parallel_trends",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "no_anticipation",
+   "oracle_risk": "low",
+   "evidence_status": "sufficient",
+   "gold": "medium",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "treatment_timing",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "treatment_definition_sutva",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "control_group",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "specification",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "inference",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "high",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "sample_period",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "concurrent_policies",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "robustness_placebo",
+   "oracle_risk": "low",
+   "evidence_status": "sufficient",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_03",
+   "dimension": "data_measurement",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "parallel_trends",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "no_anticipation",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "treatment_timing",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "treatment_definition_sutva",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "control_group",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "specification",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "inference",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "sample_period",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "concurrent_policies",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "robustness_placebo",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_07",
+   "dimension": "data_measurement",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "parallel_trends",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "no_anticipation",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "treatment_timing",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "treatment_definition_sutva",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "control_group",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "specification",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "inference",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "sample_period",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "concurrent_policies",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "robustness_placebo",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "data_measurement",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "parallel_trends",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "no_anticipation",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "treatment_timing",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "treatment_definition_sutva",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "medium",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "control_group",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "low"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "specification",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "inference",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "medium"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "sample_period",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "concurrent_policies",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "high"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "robustness_placebo",
+   "oracle_risk": "medium",
+   "evidence_status": "partial",
+   "gold": "low",
+   "pipeline": "unknown"
+  },
+  {
+   "paper_id": "paper_10",
+   "dimension": "data_measurement",
+   "oracle_risk": "high",
+   "evidence_status": "missing",
+   "gold": "low",
+   "pipeline": "high"
+  }
+ ]
+}

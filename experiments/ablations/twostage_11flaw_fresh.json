@@ -1,0 +1,66 @@
+{
+ "arm": "two-stage fresh replication",
+ "model": "gpt-4o",
+ "date": "2026-07-15",
+ "n": 11,
+ "detection_rate": 0.7272727272727273,
+ "false_alarm_rate": 0.0,
+ "localization_acc": 0.7272727272727273,
+ "per_flaw": [
+  {
+   "flaw": "anticipation_effect",
+   "detected": true,
+   "localized": true
+  },
+  {
+   "flaw": "bad_control",
+   "detected": true,
+   "localized": true
+  },
+  {
+   "flaw": "cherrypicked_window",
+   "detected": false,
+   "localized": false
+  },
+  {
+   "flaw": "confounding_policy",
+   "detected": true,
+   "localized": true
+  },
+  {
+   "flaw": "forbidden_comparison",
+   "detected": true,
+   "localized": true
+  },
+  {
+   "flaw": "measurement_break",
+   "detected": false,
+   "localized": false
+  },
+  {
+   "flaw": "missing_placebo",
+   "detected": true,
+   "localized": true
+  },
+  {
+   "flaw": "noncomparable_controls",
+   "detected": false,
+   "localized": false
+  },
+  {
+   "flaw": "pretrend_divergence",
+   "detected": true,
+   "localized": true
+  },
+  {
+   "flaw": "spillover_contamination",
+   "detected": true,
+   "localized": true
+  },
+  {
+   "flaw": "understated_se",
+   "detected": true,
+   "localized": true
+  }
+ ]
+}

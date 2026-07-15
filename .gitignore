@@ -23,3 +23,4 @@ paper/.Rhistory
 paper/.RData
 paper/.Rproj.user/
 experiments/variants/variant_results.json
+annotation/oracle/evidence_spans_completed.csv
