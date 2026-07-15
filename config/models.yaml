@@ -42,12 +42,12 @@ models:
     enabled: false
     price_per_1k_usd: 0.01
 
-  - id: claude_sonnet
+  - id: claude_opus
     provider: anthropic
-    model: claude-sonnet-5
+    model: claude-opus-4-8
     api_key_env: ANTHROPIC_API_KEY
     enabled: false
-    price_per_1k_usd: 0.009
+    price_per_1k_usd: 0.012
 
   - id: gemini_flash
     provider: openai-compatible

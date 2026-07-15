@@ -1,0 +1,308 @@
+{
+ "arm": "oracle retrieval (target section fed directly; empty for omissions)",
+ "model": "gpt-4o",
+ "n": 33,
+ "detection": 0.909,
+ "commission_detection": 0.864,
+ "omission_detection": 1.0,
+ "false_alarm": 0.212,
+ "rows": [
+  {
+   "variant_id": "concurrent_policies_commission_01",
+   "flaw_type": "commission",
+   "target": "concurrent_policies",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "concurrent_policies_commission_02",
+   "flaw_type": "commission",
+   "target": "concurrent_policies",
+   "oracle_injected": "low",
+   "oracle_clean": "low",
+   "detected": false,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "concurrent_policies_omission_01",
+   "flaw_type": "omission",
+   "target": "concurrent_policies",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "control_group_commission_01",
+   "flaw_type": "commission",
+   "target": "control_group",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "control_group_commission_02",
+   "flaw_type": "commission",
+   "target": "control_group",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "control_group_omission_01",
+   "flaw_type": "omission",
+   "target": "control_group",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "data_measurement_commission_01",
+   "flaw_type": "commission",
+   "target": "data_measurement",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "data_measurement_commission_02",
+   "flaw_type": "commission",
+   "target": "data_measurement",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "data_measurement_omission_01",
+   "flaw_type": "omission",
+   "target": "data_measurement",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "inference_commission_01",
+   "flaw_type": "commission",
+   "target": "inference",
+   "oracle_injected": "high",
+   "oracle_clean": "medium",
+   "detected": true,
+   "false_alarm": true
+  },
+  {
+   "variant_id": "inference_commission_02",
+   "flaw_type": "commission",
+   "target": "inference",
+   "oracle_injected": "medium",
+   "oracle_clean": "medium",
+   "detected": true,
+   "false_alarm": true
+  },
+  {
+   "variant_id": "inference_omission_01",
+   "flaw_type": "omission",
+   "target": "inference",
+   "oracle_injected": "high",
+   "oracle_clean": "medium",
+   "detected": true,
+   "false_alarm": true
+  },
+  {
+   "variant_id": "no_anticipation_commission_01",
+   "flaw_type": "commission",
+   "target": "no_anticipation",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "no_anticipation_commission_02",
+   "flaw_type": "commission",
+   "target": "no_anticipation",
+   "oracle_injected": "medium",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "no_anticipation_omission_01",
+   "flaw_type": "omission",
+   "target": "no_anticipation",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "parallel_trends_commission_01",
+   "flaw_type": "commission",
+   "target": "parallel_trends",
+   "oracle_injected": "low",
+   "oracle_clean": "low",
+   "detected": false,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "parallel_trends_commission_02",
+   "flaw_type": "commission",
+   "target": "parallel_trends",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "parallel_trends_omission_01",
+   "flaw_type": "omission",
+   "target": "parallel_trends",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "robustness_placebo_commission_01",
+   "flaw_type": "commission",
+   "target": "robustness_placebo",
+   "oracle_injected": "high",
+   "oracle_clean": "medium",
+   "detected": true,
+   "false_alarm": true
+  },
+  {
+   "variant_id": "robustness_placebo_commission_02",
+   "flaw_type": "commission",
+   "target": "robustness_placebo",
+   "oracle_injected": "low",
+   "oracle_clean": "medium",
+   "detected": false,
+   "false_alarm": true
+  },
+  {
+   "variant_id": "robustness_placebo_omission_01",
+   "flaw_type": "omission",
+   "target": "robustness_placebo",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "sample_period_commission_01",
+   "flaw_type": "commission",
+   "target": "sample_period",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "sample_period_commission_02",
+   "flaw_type": "commission",
+   "target": "sample_period",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "sample_period_omission_01",
+   "flaw_type": "omission",
+   "target": "sample_period",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "specification_commission_01",
+   "flaw_type": "commission",
+   "target": "specification",
+   "oracle_injected": "medium",
+   "oracle_clean": "medium",
+   "detected": true,
+   "false_alarm": true
+  },
+  {
+   "variant_id": "specification_commission_02",
+   "flaw_type": "commission",
+   "target": "specification",
+   "oracle_injected": "medium",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "specification_omission_01",
+   "flaw_type": "omission",
+   "target": "specification",
+   "oracle_injected": "high",
+   "oracle_clean": "medium",
+   "detected": true,
+   "false_alarm": true
+  },
+  {
+   "variant_id": "treatment_definition_sutva_commission_01",
+   "flaw_type": "commission",
+   "target": "treatment_definition_sutva",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "treatment_definition_sutva_commission_02",
+   "flaw_type": "commission",
+   "target": "treatment_definition_sutva",
+   "oracle_injected": "medium",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "treatment_definition_sutva_omission_01",
+   "flaw_type": "omission",
+   "target": "treatment_definition_sutva",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "treatment_timing_commission_01",
+   "flaw_type": "commission",
+   "target": "treatment_timing",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "treatment_timing_commission_02",
+   "flaw_type": "commission",
+   "target": "treatment_timing",
+   "oracle_injected": "medium",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  },
+  {
+   "variant_id": "treatment_timing_omission_01",
+   "flaw_type": "omission",
+   "target": "treatment_timing",
+   "oracle_injected": "high",
+   "oracle_clean": "low",
+   "detected": true,
+   "false_alarm": false
+  }
+ ]
+}
