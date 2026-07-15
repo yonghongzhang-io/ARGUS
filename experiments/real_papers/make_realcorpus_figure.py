@@ -61,10 +61,10 @@ def panel(ax, counts: dict[str, Counter], dims: list[str], title: str) -> None:
                 ax.barh(i, frac, left=left, color=COLORS[b], edgecolor="white", linewidth=0.5)
             left += frac
     ax.set_yticks(list(y))
-    ax.set_yticklabels(list(reversed(dims)), fontsize=8.5)
+    ax.set_yticklabels(list(reversed(dims)), fontsize=11.9)
     ax.set_xlim(0, 1)
-    ax.set_xlabel("share of papers", fontsize=9)
-    ax.set_title(title, fontsize=11, fontweight="bold", loc="left")
+    ax.set_xlabel("share of papers", fontsize=12.6)
+    ax.set_title(title, fontsize=15.4, fontweight="bold", loc="left")
     ax.spines[["top", "right"]].set_visible(False)
 
 
@@ -84,9 +84,9 @@ def main() -> None:
     panel(axes[0], kw, dims, f"keyword baseline (n={n_kw})")
     panel(axes[1], llm, dims, f"two-stage LLM (n={n_llm})")
     fig.suptitle("Per-dimension risk distribution on real DID papers",
-                 fontsize=12.5, fontweight="bold", y=0.99)
+                 fontsize=16.0, fontweight="bold", y=0.99)
     fig.legend(handles=[Patch(facecolor=COLORS[b], label=b) for b in BUCKETS],
-               loc="lower center", ncol=4, fontsize=9, frameon=False, bbox_to_anchor=(0.5, -0.02))
+               loc="lower center", ncol=4, fontsize=12.6, frameon=False, bbox_to_anchor=(0.5, -0.02))
     fig.tight_layout(rect=[0, 0.04, 1, 0.96])
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)

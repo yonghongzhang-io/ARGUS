@@ -72,12 +72,12 @@ def draw_panel(ax, panel: dict) -> None:
     values = panel["values"]
     bars = ax.bar(xs, values, color=COLORS, width=0.62, edgecolor="white", linewidth=0.7)
 
-    ax.set_title(panel["title"], fontsize=8.7, fontweight="bold", loc="left", color=INK, pad=4)
-    ax.set_ylabel(panel["ylabel"], fontsize=7.8, color=INK)
+    ax.set_title(panel["title"], fontsize=12.2, fontweight="bold", loc="left", color=INK, pad=4)
+    ax.set_ylabel(panel["ylabel"], fontsize=10.9, color=INK)
     ax.set_xticks(list(xs))
-    ax.set_xticklabels(LABELS, fontsize=7.5)
+    ax.set_xticklabels(LABELS, fontsize=10.5)
     ax.set_ylim(*panel["ylim"])
-    ax.tick_params(axis="y", labelsize=7.3, colors=MUTED, length=2.5)
+    ax.tick_params(axis="y", labelsize=10.2, colors=MUTED, length=2.5)
     ax.tick_params(axis="x", length=0, pad=2)
     ax.grid(axis="y", color=BORDER, linewidth=0.6)
     ax.set_axisbelow(True)
@@ -93,7 +93,7 @@ def draw_panel(ax, panel: dict) -> None:
             panel["fmt"].format(value),
             ha="center",
             va="bottom",
-            fontsize=7.4,
+            fontsize=10.4,
             color=INK,
             fontweight="bold",
         )
@@ -105,7 +105,7 @@ def draw_panel(ax, panel: dict) -> None:
         transform=ax.transAxes,
         ha=better_ha,
         va="top",
-        fontsize=7.2,
+        fontsize=10.1,
         color=MUTED,
     )
 
@@ -120,7 +120,7 @@ def main() -> None:
 
     fig.suptitle(
         "Calibration trade-off: severity reduction versus coverage",
-        fontsize=9.4,
+        fontsize=13.2,
         fontweight="bold",
         color=INK,
     )
