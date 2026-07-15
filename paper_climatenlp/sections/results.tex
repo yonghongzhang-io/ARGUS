@@ -27,7 +27,8 @@ reported evidence actually establishes the assumption) over the \emph{same
 retrieved evidence} as the keyword baseline, so that pair isolates the judgement
 policy. A \textbf{single-pass} ablation removes the architecture entirely: the
 full paper and all eleven dimensions in one \texttt{gpt-4o} call, with the same
-model, temperature, risk schema, and scoring harness, but no staged retrieval,
+model, temperature (the sampling-randomness setting, held at $0$), risk schema,
+and scoring harness, but no staged retrieval,
 relevance gating, bounded tool use, or explicit \texttt{unknown} state. The only
 difference is architectural. Table~\ref{tab:results} reports the headline metrics.
 
@@ -209,7 +210,7 @@ pilot ($n{=}5$, two annotators, one adjudication round), read as preliminary.
 
 We use this gold as a \emph{diagnostic pilot}, not a validation of accuracy: with
 only two high-risk gold cells across five papers it cannot establish agreement
-with experts, but it is enough to localize \emph{how} \sys{} errs
+with experts, but it is enough to localize \emph{how} \sys{} fails
 (Table~\ref{tab:vsgold}, Figure~\ref{fig:vsgold}). The errors are systematic, not
 random. \sys{} abstains on 22/55 cells, and when it answers its errors are almost
 entirely one-directional: 28/33 answered cells are more severe than the
