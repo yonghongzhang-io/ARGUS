@@ -41,7 +41,13 @@ three constraints: (i)~a \emph{small fixed tool set} passed in per call: %
 implementation dates; (ii)~a \emph{hard step budget} (\texttt{max\_steps}) so a
 run cannot wander indefinitely; and (iii)~a \emph{logged trace} of every step,
 tool call, and cited piece of evidence. All other stages are plain orchestration
-with no agent loop.
+with no agent loop. In the configuration evaluated in \S\ref{sec:results} the
+step budget is minimal (\texttt{max\_steps}{=}1), and the LLM assessment path
+resolves to a fixed per-dimension sequence: deterministic retrieval of candidate
+sections, one relevance-gate call, and one adequacy call. The evaluated system is
+therefore closer to structured, dimension-scoped prompting over retrieved
+evidence than to an open-ended agent; for an audit, we treat this
+near-determinism as a feature.
 
 \paragraph{Why bound the agency.}
 A fully autonomous agent would make per-run behaviour path-dependent and

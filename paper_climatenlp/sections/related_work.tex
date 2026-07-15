@@ -29,7 +29,13 @@ adequately evidenced? A causal verdict is out of scope by design.
 AI is increasingly applied to research reliability: reproducibility checking,
 statistical-reporting validation, and AI-assisted review, motivated by wide
 analyst-driven result spreads~\cite{silberzahn2018many,botviniknezer2020variability}
-and specification searching in causal economics~\cite{brodeur2020methods}. \sys{}
+and specification searching in causal economics~\cite{brodeur2020methods}. LLMs
+are also used directly as evaluators and reviewers, judging model
+outputs~\cite{zheng2023judge}, giving feedback on research
+papers~\cite{liang2024feedback}, and reviewing inside automated-science
+pipelines~\cite{lu2024aiscientist}; these systems produce open-ended critique,
+whereas \sys{} scores a fixed rubric against in-paper evidence, so its outputs
+are comparable across papers and measurable against injected ground truth. \sys{}
 differs in target and posture: it audits \emph{identification credibility}
 specifically (the part of an argument that licenses a causal claim) and issues
 no verdicts, producing evidence-grounded, human-reviewable reports that localize
