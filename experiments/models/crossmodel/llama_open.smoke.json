@@ -1,0 +1,37 @@
+{
+ "model_id": "llama_open",
+ "provider": "openai-compatible",
+ "model": "llama3.1:8b",
+ "mode": "smoke",
+ "n_variants": 1,
+ "summary": {
+  "n": 1,
+  "detection_rate": 1.0,
+  "false_alarm_rate": 0.0,
+  "localization_acc": 1.0
+ },
+ "by_dimension": {
+  "parallel_trends": {
+   "n": 1,
+   "detection_rate": 1.0,
+   "false_alarm_rate": 0.0,
+   "localization_acc": 1.0,
+   "meets_expected_rate": 1.0
+  }
+ },
+ "pairs": [
+  {
+   "variant_id": "parallel_trends_commission_01",
+   "target_dimension": "parallel_trends",
+   "flaw_type": "commission",
+   "score": {
+    "detected": true,
+    "false_alarm": false,
+    "localized": true,
+    "clean_risk": "low",
+    "injected_risk": "high",
+    "meets_expected": true
+   }
+  }
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "model_id": "gemini_flash",
+ "provider": "openai-compatible",
+ "model": "gemini-2.5-flash",
+ "mode": "smoke",
+ "n_variants": 1,
+ "summary": {
+  "n": 1,
+  "detection_rate": 0.0,
+  "false_alarm_rate": 0.0,
+  "localization_acc": 0.0
+ },
+ "by_dimension": {
+  "parallel_trends": {
+   "n": 1,
+   "detection_rate": 0.0,
+   "false_alarm_rate": 0.0,
+   "localization_acc": 0.0,
+   "meets_expected_rate": 0.0
+  }
+ },
+ "pairs": [
+  {
+   "variant_id": "parallel_trends_commission_01",
+   "target_dimension": "parallel_trends",
+   "flaw_type": "commission",
+   "score": {
+    "detected": false,
+    "false_alarm": false,
+    "localized": false,
+    "clean_risk": "low",
+    "injected_risk": "low",
+    "meets_expected": false
+   }
+  }
+ ]
+}
