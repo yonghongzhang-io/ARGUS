@@ -122,6 +122,23 @@ def make_client(client: Optional[Any] = None) -> Any:
     return OpenAI(**kwargs)
 
 
+def create_structured(client: Any, **kwargs: Any) -> Any:
+    """chat.completions.create with a temperature-compat fallback.
+
+    Newer reasoning models (OpenAI gpt-5.x, Anthropic claude-*-5) reject an
+    explicit ``temperature``; older ones expect 0 for determinism. Try with the
+    requested temperature first and, if the provider rejects the parameter,
+    retry once without it (the model then runs at its fixed default).
+    """
+    try:
+        return client.chat.completions.create(**kwargs)
+    except Exception as e:  # provider-specific BadRequest types
+        if "temperature" in str(e).lower() and "temperature" in kwargs:
+            kwargs = {k: v for k, v in kwargs.items() if k != "temperature"}
+            return client.chat.completions.create(**kwargs)
+        raise
+
+
 def _build_user_prompt(dimension: dict[str, Any], evidence: Optional[dict[str, Any]]) -> str:
     items = (evidence or {}).get("items") or []
     if items:
@@ -160,7 +177,8 @@ def assess_chain_llm(
     model = model or os.environ.get("ARGUS_LLM_MODEL", DEFAULT_MODEL)
     user_prompt = _build_user_prompt(dimension, evidence)
 
-    response = client.chat.completions.create(
+    response = create_structured(
+        client,
         model=model,
         temperature=0,
         messages=[
