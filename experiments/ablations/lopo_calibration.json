@@ -1,0 +1,31 @@
+{
+ "rule": "over-severe high -> weak retrieval / missing evidence",
+ "folds": {
+  "paper_01": {
+   "n": 20,
+   "weak_share": 0.8,
+   "missing_share": 1.0
+  },
+  "paper_03": {
+   "n": 17,
+   "weak_share": 0.76,
+   "missing_share": 1.0
+  },
+  "paper_07": {
+   "n": 18,
+   "weak_share": 0.72,
+   "missing_share": 1.0
+  },
+  "paper_08": {
+   "n": 21,
+   "weak_share": 0.81,
+   "missing_share": 1.0
+  },
+  "paper_10": {
+   "n": 16,
+   "weak_share": 0.81,
+   "missing_share": 1.0
+  }
+ },
+ "stable": true
+}
