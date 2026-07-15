@@ -30,8 +30,11 @@ import yaml
 
 CONFIG_PATH = Path(__file__).resolve().parents[3] / "config" / "models.yaml"
 
-# Providers with a real backend implemented in this codebase today.
-_IMPLEMENTED_PROVIDERS = {"openai"}
+# Providers with a real backend implemented in this codebase today:
+#   openai            - OpenAI SDK (llm_assessor.make_client)
+#   openai-compatible - OpenAI SDK pointed at `base_url` (Gemini, Kimi, Ollama)
+#   anthropic         - Anthropic SDK via agent/anthropic_compat.py
+_IMPLEMENTED_PROVIDERS = {"openai", "openai-compatible", "anthropic"}
 _REQUIRED_MODEL_FIELDS = ("id", "provider", "model", "enabled")
 
 

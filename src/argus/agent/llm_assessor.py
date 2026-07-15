@@ -87,11 +87,27 @@ _SCHEMA = {
 
 
 def make_client(client: Optional[Any] = None) -> Any:
-    """Return an OpenAI client, or raise a clear error if the key is missing."""
+    """Return a chat client for the configured provider.
+
+    Providers (env ``ARGUS_PROVIDER``, default ``openai``):
+      - ``openai`` (default): the OpenAI SDK. ``OPENAI_BASE_URL`` retargets it at
+        any OpenAI-compatible endpoint (Gemini, Kimi/Moonshot, a local Ollama),
+        with ``OPENAI_API_KEY`` carrying that provider's key for the run.
+      - ``anthropic``: the Anthropic SDK behind an OpenAI-shaped facade
+        (see :mod:`argus.agent.anthropic_compat`); needs ``ANTHROPIC_API_KEY``.
+    """
     if client is not None:
         return client
-    if not os.environ.get("OPENAI_API_KEY"):
-        _load_env_file()  # fall back to a project-root .env
+    _load_env_file()  # pick up keys from a project-root .env (no overwrite)
+
+    provider = os.environ.get("ARGUS_PROVIDER", "openai").lower()
+    if provider == "anthropic":
+        from .anthropic_compat import AnthropicCompatClient
+
+        return AnthropicCompatClient()
+    if provider != "openai":
+        raise RuntimeError(f"unknown ARGUS_PROVIDER: {provider!r} (openai|anthropic)")
+
     if not os.environ.get("OPENAI_API_KEY"):
         raise RuntimeError(
             "OPENAI_API_KEY is not set. Either export it, or put it in a .env file "
