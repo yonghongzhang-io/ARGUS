@@ -1,0 +1,37 @@
+{
+ "model_id": "claude_opus",
+ "provider": "anthropic",
+ "model": "claude-opus-4-8",
+ "mode": "smoke",
+ "n_variants": 1,
+ "summary": {
+  "n": 1,
+  "detection_rate": 1.0,
+  "false_alarm_rate": 1.0,
+  "localization_acc": 0.0
+ },
+ "by_dimension": {
+  "parallel_trends": {
+   "n": 1,
+   "detection_rate": 1.0,
+   "false_alarm_rate": 1.0,
+   "localization_acc": 0.0,
+   "meets_expected_rate": 0.0
+  }
+ },
+ "pairs": [
+  {
+   "variant_id": "parallel_trends_commission_01",
+   "target_dimension": "parallel_trends",
+   "flaw_type": "commission",
+   "score": {
+    "detected": true,
+    "false_alarm": true,
+    "localized": false,
+    "clean_risk": "medium",
+    "injected_risk": "medium",
+    "meets_expected": false
+   }
+  }
+ ]
+}
