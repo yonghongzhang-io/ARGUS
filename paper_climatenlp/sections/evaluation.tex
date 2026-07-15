@@ -27,7 +27,7 @@ How a flaw is injected is a methodological choice that matters. A na\"ive inject
 appends a sentence that \emph{names} the flaw: e.g.\ ``treated and control have
 non-zero pre-period coefficients with significant leads.'' If the detector then
 searches for exactly those phrases, detection becomes a tautology: the injector
-plants the very string the detector greps for. In our initial implementation this
+plants the very string the detector matches on. In our initial implementation this
 produced a perfect-looking but meaningless detection rate of $1.000$.
 
 We replace this with \emph{realistic structural perturbation} of two kinds.
@@ -41,5 +41,4 @@ a two-way fixed-effects regression under staggered policy timing), \emph{without
 containing any of the phrases the detector looks for. We enforce the latter with a
 regression test that fails if an injected paper contains the target dimension's
 negative-signal phrases, so the circularity cannot silently return. Detection is
-thereby a genuine task rather than a string match, which is what makes the results
-in \S\ref{sec:results} meaningful.
+thereby a genuine task rather than a string match.
