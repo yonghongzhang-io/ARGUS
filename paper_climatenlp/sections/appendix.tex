@@ -88,9 +88,45 @@ associated dataset and will be listed in the camera-ready version.
   \end{tabular}
 \end{table}
 
-\section{Qualitative Audit Example}
+\section{Qualitative Audit Examples}
 \label{app:qual}
 
+\paragraph{A complete audit report.}
+Table~\ref{tab:casestudy} shows \sys{}'s actual output on the emissions-trading
+fixture with the \emph{anticipation} flaw injected (\S\ref{sec:evaluation}): the
+report flags exactly the damaged dimension as high, giving the anticipation-gap
+rationale, keeps nine supported dimensions at low, and shows a mild
+over-severity trace on \emph{inference} (the fixture does not state the number
+of clusters), the same bias the human-gold pilot quantifies. This is the
+dimension-level, evidence-cited report a reviewer receives.
+
+\begin{table}[t]
+  \centering\small
+  \caption{\sys{} audit report (abridged) on the fixture with the injected
+  anticipation flaw. Every row cites the evidence it rests on; the injected
+  dimension is the one flagged high.}
+  \label{tab:casestudy}
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{llp{5.2cm}}
+    \toprule
+    dimension & risk & rationale (abridged) \\
+    \midrule
+    no anticipation & \textbf{high} & outcomes began changing between the
+    policy announcement and its rollout, undermining no-anticipation \\
+    inference & medium & clustering and wild-cluster bootstrap reported, but the
+    number of clusters is not stated \\
+    parallel trends & low & event-study with null pre-period coefficients and
+    placebo tests \\
+    treatment timing & low & heterogeneity-robust estimators with a
+    Goodman--Bacon decomposition \\
+    \emph{7 further dimensions} & low & supporting evidence retrieved and judged
+    adequate \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\paragraph{A grounded judgement on a real paper.}
 On a trade-and-wages paper \sys{} retrieves the employment-results section and
 flags \emph{inference} as high because ``the paper only mentions
 heteroskedastic-consistent standard errors and does not provide information on
