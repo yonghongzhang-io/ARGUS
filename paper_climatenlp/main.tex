@@ -52,7 +52,8 @@ identification assumptions for expert review.
 \input{sections/limitations}
 
 \bibliography{references}
-\bibliographystyle{acl_natbib}
+% \bibliographystyle{acl_natbib} is already issued by acl.sty (line 195); repeating
+% it here writes two \bibstyle commands into the .aux and makes BibTeX error.
 
 \appendix
 \input{sections/appendix}
