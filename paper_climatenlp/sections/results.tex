@@ -161,8 +161,8 @@ inference over-flag.
 We next audit a corpus of 27 published DID papers. There is no injected ground
 truth; we report
 the raw per-dimension risk distribution of each assessor
-(Figure~\ref{fig:realcorpus}). The keyword baseline is permissive, $91\%$ of its
-judgements are \emph{low}: it sees topic vocabulary, declares the dimension
+(Figure~\ref{fig:realcorpus}). The keyword baseline is permissive: $91\%$ of its
+judgements are \emph{low}. It sees topic vocabulary, declares the dimension
 supported, and flags almost nothing. The two-stage LLM is differentiated, and its
 most informative output is that ${\sim}39\%$ of judgements are \texttt{unknown}:
 the relevance gate could not surface evidence, so the system says so rather than
@@ -233,10 +233,10 @@ as a substantive \emph{high}, conflating a \emph{retrieval failure} with the pap
 lacking the evidence, which the human, reading the full PDF, resolves to
 low/medium. This is a fixable calibration target.
 
-A deterministic calibration layer over fields the LLM already produces, the
-dominant rule demotes a weak-retrieval \emph{high} to \emph{medium} (keep
-coverage) or \texttt{unknown} (abstain), cuts over-severity while holding
-high-risk detection unchanged on the pilot's two high cells: keeping coverage
+A deterministic calibration layer over fields the LLM already produces cuts
+over-severity while holding high-risk detection unchanged on the pilot's two high
+cells; the dominant rule demotes a weak-retrieval \emph{high} to \emph{medium}
+(keep coverage) or \texttt{unknown} (abstain). Keeping coverage
 raises exact agreement from $0.15$ to
 $0.45$; abstaining reaches weighted $\kappa=0.25$ but leaves 13 answered cells
 (Appendix, Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}). Calibration
