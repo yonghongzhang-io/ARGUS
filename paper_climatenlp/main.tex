@@ -33,10 +33,9 @@ an LLM runs behind a fixed, deterministic pipeline and scores DID studies on an
 11-dimension assumption--implication--evidence rubric, retrieving evidence,
 judging its adequacy, and producing a risk report rather than a causal
 verdict. Under realistic flaw injection (seeding one known error into an
-otherwise credible study) adequacy reasoning detects flaws that keyword matching
-cannot ($0.18$ versus up to $1.00$ detection, all at zero false alarms), and a
-compute-graded ablation attributes the gain to per-dimension decomposition, with
-the retrieval gate trading detection for calibrated abstention. Across 27 real
+otherwise credible study) adequacy reasoning lifts matched-retrieval detection
+from $0.18$ to $0.73$ at zero false alarms, per-dimension decomposition reaches
+$1.00$, and the retrieval gate trades detection for calibrated abstention. Across 27 real
 papers evidence grounding emerges as the coverage bottleneck, and a pilot
 diagnostic study reveals a systematic over-severity that a lightweight
 calibration layer partly corrects. \sys{} is
