@@ -1,0 +1,277 @@
+{
+ "paper_01|parallel_trends": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_01|no_anticipation": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_01|treatment_timing": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_01|treatment_definition_sutva": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_01|control_group": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_01|specification": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_01|inference": {
+  "risk": "high",
+  "retrieval_quality": "good",
+  "evidence_status": "missing"
+ },
+ "paper_01|sample_period": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_01|concurrent_policies": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_01|robustness_placebo": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_01|data_measurement": {
+  "risk": "medium",
+  "retrieval_quality": "weak",
+  "evidence_status": "partial"
+ },
+ "paper_03|parallel_trends": {
+  "risk": "medium",
+  "retrieval_quality": "good",
+  "evidence_status": "partial"
+ },
+ "paper_03|no_anticipation": {
+  "risk": "medium",
+  "retrieval_quality": "weak",
+  "evidence_status": "partial"
+ },
+ "paper_03|treatment_timing": {
+  "risk": "high",
+  "retrieval_quality": "good",
+  "evidence_status": "missing"
+ },
+ "paper_03|treatment_definition_sutva": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_03|control_group": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_03|specification": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_03|inference": {
+  "risk": "high",
+  "retrieval_quality": "good",
+  "evidence_status": "flawed"
+ },
+ "paper_03|sample_period": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_03|concurrent_policies": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_03|robustness_placebo": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_03|data_measurement": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_07|parallel_trends": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_07|no_anticipation": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_07|treatment_timing": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_07|treatment_definition_sutva": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_07|control_group": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_07|specification": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_07|inference": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_07|sample_period": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_07|concurrent_policies": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_07|robustness_placebo": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_07|data_measurement": {
+  "risk": "medium",
+  "retrieval_quality": "good",
+  "evidence_status": "partial"
+ },
+ "paper_08|parallel_trends": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_08|no_anticipation": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_08|treatment_timing": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_08|treatment_definition_sutva": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_08|control_group": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_08|specification": {
+  "risk": "medium",
+  "retrieval_quality": "good",
+  "evidence_status": "partial"
+ },
+ "paper_08|inference": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_08|sample_period": {
+  "risk": "medium",
+  "retrieval_quality": "good",
+  "evidence_status": "partial"
+ },
+ "paper_08|concurrent_policies": {
+  "risk": "high",
+  "retrieval_quality": "good",
+  "evidence_status": "missing"
+ },
+ "paper_08|robustness_placebo": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_08|data_measurement": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_10|parallel_trends": {
+  "risk": "high",
+  "retrieval_quality": "good",
+  "evidence_status": "missing"
+ },
+ "paper_10|no_anticipation": {
+  "risk": "medium",
+  "retrieval_quality": "weak",
+  "evidence_status": "partial"
+ },
+ "paper_10|treatment_timing": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_10|treatment_definition_sutva": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_10|control_group": {
+  "risk": "low",
+  "retrieval_quality": "good",
+  "evidence_status": "sufficient"
+ },
+ "paper_10|specification": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_10|inference": {
+  "risk": "medium",
+  "retrieval_quality": "good",
+  "evidence_status": "partial"
+ },
+ "paper_10|sample_period": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ },
+ "paper_10|concurrent_policies": {
+  "risk": "high",
+  "retrieval_quality": "good",
+  "evidence_status": "missing"
+ },
+ "paper_10|robustness_placebo": {
+  "risk": "unknown",
+  "retrieval_quality": "failed",
+  "evidence_status": "missing"
+ },
+ "paper_10|data_measurement": {
+  "risk": "high",
+  "retrieval_quality": "weak",
+  "evidence_status": "missing"
+ }
+}
