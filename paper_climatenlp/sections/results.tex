@@ -92,7 +92,7 @@ subtler flaws (\S\ref{sec:variants}), then real papers (\S\ref{sec:realpapers}).
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.48\textwidth]{figures/figure_phase1}
+  \includegraphics[width=0.72\textwidth]{figures/figure_phase1}
   \caption{Keyword baseline vs.\ LLM evidence-adequacy assessor ($n{=}11$ flaws,
   realistic injection). \textbf{(a)}~Swapping \emph{only} the assessment
   policy (same retrieved evidence) recovers detection and localization
@@ -205,16 +205,13 @@ grounding bottleneck, not the correctness of any individual flag.
 
 To test whether \sys{}'s flags agree with expert judgement, we built a small
 expert gold: two annotators independently labelled risk on 5 DID papers $\times$
-11 dimensions (55 cells). Round-1 agreement was low on the raw 3-level scale
-(Cohen's $\kappa=0.17$), but the disagreement is almost entirely ordinal
-(weighted $\kappa=0.31$; $96\%$ of disagreements are a single severity step). A
-calibration round adjudicated the 27 disagreements
-(Appendix~\ref{app:supp}); the intrinsically ambiguous cells are
-not random: they concentrate on \emph{non-canonical DID designs}
-(continuous-shock, event-study) where a dimension like staggered timing is not
-applicable as conventionally defined. A real share of ``expert disagreement'' is
-thus \emph{design applicability}, not severity; on those cells even experts
-abstain. The adjudicated gold (55 cells) is low 29, medium 24, high 2. This is
+11 dimensions (55 cells), with an adjudication round resolving disagreements
+(construction details and agreement statistics in Appendix~\ref{app:supp}).
+Disagreement is almost entirely ordinal and concentrates on
+\emph{non-canonical DID designs} (continuous-shock, event-study) where a
+dimension like staggered timing is not applicable as conventionally defined: a
+real share of ``expert disagreement'' is \emph{design applicability}, not
+severity. The adjudicated gold (55 cells) is low 29, medium 24, high 2. This is
 a pilot ($n{=}5$, two annotators), read as preliminary.
 
 \subsection{\sys{} versus the human gold}
