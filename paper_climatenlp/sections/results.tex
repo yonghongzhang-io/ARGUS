@@ -88,7 +88,7 @@ cannot ground.
 
 \paragraph{Scope.}
 These are synthetic fixtures with few dimensions; ceilings on clearly injected
-flaws are a proof-of-concept, not a solved task. The sharper tests follow:
+flaws are only a proof-of-concept. The sharper tests follow:
 subtler flaws (\S\ref{sec:variants}), then real papers (\S\ref{sec:realpapers}).
 
 \begin{figure*}[t]
@@ -126,10 +126,9 @@ its context; on real 30-page papers it instead commits judgements nearly
 everywhere, \S\ref{sec:realpapers}). An \emph{oracle-retrieval} arm completes
 the attribution: fed the target section directly (empty for omissions,
 bypassing the gate), the assessor detects $0.86$ of commissions and $1.00$ of
-omissions (every missed omission is a gate abstention, not a judgement
-failure), while the gate suppresses the alarms that section-level evidence
-alone triggers ($0.21$ for the section-fed oracle arm vs $0.09$; the
-full-context arm's $0.00$ reflects its wider view).
+omissions, while the gate suppresses the alarms section-level evidence alone
+triggers ($0.21$ oracle arm vs $0.09$; the full-context arm's $0.00$ reflects
+its wider view).
 
 \paragraph{Cross-model robustness.}
 Porting the unchanged pipeline across providers shows the core result is not
@@ -245,8 +244,7 @@ paper: it re-emerges in every leave-one-paper-out fold of the pilot.
 
 An \emph{oracle-evidence} check splits the diagnosis: an expert located
 supporting evidence for \emph{all} 55 cells, so all 22 pipeline abstentions
-are retrieval failures, not reporting gaps, and grounding limits
-\emph{coverage}. But feeding the assessor the
+trace to retrieval failure: grounding limits \emph{coverage}. But feeding the assessor the
 expert's evidence spans does not restore agreement (50/55 judgements more severe
 than gold; exact $0.07$): severity calibration, not evidence access, limits
 \emph{agreement}.
