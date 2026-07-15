@@ -8,7 +8,11 @@ difference-in-differences identification; whether the rubric-plus-injection
 methodology transfers to other quasi-experimental designs is untested. The rubric,
 flaw taxonomy, and injector are co-designed, so synthetic detection rates are best
 read as internal consistency under known threats rather than external
-generalization; flaws authored by independent experts are future work. Evidence
+generalization; flaws authored by independent experts are future work. Relatedly,
+flaw injection certifies the auditor against the \emph{injected} threat on a
+single dimension only and inherits the taxonomy's blind spots, so we treat
+detection and localization as necessary rather than sufficient, pairing them with
+the false-alarm rate and the human-gold comparison. Evidence
 grounding, not reasoning, is the dominant practical constraint: when retrieval returns
 off-target passages the assessor cannot judge adequacy, which is why \sys{} emits an
 explicit \texttt{unknown} state rather than a substantive verdict. Finally, \sys{}
