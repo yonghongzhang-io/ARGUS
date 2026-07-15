@@ -13,7 +13,10 @@ flaw injection certifies the auditor against the \emph{injected} threat on a
 single dimension only and inherits the taxonomy's blind spots, so we treat
 detection and localization as necessary rather than sufficient, pairing them with
 the false-alarm rate and the human-gold comparison. Evidence
-grounding, not reasoning, is the dominant practical constraint: when retrieval returns
+grounding is the dominant practical constraint on coverage (the oracle-evidence
+check in \S\ref{sec:calib} shows severity calibration separately limits
+agreement, though its expert spans average only ${\sim}120$ characters, so part
+of the residual over-severity reflects judging brief excerpts): when retrieval returns
 off-target passages the assessor cannot judge adequacy, which is why \sys{} emits an
 explicit \texttt{unknown} state rather than a substantive verdict. Finally, \sys{}
 is an auditor, not an oracle: it screens whether reported evidence supports a
