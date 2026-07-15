@@ -6,10 +6,11 @@ architecture ablation, a run over 27 published difference-in-differences (DID)
 papers that stress-test the audit architecture across empirical economics, beyond
 the climate-policy setting (carbon pricing, emissions trading, emission standards)
 that defines its target deployment, and a calibrated human-gold pilot. Four findings emerge: (i)~judging evidence \emph{adequacy},
-not keyword presence, is what detects identification flaws; (ii)~the bounded
-architecture, not raw model capability, recovers flaws a single pass misses and
-turns retrieval failure into an auditable \texttt{unknown} signal; (iii)~on real
-papers the binding constraint shifts from causal reasoning to evidence grounding;
+not keyword presence, is what detects identification flaws; (ii)~restructuring
+the same model into a bounded per-dimension pipeline recovers flaws a single pass
+misses and turns retrieval failure into an auditable \texttt{unknown} signal;
+(iii)~on real papers the dominant practical bottleneck shifts from causal
+reasoning to evidence grounding;
 and (iv)~against a human gold \sys{} is systematically over-severe, a bias that a
 lightweight calibration layer reduces without lowering high-risk detection on the
 pilot's few high cells.
@@ -75,8 +76,8 @@ between the policy announcement and rollout,'' with no sentinel keyword present.
 This is the empirical core of the design: placing agency where reasoning is
 required.
 
-\paragraph{The architecture, not the model, does the work.}
-The single-pass ablation isolates the bounded design. On the flaw-injection
+\paragraph{The same model, restructured, recovers what a single pass misses.}
+The single-pass ablation holds the model fixed and removes the architecture. On the flaw-injection
 benchmark it detects only $0.455$ of flaws (false alarm $0.000$, localization
 $0.455$), against $1.000$/$0.000$/$0.909$ for the two-stage assessor: judging
 eleven dimensions from the whole paper at once misses more than half the planted
@@ -89,7 +90,10 @@ under single-pass, mostly \emph{low} ($1.8\%\!\to\!14.9\%$) or \emph{medium}
 $45.1\%$). Without a gate the model commits a substantive risk for nearly every
 dimension instead of reporting that it could not ground the evidence. The bounded
 design thus recovers flaws a single pass misses and turns retrieval failure into a
-visible, auditable signal: the distinction the rest of the section relies on.
+visible, auditable signal: the distinction the rest of the section relies on. One
+caveat: the two-stage pipeline also issues two model calls per dimension against
+one call in total for single-pass, so decomposition and per-call compute are not
+separated by this comparison; a compute-matched ablation is future work.
 
 \paragraph{Scope.}
 These are synthetic fixtures with few dimensions; $1.000$ is a proof-of-concept on
@@ -104,7 +108,9 @@ behaviour survives subtler, more varied flaws, and then real published papers.
   policy (same retrieved evidence) recovers detection $0.182\,{\to}\,1.000$ and
   localization $0.182\,{\to}\,0.909$; false alarm $0$. \textbf{(b)}~Per-flaw
   caught/missed: the keyword baseline is \emph{blind to every commission-type
-  flaw}, all of which the LLM catches.}
+  flaw}, all of which the LLM catches. Results on this clear-cut eleven-flaw set
+  are saturated; Table~\ref{tab:variants} reports the harder 33-variant
+  benchmark.}
   \label{fig:results}
 \end{figure*}
 

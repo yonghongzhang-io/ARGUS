@@ -5,8 +5,11 @@ Our human gold is pilot-scale: 5 papers and 55 cells with two annotators and a
 single adjudication round, so the expert comparison is a preliminary signal rather
 than a calibrated benchmark. The current scope is confined to
 difference-in-differences identification; whether the rubric-plus-injection
-methodology transfers to other quasi-experimental designs is untested. Evidence
-grounding, not reasoning, is the binding constraint: when retrieval returns
+methodology transfers to other quasi-experimental designs is untested. The rubric,
+flaw taxonomy, and injector are co-designed, so synthetic detection rates are best
+read as internal consistency under known threats rather than external
+generalization; flaws authored by independent experts are future work. Evidence
+grounding, not reasoning, is the dominant practical constraint: when retrieval returns
 off-target passages the assessor cannot judge adequacy, which is why \sys{} emits an
 explicit \texttt{unknown} state rather than a substantive verdict. Finally, \sys{}
 is an auditor, not an oracle: it screens whether reported evidence supports a

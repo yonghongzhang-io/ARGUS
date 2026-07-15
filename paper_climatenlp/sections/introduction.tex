@@ -50,7 +50,8 @@ calibration and applicability failures.
   retrieves dimension-specific evidence, assesses reported-evidence adequacy with
   a bounded LLM audit module, and localizes risk in a human-reviewable report.
   Step~3 uses expert annotation and adjudicated gold labels to evaluate and
-  calibrate audit severity. \sys{} flags dimensions for expert review.}
+  calibrate audit severity offline; deployment requires only expert review of the
+  report. \sys{} flags dimensions for expert review.}
   \label{fig:overview}
 \end{figure*}
 
@@ -58,8 +59,8 @@ calibration and applicability failures.
 Our contributions are:
 \begin{enumerate}
   \item an 11-dimension framework that operationalizes DID identification
-  credibility as auditable \emph{assumption--implication--evidence} chains
-  (\S\ref{sec:framework});
+  credibility as machine-auditable \emph{assumption--implication--evidence}
+  chains (\S\ref{sec:framework});
   \item a bounded-agentic, evidence-grounded auditing pipeline that separates
   retrieval uncertainty from substantive identification risk;
   \item a layered evaluation combining realistic flaw injection, same-model
