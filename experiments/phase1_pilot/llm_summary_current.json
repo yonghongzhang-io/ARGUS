@@ -1,0 +1,23 @@
+{
+ "_comment": "Current-era (July 2026) two-stage result on the 11 clear flaws; replaces the June-era llm_summary.json whose numbers no longer reproduce (serving drift; see paper appendix). Read by make_figure2.py.",
+ "assessor": "llm",
+ "model": "gpt-4o (= 2024-11-20 snapshot at run time)",
+ "fixture": "clean_supported.json",
+ "n": 11,
+ "detection_rate": 0.7272727272727273,
+ "false_alarm_rate": 0.0,
+ "localization_acc": 0.7272727272727273,
+ "per_flaw_detected": {
+  "anticipation_effect": true,
+  "bad_control": true,
+  "cherrypicked_window": false,
+  "confounding_policy": true,
+  "forbidden_comparison": true,
+  "measurement_break": false,
+  "missing_placebo": true,
+  "noncomparable_controls": false,
+  "pretrend_divergence": true,
+  "spillover_contamination": true,
+  "understated_se": true
+ }
+}

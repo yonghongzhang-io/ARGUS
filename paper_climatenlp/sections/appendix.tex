@@ -41,18 +41,84 @@ assessment. Each model call operates under a fixed tool set, a hard step budget,
 a logged trace. This design trades autonomy for reproducibility, inspectability, and
 controlled evaluation under flaw injection.
 
+\section{Ablation Matrix and Cross-Model Panel}
+\label{app:matrix}
+
+Table~\ref{tab:matrix} grades compute on the 33-variant benchmark: task
+decomposition (one adequacy call per dimension) drives synthetic detection, and
+the retrieval-and-gate layer converts omission detection into abstention.
+Table~\ref{tab:crossmodel} ports the unchanged pipeline across providers:
+commission detection is uniformly high, while false-alarm and localization
+profiles vary sharply by model. Cross-provider decoding defaults differ (newer
+reasoning models reject an explicit temperature), so these are single runs.
+
+On real papers the gate's behavioural contrast sharpens: over the 25 papers
+common to both runs ($275$ cells), the ungated single pass almost never
+abstains, converting the gated pipeline's \texttt{unknown} cells into confident
+low ($1.8\%\!\to\!14.9\%$) or medium ($14.2\%\!\to\!43.6\%$) judgements while
+the high-risk share stays comparable ($41.1\%$ vs $45.1\%$).
+
+\begin{table}[t]
+  \centering\small
+  \caption{Compute-graded ablation on the 33-variant benchmark (gpt-4o).
+  det / fa / loc = detection, false alarm, localization.}
+  \label{tab:matrix}
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{lcccc}
+    \toprule
+    arm & calls/paper & det & fa & loc \\
+    \midrule
+    full-paper single pass & 1 & 0.727 & 0.000 & 0.727 \\
+    per-dimension, no retrieval & 11 & 0.879 & 0.000 & 0.879 \\
+    two-stage (retrieval + gate) & 22 & 0.747 & 0.091 & 0.657 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\begin{table}[t]
+  \centering\small
+  \caption{Cross-model panel on the 33-variant benchmark (single run per
+  model; gpt-4o is the three-run mean). comm/omit = commission/omission
+  detection.}
+  \label{tab:crossmodel}
+  \setlength{\tabcolsep}{3.5pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{lccccc}
+    \toprule
+    model & det & fa & loc & comm & omit \\
+    \midrule
+    gpt-4o & 0.75 & 0.09 & 0.66 & 0.89 & 0.45 \\
+    Claude Opus 4.8 & 0.91 & 0.82 & 0.24 & 1.00 & 0.73 \\
+    Gemini 2.5 Flash & 0.79 & 0.18 & 0.36 & 0.91 & 0.55 \\
+    Llama 3.1 8B (local) & 0.94 & 0.27 & 0.27 & 0.95 & 0.91 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
 \section{Reproducibility Details}
 \label{app:repro}
 
-All LLM stages use \texttt{gpt-4o} at temperature~$0$ with
-\texttt{max\_steps}{=}1. The identification rubric, flaw taxonomy, and
+All gpt-4o stages use temperature~$0$ with \texttt{max\_steps}{=}1; newer
+reasoning models (Claude Opus~4.8) reject an explicit temperature and run at
+provider defaults. The identification rubric, flaw taxonomy, and
 33-variant catalog are declarative configuration files in the code release, and
 the keyword baseline plus all leak-freedom (non-circularity) checks are
-deterministic and run without model access. The eleven-flaw headline numbers are
-the frozen output of the released runner. The 33-variant benchmark was run three
-times end-to-end (roughly $750$ model calls per run); verdicts were
-near-deterministic (32/33 identical across runs), and Table~\ref{tab:variants}
-reports the three-run mean.
+deterministic and run without model access. Eleven-flaw numbers are July-2026
+runs of the released runner; detection replicates exactly across the
+\texttt{gpt-4o} alias and the dated \texttt{gpt-4o-2024-11-20} snapshot
+(localization varies between runs, $0.455$--$0.727$). A June-2026 run of the
+same code had scored two-stage $1.000$/$0.909$ and single-pass $0.455$; neither
+value reproduces on current serving of the alias \emph{or} the dated snapshot,
+indicating provider-side serving drift, so we report only currently replicable
+numbers. The 33-variant benchmark was run three
+times end-to-end (roughly $750$ model calls per run, ${\sim}20$ minutes and
+${\sim}$US\$8 per gpt-4o run; the local Llama run took ${\sim}67$ minutes on a
+laptop at zero API cost); verdicts were near-deterministic (32/33 identical
+across runs), and Table~\ref{tab:variants} reports the three-run mean. The
+two-call-per-dimension pipeline audits one paper for roughly US\$0.25 of
+gpt-4o usage. The oracle-evidence check (\S\ref{sec:calib}) is 55 adequacy
+calls over expert-annotated spans.
 
 \section{The Real-Paper Corpus}
 \label{app:corpus}
@@ -137,6 +203,10 @@ actually requires.
 
 \section{Supplementary Figures and Tables}
 \label{app:supp}
+
+Adjudication mechanics for the pilot gold (\S\ref{sec:gold}): of the 27
+round-1 disagreements, 16 resolved to a single label once the low/medium
+boundary was anchored, and 11 were flagged intrinsically ambiguous.
 
 This appendix collects supporting material referenced from the main text:
 the per-dimension risk distribution on the 27-paper real corpus
