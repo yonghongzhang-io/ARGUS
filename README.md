@@ -1,22 +1,56 @@
 # ARGUS
 
-**A responsible-AI framework for auditing causal identification in environmental policy evaluation.**
+**Evidence-grounded auditing of identification assumptions in climate-policy causal evaluations.**
 
 ARGUS audits the *causal identification credibility* of difference-in-differences (DID)
-studies in environmental policy evaluation (case study: China's carbon emissions trading
+studies in environmental policy evaluation (fixture: China's carbon emissions trading
 pilots). It does **not** judge whether a paper's estimated effect is "true" — in a DID
 design the counterfactual is never observed. Instead, ARGUS decomposes identification into
-auditable dimensions, gathers supporting evidence from the paper, assesses each
+eleven auditable dimensions, gathers supporting evidence from the paper, assesses each
 assumption→implication→evidence chain, localizes weaknesses, and produces a transparent
 report that flags risks for a human expert. The system is validated through *synthetic flaw
 injection*, which yields local ground truth for identification threats without requiring the
 true causal effect.
 
-> **Status:** early-stage doctoral research prototype. A deterministic non-LLM
-> baseline now runs end-to-end: evidence retrieval, rule-based assessment, risk
-> localization, report generation, synthetic flaw injection, and clean-vs-injected
-> evaluation. The model-driven reason/act policy, real PDF parsing, real figure
-> extraction, and corpus-scale experiments are still future work.
+> **Status:** submitted to **ClimateNLP 2026** (EMNLP workshop, under review); the
+> submitted paper is `paper_climatenlp/` (snapshot tag `climatenlp2026-submission-v1`).
+> The full two-stage LLM pipeline runs end-to-end: deterministic retrieval, a relevance
+> gate with an explicit `unknown` abstention state, per-dimension adequacy assessment,
+> risk localization, and report generation — evaluated on two flaw-injection benchmarks,
+> a 27-paper real corpus, a cross-model panel, and an expert-annotated human-gold pilot.
+
+---
+
+## Headline results
+
+**Flaw injection, 11 clear flaws** (gpt-4o; keyword and two-stage share identical retrieved
+evidence, so that pair isolates the judgement policy):
+
+| assessor | calls/paper | detection | false alarm | localization |
+| --- | --- | --- | --- | --- |
+| keyword baseline | 0 | 0.182 | 0.000 | 0.182 |
+| full-paper single pass | 1 | 0.818 | 0.000 | 0.818 |
+| per-dimension, no retrieval | 11 | 1.000 | 0.000 | 1.000 |
+| two-stage ARGUS (retrieval + gate) | 22 | 0.727 | 0.000 | 0.727 |
+
+The gated pipeline's misses are all *omission* flaws on which it **abstains rather than
+guesses**; an oracle-retrieval ablation attributes every such miss to the gate, not the
+judge (commission 0.86 / omission 1.00 when the assessor is fed the target section
+directly), and the gate also suppresses the alarms section-level evidence alone triggers.
+
+**Harder 33-variant benchmark** (three runs, near-deterministic, 32/33 verdicts identical):
+detection 0.75, false alarm 0.09, localization 0.66; commission 0.89 vs omission 0.45
+(omission misses are abstentions — the evidence-grounding bottleneck).
+
+**Cross-model panel** (unchanged pipeline, `config/models.yaml`): commission detection is
+high everywhere (gpt-4o 0.89, Claude Opus 4.8 1.00, Gemini 2.5 Flash 0.91, local
+Llama 3.1 8B 0.95); the precision profile is model-dependent.
+
+**Real papers (27 top-journal DID studies):** the bottleneck relocates from causal
+reasoning to *evidence grounding* — ~39% of judgements abstain to `unknown` where
+retrieval fails. **Human-gold pilot (5 papers × 11 dimensions):** ARGUS is systematically
+over-severe; a deterministic calibration layer (demote weak-retrieval `high`) raises exact
+agreement 0.15 → 0.45, and the rule re-emerges in every leave-one-paper-out fold.
 
 ---
 
@@ -28,7 +62,7 @@ true causal effect.
    Empirical DID policy paper
               |
               v
-   [ decomposition ]        deterministic  - map paper onto ~10 identification dimensions
+   [ decomposition ]        deterministic  - map paper onto 11 identification dimensions
               |
               v
    [ extraction ]   <-- AGENTIC --+   bounded ReAct loop: fixed tool set, hard step budget
@@ -73,6 +107,12 @@ true causal effect.
    Local ground truth = the injected flaw, NOT the true causal effect.
 ```
 
+Injection is *realistic structural perturbation*, not sentinel strings: omission flaws
+delete the supporting section/figure; commission flaws rewrite a section in
+flawed-but-natural prose. A leak-freedom regression test fails if an injected paper
+contains the detector's negative-signal phrases, so circular detection cannot silently
+return.
+
 ---
 
 ## Architecture
@@ -96,12 +136,14 @@ control flow is written in code, not decided by a model.
 
 All other stages are plain deterministic orchestration with no agent loop.
 
-**Current baseline.** Until a model-driven reason/act policy is added, ARGUS uses
-a deterministic fallback inside the bounded loop. `extraction` calls
-`evidence_search` over parsed paper text/sections/figures/tables; `assessment`
-uses explicit positive/negative signals per identification dimension. This gives
-the project a reproducible lower-bound system and a testable contract for later
-LLM upgrades.
+**Assessors.** The primary assessor is the **two-stage LLM pipeline**: deterministic
+section retrieval, one relevance-gate call (may abstain to `unknown`), one adequacy call
+per dimension (2 calls/dimension, 22/paper, ≈US$0.25 of gpt-4o per audit at temperature 0,
+`max_steps=1`). A **deterministic keyword baseline** (explicit positive/negative signals
+per dimension) is retained as the comparison floor, and single-pass / per-dimension
+ablation arms isolate what each architectural ingredient buys. Providers are configured in
+`config/models.yaml`: OpenAI, Anthropic (via an OpenAI-shaped facade), and any
+OpenAI-compatible endpoint (Gemini; local Llama via Ollama).
 
 **Why this split.** A fully autonomous agent would make per-run behaviour path-dependent and
 high-variance, which would undermine ARGUS's central evaluation claim — that flaw injection
@@ -117,21 +159,25 @@ adjudicate them.
 ## Repository layout
 
 ```
-config/        identification dimensions + flaw taxonomy (the rubric the system runs on)
-examples/      committed parsed-paper pilot fixtures
-src/argus/     pipeline stages, the bounded agent loop + tools, evaluation metrics
-data/          paper corpus, flaw-injected versions, annotations (not committed)
-experiments/   phase-1 pilot and later studies
-results/       generated reports and agent traces
-paper/         LNCS Doctoral Consortium submission
-tests/         minimal tests
+config/            identification rubric, flaw taxonomy, 33-variant catalog, model registry
+examples/          committed parsed-paper fixtures (clean + injectable)
+src/argus/         pipeline stages, bounded agent loop + tools, LLM assessors, metrics
+data/              paper corpus, flaw-injected versions, annotations (not committed)
+annotation/        human-gold protocols + annotation tooling (oracle spans; gold expansion)
+experiments/       phase1_pilot, variants (33-flaw benchmark), ablations (compute-graded,
+                   oracle-evidence, oracle-retrieval, LOPO calibration), models (cross-model),
+                   real_papers (27-paper corpus runs)
+results/           generated reports and agent traces
+paper_climatenlp/  ClimateNLP 2026 submission (ACL format; submissions/ holds the frozen PDF)
+paper/             earlier LNCS Doctoral Consortium draft (superseded)
+tests/             test suite (125 tests; includes leak-freedom regression checks)
 ```
 
 ---
 
 ## Quickstart
 
-Run the test suite:
+Run the test suite (no API key needed):
 
 ```bash
 python3 -m pytest -q
@@ -168,6 +214,9 @@ Run one clean-vs-injected evaluation pair:
 PYTHONPATH=src python3 -m argus.cli evaluate examples/papers/clean_supported.json --flaw pretrend_divergence --max-steps 1
 ```
 
-The committed pilot fixtures in `examples/papers/` are structured test inputs,
-not authoritative annotations of real published papers. They lock the I/O
-contract and baseline behavior before real corpus ingestion is added.
+LLM runs read API keys from a gitignored `.env` (see `.env.example`); experiment runners
+that spend money are gated behind an explicit `--i-understand-this-costs-money` flag.
+Frozen result JSONs for every number reported in the paper are committed under
+`experiments/`; Appendix C of the paper documents reproducibility details, including an
+observed provider-side serving-drift episode and why only currently replicable numbers are
+reported.
