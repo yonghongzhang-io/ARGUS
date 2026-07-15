@@ -38,7 +38,8 @@ difference is architectural. Table~\ref{tab:results} reports the headline metric
   Appendix~\ref{app:repro} on serving drift). Keyword and two-stage share the
   same retrieved evidence; the ablation arms share the model and rubric but
   remove retrieval, the gate, or both. The final row is the leaked, pre-fix
-  circular setup.}
+  circular setup. On the harder 33-variant benchmark the two-stage assessor
+  shows a $0.09$ inference over-flag (\S\ref{sec:variants}).}
   \label{tab:results}
   \setlength{\tabcolsep}{5pt}
   \resizebox{\columnwidth}{!}{%
@@ -134,8 +135,8 @@ Porting the unchanged pipeline across providers
 8B $0.95$). What differs is the operating point: gpt-4o is the only
 conservative auditor (false alarm $0.09$, localization $0.66$), while the
 others buy sensitivity with alarms (false alarm $0.18$--$0.82$, localization
-$0.24$--$0.36$): the pipeline ports everywhere, its precision profile is
-model-dependent.
+$0.24$--$0.36$): commission detection ports across models; the precision
+profile does not.
 
 The split by flaw type is the informative result (Table~\ref{tab:variants}). The
 assessor catches $0.86$--$0.91$ of \emph{commission} flaws (flawed-but-present
