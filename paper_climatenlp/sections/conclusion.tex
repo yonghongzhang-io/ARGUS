@@ -8,13 +8,12 @@ decomposes identification into auditable dimensions, gathers and assesses in-pap
 evidence, and localizes risk in a transparent, human-reviewable report, while
 confining model agency to two scoped, traceable sub-tasks. We evaluate such
 auditors with synthetic flaw injection, which supplies reproducible local ground
-truth without access to the true effect. Once the leakage that made this evaluation
-circular is removed, a keyword baseline is blind to flawed-but-plausible evidence
-($0.182$ detection), while a model that judges evidence adequacy recovers it
-($1.000$, no false alarms). A human-gold diagnostic pilot further shows that expert
+truth without access to the true effect: once its circular leakage is removed, a
+keyword baseline stays blind to flawed-but-plausible evidence ($0.182$ detection)
+that an adequacy-judging model recovers ($1.000$, no false alarms). A human-gold diagnostic pilot further shows that expert
 labels can do more than evaluate the auditor: they expose a systematic
 over-severity bias and calibrate the mapping from evidence gaps to audit risk.
-Scaling this from synthetic fixtures to a real, expert-annotated corpus with humans
-in the loop remains the central open challenge. Auditing identification credibility
+Scaling to a real, expert-annotated corpus with humans in the loop remains the
+central open challenge. Auditing identification credibility
 is, we argue, both a tractable and a responsible role for AI in empirical
 environmental-policy research.
