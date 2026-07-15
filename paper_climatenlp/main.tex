@@ -34,10 +34,10 @@ an LLM runs behind a fixed, deterministic pipeline and scores DID studies on an
 judging its adequacy, and producing a risk report rather than a causal
 verdict. Under realistic flaw injection (seeding one known error into an
 otherwise credible study) adequacy reasoning detects flaws that keyword matching
-cannot ($0.18$ versus up to $1.00$ detection, no false alarms), and a
+cannot ($0.18$ versus up to $1.00$ detection, all at zero false alarms), and a
 compute-graded ablation attributes the gain to per-dimension decomposition, with
-the retrieval gate trading detection for calibrated abstention; across 27 real
-papers evidence grounding emerges as the coverage bottleneck; and a pilot
+the retrieval gate trading detection for calibrated abstention. Across 27 real
+papers evidence grounding emerges as the coverage bottleneck, and a pilot
 diagnostic study reveals a systematic over-severity that a lightweight
 calibration layer partly corrects. \sys{} is
 thus a high-sensitivity screening tool that surfaces weakly evidenced
