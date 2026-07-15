@@ -1,23 +1,23 @@
 paper_id,journal,title,domain_group,selected(y/n)
-paper_120,AER,The Impacts of Environmental Regulations on Industrial Activity,env/energy,
-paper_126,AER,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Electricity Pricing,env/energy,
-paper_145,AER,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,env/energy,
-paper_164,JPE,The Impacts of Environmental Regulations on Industrial Activity: Evidence from the 1970 and 1977 Clean Air Act Amendments and the Census of Manufactures,env/energy,
-paper_165,QJE,Are Consumers Myopic? Evidence from New and Used Car Purchases,env/energy,
+paper_120,AER,The Impacts of Environmental Regulations on Industrial Activity,env/energy,y
+paper_126,AER,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Electricity Pricing,env/energy,y
+paper_145,AER,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,env/energy,y
+paper_164,JPE,The Impacts of Environmental Regulations on Industrial Activity: Evidence from the 1970 and 1977 Clean Air Act Amendments and the Census of Manufactures,env/energy,y
+paper_165,QJE,Are Consumers Myopic? Evidence from New and Used Car Purchases,env/energy,y
 paper_127,AER,Estimates of the Impact of Crime Risk on Property Values from Megan's Laws,other,
 paper_129,AER,The Surprisingly Swift Decline of US Manufacturing Employment,other,
-paper_14,American Economic Review,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania,other,
+paper_14,American Economic Review,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania,other,y
 paper_102,ILRR,Did Community Rating Induce an Adverse Selection Death Spiral?,other,
-paper_100,JPE,Hospital Ownership and Public Medical Spending,other,
+paper_100,JPE,Hospital Ownership and Public Medical Spending,other,y
 paper_101,JPE,Is More Information Better? The Effects of Report Cards on Health Care Providers,other,
 paper_136,JPE,The Effect of State Policies on the Location of Manufacturing: Evidence from State Borders,other,
 paper_107,QJE,Saving Babies? Revisiting the Effect of Very Low Birth Weight Classification on Mortality,other,
-paper_113,QJE,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Head Start,other,
-paper_124,QJE,The Impact of Legalized Abortion on Crime,other,
+paper_113,QJE,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Head Start,other,y
+paper_124,QJE,The Impact of Legalized Abortion on Crime,other,y
 paper_156,QJE,Does School Spending Matter? The New Literature on an Old Question,other,
 paper_157,QJE,School Quality and Black-White Relative Earnings: A Direct Assessment,other,
 paper_158,QJE,The Effects of Class Size on Student Achievement: New Evidence from Population Variation,other,
 paper_128,REStat,"Trade Liberalization, Exit, and Productivity Improvements: Evidence from Chilean Plants",other,
-paper_130,REStat,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Poverty from India,other,
+paper_130,REStat,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Poverty from India,other,y
 paper_134,REStat,"Trade, Wages, and the Political Economy of Trade Protection",other,
 paper_15,Review of Economics and Statistics,Minimum Wage Effects Across State Borders,other,
