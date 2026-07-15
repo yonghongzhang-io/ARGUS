@@ -22,9 +22,8 @@ find models often reproduce causal \emph{language} without reliable causal
 \emph{inference}; a few move toward applied settings and toward separating
 \emph{identification} from
 \emph{estimation}~\cite{lee2025econcausal,sawarni2026causalreasoning}. \sys{}
-inverts the task: rather than producing a causal answer, it audits whether a
-\emph{human} paper's identification assumptions are adequately evidenced, and
-abstains from a causal verdict by design.
+asks the inverse question: are a \emph{human} paper's identification assumptions
+adequately evidenced? A causal verdict is out of scope by design.
 
 \paragraph{Responsible AI for empirical research.}
 AI is increasingly applied to research reliability: reproducibility checking,
@@ -33,8 +32,8 @@ analyst-driven result spreads~\cite{silberzahn2018many,botviniknezer2020variabil
 and specification searching in causal economics~\cite{brodeur2020methods}. \sys{}
 differs in target and posture: it audits \emph{identification credibility}
 specifically (the part of an argument that licenses a causal claim) and issues
-no verdicts, producing evidence-anchored, human-reviewable reports that localize
-risk and leave adjudication to an expert. A complementary line asks whether a
+no verdicts, producing evidence-grounded, human-reviewable reports that localize
+risk for the expert's final call. A complementary line asks whether a
 model can \emph{carry out} inference: running generated estimation code against
 synthetic data; \sys{} instead audits the prior layer, whether identification
 \emph{assumptions} are supported by the evidence a paper reports.

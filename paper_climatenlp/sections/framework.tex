@@ -29,7 +29,7 @@ dimension, the in-paper evidence relevant to that assumption; \emph{assessment}
 evaluates each assumption--implication--evidence chain and emits a per-dimension
 risk judgement with a rationale and cited evidence; \emph{localization}
 aggregates these judgements into a risk map ranking where support is weakest; and
-\emph{report} renders a transparent, evidence-anchored document for a human
+\emph{report} renders a transparent, evidence-grounded document for a human
 reviewer.
 
 Agency is confined to the two stages where open-ended judgement actually
@@ -50,13 +50,13 @@ high-variance, undermining the central evaluation claim of
 ground truth. Restricting agency to two clearly scoped sub-tasks preserves
 reproducibility (stable, comparable metrics) and evidence-traceability (every
 judgement anchored to logged evidence a human can inspect). The expert sits at
-the end of the pipeline: \sys{} surfaces and localizes identification risk, it
-does not adjudicate it.
+the end of the pipeline: \sys{} surfaces and localizes identification risk; the
+judgement itself stays with the human.
 
 \subsection{Output}
 \sys{} emits \emph{(study, identification dimension, risk)} triplets, each with an
 evidence-grounded rationale, alongside the human-readable report. It never
-produces a verdict on the true causal effect. This output shape is what makes the
+produces a verdict on the true causal effect. This output shape keeps the
 system both auditable by a human and measurable by the evaluation that follows.
 
 \begin{figure*}[t]
