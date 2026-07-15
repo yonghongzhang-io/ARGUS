@@ -25,11 +25,56 @@ def test_all_models_disabled_by_default():
     assert enabled_models() == []
 
 
-def test_only_openai_is_runnable():
+def test_all_declared_providers_are_runnable():
+    """openai, openai-compatible (Gemini/Kimi/Ollama), and anthropic all have
+    implemented backends now; the runnable flag must reflect that."""
     reg = load_model_registry()
-    assert reg["models"]["gpt4o"]["runnable"] is True
-    # non-openai providers are declarations of intent until an adapter is added
-    assert reg["models"]["claude_sonnet"]["runnable"] is False
+    for mid, cfg in reg["models"].items():
+        assert cfg["runnable"] is True, f"{mid} ({cfg['provider']}) should be runnable"
+
+
+def test_anthropic_compat_translates_openai_surface():
+    """The Anthropic facade must accept the exact call shape our two call sites
+    use and return an OpenAI-shaped response with the tool input as JSON."""
+    import json as _json
+
+    from argus.agent.anthropic_compat import AnthropicCompatClient
+
+    captured = {}
+
+    class _StubMessages:
+        def create(self, **kwargs):
+            captured.update(kwargs)
+
+            class _Block:
+                type = "tool_use"
+                input = {"risk": "low", "evidence_status": "sufficient",
+                         "rationale": "r", "cited_evidence": []}
+
+            class _Resp:
+                content = [_Block()]
+
+            return _Resp()
+
+    class _StubAnthropic:
+        messages = _StubMessages()
+
+    client = AnthropicCompatClient(anthropic_client=_StubAnthropic())
+    resp = client.chat.completions.create(
+        model="claude-sonnet-5",
+        temperature=0,
+        messages=[{"role": "system", "content": "sys"},
+                  {"role": "user", "content": "user"}],
+        response_format={"type": "json_schema",
+                         "json_schema": {"name": "risk_judgement", "strict": True,
+                                         "schema": {"type": "object"}}},
+    )
+    out = _json.loads(resp.choices[0].message.content)
+    assert out["risk"] == "low"
+    # system prompt extracted, tool forced with our schema name
+    assert captured["system"] == "sys"
+    assert captured["tool_choice"] == {"type": "tool", "name": "risk_judgement"}
+    assert captured["messages"] == [{"role": "user", "content": "user"}]
 
 
 def test_manifest_projects_calls_and_flags_ceiling():

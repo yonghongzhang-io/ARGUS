@@ -1,45 +1,67 @@
 # Provider-neutral model registry for cross-model robustness runs.
 #
-# This is READY-TO-RUN INFRASTRUCTURE, not experimental results. Cross-model
-# numerical results are NOT reported in the paper. Every model is DISABLED by
-# default: enabling one and running the LLM assessor issues PAID API calls (or
-# uses local compute). Nothing here calls a model on its own.
+# READY-TO-RUN INFRASTRUCTURE, not experimental results. Every model is
+# DISABLED by default; enabling one and running the LLM assessor issues PAID
+# API calls (or local compute). Nothing here calls a model on its own.
 #
-# To actually run a model you must (1) set enabled: true here, (2) provide the
-# provider's credentials in the environment, and (3) run the LLM assessor under
-# an explicit, authorized configuration (see experiments/models/plan_run.py for a
-# no-API dry-run that only prints the plan and projected cost).
+# How execution works (see experiments/models/run_crossmodel.py):
+#   provider: openai            -> OpenAI SDK directly (OPENAI_API_KEY)
+#   provider: openai-compatible -> OpenAI SDK pointed at `base_url`, with the
+#                                  key from `api_key_env` (Gemini, Kimi, Ollama)
+#   provider: anthropic         -> Anthropic SDK via the OpenAI-shaped facade
+#                                  in argus/agent/anthropic_compat.py
 #
-# Adding a NEW provider requires implementing a ProviderAdapter (see
-# src/argus/agent/model_config.py) and branching it in
-# src/argus/pipeline/assessment.py:assess; only the openai adapter (the existing
-# make_client path) ships today. gpt-4o remains the single model behind every
-# number currently reported.
+# Put keys in the project-root .env:
+#   OPENAI_API_KEY=...  GEMINI_API_KEY=...  ANTHROPIC_API_KEY=...  MOONSHOT_API_KEY=...
+# (Ollama is local and needs no key: `brew install ollama && ollama pull llama3.1:8b`.)
+#
+# price_per_1k_usd are planning ESTIMATES for the dry-run cost projector only;
+# verify provider pricing before any real run.
 
 defaults:
   temperature: 0
   max_tokens: 1024
   max_steps: 1            # bounded-loop budget (kept small on purpose)
   retries: 2
-  cost_ceiling_usd: 5.0   # a planned run projected to exceed this aborts (dry-run guard)
-  cache: true             # cache identical (prompt, model) calls
+  cost_ceiling_usd: 10.0  # a planned run projected to exceed this aborts (dry-run guard)
+  cache: true
   avg_tokens_per_call: 1500   # rough estimate used ONLY for dry-run cost projection
 
 models:
   - id: gpt4o
     provider: openai
     model: gpt-4o
+    api_key_env: OPENAI_API_KEY
     enabled: false
-    price_per_1k_usd: 0.0075   # blended in/out estimate; verify before any real run
+    price_per_1k_usd: 0.0075
 
   - id: claude_sonnet
     provider: anthropic
     model: claude-sonnet-5
+    api_key_env: ANTHROPIC_API_KEY
     enabled: false
     price_per_1k_usd: 0.009
 
-  - id: llama_open
-    provider: local
-    model: llama-3.1-70b-instruct
+  - id: gemini_flash
+    provider: openai-compatible
+    model: gemini-2.5-flash
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    api_key_env: GEMINI_API_KEY
     enabled: false
-    price_per_1k_usd: 0.0    # local/self-hosted; no per-token API cost
+    price_per_1k_usd: 0.001
+
+  - id: kimi
+    provider: openai-compatible
+    model: kimi-k2-0711-preview
+    base_url: https://api.moonshot.ai/v1
+    api_key_env: MOONSHOT_API_KEY
+    enabled: false
+    price_per_1k_usd: 0.002
+
+  - id: llama_open
+    provider: openai-compatible
+    model: llama3.1:8b
+    base_url: http://localhost:11434/v1
+    api_key_env: ""          # local Ollama; a dummy key is sent
+    enabled: false
+    price_per_1k_usd: 0.0
