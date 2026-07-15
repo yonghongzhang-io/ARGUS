@@ -121,8 +121,8 @@ variants: three per dimension (two \emph{commission} rewrites and one
 \emph{omission}), each verified to contain none of the keyword detector's sentinel
 phrases. We audit this set with the two-stage \sys{} assessor (gpt-4o) over three
 runs at temperature~$0$; verdicts are near-deterministic (32/33 identical across
-runs). Detection is $0.73$--$0.76$ and localization $0.64$--$0.70$, below the
-saturated $1.000$ on the eleven clear flaws.
+runs; Appendix~\ref{app:repro}). Detection is $0.73$--$0.76$ and localization
+$0.64$--$0.70$, below the saturated $1.000$ on the eleven clear flaws.
 
 The split by flaw type is the informative result (Table~\ref{tab:variants}). The
 assessor catches $0.86$--$0.91$ of \emph{commission} flaws (flawed-but-present
