@@ -28,7 +28,7 @@ true. Instead, it asks whether each identifying
 assumption is adequately supported by the evidence reported in the paper, and where
 that support is weakest. \sys{} represents a DID study through an 11-dimension
 \emph{assumption--implication--evidence} rubric and uses a bounded-agentic pipeline
-to retrieve relevant evidence, assess its adequacy, and produce an evidence-anchored
+to retrieve relevant evidence, assess its adequacy, and produce an evidence-grounded
 risk report for expert review (Figure~\ref{fig:overview}). Model agency is confined
 to scoped retrieval and assessment tasks behind a fixed, deterministic control flow,
 unlike free-roaming agents whose control flow is model-decided \cite{yao2023react};
@@ -50,8 +50,7 @@ calibration and applicability failures.
   retrieves dimension-specific evidence, assesses reported-evidence adequacy with
   a bounded LLM audit module, and localizes risk in a human-reviewable report.
   Step~3 uses expert annotation and adjudicated gold labels to evaluate and
-  calibrate audit severity. \sys{} flags dimensions for expert review; it does not
-  adjudicate causal truth.}
+  calibrate audit severity. \sys{} flags dimensions for expert review.}
   \label{fig:overview}
 \end{figure*}
 

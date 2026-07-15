@@ -32,8 +32,8 @@ each assumption is adequately supported by the evidence a paper reports. We
 introduce \sys{}, an end-to-end, \emph{bounded-agentic} auditing system in which
 an LLM runs behind a fixed, deterministic pipeline and scores DID studies on an
 11-dimension assumption--implication--evidence rubric, retrieving evidence,
-judging its adequacy, and producing a risk report for expert review rather than
-adjudicating causal truth. Under realistic flaw injection \sys{} catches all 11
+judging its adequacy, and producing a risk report rather than a causal
+verdict. Under realistic flaw injection \sys{} catches all 11
 injected flaws versus 5 for a same-model single-pass baseline, with no false
 alarms; across 27 real papers it exposes evidence grounding as the bottleneck,
 abstaining when support is absent; and a pilot diagnostic study reveals a
