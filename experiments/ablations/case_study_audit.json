@@ -1,0 +1,121 @@
+{
+ "paper": "clean_supported + anticipation_effect (commission)",
+ "ranked": [
+  "no_anticipation",
+  "inference",
+  "parallel_trends",
+  "treatment_timing",
+  "treatment_definition_sutva",
+  "control_group",
+  "specification",
+  "sample_period",
+  "concurrent_policies",
+  "robustness_placebo",
+  "data_measurement"
+ ],
+ "by_dimension": {
+  "parallel_trends": {
+   "risk": "low",
+   "rationale": "The paper provides comprehensive evidence supporting the parallel trends assumption, including event-study plots showing null pre-trend coefficients and placebo tests confirming no significant pre-treatment differences.",
+   "cited_evidence": [
+    "section:parallel trends",
+    "figures:fig_event_study",
+    "section:robustness placebo"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "no_anticipation": {
+   "risk": "high",
+   "rationale": "The evidence indicates that outcomes began changing in the pilot provinces between the policy announcement and its rollout, suggesting anticipation effects. This undermines the no anticipation assumption, as it shows a shift in behavior before the treatment date.",
+   "cited_evidence": [
+    "section:no anticipation"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "flawed"
+  },
+  "treatment_timing": {
+   "risk": "low",
+   "rationale": "The paper uses modern estimators like Callaway-Sant'Anna and Sun-Abraham, along with a Goodman-Bacon decomposition, which are specifically designed to handle staggered adoption and heterogeneous effects, ensuring that two-way fixed-effects estimates are not contaminated by forbidden comparisons.",
+   "cited_evidence": [
+    "section:treatment timing"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "treatment_definition_sutva": {
+   "risk": "low",
+   "rationale": "The paper provides a comprehensive assessment of SUTVA and interference through spillover robustness checks, buffer-zone checks, and leakage sensitivity analyses, which are appropriate methods to evaluate potential spillovers and ensure control units are genuinely untreated.",
+   "cited_evidence": [
+    "section:sutva"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "control_group": {
+   "risk": "low",
+   "rationale": "The paper provides a balance table showing matched controls and justifies the donor pool with matching and synthetic control checks, which are standard methods to ensure comparability between treated and control groups.",
+   "cited_evidence": [
+    "section:control group",
+    "tables:table_balance"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "specification": {
+   "risk": "low",
+   "rationale": "The paper provides a specification robustness table that varies fixed effects, controls, and functional form choices, which is a comprehensive approach to testing the stability of results across different specifications. This evidence is adequate to support the assumption that the estimating equation is correctly specified.",
+   "cited_evidence": [
+    "section:specification"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "inference": {
+   "risk": "medium",
+   "rationale": "The paper mentions clustering standard errors by province and using wild-cluster bootstrap for robustness, which is appropriate for addressing dependence in the data. However, it does not specify the number of clusters, which is crucial for assessing the reliability of the inference given the potential for few clusters to affect standard error estimates.",
+   "cited_evidence": [
+    "section:inference"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "partial"
+  },
+  "sample_period": {
+   "risk": "low",
+   "rationale": "The paper reports conducting sensitivity checks on the sample period by varying the start and end periods, as well as handling unbalanced panels. This directly addresses the testable implication that estimates should be robust to reasonable changes in the sample frame and time window.",
+   "cited_evidence": [
+    "section:sample period"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "concurrent_policies": {
+   "risk": "low",
+   "rationale": "The paper provides a comprehensive enumeration of concurrent policies and employs multiple robustness checks, including placebo tests and permutation checks, to isolate the effect of the studied policy from other co-timed interventions.",
+   "cited_evidence": [
+    "section:concurrent policies",
+    "section:robustness placebo"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "robustness_placebo": {
+   "risk": "low",
+   "rationale": "The paper reports a comprehensive set of robustness and placebo tests, including placebo-in-time, placebo-in-space, falsification tests, permutation checks, and randomization inference, which are all standard methods to verify that the headline effect is not driven by spurious correlations or model misspecifications.",
+   "cited_evidence": [
+    "section:robustness placebo"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  },
+  "data_measurement": {
+   "risk": "low",
+   "rationale": "The paper provides evidence that the data source documents definition stability, missingness handling, and measurement consistency over time, which directly addresses the assumption that the outcome and treatment variables are measured consistently across units and time.",
+   "cited_evidence": [
+    "section:data measurement"
+   ],
+   "retrieval_quality": "good",
+   "evidence_status": "sufficient"
+  }
+ }
+}
