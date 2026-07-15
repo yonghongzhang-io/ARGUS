@@ -74,8 +74,7 @@ scorer is blind to; handing each dimension the full fixture (the per-dimension
 arm) reaches $1.000$. The model reads flawed-but-natural prose the keyword scorer
 cannot; the audit report in Appendix~\ref{app:qual} shows it flagging the
 injected anticipation flaw with the announcement-gap rationale, with no sentinel
-keyword present. This is the empirical core of the design: placing judgement
-where reasoning is required.
+keyword present.
 
 \paragraph{What the architecture buys.}
 The gated pipeline detects \emph{less} than its own ablations here ($0.727$ vs
@@ -107,13 +106,11 @@ subtler flaws (\S\ref{sec:variants}), then real papers (\S\ref{sec:realpapers}).
 
 \subsection{Robustness: a larger, harder variant benchmark}
 \label{sec:variants}
-The eleven flaws above are deliberately clear-cut. To test whether the result
-survives subtler and more varied flaws, we built a second benchmark of 33 flaw
-variants: three per dimension (two \emph{commission} rewrites and one
-\emph{omission}), each verified to contain none of the keyword detector's sentinel
-phrases. We audit this set with the two-stage \sys{} assessor (gpt-4o) over three
-runs at temperature~$0$; verdicts are near-deterministic (32/33 identical across
-runs; Appendix~\ref{app:repro}). Detection is $0.73$--$0.76$ and localization
+The eleven flaws are deliberately clear-cut, so we built a harder benchmark: 33
+variants, three per dimension (two \emph{commission} rewrites, one
+\emph{omission}), each verified free of the keyword detector's sentinel
+phrases. Three two-stage runs (gpt-4o, temperature~$0$) are near-deterministic
+(32/33 verdicts identical; Appendix~\ref{app:repro}). Detection is $0.73$--$0.76$ and localization
 $0.64$--$0.70$, in line with its behaviour on the eleven clear flaws.
 
 \paragraph{Where the gain comes from.}
@@ -125,14 +122,17 @@ $0.747$. Task \emph{decomposition} drives synthetic detection; the
 retrieval-and-gate layer then \emph{trades} omission detection for abstention
 (on these small fixtures a gateless assessor sees deleted sections directly in
 its context; on real 30-page papers it instead commits judgements nearly
-everywhere, \S\ref{sec:realpapers}).
+everywhere, \S\ref{sec:realpapers}). An \emph{oracle-retrieval} arm completes
+the attribution: fed the target section directly (empty for omissions,
+bypassing the gate), the assessor detects $0.86$ of commissions and $1.00$ of
+omissions (every missed omission is a gate abstention, not a judgement
+failure), while the gate halves clean-side alarms ($0.21$ gateless vs $0.09$).
 
 \paragraph{Cross-model robustness.}
-Porting the unchanged pipeline across providers
-(Appendix~\ref{app:matrix}) shows the core result is not model-specific:
-\emph{commission} detection is high for every model tested
-(gpt-4o $0.89$, Claude Opus~4.8 $1.00$, Gemini~2.5 Flash $0.91$, Llama~3.1
-8B $0.95$). What differs is the operating point: gpt-4o is the only
+Porting the unchanged pipeline across providers shows the core result is not
+model-specific (Appendix~\ref{app:matrix}): \emph{commission} detection is high
+everywhere (gpt-4o $0.89$, Claude Opus~4.8 $1.00$, Gemini~2.5 Flash $0.91$,
+Llama~3.1 8B $0.95$). What differs is the operating point: gpt-4o is the only
 conservative auditor (false alarm $0.09$, localization $0.66$), while the
 others buy sensitivity with alarms (false alarm $0.18$--$0.82$, localization
 $0.24$--$0.36$): commission detection ports across models; the precision
@@ -186,9 +186,8 @@ supported, and flags almost nothing. The two-stage LLM is differentiated, and it
 most informative output is that ${\sim}39\%$ of judgements are \texttt{unknown}:
 the relevance gate could not surface evidence, so the system says so rather than
 over-flagging. Two regimes appear: dimensions whose discussion is diffuse or
-lives in figures the text retrieval cannot reach (parallel trends, no
-anticipation, placebo) are dominated by \texttt{unknown}, while dimensions where a
-section is retrieved (sample period, concurrent policies, SUTVA) are judged
+lives in figures the text retrieval cannot reach are dominated by
+\texttt{unknown}, while dimensions where a section is retrieved are judged
 inadequate. The finding is methodological: moving to real papers is bottlenecked
 not by causal reasoning but by \emph{evidence grounding}. The design therefore
 reports retrieval quality and an explicit \texttt{unknown} state distinct from a
@@ -204,8 +203,8 @@ grounding bottleneck, not the correctness of any individual flag.
 \subsection{A calibrated human gold (pilot)}
 \label{sec:gold}
 
-To test whether \sys{}'s flags agree with expert judgement, we built a small
-expert gold: two annotators independently labelled risk on 5 DID papers $\times$
+To test agreement with expert judgement, we built a small gold: two annotators
+independently labelled risk on 5 DID papers $\times$
 11 dimensions (55 cells), with an adjudication round resolving disagreements
 (construction details and agreement statistics in Appendix~\ref{app:supp}).
 Disagreement is almost entirely ordinal and concentrates on
@@ -218,32 +217,33 @@ a pilot ($n{=}5$, two annotators), read as preliminary.
 \subsection{\sys{} versus the human gold}
 \label{sec:vsgold}
 
-We use this gold as a \emph{diagnostic pilot}, not a validation of accuracy: with
-only two high-risk gold cells across five papers it cannot establish agreement
-with experts, but it is enough to localize \emph{how} \sys{} fails
+We use this gold as a \emph{diagnostic pilot}, not a validation of accuracy:
+two high-risk gold cells cannot establish expert agreement, but they localize
+\emph{how} \sys{} fails
 (Table~\ref{tab:vsgold}, Figure~\ref{fig:vsgold}). \sys{} abstains on 22/55
 cells, and when it answers its errors are almost entirely one-directional:
 28/33 answered cells are more severe than the adjudicated gold, none less
 severe; gold contains two high-risk cells, \sys{} assigns 24. With so few high
 gold labels, precision and recall are noisy; the robust conclusion is
 over-sensitivity to missing or partial evidence: a \emph{high-sensitivity
-screening tool} for prioritizing human review.
+screening tool}.
 
 \subsection{Calibration: from diagnosis to improvement}
 \label{sec:calib}
 
-The gold comparison also points to a fix. An error analysis of the over-severe
-cells is sharp: of \sys{}'s over-severe \emph{high} judgements, $23/24$ have
+The gold comparison also points to a fix; the error analysis is sharp: of
+\sys{}'s over-severe \emph{high} judgements, $23/24$ have
 \texttt{evidence\_status=missing} and $20/24$ have
 \texttt{retrieval\_quality=weak}. \sys{} treats ``weak retrieval found nothing''
 as a substantive \emph{high}, conflating a \emph{retrieval failure} with the paper
-lacking the evidence, which the human, reading the full PDF, resolves to
-low/medium: a fixable calibration target.
+lacking the evidence, which the human resolves to low/medium: a fixable
+calibration target. The pattern is not fit to a single
+paper: it re-emerges in every leave-one-paper-out fold of the pilot.
 
-An \emph{oracle-evidence} check sharpens the diagnosis into two distinct
-constraints. An expert located supporting evidence for \emph{all} 55 cells, so
-all 22 pipeline abstentions are retrieval failures, not reporting gaps:
-grounding limits \emph{coverage}. But feeding the assessor the
+An \emph{oracle-evidence} check splits the diagnosis: an expert located
+supporting evidence for \emph{all} 55 cells, so all 22 pipeline abstentions
+are retrieval failures, not reporting gaps, and grounding limits
+\emph{coverage}. But feeding the assessor the
 expert's evidence spans does not restore agreement (50/55 judgements more severe
 than gold; exact $0.07$): severity calibration, not evidence access, limits
 \emph{agreement}.
