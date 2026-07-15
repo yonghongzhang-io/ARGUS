@@ -79,7 +79,10 @@ def filter_relevant(
         f"Candidate passages:\n{listing}\n\n"
         f"Classify each passage's relevance to this dimension."
     )
-    resp = client.chat.completions.create(
+    from .llm_assessor import create_structured
+
+    resp = create_structured(
+        client,
         model=model,
         temperature=0,
         messages=[{"role": "system", "content": _SYSTEM}, {"role": "user", "content": user}],

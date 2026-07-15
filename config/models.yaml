@@ -35,6 +35,13 @@ models:
     enabled: false
     price_per_1k_usd: 0.0075
 
+  - id: gpt55
+    provider: openai
+    model: gpt-5.5      # latest dated flagship on the account (2026-04-23 snapshot)
+    api_key_env: OPENAI_API_KEY
+    enabled: false
+    price_per_1k_usd: 0.01
+
   - id: claude_sonnet
     provider: anthropic
     model: claude-sonnet-5
@@ -49,14 +56,6 @@ models:
     api_key_env: GEMINI_API_KEY
     enabled: false
     price_per_1k_usd: 0.001
-
-  - id: kimi
-    provider: openai-compatible
-    model: kimi-k2-0711-preview
-    base_url: https://api.moonshot.ai/v1
-    api_key_env: MOONSHOT_API_KEY
-    enabled: false
-    price_per_1k_usd: 0.002
 
   - id: llama_open
     provider: openai-compatible
