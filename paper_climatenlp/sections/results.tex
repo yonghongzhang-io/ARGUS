@@ -93,8 +93,8 @@ visible, auditable signal: the distinction the rest of the section relies on.
 
 \paragraph{Scope.}
 These are synthetic fixtures with few dimensions; $1.000$ is a proof-of-concept on
-clearly injected flaws, not a solved task. The sharper question is whether the
-behaviour survives on real published papers.
+clearly injected flaws, not a solved task. The sharper questions are whether the
+behaviour survives subtler, more varied flaws, and then real published papers.
 
 \begin{figure*}[t]
   \centering
@@ -107,6 +107,53 @@ behaviour survives on real published papers.
   flaw}, all of which the LLM catches.}
   \label{fig:results}
 \end{figure*}
+
+\subsection{Robustness: a larger, harder variant benchmark}
+\label{sec:variants}
+The eleven flaws above are deliberately clear-cut. To test whether the result
+survives subtler and more varied flaws, we built a second benchmark of 33 flaw
+variants: three per dimension (two \emph{commission} rewrites and one
+\emph{omission}), each verified to contain none of the keyword detector's sentinel
+phrases. We audit this set with the two-stage \sys{} assessor (gpt-4o) over three
+runs at temperature~$0$; verdicts are near-deterministic (32/33 identical across
+runs). Detection is $0.73$--$0.76$ and localization $0.64$--$0.70$, below the
+saturated $1.000$ on the eleven clear flaws, which is the point: a harder set
+separates what the assessor can and cannot do.
+
+The split by flaw type is the informative result (Table~\ref{tab:variants}). The
+assessor catches $0.86$--$0.91$ of \emph{commission} flaws (flawed-but-present
+evidence, the case adequacy reasoning targets) but only $0.45$ of \emph{omission}
+flaws. The omission misses are not confident errors: the six missed variants all
+abstain to \texttt{unknown} rather than assert low risk, because deleting the
+supporting section makes retrieval fail. This reproduces, under controlled
+injection, the same \emph{evidence-grounding} bottleneck we find on real papers
+(\S\ref{sec:realpapers}): the pipeline reasons well over evidence it can retrieve
+and abstains when it cannot. The only false-alarm signal ($0.09$, identical across
+runs) is concentrated in \emph{inference}, where the clean fixture's section is
+itself flagged, the same over-severity we quantify against the human gold
+(\S\ref{sec:vsgold}). The ``no false alarms'' result in Table~\ref{tab:results} is
+on the original, clearer eleven-flaw set; this harder benchmark surfaces the
+inference over-flag.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Harder 33-variant benchmark (gpt-4o, mean of three runs at
+  temperature~0; near-deterministic, 32/33 verdicts identical). Adequacy reasoning
+  catches \emph{commission} flaws; \emph{omission} misses are abstentions to
+  \texttt{unknown}, marking the evidence-grounding bottleneck rather than wrong
+  judgements.}
+  \label{tab:variants}
+  \begin{tabular}{lccc}
+    \toprule
+    variant type & $n$ & detection & localization \\
+    \midrule
+    commission & 22 & 0.89 & 0.82 \\
+    omission   & 11 & 0.45 & 0.33 \\
+    \midrule
+    \textbf{all} & 33 & \textbf{0.75} & \textbf{0.66} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 \subsection{From synthetic fixtures to real papers: a relocated bottleneck}
 \label{sec:realpapers}

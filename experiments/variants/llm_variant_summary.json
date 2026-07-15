@@ -1,0 +1,102 @@
+{
+  "model": "gpt-4o",
+  "temperature": 0,
+  "n_runs": 3,
+  "n_variants": 33,
+  "note": "Near-deterministic: 32/33 verdicts identical across all 3 runs; only concurrent_policies_commission_02 flips (caught in runs 1-2, missed in run 3). Omission detection and false-alarm identical across all runs.",
+  "detection": {
+    "mean": 0.747,
+    "min": 0.727,
+    "max": 0.758,
+    "runs": [
+      0.758,
+      0.758,
+      0.727
+    ]
+  },
+  "localization": {
+    "mean": 0.657,
+    "min": 0.636,
+    "max": 0.697,
+    "runs": [
+      0.636,
+      0.636,
+      0.697
+    ]
+  },
+  "false_alarm": {
+    "mean": 0.091,
+    "min": 0.091,
+    "max": 0.091,
+    "runs": [
+      0.091,
+      0.091,
+      0.091
+    ]
+  },
+  "commission_detection": {
+    "mean": 0.894,
+    "min": 0.864,
+    "max": 0.909,
+    "runs": [
+      0.909,
+      0.909,
+      0.864
+    ]
+  },
+  "omission_detection": {
+    "mean": 0.455,
+    "min": 0.455,
+    "max": 0.455,
+    "runs": [
+      0.455,
+      0.455,
+      0.455
+    ]
+  },
+  "commission_localization": {
+    "mean": 0.818,
+    "min": 0.818,
+    "max": 0.818,
+    "runs": [
+      0.818,
+      0.818,
+      0.818
+    ]
+  },
+  "omission_localization": {
+    "mean": 0.333,
+    "min": 0.273,
+    "max": 0.455,
+    "runs": [
+      0.273,
+      0.273,
+      0.455
+    ]
+  },
+  "false_alarm_dimension": "inference (clean fixture's inference section flagged; shared clean audit -> counts once per inference variant)",
+  "omission_misses_are_unknown": true,
+  "per_run": [
+    {
+      "run": 1,
+      "n": 33,
+      "detection_rate": 0.7575757575757576,
+      "false_alarm_rate": 0.09090909090909091,
+      "localization_acc": 0.6363636363636364
+    },
+    {
+      "run": 2,
+      "n": 33,
+      "detection_rate": 0.7575757575757576,
+      "false_alarm_rate": 0.09090909090909091,
+      "localization_acc": 0.6363636363636364
+    },
+    {
+      "run": 3,
+      "n": 33,
+      "detection_rate": 0.7272727272727273,
+      "false_alarm_rate": 0.09090909090909091,
+      "localization_acc": 0.696969696969697
+    }
+  ]
+}
