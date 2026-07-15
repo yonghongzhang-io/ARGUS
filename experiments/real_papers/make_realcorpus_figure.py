@@ -31,6 +31,10 @@ from argus.config import load_dimensions  # noqa: E402
 from figstyle import RISK, apply_style  # noqa: E402
 
 apply_style()
+# Fig 5 keeps enlarged base fonts independent of the shared figstyle (Fig 4/6 use the base).
+import matplotlib as _mpl  # noqa: E402
+_mpl.rcParams.update({"font.size": 12.0, "axes.titlesize": 13.0, "axes.labelsize": 11.5,
+                      "xtick.labelsize": 10.5, "ytick.labelsize": 10.5, "legend.fontsize": 10.5})
 
 RES = Path(__file__).resolve().parent / "corpus_results"
 OUT_DIR = ROOT / "paper" / "figures"
