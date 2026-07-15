@@ -1,7 +1,7 @@
 {
- "_comment": "Current-era (July 2026) two-stage result on the 11 clear flaws; replaces the June-era llm_summary.json whose numbers no longer reproduce (serving drift; see paper appendix). Read by make_figure2.py.",
+ "_comment": "Current-era (July 2026) two-stage result on the 11 clear flaws; replaces the June-era llm_summary.json whose numbers no longer reproduce (serving drift; see paper appendix). Read by make_figure2.py. Alias resolved to the gpt-4o-2024-11-20 snapshot at run time.",
  "assessor": "llm",
- "model": "gpt-4o (= 2024-11-20 snapshot at run time)",
+ "model": "gpt-4o",
  "fixture": "clean_supported.json",
  "n": 11,
  "detection_rate": 0.7272727272727273,
