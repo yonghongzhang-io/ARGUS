@@ -1,0 +1,111 @@
+paper_id,dimension,dimension_name,assumption,expected_evidence,evidence_span_1,span_1_location,evidence_span_2,span_2_location,no_evidence_in_paper,notes
+paper_01,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",event-study / pre-trend coefficient plot; pre-period placebo estimates near zero; explicit discussion of the pre-trend test,,,,,,
+paper_01,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",leads in the event-study being null; timeline of policy announcement vs. implementation,,,,,,
+paper_01,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+","use of modern estimators (Callaway-Sant'Anna, Sun-Abraham, etc.); Goodman-Bacon decomposition; clear adoption-date coding",,,,,,
+paper_01,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",discussion of cross-province leakage / carbon relocation; spatial spillover or buffer-zone robustness checks,,,,,,
+paper_01,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",balance table; matching / synthetic control / donor-pool justification,,,,,,
+paper_01,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",specification-curve / robustness table; justification of included time-varying controls (bad-control risk),,,,,,
+paper_01,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",clustering level (and number of clusters); wild-cluster bootstrap when few clusters,,,,,,
+paper_01,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",sensitivity to start/end period; treatment of entry/exit and unbalanced panels,,,,,,
+paper_01,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",enumeration of co-timed environmental/industrial policies; controls or placebo periods isolating the studied policy,,,,,,
+paper_01,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",placebo-in-time and placebo-in-space tests; permutation / randomization inference,,,,,,
+paper_01,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",data source and definition stability; handling of reporting changes / missingness,,,,,,
+paper_03,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",event-study / pre-trend coefficient plot; pre-period placebo estimates near zero; explicit discussion of the pre-trend test,,,,,,
+paper_03,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",leads in the event-study being null; timeline of policy announcement vs. implementation,,,,,,
+paper_03,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+","use of modern estimators (Callaway-Sant'Anna, Sun-Abraham, etc.); Goodman-Bacon decomposition; clear adoption-date coding",,,,,,
+paper_03,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",discussion of cross-province leakage / carbon relocation; spatial spillover or buffer-zone robustness checks,,,,,,
+paper_03,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",balance table; matching / synthetic control / donor-pool justification,,,,,,
+paper_03,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",specification-curve / robustness table; justification of included time-varying controls (bad-control risk),,,,,,
+paper_03,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",clustering level (and number of clusters); wild-cluster bootstrap when few clusters,,,,,,
+paper_03,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",sensitivity to start/end period; treatment of entry/exit and unbalanced panels,,,,,,
+paper_03,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",enumeration of co-timed environmental/industrial policies; controls or placebo periods isolating the studied policy,,,,,,
+paper_03,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",placebo-in-time and placebo-in-space tests; permutation / randomization inference,,,,,,
+paper_03,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",data source and definition stability; handling of reporting changes / missingness,,,,,,
+paper_07,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",event-study / pre-trend coefficient plot; pre-period placebo estimates near zero; explicit discussion of the pre-trend test,,,,,,
+paper_07,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",leads in the event-study being null; timeline of policy announcement vs. implementation,,,,,,
+paper_07,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+","use of modern estimators (Callaway-Sant'Anna, Sun-Abraham, etc.); Goodman-Bacon decomposition; clear adoption-date coding",,,,,,
+paper_07,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",discussion of cross-province leakage / carbon relocation; spatial spillover or buffer-zone robustness checks,,,,,,
+paper_07,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",balance table; matching / synthetic control / donor-pool justification,,,,,,
+paper_07,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",specification-curve / robustness table; justification of included time-varying controls (bad-control risk),,,,,,
+paper_07,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",clustering level (and number of clusters); wild-cluster bootstrap when few clusters,,,,,,
+paper_07,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",sensitivity to start/end period; treatment of entry/exit and unbalanced panels,,,,,,
+paper_07,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",enumeration of co-timed environmental/industrial policies; controls or placebo periods isolating the studied policy,,,,,,
+paper_07,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",placebo-in-time and placebo-in-space tests; permutation / randomization inference,,,,,,
+paper_07,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",data source and definition stability; handling of reporting changes / missingness,,,,,,
+paper_08,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",event-study / pre-trend coefficient plot; pre-period placebo estimates near zero; explicit discussion of the pre-trend test,,,,,,
+paper_08,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",leads in the event-study being null; timeline of policy announcement vs. implementation,,,,,,
+paper_08,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+","use of modern estimators (Callaway-Sant'Anna, Sun-Abraham, etc.); Goodman-Bacon decomposition; clear adoption-date coding",,,,,,
+paper_08,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",discussion of cross-province leakage / carbon relocation; spatial spillover or buffer-zone robustness checks,,,,,,
+paper_08,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",balance table; matching / synthetic control / donor-pool justification,,,,,,
+paper_08,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",specification-curve / robustness table; justification of included time-varying controls (bad-control risk),,,,,,
+paper_08,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",clustering level (and number of clusters); wild-cluster bootstrap when few clusters,,,,,,
+paper_08,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",sensitivity to start/end period; treatment of entry/exit and unbalanced panels,,,,,,
+paper_08,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",enumeration of co-timed environmental/industrial policies; controls or placebo periods isolating the studied policy,,,,,,
+paper_08,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",placebo-in-time and placebo-in-space tests; permutation / randomization inference,,,,,,
+paper_08,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",data source and definition stability; handling of reporting changes / missingness,,,,,,
+paper_10,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",event-study / pre-trend coefficient plot; pre-period placebo estimates near zero; explicit discussion of the pre-trend test,,,,,,
+paper_10,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",leads in the event-study being null; timeline of policy announcement vs. implementation,,,,,,
+paper_10,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+","use of modern estimators (Callaway-Sant'Anna, Sun-Abraham, etc.); Goodman-Bacon decomposition; clear adoption-date coding",,,,,,
+paper_10,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",discussion of cross-province leakage / carbon relocation; spatial spillover or buffer-zone robustness checks,,,,,,
+paper_10,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",balance table; matching / synthetic control / donor-pool justification,,,,,,
+paper_10,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",specification-curve / robustness table; justification of included time-varying controls (bad-control risk),,,,,,
+paper_10,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",clustering level (and number of clusters); wild-cluster bootstrap when few clusters,,,,,,
+paper_10,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",sensitivity to start/end period; treatment of entry/exit and unbalanced panels,,,,,,
+paper_10,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",enumeration of co-timed environmental/industrial policies; controls or placebo periods isolating the studied policy,,,,,,
+paper_10,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",placebo-in-time and placebo-in-space tests; permutation / randomization inference,,,,,,
+paper_10,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",data source and definition stability; handling of reporting changes / missingness,,,,,,
