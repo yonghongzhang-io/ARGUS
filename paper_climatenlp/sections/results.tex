@@ -79,11 +79,12 @@ keyword present.
 \paragraph{What the architecture buys.}
 The gated pipeline detects \emph{less} than its own ablations here ($0.727$ vs
 $0.818$ and $1.000$) by design: its three misses are all \emph{omission} flaws
-on which retrieval finds nothing and it abstains rather than guessing. The
-gate's value is behavioural and shows on real papers, where an ungated model
-almost never abstains (\texttt{unknown} $0.4\%$ versus $38.9\%$ over $275$
-common cells; Appendix~\ref{app:matrix}) and instead commits a substantive risk
-it cannot ground.
+on which retrieval finds nothing and it abstains rather than guessing (the
+oracle-retrieval arm in \S\ref{sec:variants} attributes every such miss to the
+gate, not the judge). The gate's value is behavioural and shows on real papers,
+where an ungated model almost never abstains (\texttt{unknown} $0.4\%$ vs
+$38.9\%$; Appendix~\ref{app:matrix}) and instead commits a substantive risk it
+cannot ground.
 
 \paragraph{Scope.}
 These are synthetic fixtures with few dimensions; ceilings on clearly injected
@@ -126,7 +127,9 @@ everywhere, \S\ref{sec:realpapers}). An \emph{oracle-retrieval} arm completes
 the attribution: fed the target section directly (empty for omissions,
 bypassing the gate), the assessor detects $0.86$ of commissions and $1.00$ of
 omissions (every missed omission is a gate abstention, not a judgement
-failure), while the gate halves clean-side alarms ($0.21$ gateless vs $0.09$).
+failure), while the gate suppresses the alarms that section-level evidence
+alone triggers ($0.21$ for the section-fed oracle arm vs $0.09$; the
+full-context arm's $0.00$ reflects its wider view).
 
 \paragraph{Cross-model robustness.}
 Porting the unchanged pipeline across providers shows the core result is not
