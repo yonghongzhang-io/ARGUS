@@ -1,0 +1,221 @@
+paper_id,title,dimension,dimension_name,assumption,applicability,evidence_risk,evidence_span,evidence_location,confidence,notes
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_120,The Impacts of Environmental Regulations on Industrial Activity,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Elect,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_164,The Impacts of Environmental Regulations on Industrial Activity: Evidence from t,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jers,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_100,Hospital Ownership and Public Medical Spending,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Hea,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_124,The Impact of Legalized Abortion on Crime,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,parallel_trends,Parallel trends (pre-treatment),"Absent treatment, treated and control units would have followed the same outcome trend.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,no_anticipation,No anticipation,"Units do not change behaviour in anticipation of the policy before it takes effect.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,treatment_timing,Treatment timing / staggered adoption,"Treatment timing is correctly coded; staggered adoption is handled with an estimator robust to heterogeneous, time-varying effects.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,treatment_definition_sutva,Treatment definition & SUTVA / spillovers,"Treatment is well defined and there is no interference between units (no spillovers from treated to control).
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,control_group,Control group construction,"The control group is a credible counterfactual for the treated units.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,specification,Functional form & specification,"The estimating equation (fixed effects, controls, functional form) is correctly specified.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,inference,Inference (standard errors),"Standard errors account for the dependence structure of the data.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,sample_period,Sample & period selection,"Sample frame and time window are not chosen in a way that drives the result.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,concurrent_policies,Concurrent / confounding policies,"No other policy coincident with treatment explains the outcome change.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,robustness_placebo,Robustness & placebo tests,"The headline effect survives placebo and falsification checks.
+",,,,,,
+paper_130,Factor Immobility and Regional Impacts of Trade Liberalization: Evidence on Pove,data_measurement,Data quality & measurement,"The outcome and treatment variables are measured consistently across units and time.
+",,,,,,
