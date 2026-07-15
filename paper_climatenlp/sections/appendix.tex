@@ -41,6 +41,19 @@ assessment. Each model call operates under a fixed tool set, a hard step budget,
 a logged trace. This design trades autonomy for reproducibility, inspectability, and
 controlled evaluation under flaw injection.
 
+\section{Reproducibility Details}
+\label{app:repro}
+
+All LLM stages use \texttt{gpt-4o} at temperature~$0$ with
+\texttt{max\_steps}{=}1. The identification rubric, flaw taxonomy, and
+33-variant catalog are declarative configuration files in the code release, and
+the keyword baseline plus all leak-freedom (non-circularity) checks are
+deterministic and run without model access. The eleven-flaw headline numbers are
+the frozen output of the released runner. The 33-variant benchmark was run three
+times end-to-end (roughly $750$ model calls per run); verdicts were
+near-deterministic (32/33 identical across runs), and Table~\ref{tab:variants}
+reports the three-run mean.
+
 \section{Supplementary Figures and Tables}
 \label{app:supp}
 
