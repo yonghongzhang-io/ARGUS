@@ -51,7 +51,7 @@ class _Completions:
         *,
         model: str,
         messages: list[dict[str, str]],
-        temperature: float = 0,
+        temperature: Optional[float] = None,
         response_format: Optional[dict[str, Any]] = None,
         max_tokens: int = DEFAULT_MAX_TOKENS,
         **_: Any,
@@ -66,9 +66,12 @@ class _Completions:
         kwargs: dict[str, Any] = {
             "model": model,
             "max_tokens": max_tokens,
-            "temperature": temperature,
             "messages": user_msgs,
         }
+        # Newer Claude models reject an explicit temperature; only pass it when
+        # the caller insists (create_structured retries without it on rejection).
+        if temperature is not None:
+            kwargs["temperature"] = temperature
         if system:
             kwargs["system"] = system
 
