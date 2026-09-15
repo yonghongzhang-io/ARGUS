@@ -37,7 +37,26 @@ _mpl.rcParams.update({"font.size": 12.0, "axes.titlesize": 13.0, "axes.labelsize
                       "xtick.labelsize": 10.5, "ytick.labelsize": 10.5, "legend.fontsize": 10.5})
 
 RES = Path(__file__).resolve().parent / "corpus_results"
-OUT_DIR = ROOT / "paper" / "figures"
+OUT_DIRS = [ROOT / "paper" / "figures", ROOT / "paper_climatenlp" / "figures"]
+# paper_164 is a byte-identical duplicate of paper_120 in the CausalVerify markdown
+# corpus (Greenstone 2002); it received identical audits and is excluded so the
+# figure and every count in the paper describe 26 unique papers.
+EXCLUDE = {"paper_164"}
+# Short display names used consistently in the paper text, the case-study table
+# and this figure (reviewer: "dimension naming is inconsistent").
+SHORT = {
+    "parallel_trends": "parallel trends",
+    "no_anticipation": "no anticipation",
+    "treatment_timing": "staggered timing",
+    "treatment_definition_sutva": "SUTVA / spillovers",
+    "control_group": "control group",
+    "specification": "specification",
+    "inference": "inference",
+    "sample_period": "sample period",
+    "concurrent_policies": "concurrent policies",
+    "robustness_placebo": "placebo / robustness",
+    "data_measurement": "data measurement",
+}
 BUCKETS = ["high", "medium", "low", "unknown"]
 COLORS = RISK
 
@@ -48,6 +67,8 @@ def load_counts(path: Path) -> tuple[dict[str, Counter], int]:
     papers: set[str] = set()
     with open(path, encoding="utf-8") as fh:
         for row in csv.DictReader(fh):
+            if row["paper_id"] in EXCLUDE:
+                continue
             counts[row["dimension"]][row["risk"]] += 1
             papers.add(row["paper_id"])
     return counts, len(papers)
@@ -65,7 +86,7 @@ def panel(ax, counts: dict[str, Counter], dims: list[str], title: str) -> None:
                 ax.barh(i, frac, left=left, color=COLORS[b], edgecolor="white", linewidth=0.5)
             left += frac
     ax.set_yticks(list(y))
-    ax.set_yticklabels(list(reversed(dims)), fontsize=11.9)
+    ax.set_yticklabels([SHORT.get(d, d) for d in reversed(dims)], fontsize=11.9)
     ax.set_xlim(0, 1)
     ax.set_xlabel("share of papers", fontsize=12.6)
     ax.set_title(title, fontsize=15.4, fontweight="bold", loc="left")
@@ -93,10 +114,11 @@ def main() -> None:
                loc="lower center", ncol=4, fontsize=12.6, frameon=False, bbox_to_anchor=(0.5, -0.02))
     fig.tight_layout(rect=[0, 0.04, 1, 0.96])
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for ext in ("pdf", "png"):
-        fig.savefig(OUT_DIR / f"figure_realcorpus.{ext}", dpi=200, bbox_inches="tight", facecolor="white")
-    print(f"wrote paper/figures/figure_realcorpus.pdf  (keyword n={n_kw}, llm n={n_llm})")
+    for out_dir in OUT_DIRS:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for ext in ("pdf", "png"):
+            fig.savefig(out_dir / f"figure_realcorpus.{ext}", dpi=200, bbox_inches="tight", facecolor="white")
+        print(f"wrote {out_dir.relative_to(ROOT)}/figure_realcorpus.pdf  (keyword n={n_kw}, llm n={n_llm})")
 
 
 if __name__ == "__main__":

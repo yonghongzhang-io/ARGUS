@@ -63,7 +63,7 @@ def keyword_result() -> dict:
 
 
 def _pretty(lab: str) -> str:
-    return lab.replace("_", " ")
+    return lab.replace("_", " ").replace(" se", " SE")
 
 
 def _panel_label(ax, letter: str) -> None:

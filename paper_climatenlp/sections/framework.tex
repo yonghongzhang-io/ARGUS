@@ -19,7 +19,7 @@ explicit and inspectable rather than buried in code. A companion flaw taxonomy
 dimension, which both documents the rubric's coverage and supplies the
 perturbations used for evaluation.
 
-\subsection{Bounded-agentic pipeline}
+\subsection{Bounded LLM pipeline}
 The audit runs a fixed, deterministic sequence, \emph{decomposition
 $\rightarrow$ extraction $\rightarrow$ assessment $\rightarrow$ localization
 $\rightarrow$ report}, shown in the top band of Figure~\ref{fig:arch}. The stage
@@ -44,10 +44,14 @@ tool call, and cited piece of evidence. All other stages are plain orchestration
 with no agent loop. In the configuration evaluated in \S\ref{sec:results} the
 step budget is minimal (\texttt{max\_steps}{=}1), and the LLM assessment path
 resolves to a fixed per-dimension sequence (deterministic retrieval, one
-relevance-gate call, one adequacy call). The evaluated system is
-therefore closer to structured, dimension-scoped prompting over retrieved
-evidence than to an open-ended agent; for an audit, we treat this
-near-determinism as a feature.
+relevance-gate call, one adequacy call). The gate labels each retrieved passage
+\emph{high}, \emph{partial}, or \emph{none}: a dimension with no relevant
+passage is scored \texttt{unknown} without an adequacy call, while one with only
+partially relevant passages is still judged (Appendix~\ref{app:retrieval}). We
+therefore call the design \emph{bounded} rather than agentic: the evaluated
+system is structured, dimension-scoped prompting over retrieved evidence with an
+explicit abstention path, not an open-ended agent, and for an audit we treat
+this near-determinism as a feature.
 
 \paragraph{Why bound the agency.}
 A fully autonomous agent would make per-run behaviour path-dependent and
@@ -69,7 +73,7 @@ system both auditable by a human and measurable by the evaluation that follows.
   \centering
   \includegraphics[width=0.88\textwidth]{figures/figure2}
   \caption{\sys{} architecture. The top band is the audit pipeline, a fixed
-  deterministic sequence; agency is confined to the two agentic stages
+  deterministic sequence; model calls are confined to two stages
   (extraction and assessment), each a bounded ReAct loop with a fixed tool set
   (evidence search, figure parse, policy lookup), a hard step budget, and a
   logged trace. The bottom band shows the flaw-injection evaluation loop, which

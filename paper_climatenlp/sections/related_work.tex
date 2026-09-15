@@ -40,7 +40,13 @@ are comparable across papers and measurable against injected ground truth. \sys{
 differs in target and posture: it audits \emph{identification credibility}
 specifically (the part of an argument that licenses a causal claim) and issues
 no verdicts, producing evidence-grounded, human-reviewable reports that localize
-risk for the expert's final call.
+risk for the expert's final call. Closest to our setting,
+CausalVerify~\cite{causalverify} grounds evaluation in \emph{execution}: it runs
+a model's generated estimation code against synthetic data and checks the
+recovered effect. That benchmark places identification-assumption auditing
+outside its scope, which is the layer \sys{} takes up; we reuse its released
+corpus of published economics papers and add a dimension-level
+identification-risk annotation layer on top of it.
 
 \paragraph{NLP for climate evidence.}
 Climate-NLP systems verify claims against evidence

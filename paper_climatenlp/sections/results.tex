@@ -2,7 +2,7 @@
 \label{sec:results}
 
 We evaluate \sys{} along four axes: a synthetic flaw-injection protocol, an
-architecture ablation, a run over 27 published difference-in-differences (DID)
+architecture ablation, a run over 26 published difference-in-differences (DID)
 papers that stress-test the audit architecture across empirical economics, beyond
 the climate-policy setting (carbon pricing, emissions trading, emission standards)
 that defines its target deployment, and a calibrated human-gold pilot. Four findings emerge: (i)~judging evidence \emph{adequacy},
@@ -39,7 +39,8 @@ difference is architectural. Table~\ref{tab:results} reports the headline metric
   same retrieved evidence; the ablation arms share the model and rubric but
   remove retrieval, the gate, or both. The final row is the leaked, pre-fix
   circular setup. On the harder 33-variant benchmark the two-stage assessor
-  shows a $0.09$ inference over-flag (\S\ref{sec:variants}).}
+  shows a $0.09$ inference over-flag (\S\ref{sec:variants}). Wilson 95\%
+  intervals for every rate are in Table~\ref{tab:ci}.}
   \label{tab:results}
   \setlength{\tabcolsep}{5pt}
   \resizebox{\columnwidth}{!}{%
@@ -128,17 +129,28 @@ the attribution: fed the target section directly (empty for omissions,
 bypassing the gate), the assessor detects $0.86$ of commissions and $1.00$ of
 omissions, while the gate suppresses the alarms section-level evidence alone
 triggers ($0.21$ oracle arm vs $0.09$; the full-context arm's $0.00$ reflects
-its wider view).
+its wider view). At $n{=}33$ none of these pairwise arm differences reaches
+significance under an exact paired McNemar test (single-pass vs per-dimension
+$p{=}0.13$, per-dimension vs two-stage $p{=}0.22$, two-stage vs oracle
+$p{=}0.13$; Appendix~\ref{app:ci}); the attribution we claim is mechanistic
+(every extra omission the oracle arm catches is a gate abstention), not a
+significant rate gap.
 
 \paragraph{Cross-model robustness.}
 Porting the unchanged pipeline across providers shows the core result is not
 model-specific (Appendix~\ref{app:matrix}): \emph{commission} detection is high
 everywhere (gpt-4o $0.89$, Claude Opus~4.8 $1.00$, Gemini~2.5 Flash $0.91$,
-Llama~3.1 8B $0.95$). What differs is the operating point: gpt-4o is the only
-conservative auditor (false alarm $0.09$, localization $0.66$), while the
-others buy sensitivity with alarms (false alarm $0.18$--$0.82$, localization
-$0.24$--$0.36$): commission detection ports across models; the precision
-profile does not.
+Llama~3.1 8B $0.95$), so the flawed-but-natural rewrites are legible to every
+model, not only to the one they were developed against. What differs is the
+operating point, and Table~\ref{tab:crossmodel_ops} shows where: Opus~4.8
+rates the \emph{clean} fixture medium or high on 18 of 22 commission pairs
+(false alarm $0.82$), the over-severity the human gold finds for gpt-4o, only
+stronger; Llama~8B almost never abstains (one \texttt{unknown} in eleven
+omissions) and calls the missing evidence high; Gemini is closest to gpt-4o
+(26/33 identical injected verdicts). Commission detection ports across models;
+the gate's abstention behaviour and the precision profile do not, so a
+practitioner changing the model must re-tune the calibration layer of
+\S\ref{sec:calib}.
 
 The split by flaw type is the informative result (Table~\ref{tab:variants}). The
 assessor catches $0.86$--$0.91$ of \emph{commission} flaws (flawed-but-present
@@ -161,7 +173,7 @@ inference over-flag.
   temperature~0; near-deterministic, 32/33 verdicts identical). Adequacy reasoning
   catches \emph{commission} flaws; \emph{omission} misses are abstentions to
   \texttt{unknown}, marking the evidence-grounding bottleneck rather than wrong
-  judgements.}
+  judgements. Intervals in Table~\ref{tab:ci}.}
   \label{tab:variants}
   \begin{tabular}{lccc}
     \toprule
@@ -178,14 +190,16 @@ inference over-flag.
 \subsection{From synthetic fixtures to real papers: a relocated bottleneck}
 \label{sec:realpapers}
 
-We next audit a corpus of 27 published DID papers drawn from top economics
-journals (Appendix~\ref{app:corpus} details its composition). There is no
+We next audit 26 published DID papers drawn from top economics journals, the
+difference-in-differences subset of the CausalVerify
+corpus~\cite{causalverify} (Appendix~\ref{app:corpus} details its
+composition). There is no
 injected ground truth; we report
 the raw per-dimension risk distribution of each assessor
 (Figure~\ref{fig:realcorpus}). The keyword baseline is permissive: $91\%$ of its
 judgements are \emph{low}. It sees topic vocabulary, declares the dimension
 supported, and flags almost nothing. The two-stage LLM is differentiated, and its
-most informative output is that ${\sim}39\%$ of judgements are \texttt{unknown}:
+most informative output is that ${\sim}40\%$ of judgements are \texttt{unknown}:
 the relevance gate could not surface evidence, so the system says so rather than
 over-flagging. Two regimes appear: dimensions whose discussion is diffuse or
 lives in figures the text retrieval cannot reach are dominated by
@@ -195,8 +209,23 @@ not by causal reasoning but by \emph{evidence grounding}. The design therefore
 reports retrieval quality and an explicit \texttt{unknown} state distinct from a
 substantive high-risk judgement.
 
+\paragraph{Why fixtures abstain but real papers flag.}
+The synthetic omission misses of \S\ref{sec:variants} become abstentions, yet
+on real papers a missing check usually becomes a substantive \emph{high}. The
+asymmetry is one branch of the gate. Retrieval is lexical
+(Appendix~\ref{app:retrieval}): deleting a section from the short fixture leaves
+no passage that even shares its vocabulary, the gate finds nothing relevant, and
+the pipeline abstains without calling the judge. A 30-page paper almost always
+contains a section that shares the vocabulary, so the gate returns
+\emph{partial} relevance, the judge is called on an off-target passage, reports
+the evidence as missing, and the prompt maps missing to high. The pilot gold
+makes this exact (Table~\ref{tab:gate}): all 22 failed-retrieval cells are
+\texttt{unknown}, and 20 of the 22 weak-retrieval cells are \emph{high}, 19 of
+them with \texttt{evidence\_status=missing}. This is the branch the calibration
+layer of \S\ref{sec:calib} targets.
+
 Judgements are grounded rather than pattern-matched
-(Appendix~\ref{app:qual} gives a qualitative example). Roughly $45\%$ of
+(Appendix~\ref{app:qual} gives a qualitative example). Roughly $44\%$ of
 judgements on these top-journal papers are \emph{high}; without dimension-level
 expert labels we cannot yet say whether this is warranted or over-strict where
 retrieval succeeds. We claim the contrast in behaviour and the localization of the
@@ -240,7 +269,11 @@ The gold comparison also points to a fix; the error analysis is sharp: of
 as a substantive \emph{high}, conflating a \emph{retrieval failure} with the paper
 lacking the evidence, which the human resolves to low/medium: a fixable
 calibration target. The pattern is not fit to a single
-paper: it re-emerges in every leave-one-paper-out fold of the pilot.
+paper: it re-emerges in every leave-one-paper-out fold of the pilot. (This
+analysis uses a re-run of the pipeline that logs the retrieval-quality and
+evidence-status fields; it differs from the corpus run of \S\ref{sec:vsgold}
+in one cell, so its pre-calibration figures are 29/33 over-severe and exact
+agreement $0.12$.)
 
 An \emph{oracle-evidence} check splits the diagnosis: an expert located
 supporting evidence for \emph{all} 55 cells, so all 22 pipeline abstentions
@@ -253,7 +286,7 @@ A deterministic calibration layer over fields the LLM already produces cuts
 over-severity while holding high-risk detection unchanged on the pilot's two high
 cells; the dominant rule demotes a weak-retrieval \emph{high} to \emph{medium}
 (keep coverage) or \texttt{unknown} (abstain). Keeping coverage
-raises exact agreement from $0.15$ to
+raises exact agreement from $0.12$ to
 $0.45$; abstaining reaches weighted $\kappa=0.25$ but leaves 13 answered cells
 (Appendix, Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}). Calibration
 corrects severity but cannot recover missing evidence (correct \emph{coverage}

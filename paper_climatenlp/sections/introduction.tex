@@ -31,7 +31,7 @@ true. Instead, it asks whether each identifying
 assumption is adequately supported by the evidence reported in the paper, and where
 that support is weakest. \sys{} (after Argus Panoptes, the hundred-eyed
 watchman) represents a DID study through an 11-dimension
-\emph{assumption--implication--evidence} rubric and uses a bounded-agentic pipeline
+\emph{assumption--implication--evidence} rubric and uses a bounded, retrieval-gated pipeline
 to retrieve relevant evidence, assess its adequacy, and produce an evidence-grounded
 risk report for expert review (Figure~\ref{fig:overview}). Model agency is confined
 to scoped retrieval and assessment tasks behind a fixed, deterministic control flow,
@@ -42,7 +42,7 @@ Evaluating such an auditor is difficult because the true policy effect is
 unobserved. We therefore use \emph{flaw injection} as local ground truth: starting
 from a supported study fixture, we introduce one known identification flaw and test
 whether \sys{} detects it, remains quiet on the clean version, and localizes the
-affected dimension. We complement this controlled evaluation with deployment on 27
+affected dimension. We complement this controlled evaluation with deployment on 26
 real DID papers and a small expert-labelled diagnostic pilot used to identify
 calibration and applicability failures.
 

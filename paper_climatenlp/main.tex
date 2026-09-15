@@ -1,8 +1,9 @@
 % ClimateNLP 2026 (EMNLP workshop) — long paper, ARCHIVAL submission.
-% ARGUS condensed from the 17pp LNCS version to 8pp ACL, climate-framed, anonymized.
+% ARGUS condensed from the 17pp LNCS version to 8pp ACL, climate-framed.
+% Camera-ready (de-anonymized): ClimateNLP 2026, due 25 Sept 2026 AoE.
 % Compile: tectonic main.tex
 \documentclass[11pt]{article}
-\usepackage[review]{acl}
+\usepackage[final]{acl}
 \usepackage{times}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -14,33 +15,49 @@
 
 \newcommand{\NUM}[1]{#1}   % ARGUS numbers are real (not pending); render as-is
 \newcommand{\sys}{ARGUS}
+% Prompt listings: a shaded, column-breakable frame. `framed` is used rather
+% than tcolorbox because a breakable tcolorbox collides with floats in the
+% two-column layout.
+\usepackage{framed}
+\definecolor{shadecolor}{gray}{0.95}
+\newcommand{\promptlabel}[1]{\par\addvspace{4pt}\noindent\textbf{#1}\par\nobreak\vspace{1pt}}
+\newenvironment{promptbox}%
+  {\par\addvspace{2pt}\begin{shaded}\footnotesize\ttfamily\raggedright\noindent}%
+  {\end{shaded}\addvspace{2pt}}
 
 \title{Evidence-Grounded Auditing of Identification Assumptions\\
 in Climate-Policy Causal Evaluations}
 
-\author{Anonymous ACL submission}
+\author{
+  Yonghong Zhang$^{1}$ \quad Yong Xie$^{2}$ \quad
+  Isabel M. Parra$^{1}$ \quad Ricardo Correia$^{1}$ \\
+  $^{1}$Department of Finance, Universidad Aut\'onoma de Madrid, Madrid, Spain \\
+  $^{2}$Spanish National Research Council (CSIC), Madrid, Spain \\
+  \texttt{yonghong.zhang@estudiante.uam.es}
+}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Difference-in-differences (DID) studies are widely used to evaluate climate
-policy, yet their identification assumptions are more often \emph{asserted} than
-\emph{audited}. Because the counterfactual is unobserved, we ask instead whether
-each assumption is adequately supported by the evidence a paper reports. We
-introduce \sys{}, an end-to-end, \emph{bounded-agentic} auditing system in which
-an LLM runs behind a fixed, deterministic pipeline and scores DID studies on an
-11-dimension assumption--implication--evidence rubric, retrieving evidence,
-judging its adequacy, and producing a risk report rather than a causal
-verdict. Under realistic flaw injection (seeding one known error into an
-otherwise credible study) adequacy reasoning lifts matched-retrieval detection
-from $0.18$ to $0.73$ at zero false alarms, per-dimension decomposition reaches
-$1.00$, and the retrieval gate trades detection for calibrated abstention. Across 27 real
-papers evidence grounding emerges as the coverage bottleneck, and a pilot
-diagnostic study reveals a systematic over-severity that a lightweight
-calibration layer partly corrects. \sys{} is
-thus a high-sensitivity screening tool that surfaces weakly evidenced
-identification assumptions for expert review.
+Difference-in-differences (DID) designs underpin much of the empirical evidence
+on climate policy, yet their identification assumptions are more often asserted
+than audited. Because the counterfactual is never observed, we ask instead
+whether the evidence a study reports adequately supports each assumption. We
+present \sys{}, which scores a DID study on an eleven-dimension
+assumption--implication--evidence rubric: a language model retrieves and
+adjudicates evidence behind deterministic control flow, and abstains on any
+dimension a relevance gate cannot ground in the text. Under controlled flaw
+injection, judging evidence adequacy rather than presence raises detection from
+$0.18$ to $0.73$, with false alarms no higher than $0.09$. On published economics
+papers the bottleneck shifts to evidence grounding. The system abstains on
+$40\%$ of dimensions; where it does answer, it is more severe than the experts
+on 28 of 33 pilot cells. One gate explains both. A short fixture leaves nothing
+to retrieve, so the system defers; a full paper always turns up a partial match,
+which it judges rather than defers. A deterministic rule demotes those
+ungrounded judgements, raising exact agreement from $0.12$ to $0.45$. \sys{} is a screening instrument:
+it localizes weakly evidenced assumptions for expert review rather than
+adjudicating causal claims.
 \end{abstract}
 
 \input{sections/introduction}
