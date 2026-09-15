@@ -1,7 +1,13 @@
 # Real-corpus audit — keyword vs two-stage LLM
 
 27 published DID papers from the CausalVerify corpus, audited end-to-end by
-ARGUS. Same retrieval is improved (section-level + relevance gate) only on the
+ARGUS.
+
+> **Camera-ready note (2026-09-13):** `paper_164` is a byte-identical duplicate of
+> `paper_120` in the source corpus (same markdown, identical audits on all 11
+> dimensions for both assessors). The paper and `make_realcorpus_figure.py` now
+> exclude it and report **26 unique papers / 286 cells** (LLM: high 127, medium 40,
+> low 6, unknown 113; keyword: low 259 of 286). The table below is the raw 27-paper run. Same retrieval is improved (section-level + relevance gate) only on the
 LLM path; the keyword baseline is unchanged. Figure: `paper/figures/figure_realcorpus.pdf`.
 
 ## Risk distribution (totals over 27 papers × 11 dimensions = 297)

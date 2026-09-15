@@ -30,7 +30,7 @@ like parallel trends as a matter of degree rather than a binary
 of an empirical paper; it focuses on the identification argument that licenses a
 causal interpretation.
 
-\subsection{Why \sys{} uses bounded agency}
+\subsection{Why the pipeline is bounded}
 Open-ended agents may choose different tools and reasoning paths across runs, making
 their outputs difficult to reproduce and compare. Large language models are
 increasingly used for evaluative and reviewing tasks
@@ -40,6 +40,41 @@ code and confines model-driven decisions to evidence retrieval and adequacy
 assessment. Each model call operates under a fixed tool set, a hard step budget, and
 a logged trace. This design trades autonomy for reproducibility, inspectability, and
 controlled evaluation under flaw injection.
+
+\section{Flaw Taxonomy Provenance}
+\label{app:flawlit}
+The rubric, taxonomy, and injector are co-designed, but the catalogue of
+threats is not ours: each injected flaw is a threat named in the DID and
+research-design literature (Table~\ref{tab:flawlit}). What we authored is the
+injector's prose for each threat, which is why we describe synthetic detection
+as internal consistency under known threats and treat independently authored
+flaws as future work.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Each injected flaw, its target dimension, and the literature that
+  names the threat.}
+  \label{tab:flawlit}
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{llp{4.2cm}}
+    \toprule
+    flaw & dimension & threat named in \\
+    \midrule
+    pretrend divergence & parallel trends & \cite{roth2022,roth2023,rambachanroth2023} \\
+    anticipation effect & no anticipation & \cite{callaway2021,roth2023} \\
+    forbidden comparison & staggered timing & \cite{goodmanbacon2021,dechaisemartin2020,sunabraham2021} \\
+    spillover contamination & SUTVA / spillovers & \cite{atheyimbens2017,roth2023} \\
+    noncomparable controls & control group & \cite{callaway2021,atheyimbens2017} \\
+    bad control & specification & \cite{angristpischke2009} \\
+    understated SE & inference & \cite{bertrand2004trust} \\
+    cherry-picked window & sample period & \cite{simmons2011,brodeur2020methods} \\
+    confounding policy & concurrent policies & \cite{angristpischke2010,atheyimbens2017} \\
+    missing placebo & placebo / robustness & \cite{bertrand2004trust,atheyimbens2017} \\
+    measurement break & data measurement & \cite{atheyimbens2017,angristpischke2010} \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
 
 \section{Ablation Matrix and Cross-Model Panel}
 \label{app:matrix}
@@ -51,6 +86,10 @@ Table~\ref{tab:crossmodel} ports the unchanged pipeline across providers:
 commission detection is uniformly high, while false-alarm and localization
 profiles vary sharply by model. Cross-provider decoding defaults differ (newer
 reasoning models reject an explicit temperature), so these are single runs.
+Table~\ref{tab:crossmodel_ops} shows where the operating points diverge: how
+each model treats a deleted section, how often it already rates the unmodified
+fixture medium or high, and how often its injected-variant verdict matches
+gpt-4o's.
 
 On real papers the gate's behavioural contrast sharpens: over the 25 papers
 common to both runs ($275$ cells), the ungated single pass almost never
@@ -80,7 +119,8 @@ the high-risk share stays comparable ($41.1\%$ vs $45.1\%$).
   \centering\small
   \caption{Cross-model panel on the 33-variant benchmark (single run per
   model; gpt-4o is the three-run mean; single runs support the qualitative
-  porting claim only). comm/omit = commission/omission detection.}
+  porting claim only). comm/omit = commission/omission detection. Intervals in
+  Table~\ref{tab:ci}.}
   \label{tab:crossmodel}
   \setlength{\tabcolsep}{3.5pt}
   \resizebox{\columnwidth}{!}{%
@@ -95,6 +135,167 @@ the high-risk share stays comparable ($41.1\%$ vs $45.1\%$).
     \bottomrule
   \end{tabular}}
 \end{table}
+
+\begin{table}[t]
+  \centering\small
+  \caption{Cross-model operating points on the 33-variant benchmark (single
+  runs; gpt-4o run 1). Omission column: verdicts on the eleven deleted-section
+  variants, in the order \texttt{unknown} / high / medium / low. Clean column:
+  commission pairs (of 22) whose \emph{unmodified} fixture is already rated
+  medium or high. Last column: exact agreement with gpt-4o's injected-variant
+  verdict.}
+  \label{tab:crossmodel_ops}
+  \setlength{\tabcolsep}{3.5pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{lccc}
+    \toprule
+    model & omission verdicts & clean $\geq$ med & agree \\
+    \midrule
+    gpt-4o & 6 / 3 / 2 / 0 & 2 / 22 & -- \\
+    Claude Opus 4.8 & 3 / 7 / 1 / 0 & 18 / 22 & 20 / 33 \\
+    Gemini 2.5 Flash & 4 / 3 / 3 / 1 & 4 / 22 & 26 / 33 \\
+    Llama 3.1 8B (local) & 1 / 10 / 0 / 0 & 6 / 22 & 19 / 33 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\section{Retrieval Details}
+\label{app:retrieval}
+The only corpus queried is the paper under audit; there is no external corpus
+and no embedding index. Papers are ingested through a light markdown convention
+(\texttt{\#\#} section headings plus \texttt{@figure}/\texttt{@table} caption
+lines), and the searchable blocks are the title, abstract, each section, and
+each figure or table caption. On the LLM path retrieval is section-level and
+lexical: each dimension has a fixed query pack of 12--16 terms (e.g.\
+\emph{pre-trend, event study, lead coefficients} for parallel trends), a block
+scores by the summed frequency of its matched terms, and the top $k{=}4$ blocks
+are kept, each truncated to 2,000 characters. The relevance gate sees the first
+1,200 characters of each candidate and labels it \emph{high}, \emph{partial},
+or \emph{none}; retrieval quality is \emph{good} if any candidate is high,
+\emph{weak} if only partial candidates remain, and \emph{failed} otherwise. A
+failed dimension is scored \texttt{unknown} without an adequacy call; weak and
+good dimensions pass the kept blocks, in full, to the adequacy judge together
+with the rubric's assumption, implication, and expected evidence. The keyword
+baseline instead searches paragraph chunks capped at 900 characters
+(sentence-split when longer) with a single query string and top $k{=}5$, scoring
+positive and negative sentinel phrases. With \texttt{max\_steps}{=}1 there is
+no iterative exploration, so breadth is the top-$k$ cap and depth is one round.
+Chunk size, $k$, and embedding retrieval were not swept; the oracle-retrieval
+arm of \S\ref{sec:variants} stands in for the retrieval upper bound.
+Table~\ref{tab:gate} shows how the gate's three outcomes map to risk on the
+pilot-gold cells, the mechanism behind the fixture/real-paper asymmetry of
+\S\ref{sec:realpapers}.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Retrieval quality versus emitted risk on the 55 pilot-gold cells
+  (rich re-run). Failed retrieval always abstains; weak retrieval almost always
+  becomes a substantive \emph{high}, 19 of those 20 with
+  \texttt{evidence\_status=missing}.}
+  \label{tab:gate}
+  \begin{tabular}{lcccc}
+    \toprule
+    retrieval quality & \texttt{unknown} & high & medium & low \\
+    \midrule
+    failed (22) & 22 & 0 & 0 & 0 \\
+    weak (22)   & 0 & 20 & 2 & 0 \\
+    good (11)   & 0 & 5 & 5 & 1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Prompts}
+\label{app:prompts}
+All model calls run at temperature~$0$ with a strict JSON schema. Angle-bracketed
+fields are substituted from the rubric entry or the retrieved passages; nothing
+else varies across dimensions or papers. The per-dimension no-retrieval arm of
+\S\ref{sec:variants} reuses the adequacy prompt below verbatim, passing the whole
+paper as the evidence items instead of retrieved sections, so that arm differs
+from the full pipeline only in what the prompt is fed.
+
+\promptlabel{Relevance gate (system).}
+\begin{promptbox}
+You are screening retrieved passages for a difference-in-differences (DID)
+identification audit. For ONE identification dimension, decide whether each
+passage is actually evidence about THAT dimension's assumption. This is a
+relevance check, NOT a quality or risk judgement. Mark a passage 'high' if it
+directly concerns the assumption (e.g. an event-study / pre-trend discussion for
+parallel trends), 'partial' if it touches it indirectly, and 'none' if it is
+about something else. Be strict: a passage that merely shares vocabulary but is
+about a different topic is 'none'.
+\end{promptbox}
+
+\promptlabel{Relevance gate (user).}
+\begin{promptbox}
+Identification dimension: <name>\\
+Assumption: <assumption>\\
+Testable implication: <implication>\\[5pt]
+Candidate passages:\\
+{}[0] (<source>) <passage text, first 1200 characters>\\
+{}[1] (<source>) <...>\\[5pt]
+Classify each passage's relevance to this dimension.
+\end{promptbox}
+\begin{sloppypar}\noindent Schema: one \texttt{\{index, relevance, reason\}}
+object per passage, with \texttt{relevance} in
+\texttt{\{high, partial, none\}}.\end{sloppypar}
+
+\promptlabel{Adequacy judge (system).}
+\begin{promptbox}
+You audit the causal-IDENTIFICATION credibility of difference-in-differences
+(DID) studies in environmental policy evaluation. You do NOT judge whether the
+estimated effect is true \textemdash{} the counterfactual is never observed. For
+ONE identification dimension, judge whether the evidence the paper reports is
+ADEQUATE to support the assumption.\\[5pt]
+Crucial distinction: evidence PRESENCE is not evidence ADEQUACY. The mere
+mention of a topic (an event study, a balance table, 'placebo') does not make the
+assumption supported \textemdash{} assess whether the reported evidence actually
+establishes the testable implication, and whether it reveals a flaw.\\[5pt]
+Return a risk level and an evidence-status label:\\
+\hspace*{1em}risk: low | medium | high\\
+\hspace*{1em}evidence\_status: sufficient | partial | missing | flawed\\
+Map roughly: sufficient->low, partial->medium, missing->high, flawed->high. Be
+conservative: if the evidence is absent, thin, or describes a flawed design, do
+not call it supported. Cite the specific evidence (by source) your judgement
+rests on. Keep the rationale to one or two sentences.
+\end{promptbox}
+
+\promptlabel{Adequacy judge (user).}
+\begin{promptbox}
+Identification dimension: <name>\\
+Assumption: <assumption>\\
+Testable implication: <implication>\\
+Evidence a credible paper would report: <expected evidence>\\[5pt]
+Evidence retrieved from THIS paper:\\
+- [<source>] <passage text>\\[5pt]
+Judge the adequacy of this evidence for the assumption.
+\end{promptbox}
+\noindent When the gate keeps nothing the evidence block reads \texttt{(no
+evidence was retrieved for this dimension)}, but that path is unreachable in the
+deployed pipeline: a failed gate short-circuits to \texttt{unknown} without a
+model call (\S\ref{sec:realpapers}).
+\begin{sloppypar}\noindent Schema:
+\texttt{\{risk, evidence\_status, rationale, cited\_evidence\}}.\end{sloppypar}
+
+\promptlabel{Single-pass ablation (system and user).}
+\begin{promptbox}
+You audit the causal-identification credibility of a difference-in-differences
+(DID) study. You do NOT judge whether the estimated effect is true. For EACH of
+the eleven identification dimensions listed, judge whether the evidence the paper
+reports is ADEQUATE to support that assumption. Evidence presence is not evidence
+adequacy. Return one judgement per dimension.
+\end{promptbox}
+\begin{promptbox}
+Identification dimensions to judge:\\
+- <dimension id>: <assumption> (expect: <expected evidence>)\\
+\hspace*{1em}[... eleven lines ...]\\[5pt]
+THE PAPER:\\
+{}[<source>]\\
+<full section text>\\[5pt]
+Judge the adequacy of the reported evidence for EVERY dimension.
+\end{promptbox}
+\begin{sloppypar}\noindent Schema: a \texttt{judgements} array of
+\texttt{\{dimension, risk, evidence\_status, rationale\}}, with
+\texttt{dimension} restricted to the eleven rubric ids.\end{sloppypar}
 
 \section{Reproducibility Details}
 \label{app:repro}
@@ -120,36 +321,164 @@ two-call-per-dimension pipeline audits one paper for roughly US\$0.25 of
 gpt-4o usage. The oracle-evidence check (\S\ref{sec:calib}) is 55 adequacy
 calls over expert-annotated spans.
 
-\section{The Real-Paper Corpus}
-\label{app:corpus}
-
-The 27 published DID studies audited in \S\ref{sec:realpapers} are drawn from
-top general-interest and field economics journals
-(Table~\ref{tab:corpus}). By topic, the corpus spans finance and banking (5),
-environment and energy (5), health (4), education (4), international trade (3),
-labour (3), crime and social policy (2), and industrial location (1); the
-environment-and-energy subset covers industrial-activity effects of
-environmental regulation, air quality and early-life mortality, and energy
-pricing. Audit behaviour is not driven by domain: the environment-and-energy
-subset's risk distribution (high $0.40$, \texttt{unknown} $0.38$; 55 cells) is
-close to the remainder's (high $0.46$, \texttt{unknown} $0.39$; 242 cells).
-Paper-level identities are withheld here to preserve double-blind review of the
-associated dataset and will be listed in the camera-ready version.
+\section{Uncertainty Quantification}
+\label{app:ci}
+Table~\ref{tab:ci} gives Wilson 95\% intervals for every proportion reported in
+the main text and exact tests between arms evaluated on the same items;
+Table~\ref{tab:ci_gold} gives cell-bootstrap intervals (5,000 resamples) for
+the human-gold agreement metrics. At $n{=}11$ the keyword-versus-two-stage gap
+is significant by Fisher's exact test ($p{=}0.03$) but only marginal as a
+paired test on the same flaws (7 vs 1 discordant, $p{=}0.07$); at $n{=}33$ no
+pairwise difference between the single-pass, per-dimension, two-stage, and
+oracle arms reaches significance. The calibration lift in exact agreement
+($0.12\to0.45$) has non-overlapping intervals; the weighted-$\kappa$ lift does
+not. All values are computed from the committed run files by the script
+\texttt{uncertainty.py} in \texttt{experiments/ablations/}.
 
 \begin{table}[t]
   \centering\small
-  \caption{Journal composition of the 27-paper real corpus.}
+  \caption{Wilson 95\% intervals for reported rates (top) and exact tests
+  between arms (bottom; McNemar tests are paired on the same flaws or
+  variants).}
+  \label{tab:ci}
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{llcc}
+    \toprule
+    benchmark & quantity & $k/n$ & 95\% CI \\
+    \midrule
+    11 flaws & keyword detection & 2/11 & 0.05--0.48 \\
+             & single-pass detection & 9/11 & 0.52--0.95 \\
+             & per-dimension detection & 11/11 & 0.74--1.00 \\
+             & two-stage detection & 8/11 & 0.43--0.90 \\
+             & two-stage false alarm & 0/11 & 0.00--0.26 \\
+    33 variants & single-pass detection & 24/33 & 0.56--0.85 \\
+             & per-dimension detection & 29/33 & 0.73--0.95 \\
+             & two-stage detection (run 1) & 25/33 & 0.59--0.87 \\
+             & \quad commission & 20/22 & 0.72--0.97 \\
+             & \quad omission & 5/11 & 0.21--0.72 \\
+             & two-stage false alarm & 3/33 & 0.03--0.24 \\
+             & oracle-retrieval detection & 30/33 & 0.76--0.97 \\
+    cross-model & Opus 4.8 detection & 30/33 & 0.76--0.97 \\
+             & Opus 4.8 false alarm & 27/33 & 0.66--0.91 \\
+             & Gemini 2.5 Flash detection & 26/33 & 0.62--0.89 \\
+             & Gemini 2.5 Flash false alarm & 6/33 & 0.09--0.34 \\
+             & Llama 3.1 8B detection & 31/33 & 0.80--0.98 \\
+             & Llama 3.1 8B false alarm & 9/33 & 0.15--0.44 \\
+    \midrule
+    test & arms & discordant & $p$ \\
+    \midrule
+    Fisher & keyword vs two-stage (11) & -- & 0.030 \\
+    McNemar & keyword vs two-stage (11) & 7 / 1 & 0.070 \\
+    McNemar & single-pass vs per-dim.\ (33) & 1 / 6 & 0.125 \\
+    McNemar & per-dim.\ vs two-stage (33) & 5 / 1 & 0.219 \\
+    McNemar & single-pass vs two-stage (33) & 5 / 6 & 1.000 \\
+    McNemar & two-stage vs oracle (33) & 1 / 6 & 0.125 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\begin{table}[t]
+  \centering\small
+  \caption{Cell-bootstrap 95\% intervals for agreement with the adjudicated
+  gold (answered cells only; quadratic-weighted $\kappa$).}
+  \label{tab:ci_gold}
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{lccc}
+    \toprule
+    policy & $n$ & exact agreement & weighted $\kappa$ \\
+    \midrule
+    before & 33 & 0.12 (0.03--0.24) & 0.06 ($-0.02$--0.16) \\
+    demote$\to$med & 33 & 0.45 (0.30--0.61) & 0.13 ($-0.07$--0.37) \\
+    abstain$\to$unk & 13 & 0.54 (0.31--0.77) & 0.25 ($-0.17$--0.70) \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\section{The Real-Paper Corpus}
+\label{app:corpus}
+
+The 26 published DID studies audited in \S\ref{sec:realpapers} are the
+difference-in-differences subset of the corpus of 259 published economics
+papers released with CausalVerify~\cite{causalverify}, drawn from top
+general-interest and field economics journals (Table~\ref{tab:corpus}; titles
+in Table~\ref{tab:corpuslist}). That corpus as released contains one
+byte-identical duplicate (a 2002 Clean Air Act study under two identifiers);
+both copies received identical
+audits on all eleven dimensions from both assessors, and we count the paper
+once, so every count reads 26 papers and 286 cells. One further entry is a
+review of the school-spending literature rather than a primary DID study; we
+retain and note it. By topic, the corpus spans finance and banking (5), health
+(4), education (4), environment and energy (4), international trade (3), labour
+(3), crime and social policy (2), and industrial location (1); the
+environment-and-energy subset covers the industrial-activity effects of
+environmental regulation, air quality and early-life mortality, nonlinear
+electricity pricing, and gasoline prices and vehicle choice. None of the 26 is
+a climate-policy evaluation in the narrow sense (a carbon price, an emissions
+trading scheme, or an emission standard): the real corpus is a
+general-economics stress test of the audit architecture, and the
+climate-specific content of the paper is the rubric instantiation of
+\S\ref{sec:framework}, the emissions-trading fixture of \S\ref{sec:evaluation},
+and Appendix~\ref{app:motivation}. Audit behaviour is not driven by domain: the
+environment-and-energy subset's risk distribution (high $0.34$,
+\texttt{unknown} $0.43$; 44 cells) is close to the remainder's (high $0.46$,
+\texttt{unknown} $0.39$; 242 cells).
+
+\begin{table}[t]
+  \centering\small
+  \caption{Journal composition of the 26-paper real corpus.}
   \label{tab:corpus}
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lc}
     \toprule
     journal & papers \\
     \midrule
     Quarterly Journal of Economics & 7 \\
     American Economic Review & 6 \\
-    Journal of Political Economy & 4 \\
+    Journal of Political Economy & 3 \\
     Review of Economics and Statistics & 4 \\
     Journal of Finance & 3 \\
     AEJ: Economic Policy / J.\ Monetary Econ.\ / ILRR & 3 \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\begin{table}[t]
+  \centering\scriptsize
+  \caption{The 26 audited studies, by title as indexed in the source corpus
+  (the duplicated entry is listed once).}
+  \label{tab:corpuslist}
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{p{0.94\columnwidth}}
+    \toprule
+    The Effect of the Banking Panic on the Supply of Credit to the Corporate Sector \\
+    The Effects of State-Level Banking Competition on Innovation \\
+    Do Credit Market Shocks Affect the Real Economy? Quasi-Experimental Evidence from the Great Recession and `Normal' Economic Times \\
+    Cyclicality of Credit Supply: Firm Level Evidence \\
+    Does Stock Liquidity Enhance or Impede Firm Innovation? \\
+    Minimum Wages and Employment: A Case Study of the Fast Food Industry in New Jersey and Pennsylvania \\
+    Minimum Wage Effects Across State Borders: Estimates Using Contiguous Counties \\
+    Hospital Ownership and Public Medical Spending \\
+    The Impact of Public Disclosure of Health Outcomes on Patient and Social Welfare \\
+    Did Community Rating Induce an Adverse Selection Death Spiral? Evidence from New York, Pennsylvania, and Connecticut \\
+    Mortality and Access to Care among Adults after State Medicaid Expansions \\
+    Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Head Start \\
+    The Impacts of Environmental Regulations on Industrial Activity: Evidence from the 1970 and 1977 Clean Air Act Amendments and the Census of Manufactures \\
+    Legalized Abortion and Crime \\
+    Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Electricity Pricing \\
+    Estimates of the Impact of Crime Risk on Property Values from Megan's Laws \\
+    Effects of Liberalized Trade on Plant Productivity \\
+    The Surprisingly Swift Decline of U.S. Manufacturing Employment \\
+    Factor Immobility and Trade: Poverty in India \\
+    Trade Liberalization and Industry Wage Premia: Evidence from Colombia \\
+    The Effect of State Policies on the Location of Manufacturing: Evidence from State Borders \\
+    Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires \\
+    Does School Spending Matter? The New Literature on an Old Question \\
+    The Evolution of Black/White Earnings: 1960--1980 \\
+    The Effects of Class Size on Student Achievement: New Evidence from Population Variation \\
+    Are Consumers Myopic? Evidence from New and Used Car Purchases \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -215,7 +544,7 @@ trigger conditions recur in all five folds: among each fold's over-severe
 evidence.
 
 This appendix collects supporting material referenced from the main text:
-the per-dimension risk distribution on the 27-paper real corpus
+the per-dimension risk distribution on the 26-paper real corpus
 (Figure~\ref{fig:realcorpus}), and the deterministic calibration results against
 the adjudicated human gold (Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}),
 and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgold}).
@@ -255,7 +584,7 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/figure_realcorpus}
-  \caption{Per-dimension risk distribution on 27 real DID papers. The keyword
+  \caption{Per-dimension risk distribution on 26 real DID papers. The keyword
   baseline (left) is almost entirely \emph{low}; the
   two-stage LLM (right) is differentiated, with a large \texttt{unknown} share
   that marks retrieval failure rather than over-flagging.}
@@ -267,7 +596,10 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
   \caption{Deterministic calibration vs the human gold (55 cells), two policies
   for weak-retrieval \emph{high}: demote to \emph{medium} (keep coverage) or
   abstain to \texttt{unknown}. Both cut over-severity and preserve high recall.
-  Pilot scale: only 2 gold cells are \emph{high}.}
+  Pilot scale: only 2 gold cells are \emph{high}. The before column is the rich
+  re-run of \S\ref{sec:calib}, which differs from the corpus run of
+  Table~\ref{tab:vsgold} in one cell; bootstrap intervals in
+  Table~\ref{tab:ci_gold}.}
   \label{tab:calib}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
@@ -275,9 +607,9 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
     \toprule
     metric & before & demote$\to$med & abstain$\to$unk \\
     \midrule
-    over-severe (answ.)     & 28 & 18 & 6 \\
+    over-severe (answ.)     & 29 & 18 & 6 \\
     high prec.\ / rec.      & 0.04 / 0.50 & 0.50 / 0.50 & 0.50 / 0.50 \\
-    exact agr.\ (answ.)     & 0.15 & 0.45 & 0.54 \\
+    exact agr.\ (answ.)     & 0.12 & 0.45 & 0.54 \\
     wt.\ $\kappa$ (answ.)   & 0.06 & 0.13 & 0.25 \\
     answered / \texttt{unk} & 33 / 22 & 33 / 22 & 13 / 42 \\
     \bottomrule

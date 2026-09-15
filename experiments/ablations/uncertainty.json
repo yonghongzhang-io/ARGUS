@@ -1,0 +1,328 @@
+{
+  "rates": [
+    {
+      "name": "11-flaw keyword detection",
+      "k": 2,
+      "n": 11,
+      "rate": 0.182,
+      "ci95": [
+        0.051,
+        0.477
+      ]
+    },
+    {
+      "name": "11-flaw single-pass detection",
+      "k": 9,
+      "n": 11,
+      "rate": 0.818,
+      "ci95": [
+        0.523,
+        0.949
+      ]
+    },
+    {
+      "name": "11-flaw per-dimension detection",
+      "k": 11,
+      "n": 11,
+      "rate": 1.0,
+      "ci95": [
+        0.741,
+        1.0
+      ]
+    },
+    {
+      "name": "11-flaw two-stage detection",
+      "k": 8,
+      "n": 11,
+      "rate": 0.727,
+      "ci95": [
+        0.434,
+        0.903
+      ]
+    },
+    {
+      "name": "11-flaw two-stage false alarm",
+      "k": 0,
+      "n": 11,
+      "rate": 0.0,
+      "ci95": [
+        0.0,
+        0.259
+      ]
+    },
+    {
+      "name": "33-variant two-stage detection run 1",
+      "k": 25,
+      "n": 33,
+      "rate": 0.758,
+      "ci95": [
+        0.59,
+        0.872
+      ]
+    },
+    {
+      "name": "33-variant two-stage detection run 2",
+      "k": 25,
+      "n": 33,
+      "rate": 0.758,
+      "ci95": [
+        0.59,
+        0.872
+      ]
+    },
+    {
+      "name": "33-variant two-stage detection run 3",
+      "k": 24,
+      "n": 33,
+      "rate": 0.727,
+      "ci95": [
+        0.558,
+        0.849
+      ]
+    },
+    {
+      "name": "33-variant commission detection (run 1)",
+      "k": 20,
+      "n": 22,
+      "rate": 0.909,
+      "ci95": [
+        0.722,
+        0.975
+      ]
+    },
+    {
+      "name": "33-variant omission detection (run 1)",
+      "k": 5,
+      "n": 11,
+      "rate": 0.455,
+      "ci95": [
+        0.213,
+        0.72
+      ]
+    },
+    {
+      "name": "33-variant false alarm",
+      "k": 3,
+      "n": 33,
+      "rate": 0.091,
+      "ci95": [
+        0.031,
+        0.236
+      ]
+    },
+    {
+      "name": "33-variant single-pass detection",
+      "k": 24,
+      "n": 33,
+      "rate": 0.727,
+      "ci95": [
+        0.558,
+        0.849
+      ]
+    },
+    {
+      "name": "33-variant per-dimension detection",
+      "k": 29,
+      "n": 33,
+      "rate": 0.879,
+      "ci95": [
+        0.727,
+        0.952
+      ]
+    },
+    {
+      "name": "33-variant oracle-retrieval detection",
+      "k": 30,
+      "n": 33,
+      "rate": 0.909,
+      "ci95": [
+        0.764,
+        0.969
+      ]
+    },
+    {
+      "name": "cross-model Claude Opus 4.8 detection",
+      "k": 30,
+      "n": 33,
+      "rate": 0.909,
+      "ci95": [
+        0.764,
+        0.969
+      ]
+    },
+    {
+      "name": "cross-model Claude Opus 4.8 false alarm",
+      "k": 27,
+      "n": 33,
+      "rate": 0.818,
+      "ci95": [
+        0.656,
+        0.914
+      ]
+    },
+    {
+      "name": "cross-model Claude Opus 4.8 localization",
+      "k": 8,
+      "n": 33,
+      "rate": 0.242,
+      "ci95": [
+        0.128,
+        0.41
+      ]
+    },
+    {
+      "name": "cross-model Gemini 2.5 Flash detection",
+      "k": 26,
+      "n": 33,
+      "rate": 0.788,
+      "ci95": [
+        0.622,
+        0.893
+      ]
+    },
+    {
+      "name": "cross-model Gemini 2.5 Flash false alarm",
+      "k": 6,
+      "n": 33,
+      "rate": 0.182,
+      "ci95": [
+        0.086,
+        0.344
+      ]
+    },
+    {
+      "name": "cross-model Gemini 2.5 Flash localization",
+      "k": 12,
+      "n": 33,
+      "rate": 0.364,
+      "ci95": [
+        0.222,
+        0.534
+      ]
+    },
+    {
+      "name": "cross-model Llama 3.1 8B detection",
+      "k": 31,
+      "n": 33,
+      "rate": 0.939,
+      "ci95": [
+        0.804,
+        0.983
+      ]
+    },
+    {
+      "name": "cross-model Llama 3.1 8B false alarm",
+      "k": 9,
+      "n": 33,
+      "rate": 0.273,
+      "ci95": [
+        0.151,
+        0.442
+      ]
+    },
+    {
+      "name": "cross-model Llama 3.1 8B localization",
+      "k": 9,
+      "n": 33,
+      "rate": 0.273,
+      "ci95": [
+        0.151,
+        0.442
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "name": "11-flaw keyword vs two-stage (Fisher exact)",
+      "p": 0.03
+    },
+    {
+      "name": "11-flaw keyword vs per-dimension (Fisher exact)",
+      "p": 0.0002
+    },
+    {
+      "name": "11-flaw keyword vs two-stage (paired McNemar exact)",
+      "discordant": [
+        7,
+        1
+      ],
+      "p": 0.0703
+    },
+    {
+      "name": "33-variant single-pass vs per-dimension (paired McNemar exact)",
+      "discordant": [
+        1,
+        6
+      ],
+      "p": 0.125
+    },
+    {
+      "name": "33-variant single-pass vs two-stage (paired McNemar exact)",
+      "discordant": [
+        5,
+        6
+      ],
+      "p": 1.0
+    },
+    {
+      "name": "33-variant per-dimension vs two-stage (paired McNemar exact)",
+      "discordant": [
+        5,
+        1
+      ],
+      "p": 0.2188
+    },
+    {
+      "name": "33-variant two-stage vs oracle-retrieval (paired McNemar exact)",
+      "discordant": [
+        1,
+        6
+      ],
+      "p": 0.125
+    }
+  ],
+  "gold_bootstrap": [
+    {
+      "policy": "before (rich run)",
+      "answered": 33,
+      "exact": 0.121,
+      "exact_ci95": [
+        0.03,
+        0.242
+      ],
+      "weighted_kappa": 0.058,
+      "weighted_kappa_ci95": [
+        -0.016,
+        0.155
+      ]
+    },
+    {
+      "policy": "demote to medium",
+      "answered": 33,
+      "exact": 0.455,
+      "exact_ci95": [
+        0.303,
+        0.606
+      ],
+      "weighted_kappa": 0.128,
+      "weighted_kappa_ci95": [
+        -0.073,
+        0.366
+      ]
+    },
+    {
+      "policy": "abstain to unknown",
+      "answered": 13,
+      "exact": 0.538,
+      "exact_ci95": [
+        0.308,
+        0.769
+      ],
+      "weighted_kappa": 0.245,
+      "weighted_kappa_ci95": [
+        -0.166,
+        0.695
+      ]
+    }
+  ]
+}
