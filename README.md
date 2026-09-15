@@ -12,12 +12,12 @@ report that flags risks for a human expert. The system is validated through *syn
 injection*, which yields local ground truth for identification threats without requiring the
 true causal effect.
 
-> **Status:** submitted to **ClimateNLP 2026** (EMNLP workshop, under review); the
-> submitted paper is `paper_climatenlp/` (snapshot tag `climatenlp2026-submission-v1`).
+> **Status:** accepted at **ClimateNLP 2026** (EMNLP workshop, Budapest, 28 Oct 2026);
+> the camera-ready paper is `paper_climatenlp/` (PDF in `submissions/`).
 > The full two-stage LLM pipeline runs end-to-end: deterministic retrieval, a relevance
 > gate with an explicit `unknown` abstention state, per-dimension adequacy assessment,
-> risk localization, and report generation — evaluated on two flaw-injection benchmarks,
-> a 27-paper real corpus, a cross-model panel, and an expert-annotated human-gold pilot.
+> risk localization, and report generation, evaluated on two flaw-injection benchmarks,
+> a 26-paper real corpus, a cross-model panel, and an expert-annotated human-gold pilot.
 
 ---
 
@@ -46,11 +46,11 @@ detection 0.75, false alarm 0.09, localization 0.66; commission 0.89 vs omission
 high everywhere (gpt-4o 0.89, Claude Opus 4.8 1.00, Gemini 2.5 Flash 0.91, local
 Llama 3.1 8B 0.95); the precision profile is model-dependent.
 
-**Real papers (27 top-journal DID studies):** the bottleneck relocates from causal
-reasoning to *evidence grounding* — ~39% of judgements abstain to `unknown` where
+**Real papers (26 top-journal DID studies):** the bottleneck relocates from causal
+reasoning to *evidence grounding* — ~40% of judgements abstain to `unknown` where
 retrieval fails. **Human-gold pilot (5 papers × 11 dimensions):** ARGUS is systematically
 over-severe; a deterministic calibration layer (demote weak-retrieval `high`) raises exact
-agreement 0.15 → 0.45, and the rule re-emerges in every leave-one-paper-out fold.
+agreement 0.12 → 0.45, and the rule re-emerges in every leave-one-paper-out fold.
 
 ---
 
@@ -156,6 +156,33 @@ adjudicate them.
 
 ---
 
+## How to read the per-paper judgements
+
+`experiments/real_papers/corpus_results/` contains one risk label per paper per
+identification dimension for 26 published economics papers, and the camera-ready paper
+lists those papers by title. The two can be joined. Before doing so, read what these
+labels are:
+
+- **They are screening signals, not quality judgements.** ARGUS scores whether a paper
+  reports evidence adequate to support an identification assumption. It does not judge
+  whether the paper's estimated effect is correct, and it is not a measure of research
+  quality.
+- **They are systematically over-severe.** Against an adjudicated expert gold, ARGUS was
+  more severe than the experts on 28 of the 33 cells it answered and less severe on none.
+  A calibration layer raises exact agreement from 0.12 to 0.45, so even after calibration
+  most individual labels still disagree with expert consensus.
+- **An individual cell is unreliable.** The expert pilot covers 5 papers and 55 cells.
+  Nothing here supports a claim about any single paper on any single dimension.
+- **`unknown` means retrieval failed, not that evidence is absent.** The system abstains
+  on roughly 40% of dimensions because it could not surface the relevant passage, often
+  because the evidence lives in a figure the text retrieval cannot reach.
+
+These outputs are released so the results in the paper can be reproduced and audited.
+Quoting a single cell as a verdict on a published paper misuses them, and the paper's own
+evaluation is the evidence against doing so.
+
+---
+
 ## Repository layout
 
 ```
@@ -166,7 +193,7 @@ data/              paper corpus, flaw-injected versions, annotations (not commit
 annotation/        human-gold protocols + annotation tooling (oracle spans; gold expansion)
 experiments/       phase1_pilot, variants (33-flaw benchmark), ablations (compute-graded,
                    oracle-evidence, oracle-retrieval, LOPO calibration), models (cross-model),
-                   real_papers (27-paper corpus runs)
+                   real_papers (26-paper corpus runs)
 results/           generated reports and agent traces
 paper_climatenlp/  ClimateNLP 2026 submission (ACL format; submissions/ holds the frozen PDF)
 paper/             earlier LNCS Doctoral Consortium draft (superseded)
