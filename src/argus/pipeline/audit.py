@@ -30,9 +30,11 @@ def run_audit(
     """Run the full audit on a single parsed DID paper.
 
     `max_steps` is the hard step budget passed to each agentic stage.
-    `assessor` selects the assessment policy: "keyword" (deterministic baseline)
-    or "llm" (evidence-adequacy reasoning). Extraction is identical for both, so
-    the two assessors see the same retrieved evidence.
+    `assessor` selects the assessment policy: "keyword" (deterministic baseline),
+    "llm" (evidence-adequacy reasoning), or "single_pass" (whole-paper ablation).
+    Stage-2 extraction runs for all of them, but only "keyword" consumes its evidence
+    bundle; "llm" re-retrieves at section level and "single_pass" reads the whole
+    paper, so comparisons between assessors are end-to-end pipeline comparisons.
     """
     validate_paper(paper)
     skeleton = decomposition.decompose(paper)

@@ -54,12 +54,14 @@ def main() -> None:
     ap.add_argument("--method", default="DID")
     ap.add_argument("--n", type=int, default=15, help="number of papers (0 = all)")
     ap.add_argument("--llm", action="store_true", help="LLM assessor (needs OPENAI_API_KEY)")
+    ap.add_argument("--assessor", choices=["keyword", "llm", "single_pass"],
+                    help="assessor policy (overrides --llm); single_pass = whole-paper ablation")
     ap.add_argument("--max-steps", type=int, default=1)
     args = ap.parse_args()
 
     corpus = Path(args.corpus_dir)
     md_dir = corpus / "converted" / "markdown"
-    assessor = "llm" if args.llm else "keyword"
+    assessor = args.assessor or ("llm" if args.llm else "keyword")
     dims = list(load_dimensions())
 
     paper_ids = select_papers(corpus, args.method, args.n)

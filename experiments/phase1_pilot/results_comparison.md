@@ -1,6 +1,9 @@
 # Phase-1 pilot — keyword baseline vs LLM evidence-adequacy assessor
 
-Same flaw-injection evaluation, same retrieved evidence, two assessment policies.
+Same flaw-injection evaluation, two end-to-end pipelines. The evidence is NOT shared: the
+keyword baseline scores paragraph chunks from `evidence_search`, while the LLM path re-retrieves
+and gates whole sections (`retrieve_sections`), so the gap below is a pipeline difference, not
+an isolated effect of the judgement policy.
 Fixture: `clean_supported.json`, all 11 flaws, `max_steps=1`.
 
 | assessor | detection | false alarm | localization |

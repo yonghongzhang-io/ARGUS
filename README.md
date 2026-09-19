@@ -23,8 +23,10 @@ true causal effect.
 
 ## Headline results
 
-**Flaw injection, 11 clear flaws** (gpt-4o; keyword and two-stage share identical retrieved
-evidence, so that pair isolates the judgement policy):
+**Flaw injection, 11 clear flaws** (gpt-4o; every row is an end-to-end pipeline with its own
+evidence path: the keyword baseline scores paragraph chunks, the two-stage pipeline re-retrieves
+and gates whole sections, and the other arms read the full paper, so the rows compare pipelines,
+not a judgement policy over shared evidence):
 
 | assessor | calls/paper | detection | false alarm | localization |
 | --- | --- | --- | --- | --- |
