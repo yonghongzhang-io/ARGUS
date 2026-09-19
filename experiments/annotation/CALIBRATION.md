@@ -11,12 +11,26 @@ treats "weak retrieval found nothing" as a substantive `high`, conflating
 *retrieval failure* with *the paper lacking the evidence*.
 
 ## Calibration rules (deterministic, ARGUS-visible fields only)
-The dominant rule: a weak-retrieval `high` (no contradiction signalled in the
-rationale) is either demoted to `medium` (`--weak-high-action medium`, keep
-coverage) or set to `unknown` (`--weak-high-action unknown`, abstain). It fired on
-20 cells. Smaller rules soften a few anachronistic-standard / inference-reporting-
-gap / concurrent-policy-closure `high`s (1 each). Nothing is upgraded; a `high`
-whose rationale signals the evidence *contradicts* the assumption is kept.
+The table below is produced by **version 1** of the layer, `calibrate_argus_v1_pilot.py`
+(recovered from the authoring session log; see the provenance block at the top of that
+file). The committed `calibrate_argus.py` is a later two-rule rewrite and does **not**
+reproduce these numbers.
+
+Version 1 has four rules, applied to `high` cells only, first match wins:
+
+1. *Dominant rule.* `retrieval_quality == weak` -> `medium` (`--weak-high-action medium`,
+   keep coverage) or `unknown` (`--weak-high-action unknown`, abstain). Fires on 20 cells.
+2. `dimension == treatment_timing` and the rationale names a modern DID estimator
+   (Callaway, Sun-Abraham, Goodman-Bacon, "modern estimator(s)") -> `medium`. 1 cell.
+3. `dimension == inference`, `evidence_status == missing`, and the rationale mentions
+   "cluster" or "robust standard errors" -> `medium`. 1 cell.
+4. `dimension == concurrent_policies` and `retrieval_quality == good` -> `medium`. 1 cell.
+
+Nothing is upgraded. Version 1 has no contradiction guard (that belongs to the rewrite).
+Rules 2-4 are crude string/field tests written minutes after the over-severity analysis
+of this same pilot; each fires on one cell, and rule 4 has no content condition at all
+(finding relevant evidence is not the same as the evidence supporting the assumption).
+They are recorded as historical exploratory rules, not as a validated method.
 
 ## Before vs after (vs adjudicated gold, 55 cells)
 
@@ -42,9 +56,29 @@ Caveats: pilot scale (gold has 2 `high` cells, so high precision/recall are
 noisy); the abstain-policy kappa is on 13 answered cells. The robust claims are
 the one-directional over-severity drop and preserved recall.
 
+## Dominant rule alone vs all four rules
+`experiments/ablations/calibration_recheck.py` re-runs version 1 on the frozen inputs in
+`pilot_frozen/` (55/55 cells identical to the historical outputs under both policies) and
+separates the dominant rule from rules 2-4 (demote-to-medium policy, 33 answered cells):
+
+| rule set | exact agreement | over-severe | high precision | weighted kappa |
+|---|---:|---:|---:|---:|
+| before | 4/33 = 0.12 | 29 | 1/25 | 0.06 |
+| dominant rule only | 12/33 = 0.36 | 21 | 1/5 | 0.21 |
+| all four rules | 15/33 = 0.45 | 18 | 1/2 | 0.13 |
+
+Paired on the same 33 cells the dominant rule fixes 8 cells and breaks none (exact McNemar
+p = 0.008); four rules fix 11 (p = 0.001). By paper the lift appears in 4 of 5 papers with
+one tie (sign test, ties dropped, p = 0.125) and in 5 of 5 (p = 0.0625). Cells are nested
+in papers and every rule was written on this pilot, so these are in-sample results with a
+consistent direction, not evidence of held-out generalization. Under the abstain policy the
+dominant rule fixes no cell (it only removes 20 answers: 4/13 = 0.31 exact); the 0.54 in the
+table above comes from the lost coverage plus the three cells rules 2-4 fix.
+
 Reproduce:
 ```
 PYTHONPATH=src python3 experiments/annotation/run_gold_papers_rich.py   # needs OPENAI_API_KEY
-PYTHONPATH=src python3 experiments/annotation/calibrate_argus.py --weak-high-action medium
-PYTHONPATH=src python3 experiments/annotation/calibrate_argus.py --weak-high-action unknown
+python3 experiments/annotation/calibrate_argus_v1_pilot.py --weak-high-action medium \
+    --input experiments/annotation/pilot_frozen/argus_rich_gold5.csv --out /tmp/cal_medium.csv
+python3 experiments/ablations/calibration_recheck.py                     # no model access
 ```

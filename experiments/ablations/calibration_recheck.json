@@ -1,0 +1,352 @@
+{
+  "inputs": [
+    "64f25e7f4c501188d4ba51af16898793ee62c24e396113139f57452aae7d9ea9  argus_rich_gold5.csv",
+    "2c54595de1a19f440c7651736c0cbd30425f758da09f6a6635897bf9735ab2f1  argus_rich_gold5_calibrated_medium.csv",
+    "1a31c6230ba3be9ab3d97b87ea82cdd45748b1011e8ae7fdffca0514030354c2  argus_rich_gold5_calibrated_unknown.csv",
+    "836ea869631314024415ff5bad8fbbe967d19be6bc7348e21d212264be6f1d93  gold_labels.csv"
+  ],
+  "policies": {
+    "medium": {
+      "reproduces_historical_output": [
+        55,
+        55
+      ],
+      "rules_fired": {
+        "unchanged": 32,
+        "weak_retrieval_high_to_medium": 20,
+        "inference_reporting_gap_high_to_medium": 1,
+        "modern_did_standard_high_to_medium": 1,
+        "concurrent_policy_closure_high_to_medium": 1
+      },
+      "before": {
+        "answered": 33,
+        "unknown": 22,
+        "exact": [
+          4,
+          33
+        ],
+        "exact_ci95": [
+          0.03,
+          0.242
+        ],
+        "over_severe": 29,
+        "under_severe": 0,
+        "high_assigned": 25,
+        "high_precision": [
+          1,
+          25
+        ],
+        "high_recall": [
+          1,
+          2
+        ],
+        "weighted_kappa": 0.058,
+        "weighted_kappa_ci95": [
+          -0.016,
+          0.155
+        ]
+      },
+      "dominant_rule_only": {
+        "answered": 33,
+        "unknown": 22,
+        "exact": [
+          12,
+          33
+        ],
+        "exact_ci95": [
+          0.212,
+          0.515
+        ],
+        "over_severe": 21,
+        "under_severe": 0,
+        "high_assigned": 5,
+        "high_precision": [
+          1,
+          5
+        ],
+        "high_recall": [
+          1,
+          2
+        ],
+        "weighted_kappa": 0.21,
+        "weighted_kappa_ci95": [
+          0.02,
+          0.389
+        ]
+      },
+      "four_rules": {
+        "answered": 33,
+        "unknown": 22,
+        "exact": [
+          15,
+          33
+        ],
+        "exact_ci95": [
+          0.303,
+          0.636
+        ],
+        "over_severe": 18,
+        "under_severe": 0,
+        "high_assigned": 2,
+        "high_precision": [
+          1,
+          2
+        ],
+        "high_recall": [
+          1,
+          2
+        ],
+        "weighted_kappa": 0.128,
+        "weighted_kappa_ci95": [
+          -0.072,
+          0.376
+        ]
+      },
+      "paired_vs_before": {
+        "dominant_rule_only": {
+          "cells_fixed": 8,
+          "cells_broken": 0,
+          "mcnemar_exact_p": 0.0078,
+          "per_paper": {
+            "paper_01": {
+              "answered": 4,
+              "exact_before": 1,
+              "exact_after": 3
+            },
+            "paper_03": {
+              "answered": 9,
+              "exact_before": 2,
+              "exact_after": 5
+            },
+            "paper_07": {
+              "answered": 6,
+              "exact_before": 0,
+              "exact_after": 1
+            },
+            "paper_08": {
+              "answered": 4,
+              "exact_before": 0,
+              "exact_after": 0
+            },
+            "paper_10": {
+              "answered": 10,
+              "exact_before": 1,
+              "exact_after": 3
+            }
+          },
+          "papers_improved": 4,
+          "papers_worse": 0,
+          "papers_tied": 1,
+          "sign_test_p_ties_dropped": 0.125
+        },
+        "four_rules": {
+          "cells_fixed": 11,
+          "cells_broken": 0,
+          "mcnemar_exact_p": 0.001,
+          "per_paper": {
+            "paper_01": {
+              "answered": 4,
+              "exact_before": 1,
+              "exact_after": 4
+            },
+            "paper_03": {
+              "answered": 9,
+              "exact_before": 2,
+              "exact_after": 6
+            },
+            "paper_07": {
+              "answered": 6,
+              "exact_before": 0,
+              "exact_after": 1
+            },
+            "paper_08": {
+              "answered": 4,
+              "exact_before": 0,
+              "exact_after": 1
+            },
+            "paper_10": {
+              "answered": 10,
+              "exact_before": 1,
+              "exact_after": 3
+            }
+          },
+          "papers_improved": 5,
+          "papers_worse": 0,
+          "papers_tied": 0,
+          "sign_test_p_ties_dropped": 0.0625
+        }
+      }
+    },
+    "unknown": {
+      "reproduces_historical_output": [
+        55,
+        55
+      ],
+      "rules_fired": {
+        "unchanged": 32,
+        "weak_retrieval_high_to_unknown": 20,
+        "inference_reporting_gap_high_to_medium": 1,
+        "modern_did_standard_high_to_medium": 1,
+        "concurrent_policy_closure_high_to_medium": 1
+      },
+      "before": {
+        "answered": 33,
+        "unknown": 22,
+        "exact": [
+          4,
+          33
+        ],
+        "exact_ci95": [
+          0.03,
+          0.242
+        ],
+        "over_severe": 29,
+        "under_severe": 0,
+        "high_assigned": 25,
+        "high_precision": [
+          1,
+          25
+        ],
+        "high_recall": [
+          1,
+          2
+        ],
+        "weighted_kappa": 0.058,
+        "weighted_kappa_ci95": [
+          -0.016,
+          0.155
+        ]
+      },
+      "dominant_rule_only": {
+        "answered": 13,
+        "unknown": 42,
+        "exact": [
+          4,
+          13
+        ],
+        "exact_ci95": [
+          0.077,
+          0.538
+        ],
+        "over_severe": 9,
+        "under_severe": 0,
+        "high_assigned": 5,
+        "high_precision": [
+          1,
+          5
+        ],
+        "high_recall": [
+          1,
+          2
+        ],
+        "weighted_kappa": 0.322,
+        "weighted_kappa_ci95": [
+          0.044,
+          0.597
+        ]
+      },
+      "four_rules": {
+        "answered": 13,
+        "unknown": 42,
+        "exact": [
+          7,
+          13
+        ],
+        "exact_ci95": [
+          0.308,
+          0.769
+        ],
+        "over_severe": 6,
+        "under_severe": 0,
+        "high_assigned": 2,
+        "high_precision": [
+          1,
+          2
+        ],
+        "high_recall": [
+          1,
+          2
+        ],
+        "weighted_kappa": 0.245,
+        "weighted_kappa_ci95": [
+          -0.166,
+          0.698
+        ]
+      },
+      "paired_vs_before": {
+        "dominant_rule_only": {
+          "cells_fixed": 0,
+          "cells_broken": 0,
+          "mcnemar_exact_p": 1.0,
+          "per_paper": {
+            "paper_01": {
+              "answered": 4,
+              "exact_before": 1,
+              "exact_after": 1
+            },
+            "paper_03": {
+              "answered": 9,
+              "exact_before": 2,
+              "exact_after": 2
+            },
+            "paper_07": {
+              "answered": 6,
+              "exact_before": 0,
+              "exact_after": 0
+            },
+            "paper_08": {
+              "answered": 4,
+              "exact_before": 0,
+              "exact_after": 0
+            },
+            "paper_10": {
+              "answered": 10,
+              "exact_before": 1,
+              "exact_after": 1
+            }
+          },
+          "papers_improved": 0,
+          "papers_worse": 0,
+          "papers_tied": 5,
+          "sign_test_p_ties_dropped": 1.0
+        },
+        "four_rules": {
+          "cells_fixed": 3,
+          "cells_broken": 0,
+          "mcnemar_exact_p": 0.25,
+          "per_paper": {
+            "paper_01": {
+              "answered": 4,
+              "exact_before": 1,
+              "exact_after": 2
+            },
+            "paper_03": {
+              "answered": 9,
+              "exact_before": 2,
+              "exact_after": 3
+            },
+            "paper_07": {
+              "answered": 6,
+              "exact_before": 0,
+              "exact_after": 0
+            },
+            "paper_08": {
+              "answered": 4,
+              "exact_before": 0,
+              "exact_after": 1
+            },
+            "paper_10": {
+              "answered": 10,
+              "exact_before": 1,
+              "exact_after": 1
+            }
+          },
+          "papers_improved": 3,
+          "papers_worse": 0,
+          "papers_tied": 2,
+          "sign_test_p_ties_dropped": 0.25
+        }
+      }
+    }
+  }
+}
