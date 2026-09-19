@@ -65,7 +65,13 @@ retrieval/relevance/adequacy/risk profile); dynamic, adversarial
 benchmarking~\cite{kiela2021dynabench} (our model-in-the-loop flaw injection);
 and the caution that operationalizing a capability is
 non-neutral~\cite{raji2021benchmark,gebru2021datasheets}
-(\S\ref{sec:discussion}). Where ReAct-style agents~\cite{yao2023react} act over
+(\S\ref{sec:discussion}). A closely related concern is that an agent
+benchmark can measure its harness rather than its model:
+\citet{dmconfound} show that a fixed scaffold making the execution-critical
+decisions and a scorer grading output shape mask each other, so repairing
+either alone leaves the ranking uninformative. Our compute-graded ablation
+(\S\ref{sec:ablation}) is the same move applied inward, separating what the
+rubric and retrieval layer contribute from what the model does. Where ReAct-style agents~\cite{yao2023react} act over
 an open horizon, \sys{} \emph{bounds} the paradigm (agency confined to two
 scoped sub-tasks behind deterministic control flow), trading autonomy for
 reproducibility and evidence-traceability.
