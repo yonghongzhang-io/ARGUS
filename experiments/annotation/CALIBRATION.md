@@ -25,14 +25,14 @@ whose rationale signals the evidence *contradicts* the assumption is kept.
 | over-severe (of answered) | 29 | 18 | 6 |
 | high precision | 0.04 | 0.50 | 0.50 |
 | high recall | 0.50 | 0.50 | 0.50 |
-| exact agreement (answered) | 0.12 | 0.46 | 0.54 |
+| exact agreement (answered) | 0.12 | 0.45 | 0.54 |
 | weighted kappa (answered) | 0.06 | 0.13 | 0.25 |
 | answered / unknown | 33 / 22 | 33 / 22 | 13 / 42 |
 
 ## Reading
 Both policies cut over-severity and **preserve high-risk recall (0.50)** — severity
 is reduced without losing detection. The keep-coverage (medium) policy keeps all
-33 answers and lifts exact agreement 0.12→0.46; the abstain (unknown) policy
+33 answers and lifts exact agreement 0.12→0.45; the abstain (unknown) policy
 reaches the highest weighted kappa (0.25) but collapses coverage to 13 answered
 cells. Neither fixes the root cause — weak retrieval — so the lift that adds
 *correct* coverage must come from better evidence grounding. Central message:

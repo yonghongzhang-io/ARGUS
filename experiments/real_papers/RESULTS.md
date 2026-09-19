@@ -23,6 +23,7 @@ LLM path; the keyword baseline is unchanged. Figure: `paper/figures/figure_realc
   "clustered", "controls") and judges the dimension supported — it cannot tell
   presence from adequacy, so it almost never flags a real paper.
 - **The two-stage LLM is differentiated**, and ~39% of judgements are `unknown`
+  (~40% over the deduplicated 26 papers, which is the figure the paper reports)
   — the relevance gate could not surface evidence for that dimension, so the
   system says so rather than over-flagging. Two regimes are visible:
   - *High-unknown* dimensions (parallel trends, no anticipation, staggered
