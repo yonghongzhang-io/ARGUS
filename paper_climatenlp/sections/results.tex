@@ -117,7 +117,8 @@ $0.64$--$0.70$, in line with its behaviour on the eleven clear flaws.
 
 \paragraph{Where the gain comes from.}
 A compute-graded ablation on this benchmark (Appendix~\ref{app:matrix})
-separates the pipeline's ingredients: a full-paper single pass (one call)
+separates the pipeline's ingredients, de-scaffolding the auditor in the sense
+of~\cite{dmconfound}: a full-paper single pass (one call)
 detects $0.727$; per-dimension prompting without retrieval (eleven calls)
 detects $0.879$; the full two-stage pipeline (twenty-two calls) detects
 $0.747$. Task \emph{decomposition} drives synthetic detection; the
