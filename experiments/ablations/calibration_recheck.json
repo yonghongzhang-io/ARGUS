@@ -55,7 +55,7 @@
         ],
         "exact_ci95": [
           0.212,
-          0.515
+          0.545
         ],
         "over_severe": 21,
         "under_severe": 0,
@@ -71,7 +71,7 @@
         "weighted_kappa": 0.21,
         "weighted_kappa_ci95": [
           0.02,
-          0.389
+          0.388
         ]
       },
       "four_rules": {
@@ -83,7 +83,7 @@
         ],
         "exact_ci95": [
           0.303,
-          0.636
+          0.606
         ],
         "over_severe": 18,
         "under_severe": 0,
@@ -98,8 +98,8 @@
         ],
         "weighted_kappa": 0.128,
         "weighted_kappa_ci95": [
-          -0.072,
-          0.376
+          -0.073,
+          0.366
         ]
       },
       "paired_vs_before": {
@@ -242,7 +242,7 @@
         "weighted_kappa": 0.322,
         "weighted_kappa_ci95": [
           0.044,
-          0.597
+          0.584
         ]
       },
       "four_rules": {
@@ -270,7 +270,7 @@
         "weighted_kappa": 0.245,
         "weighted_kappa_ci95": [
           -0.166,
-          0.698
+          0.695
         ]
       },
       "paired_vs_before": {

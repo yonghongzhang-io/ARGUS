@@ -49,7 +49,6 @@ def metrics(pred: dict[Key, str], gold: dict[Key, str]) -> dict:
     pairs = [(ORDER[pred[k]], ORDER[gold[k]]) for k in keys]
     highs = [k for k in keys if pred[k] == "high"]
     tp = sum(1 for k in highs if gold[k] == "high")
-    random.seed(0)
     exs, wks = [], []
     for _ in range(5000):
         pp = [(ORDER[pred[k]], ORDER[gold[k]]) for k in (random.choice(keys) for _ in keys)]
@@ -97,23 +96,32 @@ def main() -> None:
     before = {(r["paper_id"], r["dimension"]): r["risk"].strip().lower() for r in rich}
     out: dict = {"inputs": (FROZEN / "MANIFEST.sha256").read_text().split("\n")[:-1], "policies": {}}
 
+    preds: dict[str, dict] = {}
     for action in ("medium", "unknown"):
         applied = [v1.calibrated_risk(r, weak_high_action=action) for r in rich]
         hist = rows(f"argus_rich_gold5_calibrated_{action}.csv")
         same = sum(1 for r, (risk, rule), h in zip(rich, applied, hist)
                    if (r["paper_id"], r["dimension"], risk, rule) == (h["paper_id"], h["dimension"], h["risk"], h["calibration_rule"]))
-        four = {(r["paper_id"], r["dimension"]): risk for r, (risk, _) in zip(rich, applied)}
-        dominant = {(r["paper_id"], r["dimension"]): (risk if rule in DOMINANT else r["risk"].strip().lower())
-                    for r, (risk, rule) in zip(rich, applied)}
         fired: dict[str, int] = {}
         for _, rule in applied:
             fired[rule] = fired.get(rule, 0) + 1
-        out["policies"][action] = {
-            "reproduces_historical_output": [same, len(hist)], "rules_fired": fired,
-            "before": metrics(before, gold),
-            "dominant_rule_only": metrics(dominant, gold), "four_rules": metrics(four, gold),
-            "paired_vs_before": {"dominant_rule_only": paired(before, dominant, gold),
-                                 "four_rules": paired(before, four, gold)}}
+        preds[action] = {
+            "four": {(r["paper_id"], r["dimension"]): risk for r, (risk, _) in zip(rich, applied)},
+            "dominant": {(r["paper_id"], r["dimension"]): (risk if rule in DOMINANT else r["risk"].strip().lower())
+                         for r, (risk, rule) in zip(rich, applied)}}
+        out["policies"][action] = {"reproduces_historical_output": [same, len(hist)], "rules_fired": fired}
+
+    # One seeded stream, consumed in the order uncertainty.py uses (before, four-rule medium,
+    # four-rule unknown), so those three intervals equal uncertainty.json; rule-1 rows follow.
+    random.seed(0)
+    m_before = metrics(before, gold)
+    m_four = {a: metrics(preds[a]["four"], gold) for a in ("medium", "unknown")}
+    m_dom = {a: metrics(preds[a]["dominant"], gold) for a in ("medium", "unknown")}
+    for action in ("medium", "unknown"):
+        out["policies"][action].update({
+            "before": m_before, "dominant_rule_only": m_dom[action], "four_rules": m_four[action],
+            "paired_vs_before": {"dominant_rule_only": paired(before, preds[action]["dominant"], gold),
+                                 "four_rules": paired(before, preds[action]["four"], gold)}})
 
     (ABL / "calibration_recheck.json").write_text(json.dumps(out, indent=2), encoding="utf-8")
     for action, p in out["policies"].items():
