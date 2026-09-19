@@ -1,15 +1,18 @@
-"""Compact three-panel trade-off figure for Table 3.
+"""Compact three-panel trade-off figure for the calibration table.
 
 Run:
     PYTHONPATH=src python3 experiments/annotation/make_calibration_tradeoff.py
+    # ClimateNLP camera-ready: the weak-retrieval rule alone (the claimed result)
+    python3 experiments/annotation/make_calibration_tradeoff.py \
+        --rule-set rule1 --out-dir paper_climatenlp/figures
 
-Writes:
-    paper/figures/calibration_tradeoff.pdf
-    paper/figures/calibration_tradeoff.png
+Values come from experiments/ablations/calibration_recheck.json. The default
+(`rules1-4`, written to paper/figures) is the historical four-rule figure.
 """
 
 from __future__ import annotations
 
+import argparse
 import os
 import tempfile
 from pathlib import Path
@@ -67,6 +70,13 @@ PANELS = [
 ]
 
 
+# [over-severe, answered, weighted kappa] for Before / Demote / Abstain.
+RULE_SETS = {
+    "rules1-4": ([29, 18, 6], [33, 33, 13], [0.06, 0.13, 0.25], 0.30),
+    "rule1": ([29, 21, 9], [33, 33, 13], [0.06, 0.21, 0.32], 0.38),
+}
+
+
 def draw_panel(ax, panel: dict) -> None:
     xs = range(len(LABELS))
     values = panel["values"]
@@ -111,6 +121,16 @@ def draw_panel(ax, panel: dict) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--rule-set", choices=sorted(RULE_SETS), default="rules1-4")
+    parser.add_argument("--out-dir", type=Path, default=OUT_DIR)
+    args = parser.parse_args()
+    over, answered, kappa, kappa_top = RULE_SETS[args.rule_set]
+    for panel, values in zip(PANELS, (over, answered, kappa)):
+        panel["values"] = values
+    PANELS[2]["ylim"] = (0, kappa_top)
+    out_dir = args.out_dir if args.out_dir.is_absolute() else ROOT / args.out_dir
+
     apply_style()
     plt.rcParams.update({"pdf.fonttype": 42, "ps.fonttype": 42})
     fig, axes = plt.subplots(1, 3, figsize=(6.7, 2.15), constrained_layout=True)
@@ -124,10 +144,11 @@ def main() -> None:
         fontweight="bold",
         color=INK,
     )
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for ext in ("pdf", "png"):
-        fig.savefig(OUT_DIR / f"calibration_tradeoff.{ext}", dpi=220, bbox_inches="tight")
-    print(f"wrote {(OUT_DIR / 'calibration_tradeoff.pdf').relative_to(ROOT)}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    exts = ("pdf", "png") if out_dir == OUT_DIR else ("pdf",)
+    for ext in exts:
+        fig.savefig(out_dir / f"calibration_tradeoff.{ext}", dpi=220, bbox_inches="tight")
+    print(f"wrote {(out_dir / 'calibration_tradeoff.pdf').relative_to(ROOT)} ({args.rule_set})")
 
 
 if __name__ == "__main__":

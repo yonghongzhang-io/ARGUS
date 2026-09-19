@@ -20,7 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 ABL = ROOT / "experiments" / "ablations"
 VAR = ROOT / "experiments" / "variants" / "llm_runs"
 XM = ROOT / "experiments" / "models" / "crossmodel"
-ANN = ROOT / "data" / "annotations"
+ANN = ROOT / "experiments" / "annotation" / "pilot_frozen"  # frozen, committed copy of the pilot cells
 ORDER = {"low": 0, "medium": 1, "high": 2}
 
 
