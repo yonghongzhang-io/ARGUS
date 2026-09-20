@@ -1,6 +1,6 @@
 # Shared-evidence control: protocol (written before any run)
 
-Status: **zero-call cells run and committed; LLM cells not yet run.** This file fixes the comparison before results exist. Any deviation
+Status: **complete (2026-09-20); results in `SHARED_EVIDENCE_RESULTS.md`.** This file fixes the comparison before results exist. Any deviation
 after the first model call is logged at the bottom, with the reason.
 
 ## Question
@@ -106,3 +106,6 @@ Logged before any model call:
    commit; the working tree also holds unrelated, uncommitted manuscript edits under `paper/`.
 4. *Harness check (not a deviation).* K-kw reproduces the published keyword baseline exactly
    (2/11 detected, the same two omission flaws; 0 false alarms; localization 2/11).
+
+After the first model call: none. The run completed in one pass with 0 errors; no prompt,
+threshold, query pack, or signal list was changed.
