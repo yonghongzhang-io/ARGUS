@@ -240,7 +240,7 @@ layer of \S\ref{sec:calib} targets.
 
 Judgements cite specific evidence
 (Appendix~\ref{app:qual} gives a qualitative example). Roughly $44\%$ of
-judgements on these top-journal papers are \emph{high}; without dimension-level
+judgements on these papers are \emph{high}; without dimension-level
 expert labels we cannot yet say whether this is warranted or over-strict where
 retrieval succeeds. We claim the contrast in behaviour and the localization of the
 grounding bottleneck, not the correctness of any individual flag.
@@ -249,7 +249,7 @@ grounding bottleneck, not the correctness of any individual flag.
 \label{sec:gold}
 
 To test agreement with expert judgement, we built a small gold: two annotators
-independently labelled risk on 5 DID papers $\times$
+independently labelled risk on five corpus papers $\times$
 11 dimensions (55 cells), with an adjudication round resolving disagreements
 (construction details and agreement statistics in Appendix~\ref{app:supp}).
 Disagreement is almost entirely ordinal and concentrates on
@@ -290,8 +290,9 @@ in one cell, so its pre-calibration figures are 29/33 over-severe and exact
 agreement $0.12$.)
 
 An \emph{oracle-evidence} check refines the diagnosis. An expert located
-relevant passages for 53 of the 55 cells and judged the other two dimensions
-not applicable to the study's design, so 20 of the 22 pipeline abstentions
+relevant passages for 53 of the 55 cells and marked the other two not
+applicable to the study's design (the adjudicated gold rates them high and
+medium; Appendix~\ref{app:supp}), so at least 20 of the 22 pipeline abstentions
 trace to retrieval failure: grounding limits \emph{coverage}. Feeding the
 assessor the expert's spans does not restore agreement (50/55 judgements more
 severe than gold; exact $0.07$), so retrieval alone does not explain the

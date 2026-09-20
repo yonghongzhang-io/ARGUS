@@ -15,7 +15,9 @@
   "over": 28,
   "under": 0
  },
- "pipeline_unknowns_where_expert_found_evidence": 22,
+ "pipeline_unknowns_total": 22,
+ "pipeline_unknowns_with_relevant_passage": 20,
+ "pipeline_unknowns_not_applicable": 2,
  "cells": [
   {
    "paper_id": "paper_01",

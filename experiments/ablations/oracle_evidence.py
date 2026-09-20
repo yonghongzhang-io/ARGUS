@@ -89,7 +89,10 @@ def main() -> int:
     summary = {"model": "gpt-4o", "n_cells": len(cells),
                "oracle_vs_gold": agree("oracle_risk"),
                "pipeline_vs_gold": agree("pipeline"),
-               "pipeline_unknowns_where_expert_found_evidence":
+               # Count of pipeline abstentions only. Whether the expert located a relevant
+               # passage for each of them is computed from the spans by
+               # oracle_evidence_audit.py (20 of 22; the other two were marked not applicable).
+               "pipeline_unknowns_total":
                    sum(1 for c in cells if c["pipeline"] == "unknown"),
                "cells": cells}
     OUT.write_text(json.dumps(summary, indent=1), encoding="utf-8")
