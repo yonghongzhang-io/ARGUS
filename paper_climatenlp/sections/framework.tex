@@ -10,7 +10,8 @@ expressed as an \emph{assumption} (what must hold for identification), a testabl
 \emph{implication} (what should therefore be observable), and the
 \emph{evidence} a credible paper would report to support it. For a carbon-pricing
 or emissions-trading evaluation, for instance, the parallel-trends dimension
-expects an event-study or pre-trend test with null pre-period coefficients, while
+expects an event-study or pre-trend test with pre-period estimates near zero
+(an insignificant pre-trend alone can reflect low power; \citealp{roth2022}), while
 no-anticipation turns on the gap between a scheme's \emph{announcement} and
 \emph{implementation} dates. The rubric is declarative, stored in a configuration
 file (\texttt{identification\_dimensions.yaml}), so the audited dimensions are
@@ -20,6 +21,7 @@ dimension, which both documents the rubric's coverage and supplies the
 perturbations used for evaluation.
 
 \subsection{Bounded LLM pipeline}
+\label{sec:pipeline}
 The audit runs a fixed, deterministic sequence, \emph{decomposition
 $\rightarrow$ extraction $\rightarrow$ assessment $\rightarrow$ localization
 $\rightarrow$ report}, shown in the top band of Figure~\ref{fig:arch}. The stage
@@ -33,7 +35,7 @@ aggregates these judgements into a risk map ranking where support is weakest; an
 reviewer.
 
 Agency is confined to the two stages where open-ended judgement actually
-helps: extraction and assessment. Each invokes a bounded ReAct-style loop with
+helps: extraction and assessment. Each is designed as a bounded ReAct-style loop with
 three constraints: (i)~a \emph{small fixed tool set} passed in per call: %
 \texttt{evidence\_search} over the paper's text, figures and tables,
 \texttt{figure\_parse} for structured figure/table content, and
@@ -43,8 +45,10 @@ run cannot wander indefinitely; and (iii)~a \emph{logged trace} of every step,
 tool call, and cited piece of evidence. All other stages are plain orchestration
 with no agent loop. In the configuration evaluated in \S\ref{sec:results} the
 step budget is minimal (\texttt{max\_steps}{=}1), and the LLM assessment path
-resolves to a fixed per-dimension sequence (deterministic retrieval, one
-relevance-gate call, one adequacy call). The gate labels each retrieved passage
+resolves to a fixed per-dimension sequence (deterministic lexical retrieval,
+one relevance-gate call, one adequacy call) that never invokes
+\texttt{figure\_parse} or \texttt{policy\_lookup}; figures and tables enter
+only through their captions. The gate labels each retrieved passage
 \emph{high}, \emph{partial}, or \emph{none}: a dimension with no relevant
 passage is scored \texttt{unknown} without an adequacy call, while one with only
 partially relevant passages is still judged (Appendix~\ref{app:retrieval}). We
@@ -73,10 +77,12 @@ system both auditable by a human and measurable by the evaluation that follows.
   \centering
   \includegraphics[width=0.88\textwidth]{figures/figure2}
   \caption{\sys{} architecture. The top band is the audit pipeline, a fixed
-  deterministic sequence; model calls are confined to two stages
-  (extraction and assessment), each a bounded ReAct loop with a fixed tool set
-  (evidence search, figure parse, policy lookup), a hard step budget, and a
-  logged trace. The bottom band shows the flaw-injection evaluation loop, which
+  deterministic sequence; model calls are confined to two stages (extraction
+  and assessment). As evaluated, these resolve per dimension to a fixed call
+  sequence (lexical retrieval, one relevance-gate call, one adequacy call) with
+  a step budget of one and a logged trace; the designed tools
+  \texttt{figure\_parse} and \texttt{policy\_lookup} are not exercised
+  (\S\ref{sec:pipeline}). The bottom band shows the flaw-injection evaluation loop, which
   injects one known flaw, audits the clean and injected versions, and scores
   detection, false alarm, and localization against the injected flaw as local
   ground truth, never against the unobserved true effect.}
