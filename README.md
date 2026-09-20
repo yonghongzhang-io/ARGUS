@@ -40,6 +40,14 @@ guesses**; an oracle-retrieval ablation attributes every such miss to the gate, 
 judge (commission 0.86 / omission 1.00 when the assessor is fed the target section
 directly), and the gate also suppresses the alarms section-level evidence alone triggers.
 
+**Shared-evidence control** (pre-specified; `experiments/ablations/SHARED_EVIDENCE_PROTOCOL.md`,
+results in `SHARED_EVIDENCE_RESULTS.md`). Because the rows above retrieve evidence differently,
+a 2 x 2 control freezes the evidence and lets only the judgement policy vary, with no gate. Fed
+the keyword pipeline's own chunks, the adequacy judge detects 10 of 11 flaws against the keyword
+scorer's 2 (exact McNemar p = 0.008) and 31 against 8 of the 33 variants. It is a trade: the
+judge rates 11-16% of non-target dimensions medium or higher on injected papers, the keyword
+scorer none. All false-alarm rates in this project rest on a single clean fixture.
+
 **Harder 33-variant benchmark** (three runs, near-deterministic, 32/33 verdicts identical):
 detection 0.75, false alarm 0.09, localization 0.66; commission 0.89 vs omission 0.45
 (omission misses are abstentions — the evidence-grounding bottleneck).
