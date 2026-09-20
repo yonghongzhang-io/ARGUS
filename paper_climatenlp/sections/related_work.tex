@@ -34,9 +34,10 @@ and specification searching in causal economics~\cite{brodeur2020methods}. LLMs
 are also used directly as evaluators and reviewers, judging model
 outputs~\cite{zheng2023judge}, giving feedback on research
 papers~\cite{liang2024feedback}, and reviewing inside automated-science
-pipelines~\cite{lu2024aiscientist}; these systems produce open-ended critique,
-whereas \sys{} scores a fixed rubric against in-paper evidence, so its outputs
-are comparable across papers and measurable against injected ground truth. \sys{}
+pipelines~\cite{lu2024aiscientist}; these evaluators already produce ratings,
+pairwise preferences, and structured reviews. \sys{} applies an
+assumption-specific rubric to DID studies, links each dimension to in-paper
+evidence, and is measured against injected ground truth. \sys{}
 differs in target and posture: it audits \emph{identification credibility}
 specifically (the part of an argument that licenses a causal claim) and issues
 no verdicts, producing evidence-grounded, human-reviewable reports that localize
@@ -62,7 +63,7 @@ causal study, auditing whether reported evidence supports each assumption.
 Our evaluation follows benchmarking lessons: holistic
 evaluation~\cite{liang2023helm} over a single number (we report a layered
 retrieval/relevance/adequacy/risk profile); dynamic, adversarial
-benchmarking~\cite{kiela2021dynabench} (our model-in-the-loop flaw injection);
+benchmarking~\cite{kiela2021dynabench} (which inspires our controlled flaw injection);
 and the caution that operationalizing a capability is
 non-neutral~\cite{raji2021benchmark,gebru2021datasheets}
 (\S\ref{sec:discussion}). A closely related concern is that an agent
@@ -71,7 +72,7 @@ benchmark can measure its harness rather than its model:
 decisions and a scorer grading output shape mask each other, so repairing
 either alone leaves the ranking uninformative. Our compute-graded ablation
 (\S\ref{sec:ablation}) is the same move applied inward, separating what the
-rubric and retrieval layer contribute from what the model does. Where ReAct-style agents~\cite{yao2023react} act over
-an open horizon, \sys{} \emph{bounds} the paradigm (agency confined to two
+rubric and retrieval layer contribute from what the model does. Where ReAct-style agents~\cite{yao2023react} choose
+their own action sequence, \sys{} \emph{bounds} the paradigm (agency confined to two
 scoped sub-tasks behind deterministic control flow), trading autonomy for
 reproducibility and evidence-traceability.

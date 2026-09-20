@@ -2,10 +2,10 @@
 \label{sec:results}
 
 We evaluate \sys{} along four axes: a synthetic flaw-injection protocol, an
-architecture ablation, a run over 26 published difference-in-differences (DID)
-papers that stress-test the audit architecture across empirical economics, beyond
+architecture ablation, a run over 26 papers tagged difference-in-differences (DID)
+in an economics corpus that stress-test the audit architecture across empirical economics, beyond
 the climate-policy setting (carbon pricing, emissions trading, emission standards)
-that defines its target deployment, and a calibrated human-gold pilot. Four findings emerge: (i)~LLM pipelines that judge evidence \emph{adequacy}
+that defines its target deployment, and a pilot with adjudicated expert labels. Four findings emerge: (i)~LLM pipelines that judge evidence \emph{adequacy}
 detect planted flaws that a keyword-presence pipeline misses; (ii)~per-dimension
 decomposition drives detection, while the bounded retrieval gate turns retrieval
 failure into an auditable \texttt{unknown} signal;
@@ -45,8 +45,8 @@ low, medium, or high, so this arm cannot abstain
   ablation arms share the model and rubric but remove retrieval, the gate, or
   both. The final row is the leaked, pre-fix
   circular setup. On the harder 33-variant benchmark the two-stage assessor
-  shows a $0.09$ inference over-flag (\S\ref{sec:variants}). Wilson 95\%
-  intervals for every rate are in Table~\ref{tab:ci}.}
+  rates one clean dimension medium, a $0.09$ over-flag (\S\ref{sec:variants}).
+  Wilson 95\% intervals for the main rates are in Table~\ref{tab:ci}.}
   \label{tab:results}
   \setlength{\tabcolsep}{5pt}
   \resizebox{\columnwidth}{!}{%
@@ -126,7 +126,7 @@ The eleven flaws are deliberately clear-cut, so we built a harder benchmark: 33
 variants, three per dimension (two \emph{commission} rewrites, one
 \emph{omission}), each verified free of the keyword detector's sentinel
 phrases. Three two-stage runs (gpt-4o, temperature~$0$) are near-deterministic
-(32/33 verdicts identical; Appendix~\ref{app:repro}). Detection is $0.73$--$0.76$ and localization
+(detection identical on 32/33 variants, risk labels on 31/33; Appendix~\ref{app:repro}). Detection is $0.73$--$0.76$ and localization
 $0.64$--$0.70$, in line with its behaviour on the eleven clear flaws.
 
 \paragraph{Where the gain comes from.}
@@ -152,8 +152,8 @@ $p{=}0.13$; Appendix~\ref{app:ci}); the attribution we claim is mechanistic
 significant rate gap.
 
 \paragraph{Cross-model robustness.}
-Porting the unchanged pipeline across providers shows the core result is not
-model-specific (Appendix~\ref{app:matrix}): \emph{commission} detection is high
+Porting the unchanged pipeline across providers shows that high commission
+detection is not model-specific (Appendix~\ref{app:matrix}): \emph{commission} detection is high
 everywhere (gpt-4o $0.89$, Claude Opus~4.8 $1.00$, Gemini~2.5 Flash $0.91$,
 Llama~3.1 8B $0.95$), so the flawed-but-natural rewrites are legible to every
 model, not only to the one they were developed against. What differs is the
@@ -167,7 +167,7 @@ the gate's abstention behaviour and the precision profile do not, so a
 practitioner changing the model must re-tune the calibration layer of
 \S\ref{sec:calib}.
 
-The split by flaw type is the informative result (Table~\ref{tab:variants}). The
+Detection differs by flaw type (Table~\ref{tab:variants}). The
 assessor catches $0.86$--$0.91$ of \emph{commission} flaws (flawed-but-present
 evidence, the case adequacy reasoning targets) but only $0.45$ of \emph{omission}
 flaws. The omission misses are not confident errors: the six missed variants all
@@ -175,17 +175,17 @@ abstain to \texttt{unknown} rather than assert low risk, because deleting the
 supporting section makes retrieval fail. This reproduces, under controlled
 injection, the same \emph{evidence-grounding} bottleneck we find on real papers
 (\S\ref{sec:realpapers}): the pipeline reasons well over evidence it can retrieve
-and abstains when it cannot. The only false-alarm signal ($0.09$, identical across
-runs) is concentrated in \emph{inference}, where the clean fixture's section is
-itself flagged, the same over-severity we quantify against the human gold
-(\S\ref{sec:vsgold}). The ``no false alarms'' result in Table~\ref{tab:results} is
-on the original, clearer eleven-flaw set; this harder benchmark surfaces the
-inference over-flag.
+and abstains when it cannot. The only false-alarm signal ($0.09$ in every run) is one
+clean-fixture dimension rated medium (\emph{inference} in run~1,
+\emph{specification} in runs~2 and~3), the same over-severity we quantify
+against the human gold (\S\ref{sec:vsgold}); the clean audit is itself not
+deterministic. Table~\ref{tab:results} shows no false alarm on the original
+eleven-flaw set.
 
 \begin{table}[t]
   \centering\small
   \caption{Harder 33-variant benchmark (gpt-4o, mean of three runs at
-  temperature~0; near-deterministic, 32/33 verdicts identical). Adequacy reasoning
+  temperature~0; detection decisions identical on 32/33 variants). Adequacy reasoning
   catches \emph{commission} flaws; \emph{omission} misses are abstentions to
   \texttt{unknown}, marking the evidence-grounding bottleneck rather than wrong
   judgements. Intervals in Table~\ref{tab:ci}.}
@@ -205,10 +205,9 @@ inference over-flag.
 \subsection{From synthetic fixtures to real papers: a relocated bottleneck}
 \label{sec:realpapers}
 
-We next audit 26 published DID papers drawn from top economics journals, the
-difference-in-differences subset of the CausalVerify
-corpus~\cite{causalverify} (Appendix~\ref{app:corpus} details its
-composition). There is no
+We next audit the 26 papers tagged difference-in-differences in the
+CausalVerify corpus~\cite{causalverify} (Appendix~\ref{app:corpus} gives its
+composition and the limits of that tag). There is no
 injected ground truth; we report
 the raw per-dimension risk distribution of each assessor
 (Figure~\ref{fig:realcorpus}). The keyword baseline is permissive: $91\%$ of its
@@ -230,11 +229,11 @@ on real papers a missing check usually becomes a substantive \emph{high}. The
 asymmetry is one branch of the gate. Retrieval is lexical
 (Appendix~\ref{app:retrieval}): deleting a section from the short fixture leaves
 no passage that even shares its vocabulary, the gate finds nothing relevant, and
-the pipeline abstains without calling the judge. A 30-page paper almost always
+the pipeline abstains without calling the judge. A full paper usually
 contains a section that shares the vocabulary, so the gate returns
 \emph{partial} relevance, the judge is called on an off-target passage, reports
-the evidence as missing, and the prompt maps missing to high. The pilot gold
-makes this exact (Table~\ref{tab:gate}): all 22 failed-retrieval cells are
+the evidence as missing, and the prompt maps missing to high. The pilot
+shows the pattern (Table~\ref{tab:gate}): all 22 failed-retrieval cells are
 \texttt{unknown}, and 20 of the 22 weak-retrieval cells are \emph{high}, 19 of
 them with \texttt{evidence\_status=missing}. This is the branch the calibration
 layer of \S\ref{sec:calib} targets.
@@ -246,7 +245,7 @@ expert labels we cannot yet say whether this is warranted or over-strict where
 retrieval succeeds. We claim the contrast in behaviour and the localization of the
 grounding bottleneck, not the correctness of any individual flag.
 
-\subsection{A calibrated human gold (pilot)}
+\subsection{An adjudicated expert pilot}
 \label{sec:gold}
 
 To test agreement with expert judgement, we built a small gold: two annotators
@@ -277,8 +276,7 @@ toward missing or partial evidence: as a screening tool \sys{} over-flags.
 \subsection{Calibration: from diagnosis to improvement}
 \label{sec:calib}
 
-The gold comparison also points to a fix; the error analysis is sharp: of
-\sys{}'s over-severe \emph{high} judgements, $23/24$ have
+Of \sys{}'s over-severe \emph{high} judgements, $23/24$ have
 \texttt{evidence\_status=missing} and $20/24$ have
 \texttt{retrieval\_quality=weak}. \sys{} treats ``weak retrieval found nothing''
 as a substantive \emph{high}, conflating a \emph{retrieval failure} with the paper
@@ -291,12 +289,14 @@ evidence-status fields; it differs from the corpus run of \S\ref{sec:vsgold}
 in one cell, so its pre-calibration figures are 29/33 over-severe and exact
 agreement $0.12$.)
 
-An \emph{oracle-evidence} check splits the diagnosis: an expert located
-supporting evidence for \emph{all} 55 cells, so all 22 pipeline abstentions
-trace to retrieval failure: grounding limits \emph{coverage}. But feeding the assessor the
-expert's evidence spans does not restore agreement (50/55 judgements more severe
-than gold; exact $0.07$): severity calibration, not evidence access, limits
-\emph{agreement}.
+An \emph{oracle-evidence} check refines the diagnosis. An expert located
+relevant passages for 53 of the 55 cells and judged the other two dimensions
+not applicable to the study's design, so 20 of the 22 pipeline abstentions
+trace to retrieval failure: grounding limits \emph{coverage}. Feeding the
+assessor the expert's spans does not restore agreement (50/55 judgements more
+severe than gold; exact $0.07$), so retrieval alone does not explain the
+disagreement; the severity mapping and the brevity of the spans both remain
+candidates.
 
 A deterministic rule over fields the LLM already produces reduces the
 over-severity: a weak-retrieval \emph{high} (20 cells) is demoted to

@@ -100,7 +100,7 @@ cells) it chose \texttt{unknown} once ($0.4\%$; a model-written abstention with
 a rationale, not a harness default), where the gated pipeline abstains
 mechanically on $38.9\%$. The gated pipeline's \texttt{unknown} cells become
 low ($1.8\%\!\to\!14.9\%$) or medium ($14.2\%\!\to\!43.6\%$) judgements while
-the high-risk share stays comparable ($41.1\%$ vs $45.1\%$). These shares
+the high-risk share stays comparable (gated $45.1\%$, single pass $41.1\%$). These shares
 describe behaviour (a discretionary abstention option is rarely taken, a
 mechanical one often is); without cell-level gold they do not show which
 judgements are more reliable.
@@ -108,7 +108,10 @@ judgements are more reliable.
 \begin{table}[t]
   \centering\small
   \caption{Compute-graded ablation on the 33-variant benchmark (gpt-4o).
-  det / fa / loc = detection, false alarm, localization.}
+  det / fa / loc = detection, false alarm, localization. Calls per paper are
+  the nominal maximum: when the gate finds nothing relevant the adequacy call
+  is skipped, and retries are not counted. Localization takes the top-ranked
+  flagged dimension; ties in risk level are broken by the fixed rubric order.}
   \label{tab:matrix}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
@@ -174,7 +177,7 @@ and no embedding index. Papers are ingested through a light markdown convention
 (\texttt{\#\#} section headings plus \texttt{@figure}/\texttt{@table} caption
 lines), and the searchable blocks are the title, abstract, each section, and
 each figure or table caption. On the LLM path retrieval is section-level and
-lexical: each dimension has a fixed query pack of 12--16 terms (e.g.\
+lexical: each dimension has a fixed query pack of 11--19 distinct terms (e.g.\
 \emph{pre-trend, event study, lead coefficients} for parallel trends), a block
 scores by the summed frequency of its matched terms, and the top $k{=}4$ blocks
 are kept, each truncated to 2,000 characters. The relevance gate sees the first
@@ -214,7 +217,8 @@ pilot-gold cells, the mechanism behind the fixture/real-paper asymmetry of
 
 \section{Prompts}
 \label{app:prompts}
-All model calls run at temperature~$0$; all but the real-paper single-pass
+All gpt-4o calls run at temperature~$0$ (other providers:
+Appendix~\ref{app:repro}); all but the real-paper single-pass
 variant at the end of this appendix use a strict JSON schema. Angle-bracketed
 fields are substituted from the rubric entry or the retrieved passages; nothing
 else varies across dimensions or papers. The per-dimension no-retrieval arm of
@@ -349,15 +353,16 @@ indicating provider-side serving drift, so we report only currently replicable
 numbers. The 33-variant benchmark was run three
 times end-to-end (roughly $750$ model calls per run, ${\sim}20$ minutes and
 ${\sim}$US\$8 per gpt-4o run; the local Llama run took ${\sim}67$ minutes on a
-laptop at zero API cost); verdicts were near-deterministic (32/33 identical
-across runs), and Table~\ref{tab:variants} reports the three-run mean. The
+laptop at zero API cost); binary detection agreed on 32/33 variants across the
+three runs and target-dimension risk labels on 31/33, while the clean audit
+flagged a different dimension in run~1 than in runs~2 and~3, and Table~\ref{tab:variants} reports the three-run mean. The
 two-call-per-dimension pipeline audits one paper for roughly US\$0.25 of
 gpt-4o usage. The oracle-evidence check (\S\ref{sec:calib}) is 55 adequacy
 calls over expert-annotated spans.
 
 \section{Uncertainty Quantification}
 \label{app:ci}
-Table~\ref{tab:ci} gives Wilson 95\% intervals for every proportion reported in
+Table~\ref{tab:ci} gives Wilson 95\% intervals for the main proportions reported in
 the main text and exact tests between arms evaluated on the same items;
 Table~\ref{tab:ci_gold} gives cell-bootstrap intervals (5,000 resamples) for
 the human-gold agreement metrics. At $n{=}11$ the keyword-versus-two-stage gap
@@ -386,7 +391,11 @@ and adjudicated labels they read are frozen with checksums in
   \centering\small
   \caption{Wilson 95\% intervals for reported rates (top) and exact tests
   between arms (bottom; McNemar tests are paired on the same flaws or
-  variants).}
+  variants). False-alarm rows give counts only: every variant is paired with
+  the same clean fixture, so they are repeated readings of one clean audit of
+  eleven dimensions, not independent trials, and an interval would overstate
+  what they show. Detection intervals describe this fixed test set (33 variants
+  nested in eleven dimensions of one fixture), not real papers at large.}
   \label{tab:ci}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
@@ -398,20 +407,20 @@ and adjudicated labels they read are frozen with checksums in
              & single-pass detection & 9/11 & 0.52--0.95 \\
              & per-dimension detection & 11/11 & 0.74--1.00 \\
              & two-stage detection & 8/11 & 0.43--0.90 \\
-             & two-stage false alarm & 0/11 & 0.00--0.26 \\
+             & two-stage false alarm & 0/11 & -- \\
     33 variants & single-pass detection & 24/33 & 0.56--0.85 \\
              & per-dimension detection & 29/33 & 0.73--0.95 \\
              & two-stage detection (run 1) & 25/33 & 0.59--0.87 \\
              & \quad commission & 20/22 & 0.72--0.97 \\
              & \quad omission & 5/11 & 0.21--0.72 \\
-             & two-stage false alarm & 3/33 & 0.03--0.24 \\
+             & two-stage false alarm & 3/33 & -- \\
              & oracle-retrieval detection & 30/33 & 0.76--0.97 \\
     cross-model & Opus 4.8 detection & 30/33 & 0.76--0.97 \\
-             & Opus 4.8 false alarm & 27/33 & 0.66--0.91 \\
+             & Opus 4.8 false alarm & 27/33 & -- \\
              & Gemini 2.5 Flash detection & 26/33 & 0.62--0.89 \\
-             & Gemini 2.5 Flash false alarm & 6/33 & 0.09--0.34 \\
+             & Gemini 2.5 Flash false alarm & 6/33 & -- \\
              & Llama 3.1 8B detection & 31/33 & 0.80--0.98 \\
-             & Llama 3.1 8B false alarm & 9/33 & 0.15--0.44 \\
+             & Llama 3.1 8B false alarm & 9/33 & -- \\
     \midrule
     test & arms & discordant & $p$ \\
     \midrule
@@ -451,11 +460,16 @@ and adjudicated labels they read are frozen with checksums in
 \section{The Real-Paper Corpus}
 \label{app:corpus}
 
-The 26 published DID studies audited in \S\ref{sec:realpapers} are the
-difference-in-differences subset of the corpus of 259 published economics
-papers released with CausalVerify~\cite{causalverify}, drawn from top
-general-interest and field economics journals (Table~\ref{tab:corpus}; titles
-in Table~\ref{tab:corpuslist}). That corpus as released contains one
+The 26 papers audited in \S\ref{sec:realpapers} are those tagged
+difference-in-differences in the corpus of 259 economics papers released with
+CausalVerify~\cite{causalverify} (Table~\ref{tab:corpus}; titles in
+Table~\ref{tab:corpuslist}). The tag is the corpus's method-family label, which
+we did not verify paper by paper, and it is imperfect: one entry is a literature
+review (below), one identifies its effect from sibling comparisons, and in the
+expert pilot two of the five papers were judged not to use a treated--control
+DID design, so the parallel-trends dimension was marked not applicable
+(\S\ref{sec:calib}). Nineteen entries are journal articles, one of them in a
+medical journal, and seven are held as NBER working-paper versions. That corpus as released contains one
 byte-identical duplicate (a 2002 Clean Air Act study under two identifiers);
 both copies received identical
 audits on all eleven dimensions from both assessors, and we count the paper
@@ -481,7 +495,10 @@ environment-and-energy subset's risk distribution (high $0.34$,
 
 \begin{table}[t]
   \centering\small
-  \caption{Journal composition of the 26-paper real corpus.}
+  \caption{Venue of the 26 audited papers, as recorded for the version held in
+  the source corpus. Two entries carry a corrupted venue field in the corpus
+  index; they are counted under the journal that published them (Journal of
+  Political Economy, 2003; Review of Economic Studies, 2002).}
   \label{tab:corpus}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
@@ -489,12 +506,14 @@ environment-and-energy subset's risk distribution (high $0.34$,
     \toprule
     journal & papers \\
     \midrule
-    Quarterly Journal of Economics & 7 \\
-    American Economic Review & 6 \\
-    Journal of Political Economy & 3 \\
-    Review of Economics and Statistics & 4 \\
-    Journal of Finance & 3 \\
-    AEJ: Economic Policy / J.\ Monetary Econ.\ / ILRR & 3 \\
+    American Economic Review & 4 \\
+    Quarterly Journal of Economics & 3 \\
+    Journal of Political Economy & 2 \\
+    Journal of Financial Economics & 2 \\
+    AEJ: Applied Economics & 2 \\
+    JF / REStat / REStud / J.\ Monetary Econ.\ / J.\ Int.\ Econ.\ (one each) & 5 \\
+    New England Journal of Medicine & 1 \\
+    NBER working-paper versions & 7 \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -552,7 +571,7 @@ dimension-level, evidence-cited report a reviewer receives.
 \begin{table}[t]
   \centering\small
   \caption{\sys{} audit report (abridged) on the fixture with the injected
-  anticipation flaw. Every row cites the evidence it rests on; the injected
+  anticipation flaw. Rationales are abridged from the evidence-cited report; the injected
   dimension is the one flagged high.}
   \label{tab:casestudy}
   \setlength{\tabcolsep}{4pt}
@@ -597,6 +616,23 @@ trigger conditions recur in all five folds: among each fold's over-severe
 \emph{high} cells, $79$--$86\%$ have weak retrieval and $94$--$100\%$ have
 missing evidence (computed on the rich re-run of \S\ref{sec:calib}). The folds test whether the error pattern recurs; no rule was refitted
 on four papers and scored on the fifth.
+
+\paragraph{The oracle-evidence check.}
+An expert read each of the five pilot papers and recorded up to two passages
+per cell (48 cells have two), about 120 characters each. For 53 of the 55
+cells the expert found a relevant passage. For the other two, both
+parallel-trends cells, the expert recorded that the dimension does not apply
+because the study is not a treated--control DID design; both are among the 22
+pipeline abstentions, so on those two cells abstaining was the appropriate
+outcome and only 20 abstentions are retrieval failures. A located passage is
+\emph{relevant} evidence, which is weaker than evidence that \emph{supports}
+the assumption, and we did not ask the expert to grade that. Feeding these
+passages to the adequacy judge leaves 50 of 55 judgements more severe than the
+adjudicated labels. We read this as evidence that retrieval coverage alone does
+not explain the disagreement. It does not isolate the cause: the judge's
+severity mapping, the loss of context in short excerpts, and the prompt's
+mapping of missing evidence to high risk are all candidates. The span file
+contains verbatim text from the audited articles and is not redistributed.
 
 \paragraph{The calibration rules.}
 The layer acts on \emph{high} cells only and never raises a risk; the first
@@ -730,8 +766,9 @@ published keyword baseline exactly.
   ungated sections) $\times$ judgement policy (kw, keyword scorer; llm, adequacy
   judge). det / fa / loc as in Table~\ref{tab:matrix}; off = share of the ten
   non-target dimensions rated $\geq$ medium on the injected variants. The
-  reference row repeats Tables~\ref{tab:results} and~\ref{tab:variants} (gpt-4o
-  alias; localization is the three-run mean).}
+  reference row is the gated pipeline on the gpt-4o alias (detection and false
+  alarm from run~1, Table~\ref{tab:ci}; localization is the three-run mean of
+  Table~\ref{tab:variants}).}
   \label{tab:shared}
   \setlength{\tabcolsep}{3pt}
   \resizebox{\columnwidth}{!}{%
