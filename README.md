@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="paper_climatenlp/submissions/ClimateNLP2026_camera_ready.pdf"><img alt="Paper: ClimateNLP 2026" src="https://img.shields.io/badge/paper-ClimateNLP%202026-3E6598"></a>
+  <a href="paper_climatenlp/submissions/ClimateNLP2026_camera_ready.pdf"><img alt="Paper: ClimateNLP Workshop at EMNLP 2026" src="https://img.shields.io/badge/paper-ClimateNLP%20%40%20EMNLP%202026-3E6598"></a>
   <a href="LICENSE"><img alt="Code license: MIT" src="https://img.shields.io/badge/code-MIT-5C9070"></a>
   <a href="LICENSE-DATA.md"><img alt="Data license: CC BY 4.0" src="https://img.shields.io/badge/data-CC%20BY%204.0-CF9B3C"></a>
 </p>
@@ -289,7 +289,7 @@ reported.
 ## Citation
 
 If you use ARGUS, its rubric, or its pilot labels, please cite the paper (to appear at
-ClimateNLP 2026; this entry will be replaced by the ACL Anthology record once it exists):
+ClimateNLP 2026, the 3rd Workshop on NLP meets Climate Change, co-located with EMNLP 2026; this entry will be replaced by the ACL Anthology record once it exists):
 
 ```bibtex
 @inproceedings{zhang2026argus,

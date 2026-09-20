@@ -51,7 +51,7 @@ def render(theme: str) -> str:
            f'<text x="96" y="178" font-family="{FONT}" font-size="23" fill="{t["ink"]}">Evidence-grounded auditing of identification</text>',
            f'<text x="96" y="208" font-family="{FONT}" font-size="23" fill="{t["ink"]}">assumptions in difference-in-differences studies</text>',
            f'<text x="96" y="246" font-family="{FONT}" font-size="16" letter-spacing="1.2" fill="{t["muted"]}">'
-           f'FLAG, NOT JUDGE  ·  CLIMATENLP 2026</text>']
+           f'FLAG, NOT JUDGE  ·  CLIMATENLP WORKSHOP @ EMNLP 2026</text>']
     for j, dim in enumerate(DIMS):
         for i, paper in enumerate(papers):
             level = risk.get((paper, dim), "unknown")
