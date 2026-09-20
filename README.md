@@ -255,3 +255,29 @@ Frozen result JSONs for every number reported in the paper are committed under
 `experiments/`; Appendix C of the paper documents reproducibility details, including an
 observed provider-side serving-drift episode and why only currently replicable numbers are
 reported.
+
+---
+
+## Citation
+
+If you use ARGUS, its rubric, or its pilot labels, please cite the paper (to appear at
+ClimateNLP 2026; this entry will be replaced by the ACL Anthology record once it exists):
+
+```bibtex
+@inproceedings{zhang2026argus,
+  title     = {Evidence-Grounded Auditing of Identification Assumptions in
+               Climate-Policy Causal Evaluations},
+  author    = {Zhang, Yonghong and Xie, Yong and Parra, Isabel M. and Correia, Ricardo},
+  booktitle = {ClimateNLP 2026: Workshop on Natural Language Processing Meets Climate Change},
+  year      = {2026},
+  note      = {To appear}
+}
+```
+
+## License
+
+Source code is released under the [MIT License](LICENSE). The rubric, flaw taxonomy,
+annotation materials, adjudicated pilot labels, and committed run outputs are released under
+[CC BY 4.0](LICENSE-DATA.md). Manuscript sources and figures under `paper/` and
+`paper_climatenlp/` are not covered by either license. No text of the audited published
+articles is redistributed in this repository.
