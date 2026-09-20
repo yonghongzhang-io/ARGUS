@@ -1,28 +1,28 @@
-paper_id,title_as_indexed,year_as_indexed,venue_as_indexed,venue_in_table,counted,note
-paper_01,The Effect of the Banking Panic on the Supply of Credit to the Corporate Sector,2010,Journal of Financial Economics,Journal of Financial Economics,yes,pilot expert: not a treated-control DID design (parallel trends marked not applicable)
-paper_03,The Effects of State-Level Banking Competition on Innovation,2015,Journal of Financial Economics,Journal of Financial Economics,yes,
-paper_07,Do Credit Market Shocks Affect the Real Economy? Quasi-Experimental Evidence from the Great Recession and ‘Normal’ Economic Times,2014,NBER Working Paper Series,NBER working-paper version,yes,
-paper_08,Cyclicality of Credit Supply: Firm Level Evidence,2011,Journal of Monetary Economics (forthcoming),Journal of Monetary Economics,yes,pilot expert: not a treated-control DID design (parallel trends marked not applicable)
-paper_10,Does Stock Liquidity Enhance or Impede Firm Innovation?,2014,The Journal of Finance,Journal of Finance,yes,
-paper_14,Minimum Wages and Employment: A Case Study of the Fast Food Industry in New Jersey and Pennsylvania,1993,NBER Working Paper Series,NBER working-paper version,yes,
-paper_15,Minimum Wage Effects Across State Borders: Estimates Using Contiguous Counties,2010,The Review of Economics and Statistics,Review of Economics and Statistics,yes,
-paper_100,HOSPITAL OWNERSHIP AND PUBLIC MEDICAL SPENDING,2000,The Quarterly Journal of Economics,Quarterly Journal of Economics,yes,
-paper_101,The Impact of Public Disclosure of Health Outcomes on Patient and Social Welfare,2026,NeurIPS 2026 E&D Track,Journal of Political Economy,yes,"index venue/year corrupted; published as Dranove, Kessler, McClellan & Satterthwaite (2003), JPE 111(3):555-588, doi 10.1086/374180"
-paper_102,"Did Community Rating Induce an Adverse Selection Death Spiral? Evidence from New York, Pennsylvania, and Connecticut",2002,THE AMERICAN ECONOMIC REVIEW,American Economic Review,yes,
-paper_107,Mortality and Access to Care among Adults after State Medicaid Expansions,2012,The New England Journal of Medicine,New England Journal of Medicine,yes,medical journal
-paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Head Start,2009,American Economic Journal: Applied Economics,AEJ: Applied Economics,yes,identifies its effect from sibling comparisons (family fixed effects)
-paper_120,THE IMPACTS OF ENVIRONMENTAL REGULATIONS ON INDUSTRIAL ACTIVITY: EVIDENCE FROM THE 1970 AND 1977 CLEAN AIR ACT AMENDMENTS AND THE CENSUS OF MANUFACTURES,2001,NATIONAL BUREAU OF ECONOMIC RESEARCH,NBER working-paper version,yes,
-paper_124,Legalized Abortion and Crime,2001,Quarterly Journal of Economics,Quarterly Journal of Economics,yes,
-paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Electricity Pricing,2014,American Economic Review,American Economic Review,yes,
-paper_127,Estimates of the Impact of Crime Risk on Property Values from Megan’s Laws,2008,American Economic Review,American Economic Review,yes,
-paper_128,Effects of Liberalized Trade on Plant Productivity,2026,NeurIPS 2026 E&D Track,Review of Economic Studies,yes,"index venue/year corrupted; published as Pavcnik (2002), REStud 69(1):245-276, doi 10.1111/1467-937X.00205"
-paper_129,The Surprisingly Swift Decline of U.S. Manufacturing Employment,2012,NBER Working Paper Series,NBER working-paper version,yes,
-paper_130,Factor Immobility and Trade: Poverty in India,2010,American Economic Journal: Applied Economics,AEJ: Applied Economics,yes,
-paper_134,Trade Liberalization and Industry Wage Premia: Evidence from Colombia,2005,Journal of International Economics,Journal of International Economics,yes,
-paper_136,The Effect of State Policies on the Location of Manufacturing: Evidence from State Borders,1998,Journal of Political Economy,Journal of Political Economy,yes,
-paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,2008,NBER Working Paper Series,NBER working-paper version,yes,
-paper_156,Does School Spending Matter? The New Literature on an Old Question,2018,NBER Working Paper Series,NBER working-paper version,yes,"literature review, not a primary DID study; retained and noted"
-paper_157,The Evolution of Black/White Earnings: 1960-1980,1990,NBER Working Paper,NBER working-paper version,yes,
-paper_158,THE EFFECTS OF CLASS SIZE ON STUDENT ACHIEVEMENT: NEW EVIDENCE FROM POPULATION VARIATION,2000,The Quarterly Journal of Economics,Quarterly Journal of Economics,yes,
-paper_164,THE IMPACTS OF ENVIRONMENTAL REGULATIONS ON INDUSTRIAL ACTIVITY: EVIDENCE FROM THE 1970 AND 1977 CLEAN AIR ACT AMENDMENTS AND THE CENSUS OF MANUFACTURES,2001,NATIONAL BUREAU OF ECONOMIC RESEARCH,,no,byte-identical duplicate of paper_120; excluded from every count
-paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,2013,American Economic Review,American Economic Review,yes,
+paper_id,title_as_indexed,year_as_indexed,venue_as_indexed,venue_in_table,topic,counted,note
+paper_01,The Effect of the Banking Panic on the Supply of Credit to the Corporate Sector,2010,Journal of Financial Economics,Journal of Financial Economics,finance and banking,yes,pilot expert: not a treated-control DID design (parallel trends marked not applicable)
+paper_03,The Effects of State-Level Banking Competition on Innovation,2015,Journal of Financial Economics,Journal of Financial Economics,finance and banking,yes,
+paper_07,Do Credit Market Shocks Affect the Real Economy? Quasi-Experimental Evidence from the Great Recession and ‘Normal’ Economic Times,2014,NBER Working Paper Series,NBER working-paper version,finance and banking,yes,
+paper_08,Cyclicality of Credit Supply: Firm Level Evidence,2011,Journal of Monetary Economics (forthcoming),Journal of Monetary Economics,finance and banking,yes,pilot expert: not a treated-control DID design (parallel trends marked not applicable)
+paper_10,Does Stock Liquidity Enhance or Impede Firm Innovation?,2014,The Journal of Finance,Journal of Finance,finance and banking,yes,
+paper_14,Minimum Wages and Employment: A Case Study of the Fast Food Industry in New Jersey and Pennsylvania,1993,NBER Working Paper Series,NBER working-paper version,labour,yes,
+paper_15,Minimum Wage Effects Across State Borders: Estimates Using Contiguous Counties,2010,The Review of Economics and Statistics,Review of Economics and Statistics,labour,yes,
+paper_100,HOSPITAL OWNERSHIP AND PUBLIC MEDICAL SPENDING,2000,The Quarterly Journal of Economics,Quarterly Journal of Economics,health,yes,
+paper_101,The Impact of Public Disclosure of Health Outcomes on Patient and Social Welfare,2026,NeurIPS 2026 E&D Track,Journal of Political Economy,health,yes,"index venue/year corrupted; published as Dranove, Kessler, McClellan & Satterthwaite (2003), JPE 111(3):555-588, doi 10.1086/374180"
+paper_102,"Did Community Rating Induce an Adverse Selection Death Spiral? Evidence from New York, Pennsylvania, and Connecticut",2002,THE AMERICAN ECONOMIC REVIEW,American Economic Review,health,yes,
+paper_107,Mortality and Access to Care among Adults after State Medicaid Expansions,2012,The New England Journal of Medicine,New England Journal of Medicine,health,yes,medical journal
+paper_113,Early Childhood Intervention and Life-Cycle Skill Development: Evidence from Head Start,2009,American Economic Journal: Applied Economics,AEJ: Applied Economics,education,yes,identifies its effect from sibling comparisons (family fixed effects)
+paper_120,THE IMPACTS OF ENVIRONMENTAL REGULATIONS ON INDUSTRIAL ACTIVITY: EVIDENCE FROM THE 1970 AND 1977 CLEAN AIR ACT AMENDMENTS AND THE CENSUS OF MANUFACTURES,2001,NATIONAL BUREAU OF ECONOMIC RESEARCH,NBER working-paper version,environment and energy,yes,
+paper_124,Legalized Abortion and Crime,2001,Quarterly Journal of Economics,Quarterly Journal of Economics,crime and social policy,yes,
+paper_126,Do Consumers Respond to Marginal or Average Price? Evidence from Nonlinear Electricity Pricing,2014,American Economic Review,American Economic Review,environment and energy,yes,
+paper_127,Estimates of the Impact of Crime Risk on Property Values from Megan’s Laws,2008,American Economic Review,American Economic Review,crime and social policy,yes,
+paper_128,Effects of Liberalized Trade on Plant Productivity,2026,NeurIPS 2026 E&D Track,Review of Economic Studies,international trade,yes,"index venue/year corrupted; published as Pavcnik (2002), REStud 69(1):245-276, doi 10.1111/1467-937X.00205"
+paper_129,The Surprisingly Swift Decline of U.S. Manufacturing Employment,2012,NBER Working Paper Series,NBER working-paper version,international trade,yes,
+paper_130,Factor Immobility and Trade: Poverty in India,2010,American Economic Journal: Applied Economics,AEJ: Applied Economics,international trade,yes,
+paper_134,Trade Liberalization and Industry Wage Premia: Evidence from Colombia,2005,Journal of International Economics,Journal of International Economics,labour,yes,
+paper_136,The Effect of State Policies on the Location of Manufacturing: Evidence from State Borders,1998,Journal of Political Economy,Journal of Political Economy,industrial location,yes,
+paper_145,Air Quality and Early-Life Mortality: Evidence from Indonesia's Wildfires,2008,NBER Working Paper Series,NBER working-paper version,environment and energy,yes,
+paper_156,Does School Spending Matter? The New Literature on an Old Question,2018,NBER Working Paper Series,NBER working-paper version,education,yes,"literature review, not a primary DID study; retained and noted"
+paper_157,The Evolution of Black/White Earnings: 1960-1980,1990,NBER Working Paper,NBER working-paper version,education,yes,
+paper_158,THE EFFECTS OF CLASS SIZE ON STUDENT ACHIEVEMENT: NEW EVIDENCE FROM POPULATION VARIATION,2000,The Quarterly Journal of Economics,Quarterly Journal of Economics,education,yes,
+paper_164,THE IMPACTS OF ENVIRONMENTAL REGULATIONS ON INDUSTRIAL ACTIVITY: EVIDENCE FROM THE 1970 AND 1977 CLEAN AIR ACT AMENDMENTS AND THE CENSUS OF MANUFACTURES,2001,NATIONAL BUREAU OF ECONOMIC RESEARCH,,environment and energy,no,byte-identical duplicate of paper_120; excluded from every count
+paper_165,Are Consumers Myopic? Evidence from New and Used Car Purchases,2013,American Economic Review,American Economic Review,environment and energy,yes,

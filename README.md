@@ -267,6 +267,13 @@ Run the test suite (no API key needed):
 python3 -m pytest -q
 ```
 
+Check every number the paper reports against the committed result files (no API key needed;
+exits non-zero if any value in the text and the data disagree):
+
+```bash
+PYTHONPATH=src python3 experiments/verify_paper_numbers.py
+```
+
 ARGUS starts from a parsed-paper JSON object, not a raw PDF. Minimum schema:
 
 ```json

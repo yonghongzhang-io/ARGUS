@@ -26,8 +26,8 @@
           33
         ],
         "exact_ci95": [
-          0.03,
-          0.242
+          0.0303,
+          0.2424
         ],
         "over_severe": 29,
         "under_severe": 0,
@@ -42,8 +42,8 @@
         ],
         "weighted_kappa": 0.058,
         "weighted_kappa_ci95": [
-          -0.016,
-          0.155
+          -0.0157,
+          0.1546
         ]
       },
       "dominant_rule_only": {
@@ -54,8 +54,8 @@
           33
         ],
         "exact_ci95": [
-          0.212,
-          0.545
+          0.2121,
+          0.5455
         ],
         "over_severe": 21,
         "under_severe": 0,
@@ -70,8 +70,8 @@
         ],
         "weighted_kappa": 0.21,
         "weighted_kappa_ci95": [
-          0.02,
-          0.388
+          0.0205,
+          0.3883
         ]
       },
       "four_rules": {
@@ -83,7 +83,7 @@
         ],
         "exact_ci95": [
           0.303,
-          0.606
+          0.6061
         ],
         "over_severe": 18,
         "under_severe": 0,
@@ -98,8 +98,8 @@
         ],
         "weighted_kappa": 0.128,
         "weighted_kappa_ci95": [
-          -0.073,
-          0.366
+          -0.0732,
+          0.3661
         ]
       },
       "paired_vs_before": {
@@ -197,8 +197,8 @@
           33
         ],
         "exact_ci95": [
-          0.03,
-          0.242
+          0.0303,
+          0.2424
         ],
         "over_severe": 29,
         "under_severe": 0,
@@ -213,8 +213,8 @@
         ],
         "weighted_kappa": 0.058,
         "weighted_kappa_ci95": [
-          -0.016,
-          0.155
+          -0.0157,
+          0.1546
         ]
       },
       "dominant_rule_only": {
@@ -225,8 +225,8 @@
           13
         ],
         "exact_ci95": [
-          0.077,
-          0.538
+          0.0769,
+          0.5385
         ],
         "over_severe": 9,
         "under_severe": 0,
@@ -241,8 +241,8 @@
         ],
         "weighted_kappa": 0.322,
         "weighted_kappa_ci95": [
-          0.044,
-          0.584
+          0.0441,
+          0.5845
         ]
       },
       "four_rules": {
@@ -253,8 +253,8 @@
           13
         ],
         "exact_ci95": [
-          0.308,
-          0.769
+          0.3077,
+          0.7692
         ],
         "over_severe": 6,
         "under_severe": 0,
@@ -269,8 +269,8 @@
         ],
         "weighted_kappa": 0.245,
         "weighted_kappa_ci95": [
-          -0.166,
-          0.695
+          -0.1655,
+          0.6948
         ]
       },
       "paired_vs_before": {

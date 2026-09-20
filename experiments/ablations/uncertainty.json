@@ -243,8 +243,8 @@
     {
       "name": "11-flaw keyword vs two-stage (paired McNemar exact)",
       "discordant": [
-        7,
-        1
+        1,
+        7
       ],
       "p": 0.0703
     },

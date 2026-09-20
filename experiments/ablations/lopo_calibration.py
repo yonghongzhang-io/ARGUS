@@ -22,13 +22,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 FROZEN = ROOT / "experiments" / "annotation" / "pilot_frozen"
 ABL = ROOT / "experiments" / "ablations"
+import sys
+sys.path.insert(0, str(ROOT / "experiments" / "annotation"))
+from goldpath import gold_path  # noqa: E402  final gold once locked, else the frozen June gold
 RANK = {"low": 0, "medium": 1, "high": 2}
 
 
 def folds(rich: dict, gold: dict) -> dict:
     out = {}
     for held in sorted({p for p, _ in rich}):
-        oh = [v for k, v in rich.items() if k[0] != held and v["risk"] == "high" and RANK[gold[k]] < 2]
+        oh = [v for k, v in rich.items() if k[0] != held and k in gold and v["risk"] == "high" and RANK[gold[k]] < 2]
         out[held] = {"n": len(oh),
                      "weak_share": round(sum(v["retrieval_quality"] == "weak" for v in oh) / len(oh), 2),
                      "missing_share": round(sum(v["evidence_status"] == "missing" for v in oh) / len(oh), 2)}
@@ -36,7 +39,7 @@ def folds(rich: dict, gold: dict) -> dict:
 
 
 gold = {(r["paper_id"], r["dimension"]): r["gold_risk"].strip().lower()
-        for r in csv.DictReader((FROZEN / "gold_labels.csv").open(encoding="utf-8"))}
+        for r in csv.DictReader(gold_path().open(encoding="utf-8"))}
 rerun = {(r["paper_id"], r["dimension"]): r
          for r in csv.DictReader((FROZEN / "argus_rich_gold5.csv").open(encoding="utf-8"))}
 recon = {tuple(k.split("|")): v for k, v in json.load(open(ABL / "gold_rich_cells.json")).items()}

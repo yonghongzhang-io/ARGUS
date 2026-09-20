@@ -1,0 +1,62 @@
+{
+  "source": "results/traces (local, gitignored); run window 2026-07-15 19:04-19:47 local time",
+  "reading": "A miss is a target-dimension verdict below medium, i.e. low or unknown. Every trace in the run window on a missed flaw's target dimension is a failed gate scored unknown, and no trace that day gives such a paper a low verdict (the answered ones are medium or high, which would have counted as detected).",
+  "missed_flaws": [
+    {
+      "flaw": "cherrypicked_window",
+      "op": "remove",
+      "target_dimension": "sample_period",
+      "traces_in_run_window": [
+        {
+          "time": "19:35:42",
+          "risk": "unknown",
+          "retrieval_quality": "failed"
+        }
+      ],
+      "same_day_failed_gate_traces": 7,
+      "same_day_answered_traces_on_this_paper": []
+    },
+    {
+      "flaw": "measurement_break",
+      "op": "remove",
+      "target_dimension": "data_measurement",
+      "traces_in_run_window": [
+        {
+          "time": "19:40:12",
+          "risk": "unknown",
+          "retrieval_quality": "failed"
+        },
+        {
+          "time": "19:22:42",
+          "risk": "unknown",
+          "retrieval_quality": "failed"
+        }
+      ],
+      "same_day_failed_gate_traces": 9,
+      "same_day_answered_traces_on_this_paper": []
+    },
+    {
+      "flaw": "noncomparable_controls",
+      "op": "remove",
+      "target_dimension": "control_group",
+      "traces_in_run_window": [
+        {
+          "time": "19:16:34",
+          "risk": "unknown",
+          "retrieval_quality": "failed"
+        },
+        {
+          "time": "19:42:49",
+          "risk": "unknown",
+          "retrieval_quality": "failed"
+        }
+      ],
+      "same_day_failed_gate_traces": 8,
+      "same_day_answered_traces_on_this_paper": [
+        "high",
+        "high"
+      ]
+    }
+  ],
+  "all_three_misses_are_omission_abstentions": true
+}
