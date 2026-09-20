@@ -1,6 +1,25 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/banner-dark.png">
+    <img src="docs/banner-light.png" width="100%"
+         alt="ARGUS: evidence-grounded auditing of identification assumptions in difference-in-differences studies. The matrix is ARGUS's risk map of 26 published papers by 11 identification dimensions.">
+  </picture>
+</p>
+
+<p align="center">
+  <a href="paper_climatenlp/submissions/ClimateNLP2026_camera_ready.pdf"><img alt="Paper: ClimateNLP 2026" src="https://img.shields.io/badge/paper-ClimateNLP%202026-3E6598"></a>
+  <a href="LICENSE"><img alt="Code license: MIT" src="https://img.shields.io/badge/code-MIT-5C9070"></a>
+  <a href="LICENSE-DATA.md"><img alt="Data license: CC BY 4.0" src="https://img.shields.io/badge/data-CC%20BY%204.0-CF9B3C"></a>
+</p>
+
 # ARGUS
 
 **Evidence-grounded auditing of identification assumptions in climate-policy causal evaluations.**
+
+<sub>The banner matrix is real output: the two-stage pipeline's risk for each of the 26 published
+DID papers (columns) on each of the 11 identification dimensions (rows); grey is an abstention.
+It is regenerated from committed results by `docs/make_banner.py` and uses no third-party artwork.
+Read the labels with the caveats under [How to read the per-paper judgements](#how-to-read-the-per-paper-judgements).</sub>
 
 ARGUS audits the *causal identification credibility* of difference-in-differences (DID)
 studies in environmental policy evaluation (fixture: China's carbon emissions trading
