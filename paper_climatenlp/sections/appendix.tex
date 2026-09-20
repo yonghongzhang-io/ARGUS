@@ -101,9 +101,9 @@ a rationale, not a harness default), where the gated pipeline abstains
 mechanically on $38.9\%$. The gated pipeline's \texttt{unknown} cells become
 low ($1.8\%\!\to\!14.9\%$) or medium ($14.2\%\!\to\!43.6\%$) judgements while
 the high-risk share stays comparable ($41.1\%$ vs $45.1\%$). These shares
-describe behaviour: a discretionary abstention option is rarely taken, a
-mechanical one often is. Without cell-level gold on these papers they do not
-show which set of judgements is the more reliable.
+describe behaviour (a discretionary abstention option is rarely taken, a
+mechanical one often is); without cell-level gold they do not show which
+judgements are more reliable.
 
 \begin{table}[t]
   \centering\small
@@ -214,7 +214,8 @@ pilot-gold cells, the mechanism behind the fixture/real-paper asymmetry of
 
 \section{Prompts}
 \label{app:prompts}
-All model calls run at temperature~$0$ with a strict JSON schema. Angle-bracketed
+All model calls run at temperature~$0$; all but the real-paper single-pass
+variant at the end of this appendix use a strict JSON schema. Angle-bracketed
 fields are substituted from the rubric entry or the retrieved passages; nothing
 else varies across dimensions or papers. The per-dimension no-retrieval arm of
 \S\ref{sec:variants} reuses the adequacy prompt below verbatim, passing the whole
@@ -322,11 +323,9 @@ conservative: absent, thin, or flawed evidence is not 'supported'.
 \begin{sloppypar}\noindent The real-paper contrast of
 Appendix~\ref{app:matrix} used this second implementation
 (\texttt{single\_pass\_assessor.py}). Its preamble restates the adequacy
-standard of the judge prompt above with three worked contrasts, it receives the
-whole paper (title, abstract, sections, captions) with the rubric, and it
-returns free JSON keyed by dimension id in which a missing or malformed cell is
-coerced to \texttt{unknown}. The one \texttt{unknown} it produced was written by
-the model.\end{sloppypar}
+standard of the judge prompt above, it receives the whole paper with the
+rubric, and it returns free JSON keyed by dimension id in which a missing or
+malformed cell is coerced to \texttt{unknown}.\end{sloppypar}
 
 \section{Reproducibility Details}
 \label{app:repro}
@@ -362,8 +361,9 @@ Table~\ref{tab:ci} gives Wilson 95\% intervals for every proportion reported in
 the main text and exact tests between arms evaluated on the same items;
 Table~\ref{tab:ci_gold} gives cell-bootstrap intervals (5,000 resamples) for
 the human-gold agreement metrics. At $n{=}11$ the keyword-versus-two-stage gap
-is significant by Fisher's exact test ($p{=}0.03$) but only marginal as a
-paired test on the same flaws (7 vs 1 discordant, $p{=}0.07$); at $n{=}33$ no
+is marginal under the paired test on the same flaws (7 vs 1 discordant,
+$p{=}0.07$; an unpaired Fisher test, which ignores the pairing, gives
+$p{=}0.03$); at $n{=}33$ no
 pairwise difference between the single-pass, per-dimension, two-stage, and
 oracle arms reaches significance. For the calibration lift the comparison is paired, so overlap of the
 intervals in Table~\ref{tab:ci_gold} is not the test. On the 33 answered cells
@@ -471,8 +471,10 @@ a climate-policy evaluation in the narrow sense (a carbon price, an emissions
 trading scheme, or an emission standard): the real corpus is a
 general-economics stress test of the audit architecture, and the
 climate-specific content of the paper is the rubric instantiation of
-\S\ref{sec:framework}, the emissions-trading fixture of \S\ref{sec:evaluation},
-and Appendix~\ref{app:motivation}. Audit behaviour is not driven by domain: the
+\S\ref{sec:framework} and Appendix~\ref{app:motivation}; the synthetic fixture
+of \S\ref{sec:evaluation} is a generic environmental-policy study (a China
+emissions-trading fixture ships with the code but produced none of the numbers
+reported here). Audit behaviour is not driven by domain: the
 environment-and-energy subset's risk distribution (high $0.34$,
 \texttt{unknown} $0.43$; 44 cells) is close to the remainder's (high $0.46$,
 \texttt{unknown} $0.39$; 242 cells).
@@ -539,7 +541,7 @@ environment-and-energy subset's risk distribution (high $0.34$,
 \label{app:qual}
 
 \paragraph{A complete audit report.}
-Table~\ref{tab:casestudy} shows \sys{}'s actual output on the emissions-trading
+Table~\ref{tab:casestudy} shows \sys{}'s actual output on the synthetic
 fixture with the \emph{anticipation} flaw injected (\S\ref{sec:evaluation}): the
 report flags exactly the damaged dimension as high, giving the anticipation-gap
 rationale, keeps nine supported dimensions at low, and shows a mild
@@ -592,8 +594,8 @@ Of the 27 round-1 disagreements, 16 resolved to a single label once the
 low/medium boundary was anchored, and 11 were flagged intrinsically ambiguous.
 In the leave-one-paper-out check (\S\ref{sec:calib}), the demotion rule's
 trigger conditions recur in all five folds: among each fold's over-severe
-\emph{high} cells, $72$--$81\%$ have weak retrieval and $100\%$ have missing
-evidence. The folds test whether the error pattern recurs; no rule was refitted
+\emph{high} cells, $79$--$86\%$ have weak retrieval and $94$--$100\%$ have
+missing evidence (computed on the rich re-run of \S\ref{sec:calib}). The folds test whether the error pattern recurs; no rule was refitted
 on four papers and scored on the fifth.
 
 \paragraph{The calibration rules.}
@@ -610,17 +612,14 @@ minutes after the over-severity analysis of this pilot, and all three cells they
 touch land on the gold label. They are not principled: a paper's age does not
 remove a staggered-timing bias, a rationale that mentions clustering may be
 reporting its absence, and rule~4 has no content condition at all (locating
-relevant evidence is not the evidence supporting the assumption). We record them
-because they produced the originally reported $0.45$, and we treat only rule~1
-as a result. The script is released as recovered
-(\texttt{calibrate\_argus\_v1\_pilot.py}); re-running it reproduces the
-historical outputs on all 55 cells.
+relevant evidence is not the evidence supporting the assumption). We treat only
+rule~1 as a result. The released script
+(\path{calibrate_argus_v1_pilot.py}) reproduces the historical outputs on all 55
+cells.
 
-This appendix collects supporting material referenced from the main text:
-the per-dimension risk distribution on the 26-paper real corpus
-(Figure~\ref{fig:realcorpus}), and the deterministic calibration results against
-the adjudicated human gold (Table~\ref{tab:calib}, Figure~\ref{fig:calib_tradeoff}),
-and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgold}).
+The remaining material is Figure~\ref{fig:realcorpus} (per-dimension risk on the
+real corpus) and Tables~\ref{tab:vsgold}--\ref{tab:calib} with
+Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
 
 \begin{table}[t]
   \centering\small
@@ -766,8 +765,8 @@ retrieval path, carries the gap in Table~\ref{tab:results}.
 
 \paragraph{What it costs, and what it does not show.}
 The gain is a trade. The judge rates $11$--$16\%$ of non-target dimensions
-medium or higher on injected papers, where the keyword scorer flags none, and
-localization on the variants is 22/33 in both LLM cells. On the keyword chunks
+medium or higher on injected papers, where the keyword scorer flags none. On
+the keyword chunks
 the judge also rates one clean dimension (SUTVA) medium. Every false alarm in
 the K-llm row is that single verdict, counted once per flaw that targets the
 dimension: both benchmarks share one clean fixture, so the false-alarm rates

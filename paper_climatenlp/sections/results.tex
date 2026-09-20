@@ -68,10 +68,10 @@ low, medium, or high, so this arm cannot abstain
 The baseline never raises a false alarm and correctly flags the two omission
 flaws (\texttt{measurement\_break}, \texttt{spillover\_contamination}) by the
 \emph{absence} of their vocabulary, but beyond those detection is only $0.182$
-(Figure~\ref{fig:results}B). Two failure modes explain it: \emph{cross-section
+(Figure~\ref{fig:results}b). Two failure modes explain it: \emph{cross-section
 vocabulary bleed} (deleting the placebo section does not help when another
 section also mentions ``placebo'') and blindness to \emph{every} commission
-flaw, whose flawed-but-plausible evidence carries the expected topic vocabulary. Keyword presence is not evidence adequacy.
+flaw, whose flawed-but-plausible evidence carries the expected topic vocabulary.
 
 \paragraph{LLM adequacy pipelines close the gap.}
 Replacing the keyword pipeline with the two-stage LLM pipeline raises detection
@@ -132,7 +132,7 @@ $0.64$--$0.70$, in line with its behaviour on the eleven clear flaws.
 \paragraph{Where the gain comes from.}
 A compute-graded ablation on this benchmark (Appendix~\ref{app:matrix})
 separates the pipeline's ingredients, de-scaffolding the auditor in the sense
-of~\cite{dmconfound}: a full-paper single pass (one call)
+of~\citet{dmconfound}: a full-paper single pass (one call)
 detects $0.727$; per-dimension prompting without retrieval (eleven calls)
 detects $0.879$; the full two-stage pipeline (twenty-two calls) detects
 $0.747$. Task \emph{decomposition} drives synthetic detection; the
@@ -219,8 +219,8 @@ the relevance gate could not surface evidence, so the system says so rather than
 over-flagging. Two regimes appear: dimensions whose discussion is diffuse or
 lives in figures the text retrieval cannot reach are dominated by
 \texttt{unknown}, while dimensions where a section is retrieved are judged
-inadequate. The finding is methodological: moving to real papers is bottlenecked
-not by causal reasoning but by \emph{evidence grounding}. The design therefore
+inadequate. Moving to real papers is bottlenecked by \emph{evidence grounding} more
+than by causal reasoning. The design therefore
 reports retrieval quality and an explicit \texttt{unknown} state distinct from a
 substantive high-risk judgement.
 
@@ -239,7 +239,7 @@ makes this exact (Table~\ref{tab:gate}): all 22 failed-retrieval cells are
 them with \texttt{evidence\_status=missing}. This is the branch the calibration
 layer of \S\ref{sec:calib} targets.
 
-Judgements are grounded rather than pattern-matched
+Judgements cite specific evidence
 (Appendix~\ref{app:qual} gives a qualitative example). Roughly $44\%$ of
 judgements on these top-journal papers are \emph{high}; without dimension-level
 expert labels we cannot yet say whether this is warranted or over-strict where

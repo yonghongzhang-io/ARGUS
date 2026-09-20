@@ -6,9 +6,9 @@ The defining difficulty in evaluating a causal-identification auditor is that th
 quantity of ultimate interest (the true causal effect of a carbon price, an
 emissions cap, or an emission standard) is never observed. We therefore do not
 attempt to certify that \sys{} recovers true effects. Instead we construct
-\emph{local} ground truth by controlled perturbation. Beginning from a credible
-policy-evaluation fixture, modelled on evaluations of China's provincial
-emissions-trading pilots (announced 2011, rolled out 2013--2014), we inject
+\emph{local} ground truth by controlled perturbation. Beginning from a short
+synthetic fixture, an environmental-policy DID study that reports supporting
+evidence on all eleven dimensions, we inject
 exactly one known flaw that targets a single
 identification dimension, drawn from the flaw taxonomy
 (\texttt{flaw\_taxonomy.yaml}; Appendix~\ref{app:flawlit} traces each flaw to
@@ -44,5 +44,5 @@ paper would describe a mistaken design choice (e.g.\ pooling all province-years 
 a two-way fixed-effects regression under staggered policy timing), \emph{without}
 containing any of the phrases the detector looks for. We enforce the latter with a
 regression test that fails if an injected paper contains the target dimension's
-negative-signal phrases, so the circularity cannot silently return. Detection is
-thereby a genuine task rather than a string match.
+negative-signal phrases, so the circularity cannot silently return. Detection
+therefore cannot be achieved by string matching.

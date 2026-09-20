@@ -22,8 +22,9 @@ It is regenerated from committed results by `docs/make_banner.py` and uses no th
 Read the labels with the caveats under [How to read the per-paper judgements](#how-to-read-the-per-paper-judgements).</sub>
 
 ARGUS audits the *causal identification credibility* of difference-in-differences (DID)
-studies in environmental policy evaluation (fixture: China's carbon emissions trading
-pilots). It does **not** judge whether a paper's estimated effect is "true" — in a DID
+studies in environmental policy evaluation. (Every number reported in the paper comes from
+the generic synthetic fixture `examples/papers/clean_supported.json`; the China emissions-trading
+fixture in `examples/papers/` is an illustration and produced none of them.) It does **not** judge whether a paper's estimated effect is "true" — in a DID
 design the counterfactual is never observed. Instead, ARGUS decomposes identification into
 eleven auditable dimensions, gathers supporting evidence from the paper, assesses each
 assumption→implication→evidence chain, localizes weaknesses, and produces a transparent
