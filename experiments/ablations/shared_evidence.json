@@ -1,0 +1,1496 @@
+{
+ "protocol": "SHARED_EVIDENCE_PROTOCOL.md",
+ "stage": "zero-call cells only",
+ "git": {
+  "head": "5f6e4ef1c886ac76cc4dc2f6daa491fe67be8750",
+  "dirty_code_paths": [
+   "?? experiments/ablations/shared_evidence.py",
+   "?? experiments/ablations/shared_evidence_bundles.json.gz"
+  ]
+ },
+ "n_papers": 45,
+ "cells": {
+  "K-kw": {
+   "errors": [],
+   "clean_dimensions_flagged": [],
+   "11flaws": {
+    "detection": {
+     "k": 2,
+     "n": 11,
+     "rate": 0.182,
+     "ci95": [
+      0.051,
+      0.477
+     ]
+    },
+    "detection_commission": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci95": [
+      -0.0,
+      0.434
+     ]
+    },
+    "detection_omission": {
+     "k": 2,
+     "n": 6,
+     "rate": 0.333,
+     "ci95": [
+      0.097,
+      0.7
+     ]
+    },
+    "false_alarm": {
+     "k": 0,
+     "n": 11,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.259
+     ]
+    },
+    "localization": {
+     "k": 2,
+     "n": 11,
+     "rate": 0.182,
+     "ci95": [
+      0.051,
+      0.477
+     ]
+    },
+    "offtarget_alarm_injected": {
+     "k": 0,
+     "n": 110,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.034
+     ]
+    },
+    "offtarget_alarm_clean": {
+     "k": 0,
+     "n": 110,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.034
+     ]
+    },
+    "empty_target_bundles": 1,
+    "items": [
+     {
+      "id": "flaw:anticipation_effect",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:bad_control",
+      "target_dimension": "specification",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:cherrypicked_window",
+      "target_dimension": "sample_period",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:confounding_policy",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:forbidden_comparison",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:measurement_break",
+      "target_dimension": "data_measurement",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "high",
+      "target_risk_clean": "low",
+      "target_bundle_empty": true,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:missing_placebo",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:noncomparable_controls",
+      "target_dimension": "control_group",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:pretrend_divergence",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:spillover_contamination",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:understated_se",
+      "target_dimension": "inference",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     }
+    ]
+   },
+   "33variants": {
+    "detection": {
+     "k": 8,
+     "n": 33,
+     "rate": 0.242,
+     "ci95": [
+      0.128,
+      0.41
+     ]
+    },
+    "detection_commission": {
+     "k": 3,
+     "n": 22,
+     "rate": 0.136,
+     "ci95": [
+      0.047,
+      0.333
+     ]
+    },
+    "detection_omission": {
+     "k": 5,
+     "n": 11,
+     "rate": 0.455,
+     "ci95": [
+      0.213,
+      0.72
+     ]
+    },
+    "false_alarm": {
+     "k": 0,
+     "n": 33,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.104
+     ]
+    },
+    "localization": {
+     "k": 8,
+     "n": 33,
+     "rate": 0.242,
+     "ci95": [
+      0.128,
+      0.41
+     ]
+    },
+    "offtarget_alarm_injected": {
+     "k": 0,
+     "n": 330,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.012
+     ]
+    },
+    "offtarget_alarm_clean": {
+     "k": 0,
+     "n": 330,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.012
+     ]
+    },
+    "empty_target_bundles": 2,
+    "items": [
+     {
+      "id": "variant:concurrent_policies_commission_01",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:concurrent_policies_commission_02",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:concurrent_policies_omission_01",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:control_group_commission_01",
+      "target_dimension": "control_group",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:control_group_commission_02",
+      "target_dimension": "control_group",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:control_group_omission_01",
+      "target_dimension": "control_group",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:data_measurement_commission_01",
+      "target_dimension": "data_measurement",
+      "flaw_type": "commission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:data_measurement_commission_02",
+      "target_dimension": "data_measurement",
+      "flaw_type": "commission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:data_measurement_omission_01",
+      "target_dimension": "data_measurement",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "high",
+      "target_risk_clean": "low",
+      "target_bundle_empty": true,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:inference_commission_01",
+      "target_dimension": "inference",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:inference_commission_02",
+      "target_dimension": "inference",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:inference_omission_01",
+      "target_dimension": "inference",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:no_anticipation_commission_01",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:no_anticipation_commission_02",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:no_anticipation_omission_01",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "high",
+      "target_risk_clean": "low",
+      "target_bundle_empty": true,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:parallel_trends_commission_01",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:parallel_trends_commission_02",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:parallel_trends_omission_01",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:robustness_placebo_commission_01",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:robustness_placebo_commission_02",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:robustness_placebo_omission_01",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:sample_period_commission_01",
+      "target_dimension": "sample_period",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:sample_period_commission_02",
+      "target_dimension": "sample_period",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:sample_period_omission_01",
+      "target_dimension": "sample_period",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:specification_commission_01",
+      "target_dimension": "specification",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:specification_commission_02",
+      "target_dimension": "specification",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:specification_omission_01",
+      "target_dimension": "specification",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_definition_sutva_commission_01",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_definition_sutva_commission_02",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "commission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_definition_sutva_omission_01",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_timing_commission_01",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_timing_commission_02",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_timing_omission_01",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     }
+    ]
+   }
+  },
+  "S-kw": {
+   "errors": [],
+   "clean_dimensions_flagged": [],
+   "11flaws": {
+    "detection": {
+     "k": 1,
+     "n": 11,
+     "rate": 0.091,
+     "ci95": [
+      0.016,
+      0.377
+     ]
+    },
+    "detection_commission": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci95": [
+      -0.0,
+      0.434
+     ]
+    },
+    "detection_omission": {
+     "k": 1,
+     "n": 6,
+     "rate": 0.167,
+     "ci95": [
+      0.03,
+      0.564
+     ]
+    },
+    "false_alarm": {
+     "k": 0,
+     "n": 11,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.259
+     ]
+    },
+    "localization": {
+     "k": 1,
+     "n": 11,
+     "rate": 0.091,
+     "ci95": [
+      0.016,
+      0.377
+     ]
+    },
+    "offtarget_alarm_injected": {
+     "k": 0,
+     "n": 110,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.034
+     ]
+    },
+    "offtarget_alarm_clean": {
+     "k": 0,
+     "n": 110,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.034
+     ]
+    },
+    "empty_target_bundles": 0,
+    "items": [
+     {
+      "id": "flaw:anticipation_effect",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:bad_control",
+      "target_dimension": "specification",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:cherrypicked_window",
+      "target_dimension": "sample_period",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:confounding_policy",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:forbidden_comparison",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:measurement_break",
+      "target_dimension": "data_measurement",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:missing_placebo",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:noncomparable_controls",
+      "target_dimension": "control_group",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:pretrend_divergence",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:spillover_contamination",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "flaw:understated_se",
+      "target_dimension": "inference",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     }
+    ]
+   },
+   "33variants": {
+    "detection": {
+     "k": 2,
+     "n": 33,
+     "rate": 0.061,
+     "ci95": [
+      0.017,
+      0.196
+     ]
+    },
+    "detection_commission": {
+     "k": 0,
+     "n": 22,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.149
+     ]
+    },
+    "detection_omission": {
+     "k": 2,
+     "n": 11,
+     "rate": 0.182,
+     "ci95": [
+      0.051,
+      0.477
+     ]
+    },
+    "false_alarm": {
+     "k": 0,
+     "n": 33,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.104
+     ]
+    },
+    "localization": {
+     "k": 2,
+     "n": 33,
+     "rate": 0.061,
+     "ci95": [
+      0.017,
+      0.196
+     ]
+    },
+    "offtarget_alarm_injected": {
+     "k": 0,
+     "n": 330,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.012
+     ]
+    },
+    "offtarget_alarm_clean": {
+     "k": 0,
+     "n": 330,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.012
+     ]
+    },
+    "empty_target_bundles": 0,
+    "items": [
+     {
+      "id": "variant:concurrent_policies_commission_01",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:concurrent_policies_commission_02",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:concurrent_policies_omission_01",
+      "target_dimension": "concurrent_policies",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:control_group_commission_01",
+      "target_dimension": "control_group",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:control_group_commission_02",
+      "target_dimension": "control_group",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:control_group_omission_01",
+      "target_dimension": "control_group",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:data_measurement_commission_01",
+      "target_dimension": "data_measurement",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:data_measurement_commission_02",
+      "target_dimension": "data_measurement",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:data_measurement_omission_01",
+      "target_dimension": "data_measurement",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:inference_commission_01",
+      "target_dimension": "inference",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:inference_commission_02",
+      "target_dimension": "inference",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:inference_omission_01",
+      "target_dimension": "inference",
+      "flaw_type": "omission",
+      "detected": true,
+      "false_alarm": false,
+      "localized": true,
+      "target_risk_injected": "medium",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:no_anticipation_commission_01",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:no_anticipation_commission_02",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:no_anticipation_omission_01",
+      "target_dimension": "no_anticipation",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:parallel_trends_commission_01",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:parallel_trends_commission_02",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:parallel_trends_omission_01",
+      "target_dimension": "parallel_trends",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:robustness_placebo_commission_01",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:robustness_placebo_commission_02",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:robustness_placebo_omission_01",
+      "target_dimension": "robustness_placebo",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:sample_period_commission_01",
+      "target_dimension": "sample_period",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:sample_period_commission_02",
+      "target_dimension": "sample_period",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:sample_period_omission_01",
+      "target_dimension": "sample_period",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:specification_commission_01",
+      "target_dimension": "specification",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:specification_commission_02",
+      "target_dimension": "specification",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:specification_omission_01",
+      "target_dimension": "specification",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_definition_sutva_commission_01",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_definition_sutva_commission_02",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_definition_sutva_omission_01",
+      "target_dimension": "treatment_definition_sutva",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_timing_commission_01",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_timing_commission_02",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "commission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     },
+     {
+      "id": "variant:treatment_timing_omission_01",
+      "target_dimension": "treatment_timing",
+      "flaw_type": "omission",
+      "detected": false,
+      "false_alarm": false,
+      "localized": false,
+      "target_risk_injected": "low",
+      "target_risk_clean": "low",
+      "target_bundle_empty": false,
+      "offtarget_flagged_injected": 0,
+      "offtarget_flagged_clean": 0
+     }
+    ]
+   }
+  }
+ },
+ "contrasts": [
+  {
+   "contrast": "evidence @ kw",
+   "a": "K-kw",
+   "b": "S-kw",
+   "set": "11flaws",
+   "outcome": "detected",
+   "rate_a": 0.182,
+   "rate_b": 0.091,
+   "discordant_a_only_b_only": [
+    1,
+    0
+   ],
+   "mcnemar_exact_p": 1.0
+  },
+  {
+   "contrast": "evidence @ kw",
+   "a": "K-kw",
+   "b": "S-kw",
+   "set": "11flaws",
+   "outcome": "false_alarm",
+   "rate_a": 0.0,
+   "rate_b": 0.0,
+   "discordant_a_only_b_only": [
+    0,
+    0
+   ],
+   "mcnemar_exact_p": 1.0
+  },
+  {
+   "contrast": "evidence @ kw",
+   "a": "K-kw",
+   "b": "S-kw",
+   "set": "33variants",
+   "outcome": "detected",
+   "rate_a": 0.242,
+   "rate_b": 0.061,
+   "discordant_a_only_b_only": [
+    6,
+    0
+   ],
+   "mcnemar_exact_p": 0.0312
+  },
+  {
+   "contrast": "evidence @ kw",
+   "a": "K-kw",
+   "b": "S-kw",
+   "set": "33variants",
+   "outcome": "false_alarm",
+   "rate_a": 0.0,
+   "rate_b": 0.0,
+   "discordant_a_only_b_only": [
+    0,
+    0
+   ],
+   "mcnemar_exact_p": 1.0
+  }
+ ]
+}
