@@ -1,25 +1,26 @@
 {
  "rule": "over-severe high -> weak retrieval / missing evidence",
+ "source": "rich re-run (experiments/annotation/pilot_frozen/argus_rich_gold5.csv)",
  "folds": {
   "paper_01": {
-   "n": 20,
-   "weak_share": 0.8,
-   "missing_share": 1.0
+   "n": 21,
+   "weak_share": 0.86,
+   "missing_share": 0.95
   },
   "paper_03": {
-   "n": 17,
-   "weak_share": 0.76,
-   "missing_share": 1.0
+   "n": 18,
+   "weak_share": 0.83,
+   "missing_share": 0.94
   },
   "paper_07": {
-   "n": 18,
-   "weak_share": 0.72,
-   "missing_share": 1.0
+   "n": 19,
+   "weak_share": 0.79,
+   "missing_share": 0.95
   },
   "paper_08": {
-   "n": 21,
-   "weak_share": 0.81,
-   "missing_share": 1.0
+   "n": 22,
+   "weak_share": 0.86,
+   "missing_share": 0.95
   },
   "paper_10": {
    "n": 16,
@@ -27,5 +28,35 @@
    "missing_share": 1.0
   }
  },
- "stable": true
+ "stable": true,
+ "reconstructed_corpus_run": {
+  "source": "gold_rich_cells.json",
+  "folds": {
+   "paper_01": {
+    "n": 20,
+    "weak_share": 0.8,
+    "missing_share": 1.0
+   },
+   "paper_03": {
+    "n": 17,
+    "weak_share": 0.76,
+    "missing_share": 1.0
+   },
+   "paper_07": {
+    "n": 18,
+    "weak_share": 0.72,
+    "missing_share": 1.0
+   },
+   "paper_08": {
+    "n": 21,
+    "weak_share": 0.81,
+    "missing_share": 1.0
+   },
+   "paper_10": {
+    "n": 16,
+    "weak_share": 0.81,
+    "missing_share": 1.0
+   }
+  }
+ }
 }
