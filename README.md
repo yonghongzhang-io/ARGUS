@@ -51,8 +51,10 @@ Llama 3.1 8B 0.95); the precision profile is model-dependent.
 **Real papers (26 top-journal DID studies):** the bottleneck relocates from causal
 reasoning to *evidence grounding* — ~40% of judgements abstain to `unknown` where
 retrieval fails. **Human-gold pilot (5 papers × 11 dimensions):** ARGUS is systematically
-over-severe; a deterministic calibration layer (demote weak-retrieval `high`) raises exact
-agreement 0.12 → 0.45, and the rule re-emerges in every leave-one-paper-out fold.
+over-severe; one deterministic rule (demote a weak-retrieval `high`) raises exact agreement
+0.12 → 0.36 **on the same pilot it was derived from**. Three further single-cell rules reach
+0.45 and are kept only as an exploratory record (`experiments/annotation/CALIBRATION.md`). The
+error pattern recurs in every leave-one-paper-out fold; no rule was refitted on held-out papers.
 
 ---
 
@@ -67,10 +69,10 @@ agreement 0.12 → 0.45, and the rule re-emerges in every leave-one-paper-out fo
    [ decomposition ]        deterministic  - map paper onto 11 identification dimensions
               |
               v
-   [ extraction ]   <-- AGENTIC --+   bounded ReAct loop: fixed tool set, hard step budget
-              |                   |   tools: evidence_search, figure_parse, policy_lookup
-              v                   |
-   [ assessment ]   <-- AGENTIC --+   assess each assumption -> implication -> evidence chain
+   [ extraction ]   <-- MODEL ----+   bounded: fixed tool set, hard step budget (max_steps)
+              |                   |   evaluated LLM path: lexical retrieval -> relevance gate
+              v                   |   (figure_parse / policy_lookup exist but are not exercised)
+   [ assessment ]   <-- MODEL ----+   one adequacy call per dimension on the gated evidence
               |                        emits a logged trace -> results/traces/
               v
    [ localization ]         deterministic  - aggregate dimension risks into a risk map
@@ -119,16 +121,19 @@ return.
 
 ## Architecture
 
-ARGUS is a **bounded-agentic** system, not an end-to-end autonomous agent. This choice is
-deliberate and load-bearing for the project's goals.
+ARGUS is a **bounded** LLM pipeline, not an autonomous agent. This choice is deliberate and
+load-bearing for the project's goals. In the configuration the paper evaluates
+(`max_steps=1`) the LLM path is a fixed two-call sequence per dimension (relevance gate, then
+adequacy judge) over lexically retrieved text; it never calls `figure_parse` or
+`policy_lookup`. The description below is the design; read it with that scope in mind.
 
 **Between modules: a fixed, deterministic, auditable pipeline.** The stages
 `decomposition → extraction → assessment → localization → report` always run in the same
 order, and the evaluation loop `injection → evaluation` is separate and reproducible. The
 control flow is written in code, not decided by a model.
 
-**Within modules: agentic only where it earns its place.** Only `extraction` and
-`assessment` are agentic. Each invokes a bounded ReAct-style loop (`src/argus/agent/`) with:
+**Within modules: model calls only where they earn their place.** Only `extraction` and
+`assessment` involve a model. Each is designed as a bounded ReAct-style loop (`src/argus/agent/`) with:
 
 - a **small fixed tool set** passed in per call — `evidence_search`, `figure_parse`,
   `policy_lookup`;
@@ -171,8 +176,9 @@ labels are:
   quality.
 - **They are systematically over-severe.** Against an adjudicated expert gold, ARGUS was
   more severe than the experts on 28 of the 33 cells it answered and less severe on none.
-  A calibration layer raises exact agreement from 0.12 to 0.45, so even after calibration
-  most individual labels still disagree with expert consensus.
+  One calibration rule raises exact agreement from 0.12 to 0.36 on the pilot it was derived
+  from (in-sample), so even after calibration most individual labels still disagree with
+  expert consensus.
 - **An individual cell is unreliable.** The expert pilot covers 5 papers and 55 cells.
   Nothing here supports a claim about any single paper on any single dimension.
 - **`unknown` means retrieval failed, not that evidence is absent.** The system abstains
