@@ -91,11 +91,19 @@ each model treats a deleted section, how often it already rates the unmodified
 fixture medium or high, and how often its injected-variant verdict matches
 gpt-4o's.
 
-On real papers the gate's behavioural contrast sharpens: over the 25 papers
-common to both runs ($275$ cells), the ungated single pass almost never
-abstains, converting the gated pipeline's \texttt{unknown} cells into confident
+On real papers the gate's behavioural contrast sharpens. This run used a second
+single-pass implementation, distinct from the strict-schema arm of
+Tables~\ref{tab:results} and~\ref{tab:matrix}: its prompt permits
+\texttt{unknown} with the instruction to ``use sparingly''
+(Appendix~\ref{app:prompts}). Over the 25 papers common to both runs ($275$
+cells) it chose \texttt{unknown} once ($0.4\%$; a model-written abstention with
+a rationale, not a harness default), where the gated pipeline abstains
+mechanically on $38.9\%$. The gated pipeline's \texttt{unknown} cells become
 low ($1.8\%\!\to\!14.9\%$) or medium ($14.2\%\!\to\!43.6\%$) judgements while
-the high-risk share stays comparable ($41.1\%$ vs $45.1\%$).
+the high-risk share stays comparable ($41.1\%$ vs $45.1\%$). These shares
+describe behaviour: a discretionary abstention option is rarely taken, a
+mechanical one often is. Without cell-level gold on these papers they do not
+show which set of judgements is the more reliable.
 
 \begin{table}[t]
   \centering\small
@@ -276,7 +284,7 @@ model call (\S\ref{sec:realpapers}).
 \begin{sloppypar}\noindent Schema:
 \texttt{\{risk, evidence\_status, rationale, cited\_evidence\}}.\end{sloppypar}
 
-\promptlabel{Single-pass ablation (system and user).}
+\promptlabel{Single-pass ablation, synthetic benchmarks (system and user).}
 \begin{promptbox}
 You audit the causal-identification credibility of a difference-in-differences
 (DID) study. You do NOT judge whether the estimated effect is true. For EACH of
@@ -295,10 +303,37 @@ Judge the adequacy of the reported evidence for EVERY dimension.
 \end{promptbox}
 \begin{sloppypar}\noindent Schema: a \texttt{judgements} array of
 \texttt{\{dimension, risk, evidence\_status, rationale\}}, with
-\texttt{dimension} restricted to the eleven rubric ids.\end{sloppypar}
+\texttt{dimension} restricted to the eleven rubric ids and \texttt{risk} to
+\texttt{low | medium | high}; this arm cannot answer \texttt{unknown}. It
+produced the single-pass rows of Tables~\ref{tab:results}
+and~\ref{tab:matrix}.\end{sloppypar}
+
+\promptlabel{Single-pass variant, real-paper run (system, abridged to the risk block).}
+\begin{promptbox}
+For each dimension output one risk level:\\
+\hspace*{1em}low : adequate, credible evidence is reported.\\
+\hspace*{1em}medium : evidence is partial, indirect, or weak.\\
+\hspace*{1em}high : the required evidence is absent, or present but flawed.\\
+\hspace*{1em}unknown : the text gives no basis to judge either way (use sparingly).\\[5pt]
+Also output evidence\_status in \{sufficient, partial, missing, flawed\}
+(roughly sufficient->low, partial->medium, missing/flawed->high). Be
+conservative: absent, thin, or flawed evidence is not 'supported'.
+\end{promptbox}
+\begin{sloppypar}\noindent The real-paper contrast of
+Appendix~\ref{app:matrix} used this second implementation
+(\texttt{single\_pass\_assessor.py}). Its preamble restates the adequacy
+standard of the judge prompt above with three worked contrasts, it receives the
+whole paper (title, abstract, sections, captions) with the rubric, and it
+returns free JSON keyed by dimension id in which a missing or malformed cell is
+coerced to \texttt{unknown}. The one \texttt{unknown} it produced was written by
+the model.\end{sloppypar}
 
 \section{Reproducibility Details}
 \label{app:repro}
+\begin{sloppypar}\noindent Code, configuration, prompts, committed run files, and the
+frozen pilot inputs are available at
+\url{https://github.com/yonghongzhang-io/ARGUS}.\end{sloppypar}
+
 
 All gpt-4o stages use temperature~$0$ with \texttt{max\_steps}{=}1; newer
 reasoning models (Claude Opus~4.8) reject an explicit temperature and run at
@@ -330,10 +365,21 @@ the human-gold agreement metrics. At $n{=}11$ the keyword-versus-two-stage gap
 is significant by Fisher's exact test ($p{=}0.03$) but only marginal as a
 paired test on the same flaws (7 vs 1 discordant, $p{=}0.07$); at $n{=}33$ no
 pairwise difference between the single-pass, per-dimension, two-stage, and
-oracle arms reaches significance. The calibration lift in exact agreement
-($0.12\to0.45$) has non-overlapping intervals; the weighted-$\kappa$ lift does
-not. All values are computed from the committed run files by the script
-\texttt{uncertainty.py} in \texttt{experiments/ablations/}.
+oracle arms reaches significance. For the calibration lift the comparison is paired, so overlap of the
+intervals in Table~\ref{tab:ci_gold} is not the test. On the 33 answered cells
+the weak-retrieval rule alone turns eight wrong cells exact and none the other
+way (exact McNemar $p{=}0.008$); all four rules turn eleven ($p{=}0.001$). Those
+tests treat cells as independent, yet the cells are nested in five papers. By
+paper, the single rule improves exact agreement in four papers and ties in one
+(sign test with the tie dropped, $p{=}0.125$); four rules improve all five
+($p{=}0.0625$, the smallest value five papers allow). Neither analysis removes
+the bias of deriving the rules on the pilot they are scored on. We therefore
+claim a consistent in-sample direction, not a demonstrated out-of-sample gain.
+Tables~\ref{tab:ci} and~\ref{tab:ci_gold} are computed from committed files by
+\texttt{uncertainty.py} and \texttt{calibration\_recheck.py} in
+\texttt{experiments/ablations/}; the pilot cells and adjudicated labels they
+read are frozen with checksums in
+\texttt{experiments/annotation/pilot\_frozen/}.
 
 \begin{table}[t]
   \centering\small
@@ -381,7 +427,10 @@ not. All values are computed from the committed run files by the script
 \begin{table}[t]
   \centering\small
   \caption{Cell-bootstrap 95\% intervals for agreement with the adjudicated
-  gold (answered cells only; quadratic-weighted $\kappa$).}
+  gold (answered cells only; quadratic-weighted $\kappa$; 5,000 resamples).
+  Rule~1 is the weak-retrieval rule; rules~1--4 add the three single-cell rules
+  of Appendix~\ref{app:supp}. Resampling cells ignores their nesting in five
+  papers, so the intervals are too narrow.}
   \label{tab:ci_gold}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
@@ -390,8 +439,10 @@ not. All values are computed from the committed run files by the script
     policy & $n$ & exact agreement & weighted $\kappa$ \\
     \midrule
     before & 33 & 0.12 (0.03--0.24) & 0.06 ($-0.02$--0.16) \\
-    demote$\to$med & 33 & 0.45 (0.30--0.61) & 0.13 ($-0.07$--0.37) \\
-    abstain$\to$unk & 13 & 0.54 (0.31--0.77) & 0.25 ($-0.17$--0.70) \\
+    rule 1, demote$\to$med & 33 & 0.36 (0.21--0.55) & 0.21 (0.02--0.39) \\
+    rule 1, abstain$\to$unk & 13 & 0.31 (0.08--0.54) & 0.32 (0.04--0.58) \\
+    rules 1--4, demote$\to$med & 33 & 0.45 (0.30--0.61) & 0.13 ($-0.07$--0.37) \\
+    rules 1--4, abstain$\to$unk & 13 & 0.54 (0.31--0.77) & 0.25 ($-0.17$--0.70) \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -541,7 +592,28 @@ low/medium boundary was anchored, and 11 were flagged intrinsically ambiguous.
 In the leave-one-paper-out check (\S\ref{sec:calib}), the demotion rule's
 trigger conditions recur in all five folds: among each fold's over-severe
 \emph{high} cells, $72$--$81\%$ have weak retrieval and $100\%$ have missing
-evidence.
+evidence. The folds test whether the error pattern recurs; no rule was refitted
+on four papers and scored on the fifth.
+
+\paragraph{The calibration rules.}
+The layer acts on \emph{high} cells only and never raises a risk; the first
+matching rule applies. Rule~1 (20 cells): \texttt{retrieval\_quality=weak}
+$\to$ \emph{medium}, or $\to$ \texttt{unknown} under the abstain policy. Three
+further rules each fire on one cell and demote to \emph{medium}: rule~2, the
+dimension is staggered timing and the rationale names a modern estimator
+(Callaway, Sun--Abraham, Goodman-Bacon); rule~3, the dimension is inference,
+\texttt{evidence\_status=missing}, and the rationale mentions ``cluster'' or
+``robust standard errors''; rule~4, the dimension is concurrent policies and
+\texttt{retrieval\_quality=good}. Rules~2--4 are string and field tests written
+minutes after the over-severity analysis of this pilot, and all three cells they
+touch land on the gold label. They are not principled: a paper's age does not
+remove a staggered-timing bias, a rationale that mentions clustering may be
+reporting its absence, and rule~4 has no content condition at all (locating
+relevant evidence is not the evidence supporting the assumption). We record them
+because they produced the originally reported $0.45$, and we treat only rule~1
+as a result. The script is released as recovered
+(\texttt{calibrate\_argus\_v1\_pilot.py}); re-running it reproduces the
+historical outputs on all 55 cells.
 
 This appendix collects supporting material referenced from the main text:
 the per-dimension risk distribution on the 26-paper real corpus
@@ -593,25 +665,30 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
 
 \begin{table}[t]
   \centering\small
-  \caption{Deterministic calibration vs the human gold (55 cells), two policies
-  for weak-retrieval \emph{high}: demote to \emph{medium} (keep coverage) or
-  abstain to \texttt{unknown}. Both cut over-severity and preserve high recall.
-  Pilot scale: only 2 gold cells are \emph{high}. The before column is the rich
-  re-run of \S\ref{sec:calib}, which differs from the corpus run of
-  Table~\ref{tab:vsgold} in one cell; bootstrap intervals in
-  Table~\ref{tab:ci_gold}.}
+  \caption{Deterministic calibration vs the human gold (55 cells), in-sample.
+  Two policies for a weak-retrieval \emph{high}: demote to \emph{medium} (med,
+  keep coverage) or abstain to \texttt{unknown} (unk). Rule~1 alone is the
+  result we claim; rules~1--4 add three single-cell exploratory rules
+  (Appendix~\ref{app:supp}). Under abstention rule~1 fixes no cell: its higher
+  agreement comes from dropping 20 answers. Pilot scale: only 2 gold cells are
+  \emph{high}. The before column is the rich re-run of \S\ref{sec:calib}, which
+  differs from the corpus run of Table~\ref{tab:vsgold} in one cell; intervals
+  in Table~\ref{tab:ci_gold}.}
   \label{tab:calib}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
-  \begin{tabular}{lccc}
+  \begin{tabular}{lccccc}
     \toprule
-    metric & before & demote$\to$med & abstain$\to$unk \\
+     & & \multicolumn{2}{c}{rule 1} & \multicolumn{2}{c}{rules 1--4} \\
+    \cmidrule(lr){3-4}\cmidrule(lr){5-6}
+    metric & before & med & unk & med & unk \\
     \midrule
-    over-severe (answ.)     & 29 & 18 & 6 \\
-    high prec.\ / rec.      & 0.04 / 0.50 & 0.50 / 0.50 & 0.50 / 0.50 \\
-    exact agr.\ (answ.)     & 0.12 & 0.45 & 0.54 \\
-    wt.\ $\kappa$ (answ.)   & 0.06 & 0.13 & 0.25 \\
-    answered / \texttt{unk} & 33 / 22 & 33 / 22 & 13 / 42 \\
+    over-severe (answ.)     & 29 & 21 & 9 & 18 & 6 \\
+    high precision          & 1/25 & 1/5 & 1/5 & 1/2 & 1/2 \\
+    high recall             & 1/2 & 1/2 & 1/2 & 1/2 & 1/2 \\
+    exact agr.\ (answ.)     & 0.12 & 0.36 & 0.31 & 0.45 & 0.54 \\
+    wt.\ $\kappa$ (answ.)   & 0.06 & 0.21 & 0.32 & 0.13 & 0.25 \\
+    answered / \texttt{unk} & 33/22 & 33/22 & 13/42 & 33/22 & 13/42 \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -620,11 +697,13 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
   \centering
   \includegraphics[width=\columnwidth]{figures/calibration_tradeoff}
   \caption{\textbf{Calibration trade-off: severity reduction versus coverage}
-  against the adjudicated human gold. Demoting weak-retrieval \emph{high}s to
-  \emph{medium} preserves coverage (33 answered) while cutting over-severe
-  judgments from 29 to 18; abstaining gives the strongest correction
-  (over-severe 6, weighted $\kappa$ $0.25$) but leaves only 13 answered cells.
-  Calibration corrects severity bias; the remaining bottleneck is evidence
-  grounding, not severity thresholding alone.}
+  against the adjudicated human gold, for the weak-retrieval rule alone
+  (in-sample; Table~\ref{tab:calib} adds the exploratory four-rule set).
+  Demoting weak-retrieval \emph{high}s to \emph{medium} preserves coverage (33
+  answered) while cutting over-severe judgments from 29 to 21; abstaining leaves
+  fewer over-severe cells (9) and a higher weighted $\kappa$ ($0.32$) only by
+  discarding 20 answers, and fixes none of them. Calibration reduces severity
+  bias; the remaining bottleneck is evidence grounding, not severity
+  thresholding alone.}
   \label{fig:calib_tradeoff}
 \end{figure}
