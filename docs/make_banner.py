@@ -19,7 +19,10 @@ EXCLUDE = {"paper_164"}
 DIMS = ["parallel_trends", "no_anticipation", "treatment_timing", "treatment_definition_sutva",
         "control_group", "specification", "inference", "sample_period", "concurrent_policies",
         "robustness_placebo", "data_measurement"]
-RISK = {"low": "#5C9070", "medium": "#CF9B3C", "high": "#BE5A4C", "unknown": "#9BA1A9"}
+# Validated for colour-vision deficiency per surface (same hues, separate steps for dark):
+# light dE 11.2 protan / 19.5 normal; dark dE 7.9 deutan / 15.9 normal, backed by the labelled legend.
+RISK_BY_THEME = {"light": {"low": "#1E9E7A", "medium": "#E09A1F", "high": "#CB4B3C", "unknown": "#B4B9C0"},
+                 "dark": {"low": "#1E9E7A", "medium": "#AE8B0E", "high": "#D2404A", "unknown": "#8B949E"}}
 THEMES = {
     "light": {"bg": "#F6F8FA", "frame": "#D9DEE5", "ink": "#1F2328", "muted": "#59636E",
               "accent": "#3E6598", "unknown_opacity": "0.55"},
@@ -39,6 +42,7 @@ def load() -> tuple[list[str], dict[tuple[str, str], str]]:
 
 def render(theme: str) -> str:
     t = THEMES[theme]
+    RISK = RISK_BY_THEME[theme]
     papers, risk = load()
     grid_w = len(papers) * (CELL + GAP) - GAP
     grid_h = len(DIMS) * (CELL + GAP) - GAP
