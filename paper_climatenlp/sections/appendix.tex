@@ -696,29 +696,28 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   \end{tabular}
 \end{table}
 
-\begin{figure}[t]
+\begin{figure*}[t]
   \centering
-  \includegraphics[width=\columnwidth]{figures/figure_vsgold}
-  \caption{\sys{}-LLM versus adjudicated human gold on 55 dimension-level cells
-  (5 papers). \textbf{(a)}~coverage, separating answered judgments from
-  abstentions; \textbf{(b)}~severity distributions of human gold and \sys{};
-  \textbf{(c)}~error direction among the 33 answered cells; \textbf{(d)}~the
-  \sys{}-by-gold confusion matrix. The dominant signal is one-directional
-  over-severity: \sys{} assigns higher risk than gold in 28/33 answered cases and
-  lower risk in none.}
+  \includegraphics[width=0.94\textwidth]{figures/figure_vsgold}
+  \caption{\sys{}-LLM versus the adjudicated expert gold on the 55 pilot cells
+  (frozen protocol). \textbf{(a)}~Every cell, five papers by eleven dimensions,
+  coloured by outcome: \sys{} abstains on 22 and, of the 33 it answers, is more
+  severe than the gold on 28, matches it on 5, and is less severe on none.
+  \textbf{(b)}~Distribution of risk labels in the gold and in \sys{}'s output.
+  \textbf{(c)}~\sys{}-by-gold confusion matrix (counts).}
   \label{fig:vsgold}
-\end{figure}
+\end{figure*}
 
-\begin{figure}[t]
+\begin{figure*}[t]
   \centering
-  \includegraphics[width=\columnwidth]{figures/figure_realcorpus}
+  \includegraphics[width=0.94\textwidth]{figures/figure_realcorpus}
   \caption{Per-dimension risk distribution on the 26 papers tagged DID in the
   source corpus. The keyword
   baseline (left) is almost entirely \emph{low}; the
   two-stage LLM (right) is differentiated, with a large \texttt{unknown} share
   that marks retrieval failure rather than over-flagging.}
   \label{fig:realcorpus}
-\end{figure}
+\end{figure*}
 
 \begin{table}[t]
   \centering\small
@@ -755,7 +754,8 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   \includegraphics[width=\columnwidth]{figures/calibration_tradeoff}
   \caption{\textbf{Calibration trade-off: severity reduction versus coverage}
   against the adjudicated human gold, for the weak-retrieval rule alone
-  (in-sample; Table~\ref{tab:calib} adds the exploratory four-rule set).
+  (in-sample; med and unk are the two policies of Table~\ref{tab:calib}, which
+  also gives the exploratory four-rule set).
   Demoting weak-retrieval \emph{high}s to \emph{medium} preserves coverage (33
   answered) while cutting over-severe judgments from 29 to 21; abstaining leaves
   fewer over-severe cells (9) and a higher weighted $\kappa$ ($0.32$) only by

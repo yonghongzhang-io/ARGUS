@@ -12,6 +12,16 @@
   <a href="LICENSE-DATA.md"><img alt="Data license: CC BY 4.0" src="https://img.shields.io/badge/data-CC%20BY%204.0-CF9B3C"></a>
 </p>
 
+<p align="center">
+  <a href="paper_climatenlp/submissions/ClimateNLP2026_camera_ready.pdf"><b>Paper</b></a> ·
+  <a href="#headline-results">Results</a> ·
+  <a href="#pipelines">Pipelines</a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#how-to-read-the-per-paper-judgements">Reading the labels</a> ·
+  <a href="#quickstart">Quickstart</a> ·
+  <a href="#citation">Citation</a>
+</p>
+
 # ARGUS
 
 **Evidence-grounded auditing of identification assumptions in climate-policy causal evaluations.**
@@ -42,6 +52,11 @@ true causal effect.
 ---
 
 ## Headline results
+
+<p align="center">
+  <img src="docs/figure_phase1.png" width="78%"
+       alt="Left: detection, localization and false-alarm rates for the keyword pipeline (0.18, 0.18, 0.00) and the LLM pipeline (0.73, 0.73, 0.00) on 11 planted flaws. Right: per-flaw outcome; the keyword pipeline misses every commission flaw, the LLM pipeline's three misses are omissions on which it abstains.">
+</p>
 
 **Flaw injection, 11 clear flaws** (gpt-4o; every row is an end-to-end pipeline with its own
 evidence path: the keyword baseline scores paragraph chunks, the two-stage pipeline re-retrieves
@@ -75,6 +90,11 @@ detection 0.75, false alarm 0.09, localization 0.66; commission 0.89 vs omission
 **Cross-model panel** (unchanged pipeline, `config/models.yaml`): commission detection is
 high everywhere (gpt-4o 0.89, Claude Opus 4.8 1.00, Gemini 2.5 Flash 0.91, local
 Llama 3.1 8B 0.95); the precision profile is model-dependent.
+
+<p align="center">
+  <img src="docs/figure_realcorpus.png" width="92%"
+       alt="Per-dimension risk distribution over 26 papers. The keyword pipeline rates almost everything low; the two-stage LLM pipeline mixes high, medium and low with a large unknown share that marks retrieval failure.">
+</p>
 
 **Real papers (26 papers tagged DID in the CausalVerify corpus; see
 `experiments/real_papers/corpus_manifest.csv` for venues and the tag's known mismatches):** the bottleneck relocates from causal
