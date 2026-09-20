@@ -625,21 +625,26 @@ parallel-trends cells, the oracle-stage annotator recorded that the dimension
 does not apply because the study is not a treated--control DID design. The
 annotation guideline anticipates such cells: annotators flag them ambiguous and
 judge the design-specific analogue, defaulting to \emph{medium}, ``not
-\emph{high}''. The adjudicated gold, fixed earlier, follows that rule on one
-cell (\emph{medium}) and departs from it on the other (\emph{high}), which is
-one of the pilot's two \emph{high} cells and is the label that needs
-re-adjudication. We have not re-adjudicated, and we overwrite neither
-judgement. Both cells are pipeline abstentions, so
+\emph{high}''. The adjudicated gold, fixed earlier, gives one cell the default
+(\emph{medium}) and the other \emph{high}; the rule permits \emph{high} only
+if the design-specific analogue is itself weakly supported, and the recorded
+rationales do not settle whether it is. That cell is one of the pilot's two
+\emph{high} cells. The two passes may also have answered different questions
+(whether the dimension applies, versus how risky its analogue is), so both
+cells need their basis confirmed. We have not re-adjudicated, and we overwrite
+neither judgement. Both cells are pipeline abstentions, so
 20 abstentions are retrieval failures and the status of the other two depends
 on which annotation is right. Every figure in the main text uses the frozen
 55-cell gold. Dropping the two cells instead (53 cells) leaves the answered
 cells untouched (28 of 33 over-severe, 5 exact) and changes the rest as
 follows: gold low/medium/high $29/24/2 \to 29/23/1$; coverage
-$33/55 \to 33/53$; high recall $1/2 \to 1/1$, which with a single applicable
-\emph{high} cell is not a performance estimate; oracle-arm exact agreement
+$33/55 \to 33/53$; high recall $1/2 \to 1/1$, a change in the gold's denominator and not in what
+the system detects; oracle-arm exact agreement
 $4/55 \to 3/53$ and over-severe $50/55 \to 49/53$
 (\path{oracle_evidence_audit.py}, which also writes a 55-row audit table of the
-spans without article text). A located passage is
+spans without article text). This is a two-cell sensitivity analysis. An
+applicability criterion applied cell by cell to the whole pilot could also
+change which cells count as answered, and we have not run one. A located passage is
 \emph{relevant} evidence, which is weaker than evidence that \emph{supports}
 the assumption, and we did not ask the expert to grade that. Feeding these
 passages to the adequacy judge leaves 50 of 55 judgements more severe than the
