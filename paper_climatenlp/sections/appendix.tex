@@ -69,9 +69,9 @@ flaws as future work.
     bad control & specification & \cite{angristpischke2009} \\
     understated SE & inference & \cite{bertrand2004trust} \\
     cherry-picked window & sample period & \cite{simmons2011,brodeur2020methods} \\
-    confounding policy & concurrent policies & \cite{angristpischke2010,atheyimbens2017} \\
+    confounding policy & concurrent policies & \cite{meyer1995} \\
     missing placebo & placebo / robustness & \cite{bertrand2004trust,atheyimbens2017} \\
-    measurement break & data measurement & \cite{atheyimbens2017,angristpischke2010} \\
+    measurement break & data measurement & \cite{meyer1995} \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -716,7 +716,7 @@ Table~\ref{tab:results} compares pipelines that differ in the judgement policy
 \emph{and} in the evidence they retrieve. This control holds the evidence fixed.
 Its design, thresholds, and decision rule were committed to the repository before
 any model call (\path{SHARED_EVIDENCE_PROTOCOL.md}). Two evidence bundles are
-frozen to disk, with a checksum, for every paper and dimension: K, the keyword
+frozen to disk for every paper and dimension: K, the keyword
 pipeline's stage-2 chunks, and S, the LLM path's four section candidates with
 the relevance gate switched off. Each bundle is read by both policies, the
 keyword scorer and the adequacy judge (gpt-4o-2024-11-20, temperature~$0$,
@@ -775,9 +775,7 @@ here and in Tables~\ref{tab:results} and~\ref{tab:variants} rest on one clean
 audit of eleven dimensions, not on 11 or 33 independent trials. The ungated
 S-llm cell detects more than the gated pipeline (omission variants 11/11 vs
 5/11), the trade \S\ref{sec:variants} describes: shown four sections of a short
-fixture, the judge notices the deleted one, where the gate abstains. Both LLM
-cells miss the same two commission variants. The reference row was run on the
-gpt-4o alias, so comparisons with it are indicative, and the caveats of the
-Limitations section apply: fixtures, sentinel lists, and injector are
-co-designed, and $n$ is small.
+fixture, the judge notices the deleted one, where the gate abstains. The
+reference row was run on the gpt-4o alias, so that comparison is indicative;
+fixtures, sentinel lists, and injector are co-designed, and $n$ is small.
 
