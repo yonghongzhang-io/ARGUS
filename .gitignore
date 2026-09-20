@@ -25,3 +25,6 @@ paper/.Rproj.user/
 experiments/variants/variant_results.json
 annotation/oracle/evidence_spans_completed.csv
 .Rhistory
+
+# raw API-call checkpoints (resumable runs)
+results/*.jsonl
