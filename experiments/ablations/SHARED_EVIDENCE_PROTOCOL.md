@@ -1,6 +1,6 @@
 # Shared-evidence control: protocol (written before any run)
 
-Status: **not run.** This file fixes the comparison before results exist. Any deviation
+Status: **zero-call cells run and committed; LLM cells not yet run.** This file fixes the comparison before results exist. Any deviation
 after the first model call is logged at the bottom, with the reason.
 
 ## Question
@@ -94,4 +94,15 @@ committed before any model call, so the baseline cannot drift toward the LLM res
 
 ## Deviations
 
-(none; not yet run)
+Logged before any model call:
+
+1. *Storage format.* The frozen bundles are written gzip-compressed
+   (`shared_evidence_bundles.json.gz`), holding only the two fields either policy reads
+   (`source`, `text`) plus a sha256 per bundle.
+2. *Item count.* The 11 flaws and the 33 variants are injected into the same clean fixture, so
+   there is one clean paper, not two: 45 papers x 11 dimensions = 495 adequacy calls per LLM
+   cell, about 990 in total.
+3. *Clean tree.* `src/`, `config/`, `examples/` and `experiments/` are clean at the recorded
+   commit; the working tree also holds unrelated, uncommitted manuscript edits under `paper/`.
+4. *Harness check (not a deviation).* K-kw reproduces the published keyword baseline exactly
+   (2/11 detected, the same two omission flaws; 0 false alarms; localization 2/11).
