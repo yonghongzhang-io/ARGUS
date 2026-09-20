@@ -504,7 +504,7 @@ environment-and-energy subset's risk distribution (high $0.34$,
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lc}
     \toprule
-    journal & papers \\
+    venue / version & papers \\
     \midrule
     American Economic Review & 4 \\
     Quarterly Journal of Economics & 3 \\
@@ -621,10 +621,22 @@ on four papers and scored on the fifth.
 An expert read each of the five pilot papers and recorded up to two passages
 per cell (48 cells have two), about 120 characters each. For 53 of the 55
 cells the expert found a relevant passage. For the other two, both
-parallel-trends cells, the expert recorded that the dimension does not apply
-because the study is not a treated--control DID design; both are among the 22
-pipeline abstentions, so on those two cells abstaining was the appropriate
-outcome and only 20 abstentions are retrieval failures. A located passage is
+parallel-trends cells, the oracle-stage annotator recorded that the dimension
+does not apply because the study is not a treated--control DID design. This
+conflicts with the adjudicated gold, fixed earlier, which rates the same cells
+\emph{high} and \emph{medium} (both flagged ambiguous at adjudication); one of
+them is one of the pilot's two \emph{high} cells. We have not re-adjudicated,
+and we overwrite neither judgement. Both cells are pipeline abstentions, so
+20 abstentions are retrieval failures and the status of the other two depends
+on which annotation is right. Every figure in the main text uses the frozen
+55-cell gold. Dropping the two cells instead (53 cells) leaves the answered
+cells untouched (28 of 33 over-severe, 5 exact) and changes the rest as
+follows: gold low/medium/high $29/24/2 \to 29/23/1$; coverage
+$33/55 \to 33/53$; high recall $1/2 \to 1/1$, which with a single applicable
+\emph{high} cell is not a performance estimate; oracle-arm exact agreement
+$4/55 \to 3/53$ and over-severe $50/55 \to 49/53$
+(\path{oracle_evidence_audit.py}, which also writes a 55-row audit table of the
+spans without article text). A located passage is
 \emph{relevant} evidence, which is weaker than evidence that \emph{supports}
 the assumption, and we did not ask the expert to grade that. Feeding these
 passages to the adequacy judge leaves 50 of 55 judgements more severe than the
@@ -692,7 +704,8 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
 \begin{figure}[t]
   \centering
   \includegraphics[width=\columnwidth]{figures/figure_realcorpus}
-  \caption{Per-dimension risk distribution on 26 real DID papers. The keyword
+  \caption{Per-dimension risk distribution on the 26 papers tagged DID in the
+  source corpus. The keyword
   baseline (left) is almost entirely \emph{low}; the
   two-stage LLM (right) is differentiated, with a large \texttt{unknown} share
   that marks retrieval failure rather than over-flagging.}

@@ -1,0 +1,104 @@
+{
+ "counts": {
+  "cells": 55,
+  "cells_with_relevant_passage": 53,
+  "cells_marked_not_applicable": 2,
+  "pipeline_unknowns_total": 22,
+  "pipeline_unknowns_with_relevant_passage": 20,
+  "pipeline_unknowns_not_applicable": 2
+ },
+ "not_applicable_cells": [
+  {
+   "paper_id": "paper_01",
+   "dimension": "parallel_trends",
+   "adjudicated_gold": "high",
+   "pipeline": "unknown",
+   "oracle_arm": "high"
+  },
+  {
+   "paper_id": "paper_08",
+   "dimension": "parallel_trends",
+   "adjudicated_gold": "medium",
+   "pipeline": "unknown",
+   "oracle_arm": "high"
+  }
+ ],
+ "frozen_55_cell_protocol": {
+  "n_cells": 55,
+  "gold_low_medium_high": [
+   29,
+   24,
+   2
+  ],
+  "pipeline": {
+   "answered": 33,
+   "unknown": 22,
+   "coverage": 0.6,
+   "exact_of_answered": [
+    5,
+    33
+   ],
+   "over_severe_of_answered": [
+    28,
+    33
+   ],
+   "strict_exact": [
+    5,
+    55
+   ],
+   "high_recall": [
+    1,
+    2
+   ]
+  },
+  "oracle_arm": {
+   "exact": [
+    4,
+    55
+   ],
+   "over_severe": [
+    50,
+    55
+   ]
+  }
+ },
+ "sensitivity_53_cells": {
+  "n_cells": 53,
+  "gold_low_medium_high": [
+   29,
+   23,
+   1
+  ],
+  "pipeline": {
+   "answered": 33,
+   "unknown": 20,
+   "coverage": 0.623,
+   "exact_of_answered": [
+    5,
+    33
+   ],
+   "over_severe_of_answered": [
+    28,
+    33
+   ],
+   "strict_exact": [
+    5,
+    53
+   ],
+   "high_recall": [
+    1,
+    1
+   ]
+  },
+  "oracle_arm": {
+   "exact": [
+    3,
+    53
+   ],
+   "over_severe": [
+    49,
+    53
+   ]
+  }
+ }
+}

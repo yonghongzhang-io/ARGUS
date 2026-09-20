@@ -28,12 +28,13 @@ flaw injection certifies the auditor against the \emph{injected} threat on a
 single dimension only and inherits the taxonomy's blind spots, so we treat
 detection and localization as necessary rather than sufficient, pairing them with
 the false-alarm rate and the human-gold comparison. Evidence
-grounding is the dominant practical constraint on coverage (the oracle-evidence
-check in \S\ref{sec:calib} shows severity calibration separately limits
-agreement, though its expert spans average only ${\sim}120$ characters, so part
-of the residual over-severity reflects judging brief excerpts): when retrieval returns
-off-target passages the assessor cannot judge adequacy, which is why \sys{} emits an
-explicit \texttt{unknown} state rather than a substantive verdict. Finally, \sys{}
+grounding limits coverage. Providing expert-selected snippets did not restore
+agreement, but that check cannot separate the judge's severity mapping from the
+loss of context in excerpts of ${\sim}120$ characters, and two of its cells
+carry an applicability judgement that conflicts with the adjudicated gold
+(Appendix~\ref{app:supp}). \sys{} emits \texttt{unknown} only when the relevance
+gate finds no suitable passage; partial matches still reach the judge and can
+produce over-severe verdicts. Finally, \sys{}
 screens whether reported evidence supports a
 study's identification assumptions and does not adjudicate the true causal effect,
 which is never observed. Its outputs surface risk for expert review and do

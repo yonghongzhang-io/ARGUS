@@ -108,13 +108,14 @@ def main() -> None:
     fig.patch.set_facecolor("white")
     panel(axes[0], kw, dims, f"keyword baseline (n={n_kw})")
     panel(axes[1], llm, dims, f"two-stage LLM (n={n_llm})")
-    fig.suptitle("Per-dimension risk distribution on real DID papers",
+    fig.suptitle("Per-dimension risk distribution on papers tagged DID in the source corpus",
                  fontsize=16.0, fontweight="bold", y=0.99)
     fig.legend(handles=[Patch(facecolor=COLORS[b], label=b) for b in BUCKETS],
                loc="lower center", ncol=4, fontsize=12.6, frameon=False, bbox_to_anchor=(0.5, -0.02))
     fig.tight_layout(rect=[0, 0.04, 1, 0.96])
 
-    for out_dir in OUT_DIRS:
+    # Pass output directories as arguments to write only there (e.g. the camera-ready copy).
+    for out_dir in ([ROOT / a for a in sys.argv[1:]] or OUT_DIRS):
         out_dir.mkdir(parents=True, exist_ok=True)
         for ext in ("pdf", "png"):
             fig.savefig(out_dir / f"figure_realcorpus.{ext}", dpi=200, bbox_inches="tight", facecolor="white")
