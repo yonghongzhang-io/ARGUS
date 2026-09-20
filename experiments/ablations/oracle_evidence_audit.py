@@ -31,6 +31,7 @@ AUDIT_CSV = ROOT / "annotation" / "oracle" / "evidence_spans_audit.csv"
 ORACLE = ROOT / "experiments" / "ablations" / "oracle_evidence.json"
 GOLD = ROOT / "experiments" / "annotation" / "pilot_frozen" / "gold_labels.csv"
 OUT = ROOT / "experiments" / "ablations" / "oracle_evidence_audit.json"
+READJ = ROOT / "experiments" / "annotation" / "readjudication.csv"
 RANK = {"low": 0, "medium": 1, "high": 2}
 
 
@@ -91,6 +92,23 @@ def main() -> None:
                                     for k in not_applicable],
            "frozen_55_cell_protocol": metrics(list(gold), gold, cells),
            "sensitivity_53_cells": metrics([k for k in gold if k not in not_applicable], gold, cells)}
+    # Optional re-adjudication of disputed cells (experiments/annotation/readjudication.csv).
+    # The frozen gold is never edited; decisions are applied on a copy and reported separately.
+    decisions = [r for r in csv.DictReader(READJ.open(encoding="utf-8")) if r["decision"].strip()] if READJ.exists() else []
+    if decisions:
+        regold, dropped = dict(gold), []
+        for r in decisions:
+            key, d = (r["paper_id"], r["dimension"]), r["decision"].strip().lower()
+            if d == "relabel":
+                regold[key] = r["new_label"].strip().lower()
+            elif d == "exclude":
+                dropped.append(key)
+            elif d != "keep":
+                raise SystemExit(f"unknown decision {d!r} for {key}")
+        out["after_readjudication"] = {"decisions": decisions,
+                                       "metrics": metrics([k for k in regold if k not in dropped], regold, cells)}
+    else:
+        out["after_readjudication"] = "pending: no decision recorded in experiments/annotation/readjudication.csv"
     OUT.write_text(json.dumps(out, indent=1), encoding="utf-8")
 
     # The committed oracle output carried a field that only counted pipeline abstentions while
