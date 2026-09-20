@@ -375,11 +375,12 @@ paper, the single rule improves exact agreement in four papers and ties in one
 ($p{=}0.0625$, the smallest value five papers allow). Neither analysis removes
 the bias of deriving the rules on the pilot they are scored on. We therefore
 claim a consistent in-sample direction, not a demonstrated out-of-sample gain.
-Tables~\ref{tab:ci} and~\ref{tab:ci_gold} are computed from committed files by
-\texttt{uncertainty.py} and \texttt{calibration\_recheck.py} in
-\texttt{experiments/ablations/}; the pilot cells and adjudicated labels they
-read are frozen with checksums in
-\texttt{experiments/annotation/pilot\_frozen/}.
+
+\begin{sloppypar}\noindent Tables~\ref{tab:ci} and~\ref{tab:ci_gold} are
+computed from committed files by \path{uncertainty.py} and
+\path{calibration_recheck.py} in \path{experiments/ablations/}; the pilot cells
+and adjudicated labels they read are frozen with checksums in
+\path{experiments/annotation/pilot_frozen/}.\end{sloppypar}
 
 \begin{table}[t]
   \centering\small

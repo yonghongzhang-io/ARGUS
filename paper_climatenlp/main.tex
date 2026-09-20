@@ -40,26 +40,20 @@ in Climate-Policy Causal Evaluations}
 \maketitle
 
 \begin{abstract}
-Difference-in-differences (DID) designs underpin much of the empirical evidence
-on climate policy, yet their identification assumptions are more often asserted
-than audited. Because the counterfactual is never observed, we ask instead
-whether the evidence a study reports adequately supports each assumption. We
-present \sys{}, which scores a DID study on an eleven-dimension
-assumption--implication--evidence rubric: a language model retrieves and
-adjudicates evidence behind deterministic control flow, and abstains on any
-dimension a relevance gate cannot ground in the text. Under controlled flaw
-injection, an LLM pipeline that judges evidence adequacy detects $0.73$ of planted
-flaws against $0.18$ for a keyword-presence pipeline, with false alarms no higher
-than $0.09$. On published economics
-papers the bottleneck shifts to evidence grounding. The system abstains on
-$40\%$ of dimensions; where it does answer, it is more severe than the experts
-on 28 of 33 pilot cells. One gate explains both. A short fixture leaves nothing
-to retrieve, so the system defers; a full paper always turns up a partial match,
-which it judges rather than defers. A deterministic rule that demotes those
-ungrounded judgements raises exact agreement from $0.12$ to $0.36$ on the pilot
-it was derived from. \sys{} is a screening instrument:
-it localizes weakly evidenced assumptions for expert review rather than
-adjudicating causal claims.
+Difference-in-differences (DID) studies are widely used to evaluate climate
+policy, but assessing the evidence supporting their identification assumptions
+remains challenging. We introduce \sys{}, a structured language-model pipeline
+that audits reported evidence against an eleven-dimension
+assumption--implication--evidence rubric and abstains when relevant evidence
+cannot be retrieved. We evaluate \sys{} using injected flaws, published
+economics papers, and a small expert-annotated pilot. On the 11-flaw benchmark,
+\sys{} detects $73\%$ of planted flaws, compared with $18\%$ for a keyword-based
+pipeline. On real papers, \sys{} abstains on about $40\%$ of dimensions for lack
+of retrievable evidence and, where it answers, is more severe than the experts
+on 28 of 33 labels. A simple post-hoc calibration rule reduces over-severity on
+the same pilot used to develop it. \sys{} provides evidence-linked risk reports
+that localize potential weaknesses for expert review, without adjudicating
+causal claims.
 \end{abstract}
 
 \input{sections/introduction}
