@@ -76,7 +76,8 @@ detection 0.75, false alarm 0.09, localization 0.66; commission 0.89 vs omission
 high everywhere (gpt-4o 0.89, Claude Opus 4.8 1.00, Gemini 2.5 Flash 0.91, local
 Llama 3.1 8B 0.95); the precision profile is model-dependent.
 
-**Real papers (26 top-journal DID studies):** the bottleneck relocates from causal
+**Real papers (26 papers tagged DID in the CausalVerify corpus; see
+`experiments/real_papers/corpus_manifest.csv` for venues and the tag's known mismatches):** the bottleneck relocates from causal
 reasoning to *evidence grounding* — ~40% of judgements abstain to `unknown` where
 retrieval fails. **Human-gold pilot (5 papers × 11 dimensions):** ARGUS is systematically
 over-severe; one deterministic rule (demote a weak-retrieval `high`) raises exact agreement

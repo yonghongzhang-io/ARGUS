@@ -11,7 +11,7 @@ zero-call cells committed in 58c6605 before the paid stage). Per-item verdicts:
 | K-llm | 10/11 | 1/11 | 8/11  | 31/33 | 20/22, 11/11 | 3/33 | 22/33 | 0.152 | SUTVA |
 | S-kw  | 1/11  | 0/11 | 1/11  | 2/33  | 0/22, 2/11   | 0/33 | 2/33  | 0.000 | none |
 | S-llm | 11/11 | 0/11 | 11/11 | 31/33 | 20/22, 11/11 | 0/33 | 22/33 | 0.164 | none |
-| gated two-stage (reference, gpt-4o alias) | 8/11 | 0/11 | 8/11 | 25/33 | 20/22, 5/11 | 3/33 | 0.66 (3-run mean) | n/a | inference |
+| gated two-stage (reference, gpt-4o alias) | 8/11 | 0/11 | 8/11 | 25/33 | 20/22, 5/11 | 3/33 | 0.66 (3-run mean) | n/a | inference in run 1, specification in runs 2-3 |
 
 K = the keyword pipeline's stage-2 chunks; S = the LLM path's four section candidates, ungated.
 No gate in any of the four cells, so none can abstain. Off-target rate on the 11 flaws: 0.109 in
@@ -45,7 +45,7 @@ What this does and does not license:
 - The ungated S-llm cell out-detects the gated pipeline (11/11 vs 8/11; omissions 11/11 vs 5/11).
   That is the trade the paper already describes: on a short fixture a judge shown four sections
   notices the deleted one, where the gate abstains. It also raises no false alarm, whereas the
-  gated pipeline flags inference on the clean fixture: relative to ungated top-4 retrieval the
+  gated pipeline rates one clean dimension medium in every run (inference, then specification): relative to ungated top-4 retrieval the
   gate narrows the evidence and does not reduce alarms here. The reference row used the gpt-4o
   alias, so this comparison is indicative only.
 - Both LLM cells miss the same two commission variants
