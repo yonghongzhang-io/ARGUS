@@ -3,7 +3,7 @@
 #
 # This file was never committed: it was created on 2026-06-06T18:34:34Z and rewritten
 # three minutes later (18:37:38Z) into the two-rule calibrate_argus.py that commit
-# dc97a9f records. It was recovered on 2026-09-19 from the authoring session log
+# 61788ae records. It was recovered on 2026-09-19 from the authoring session log
 # (apply_patch "Add File" record) and is reproduced below BYTE-FOR-BYTE; nothing
 # under this comment block has been edited. sha256 of the recovered body:
 #   e7c21bf3ec75cd5ea9120eb956a21b30ecc6d0de29ce53b959e9bd0996282688

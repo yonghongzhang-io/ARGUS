@@ -2,7 +2,7 @@
 
 Run 2026-09-20, `gpt-4o-2024-11-20`, temperature 0, one run; 990 adequacy calls, 0 errors.
 Protocol and decision rule: `SHARED_EVIDENCE_PROTOCOL.md` (committed before any model call;
-zero-call cells committed in bfd8fac before the paid stage). Per-item verdicts:
+zero-call cells committed in 58c6605 before the paid stage). Per-item verdicts:
 `shared_evidence.json`; frozen evidence with sha256 per bundle: `shared_evidence_bundles.json.gz`.
 
 | cell | det (11) | fa (11) | loc (11) | det (33) | comm / omit (33) | fa (33) | loc (33) | off-target, injected (33) | clean dims flagged |
@@ -51,3 +51,16 @@ What this does and does not license:
 - Both LLM cells miss the same two commission variants
   (`parallel_trends_commission_01`, `robustness_placebo_commission_02`).
 - n = 11 and n = 33; fixtures, sentinel lists and injector are co-designed. Directional evidence.
+
+## Note on recorded commit ids
+
+`shared_evidence.json` stores the commit the code was at when each stage ran
+(`git.head` = `5f6e4ef...`, `git_llm_stage.head` = `bfd8fac...`). Commit messages in this
+repository were later rewritten, which renames commits without changing any file. Those two
+states are now `5d530a0` and `58c6605`; their file trees are unchanged and can be checked
+with `git rev-parse <commit>^{tree}`:
+
+- stage "zero" code state: tree `a6588c60b7706811977dd4be2f3bc9bdcfdfa7e1`
+- stage "llm" code state:  tree `c800a2129cc79b2bc14d7deaf742745a5cb24dd4`
+
+The recorded values are left as written at run time.
