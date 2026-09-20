@@ -708,3 +708,76 @@ and the agreement metrics for \sys{} versus the human gold (Table~\ref{tab:vsgol
   thresholding alone.}
   \label{fig:calib_tradeoff}
 \end{figure}
+
+\section{Shared-Evidence Control}
+\label{app:shared}
+
+Table~\ref{tab:results} compares pipelines that differ in the judgement policy
+\emph{and} in the evidence they retrieve. This control holds the evidence fixed.
+Its design, thresholds, and decision rule were committed to the repository before
+any model call (\path{SHARED_EVIDENCE_PROTOCOL.md}). Two evidence bundles are
+frozen to disk, with a checksum, for every paper and dimension: K, the keyword
+pipeline's stage-2 chunks, and S, the LLM path's four section candidates with
+the relevance gate switched off. Each bundle is read by both policies, the
+keyword scorer and the adequacy judge (gpt-4o-2024-11-20, temperature~$0$,
+prompts of Appendix~\ref{app:prompts} verbatim). No cell is gated, so none can
+abstain. All 45 papers (one clean fixture, 11 flaws, 33 variants) are judged on
+all eleven dimensions: 990 adequacy calls, none failed. Cell K-kw reproduces the
+published keyword baseline exactly.
+
+\begin{table}[t]
+  \centering\small
+  \caption{Shared-evidence control: evidence bundle (K, keyword chunks; S,
+  ungated sections) $\times$ judgement policy (kw, keyword scorer; llm, adequacy
+  judge). det / fa / loc as in Table~\ref{tab:matrix}; off = share of the ten
+  non-target dimensions rated $\geq$ medium on the injected variants. The
+  reference row repeats Tables~\ref{tab:results} and~\ref{tab:variants} (gpt-4o
+  alias; localization is the three-run mean).}
+  \label{tab:shared}
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{lccccccc}
+    \toprule
+     & \multicolumn{3}{c}{11 flaws} & \multicolumn{4}{c}{33 variants} \\
+    \cmidrule(lr){2-4}\cmidrule(lr){5-8}
+    cell & det & fa & loc & det & fa & loc & off \\
+    \midrule
+    K-kw  & 2/11  & 0/11 & 2/11  & 8/33  & 0/33 & 8/33  & 0.00 \\
+    K-llm & 10/11 & 1/11 & 8/11  & 31/33 & 3/33 & 22/33 & 0.15 \\
+    S-kw  & 1/11  & 0/11 & 1/11  & 2/33  & 0/33 & 2/33  & 0.00 \\
+    S-llm & 11/11 & 0/11 & 11/11 & 31/33 & 0/33 & 22/33 & 0.16 \\
+    \midrule
+    \textit{gated two-stage} & 8/11 & 0/11 & 8/11 & 25/33 & 3/33 & 0.66 & -- \\
+    \bottomrule
+  \end{tabular}}
+\end{table}
+
+\paragraph{Result.}
+With the evidence identical, the policy contrast is large under both bundles
+(Table~\ref{tab:shared}): on K, detection rises from 2 to 10 of 11 flaws (eight
+gained, none lost; exact McNemar $p{=}0.008$) and from 8 to 31 of 33 variants
+($p{<}0.001$); on S, from 1 to 11 and from 2 to 31. The evidence contrast at a
+fixed judge is small (10 vs 11 of 11; 31 vs 31 of 33). The pre-specified rule
+asked for a gain of at least $0.30$ on the 11 flaws, the same direction on the
+variants, and false-alarm and clean off-target rates within $0.10$ of the
+keyword scorer's. All three hold, the last narrowly ($0.09$), so the policy
+explanation is supported: on these fixtures the judgement policy, not the
+retrieval path, carries the gap in Table~\ref{tab:results}.
+
+\paragraph{What it costs, and what it does not show.}
+The gain is a trade. The judge rates $11$--$16\%$ of non-target dimensions
+medium or higher on injected papers, where the keyword scorer flags none, and
+localization on the variants is 22/33 in both LLM cells. On the keyword chunks
+the judge also rates one clean dimension (SUTVA) medium. Every false alarm in
+the K-llm row is that single verdict, counted once per flaw that targets the
+dimension: both benchmarks share one clean fixture, so the false-alarm rates
+here and in Tables~\ref{tab:results} and~\ref{tab:variants} rest on one clean
+audit of eleven dimensions, not on 11 or 33 independent trials. The ungated
+S-llm cell detects more than the gated pipeline (omission variants 11/11 vs
+5/11), the trade \S\ref{sec:variants} describes: shown four sections of a short
+fixture, the judge notices the deleted one, where the gate abstains. Both LLM
+cells miss the same two commission variants. The reference row was run on the
+gpt-4o alias, so comparisons with it are indicative, and the caveats of the
+Limitations section apply: fixtures, sentinel lists, and injector are
+co-designed, and $n$ is small.
+

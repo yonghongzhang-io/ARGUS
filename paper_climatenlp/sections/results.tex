@@ -40,7 +40,8 @@ low, medium, or high, so this arm cannot abstain
   \caption{Synthetic flaw injection (\texttt{clean\_supported}, eleven flaws;
   all LLM rows gpt-4o, replicated on the dated 2024-11-20 snapshot; see
   Appendix~\ref{app:repro} on serving drift). Every row is an end-to-end pipeline with its own evidence path (keyword and
-  two-stage do not share retrieved evidence; Appendix~\ref{app:retrieval}); the
+  two-stage do not share retrieved evidence, Appendix~\ref{app:retrieval};
+  Appendix~\ref{app:shared} holds it fixed); the
   ablation arms share the model and rubric but remove retrieval, the gate, or
   both. The final row is the leaked, pre-fix
   circular setup. On the harder 33-variant benchmark the two-stage assessor
@@ -76,9 +77,13 @@ flaw, whose flawed-but-plausible evidence carries the expected topic vocabulary.
 Replacing the keyword pipeline with the two-stage LLM pipeline raises detection
 from $0.182$ to $0.727$ with no false alarms, catching \emph{every} commission
 flaw the keyword scorer is blind to; handing each dimension the full fixture (the
-per-dimension arm) reaches $1.000$. Since retrieval also differs, the gain is
-not attributable to the judgement policy alone; the control that feeds both
-policies identical evidence is not run here. The model reads flawed-but-natural prose the keyword scorer
+per-dimension arm) reaches $1.000$. Since retrieval also differs, a
+pre-specified control holds the evidence fixed (Appendix~\ref{app:shared}).
+Reading the keyword pipeline's own evidence chunks, with no gate, the adequacy
+judge detects 10 of 11 flaws against the keyword scorer's 2 (exact McNemar
+$p{=}0.008$), and 31 against 8 of the 33 variants. The gain is a trade: the
+judge rates one clean dimension medium and $11$--$16\%$ of non-target
+dimensions on injected papers, where the keyword scorer flags none. The model reads flawed-but-natural prose the keyword scorer
 cannot; the audit report in Appendix~\ref{app:qual} shows it flagging the
 injected anticipation flaw with the announcement-gap rationale, with no sentinel
 keyword present.
@@ -107,7 +112,7 @@ subtler flaws (\S\ref{sec:variants}), then real papers (\S\ref{sec:realpapers}).
   \caption{Keyword baseline vs.\ LLM evidence-adequacy assessor ($n{=}11$ flaws,
   realistic injection). \textbf{(a)}~End to end, the LLM pipeline raises detection and
   localization $0.182\,{\to}\,0.727$ with false alarm $0$ (the two pipelines
-  retrieve evidence differently, so the gap is not the judgement policy alone). \textbf{(b)}~Per-flaw
+  retrieve evidence differently; Appendix~\ref{app:shared} holds it fixed). \textbf{(b)}~Per-flaw
   caught/missed: the keyword baseline is \emph{blind to every commission-type
   flaw}, all of which the LLM catches; the LLM's three misses are omissions on
   which it abstains. Table~\ref{tab:variants} reports the harder 33-variant
