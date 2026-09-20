@@ -24,6 +24,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "experiments" / "annotation"))
 os.environ.setdefault("MPLCONFIGDIR", str(Path(tempfile.gettempdir()) / "argus_mplconfig"))
 
 import matplotlib  # noqa: E402
@@ -35,6 +36,7 @@ from matplotlib.patches import Patch, PathPatch  # noqa: E402
 from matplotlib.path import Path as MPath  # noqa: E402
 
 from argus.config import load_flaws  # noqa: E402
+from goldpath import gold_path  # noqa: E402  final gold once locked, else the frozen June gold
 from argus.evaluation.injection import _INJECTIONS  # noqa: E402
 from argus.evaluation.runner import evaluate_flaws  # noqa: E402
 
@@ -140,18 +142,19 @@ def fig_phase1(out: Path) -> None:
 
 # ---------------------------------------------------------------- Figure 4
 def fig_vsgold(out: Path) -> None:
-    frozen = ROOT / "experiments/annotation/pilot_frozen"
-    gold = {(r["paper_id"], r["dimension"]): r["gold_risk"] for r in csv.DictReader((frozen / "gold_labels.csv").open())}
+    gold = {(r["paper_id"], r["dimension"]): r["gold_risk"] for r in csv.DictReader(gold_path().open())}
     argus = {(r["paper_id"], r["dimension"]): r["risk"]
              for r in csv.DictReader((ROOT / "experiments/real_papers/corpus_results/did_llm_risks.csv").open())}
     papers = sorted({p for p, _ in gold}, key=lambda s: int(s.split("_")[1]))
     fig, (a, b, c) = plt.subplots(1, 3, figsize=(6.3, 2.35), gridspec_kw={"width_ratios": [1.95, 1.2, 0.95], "wspace": 0.62})
 
     def outcome(k):
+        if k not in gold:  # cell excluded by the re-adjudication (dimension not applicable)
+            return "excluded"
         if argus[k] == "unknown":
             return "abstained"
         return "exact" if argus[k] == gold[k] else ("over-severe" if RANK[argus[k]] > RANK[gold[k]] else "under-severe")
-    col = {"abstained": RISK["unknown"], "exact": EXACT, "over-severe": OVER, "under-severe": "#1F2328"}
+    col = {"abstained": RISK["unknown"], "exact": EXACT, "over-severe": OVER, "under-severe": "#1F2328", "excluded": SURFACE}
     counts = Counter(outcome(k) for k in gold)
     for i, p in enumerate(papers):
         for j, d in enumerate(DIMS):
@@ -164,7 +167,7 @@ def fig_vsgold(out: Path) -> None:
     a.legend(handles=[Patch(facecolor=col[k], label=f"{k} ({counts.get(k, 0)})") for k in ("over-severe", "exact", "abstained")],
              loc="lower left", bbox_to_anchor=(-0.01, 1.02), ncol=3, handlelength=0.8, columnspacing=0.6, handletextpad=0.3,
              borderaxespad=0, fontsize=6.6)
-    a.set_title("a  Outcome of each of the 55 cells", loc="left", fontweight="bold", color=INK, pad=22)
+    a.set_title(f"a  Outcome of each of the {len(gold)} cells", loc="left", fontweight="bold", color=INK, pad=22)
 
     for y, (lab, src) in enumerate((("ARGUS", argus), ("expert gold", gold))):
         left = 0

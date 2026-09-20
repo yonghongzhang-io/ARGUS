@@ -21,6 +21,9 @@ ABL = ROOT / "experiments" / "ablations"
 VAR = ROOT / "experiments" / "variants" / "llm_runs"
 XM = ROOT / "experiments" / "models" / "crossmodel"
 ANN = ROOT / "experiments" / "annotation" / "pilot_frozen"  # frozen, committed copy of the pilot cells
+import sys
+sys.path.insert(0, str(ROOT / "experiments" / "annotation"))
+from goldpath import gold_path  # noqa: E402  final gold once locked, else the frozen June gold
 ORDER = {"low": 0, "medium": 1, "high": 2}
 
 
@@ -88,8 +91,9 @@ def main() -> None:
     kw_k, ts_k = sum(kw_det.values()), sum(two_det.values())
     out["tests"].append({"name": "11-flaw keyword vs two-stage (Fisher exact)", "p": round(fisher_2x2(kw_k, 11 - kw_k, ts_k, 11 - ts_k), 4)})
     out["tests"].append({"name": "11-flaw keyword vs per-dimension (Fisher exact)", "p": round(fisher_2x2(kw_k, 11 - kw_k, 11, 0), 4)})
-    b = sum(1 for f in two_det if two_det[f] and not kw_det[f])
-    c = sum(1 for f in two_det if kw_det[f] and not two_det[f])
+    # discordant = [first arm only, second arm only], as in the 33-variant tests below
+    b = sum(1 for f in two_det if kw_det[f] and not two_det[f])
+    c = sum(1 for f in two_det if two_det[f] and not kw_det[f])
     out["tests"].append({"name": "11-flaw keyword vs two-stage (paired McNemar exact)", "discordant": [b, c], "p": round(mcnemar_exact(b, c), 4)})
 
     # --- 33-variant benchmark ---------------------------------------------
@@ -121,7 +125,7 @@ def main() -> None:
             out["rates"].append(rate(f"cross-model {label} {nm}", sum(p["score"][key] for p in pr), 33))
 
     # --- human gold: cell bootstrap -----------------------------------------
-    gold = {(r["paper_id"], r["dimension"]): r["gold_risk"] for r in csv.DictReader(open(ANN / "gold_labels.csv"))}
+    gold = {(r["paper_id"], r["dimension"]): r["gold_risk"] for r in csv.DictReader(open(gold_path()))}
     def load(f: str) -> dict:
         return {(r["paper_id"], r["dimension"]): r["risk"] for r in csv.DictReader(open(ANN / f))}
     random.seed(0)

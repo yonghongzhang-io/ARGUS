@@ -29,6 +29,9 @@ ROOT = Path(__file__).resolve().parents[2]
 ABL = ROOT / "experiments" / "ablations"
 FROZEN = ROOT / "experiments" / "annotation" / "pilot_frozen"
 V1 = ROOT / "experiments" / "annotation" / "calibrate_argus_v1_pilot.py"
+import sys
+sys.path.insert(0, str(ROOT / "experiments" / "annotation"))
+from goldpath import gold_path  # noqa: E402  final gold once locked, else the frozen June gold
 DOMINANT = ("weak_retrieval_high_to_medium", "weak_retrieval_high_to_unknown")
 Key = tuple[str, str]
 
@@ -58,7 +61,7 @@ def metrics(pred: dict[Key, str], gold: dict[Key, str]) -> dict:
             wks.append(wk)
     exs.sort()
     wks.sort()
-    q = lambda v, f: round(v[int(len(v) * f)], 3)
+    q = lambda v, f: round(v[int(len(v) * f)], 4)  # 4 d.p. so that two-decimal reporting rounds once
     exact = sum(1 for a, b in pairs if a == b)
     return {"answered": len(keys), "unknown": len(gold) - len(keys),
             "exact": [exact, len(keys)], "exact_ci95": [q(exs, .025), q(exs, .975)],
@@ -92,7 +95,7 @@ def main() -> None:
     spec.loader.exec_module(v1)
 
     rich = rows("argus_rich_gold5.csv")
-    gold = {(r["paper_id"], r["dimension"]): r["gold_risk"].strip().lower() for r in rows("gold_labels.csv")}
+    gold = {(r["paper_id"], r["dimension"]): r["gold_risk"].strip().lower() for r in csv.DictReader(gold_path().open(encoding="utf-8"))}
     before = {(r["paper_id"], r["dimension"]): r["risk"].strip().lower() for r in rich}
     out: dict = {"inputs": (FROZEN / "MANIFEST.sha256").read_text().split("\n")[:-1], "policies": {}}
 

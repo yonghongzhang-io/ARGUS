@@ -346,7 +346,9 @@ the keyword baseline plus all leak-freedom (non-circularity) checks are
 deterministic and run without model access. Eleven-flaw numbers are July-2026
 runs of the released runner; detection replicates exactly across the
 \texttt{gpt-4o} alias and the dated \texttt{gpt-4o-2024-11-20} snapshot
-(localization varies between runs, $0.455$--$0.727$). A June-2026 run of the
+(localization varies between runs, $0.455$--$0.727$, and the snapshot run
+rates one clean dimension medium, a false alarm of $0.09$ where the reported
+run has none). A June-2026 run of the
 same code had scored two-stage $1.000$/$0.909$ and single-pass $0.455$; neither
 value reproduces on current serving of the alias \emph{or} the dated snapshot,
 indicating provider-side serving drift, so we report only currently replicable
@@ -391,7 +393,7 @@ and adjudicated labels they read are frozen with checksums in
   \centering\small
   \caption{Wilson 95\% intervals for reported rates (top) and exact tests
   between arms (bottom; McNemar tests are paired on the same flaws or
-  variants). False-alarm rows give counts only: every variant is paired with
+  variants; discordant = detected by the first arm only / by the second only). False-alarm rows give counts only: every variant is paired with
   the same clean fixture, so they are repeated readings of one clean audit of
   eleven dimensions, not independent trials, and an interval would overstate
   what they show. Detection intervals describe this fixed test set (33 variants
@@ -425,7 +427,7 @@ and adjudicated labels they read are frozen with checksums in
     test & arms & discordant & $p$ \\
     \midrule
     Fisher & keyword vs two-stage (11) & -- & 0.030 \\
-    McNemar & keyword vs two-stage (11) & 7 / 1 & 0.070 \\
+    McNemar & keyword vs two-stage (11) & 1 / 7 & 0.070 \\
     McNemar & single-pass vs per-dim.\ (33) & 1 / 6 & 0.125 \\
     McNemar & per-dim.\ vs two-stage (33) & 5 / 1 & 0.219 \\
     McNemar & single-pass vs two-stage (33) & 5 / 6 & 1.000 \\
@@ -448,11 +450,11 @@ and adjudicated labels they read are frozen with checksums in
     \toprule
     policy & $n$ & exact agreement & weighted $\kappa$ \\
     \midrule
-    before & 33 & 0.12 (0.03--0.24) & 0.06 ($-0.02$--0.16) \\
+    before & 33 & 0.12 (0.03--0.24) & 0.06 ($-0.02$--0.15) \\
     rule 1, demote$\to$med & 33 & 0.36 (0.21--0.55) & 0.21 (0.02--0.39) \\
     rule 1, abstain$\to$unk & 13 & 0.31 (0.08--0.54) & 0.32 (0.04--0.58) \\
     rules 1--4, demote$\to$med & 33 & 0.45 (0.30--0.61) & 0.13 ($-0.07$--0.37) \\
-    rules 1--4, abstain$\to$unk & 13 & 0.54 (0.31--0.77) & 0.25 ($-0.17$--0.70) \\
+    rules 1--4, abstain$\to$unk & 13 & 0.54 (0.31--0.77) & 0.25 ($-0.17$--0.69) \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -619,7 +621,7 @@ on four papers and scored on the fifth.
 
 \paragraph{The oracle-evidence check.}
 An expert read each of the five pilot papers and recorded up to two passages
-per cell (48 cells have two), about 120 characters each. For 53 of the 55
+per cell (48 cells have two), about 110 characters each. For 53 of the 55
 cells the expert found a relevant passage. For the other two, both
 parallel-trends cells, the oracle-stage annotator recorded that the dimension
 does not apply because the study is not a treated--control DID design. The
