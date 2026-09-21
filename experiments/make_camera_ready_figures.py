@@ -88,56 +88,88 @@ def save(fig, out: Path, name: str) -> None:
 
 # ---------------------------------------------------------------- Figure 3
 def fig_phase1(out: Path) -> None:
+    """Two pipelines on the 11 clear flaws: rate meters (a) and a per-flaw dot matrix (b).
+
+    Drawn on one axes whose data units are points, so marks keep their geometry.
+    """
     paper = json.loads((ROOT / "examples/papers/clean_supported.json").read_text())
     kw = evaluate_flaws(paper, sorted(load_flaws()), max_steps=1, assessor="keyword")
     llm = json.loads((ROOT / "experiments/phase1_pilot/llm_summary_current.json").read_text())
+    misses = json.loads((ROOT / "experiments/ablations/twostage_11flaw_misses.json").read_text())
     kw_caught = {p["flaw_id"]: bool(p["score"]["detected"]) for p in kw["pairs"]}
     llm_caught = {k: bool(v) for k, v in llm["per_flaw_detected"].items()}
+    abstained = {m["flaw"] for m in misses["missed_flaws"]
+                 if m["traces_in_run_window"] and all(t["risk"] == "unknown" for t in m["traces_in_run_window"])}
+    assert abstained == {f for f, c in llm_caught.items() if not c}
 
-    fig, (a, b) = plt.subplots(1, 2, figsize=(4.62, 2.12), gridspec_kw={"width_ratios": [1.0, 1.05], "wspace": 0.95})
+    W, H = 333.0, 160.0
+    KEY, TRACK, RING = "#8C939C", "#EEF0F3", "#C3C8CF"
+    fig = plt.figure(figsize=(W / 72, H / 72))
+    ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
+
+    def pill(x0: float, x1: float, y: float, lw: float, color: str, z: int) -> None:
+        ax.plot([x0 + lw / 2, max(x1 - lw / 2, x0 + lw / 2)], [y, y], color=color, lw=lw, solid_capstyle="round", zorder=z)
+
+    # ---- a: rate meters ----------------------------------------------------
+    ax.text(0, H - 9, "a  End-to-end rates", fontweight="bold", fontsize=8.2, color=INK, va="baseline")
+    lx = 1
+    for color, lab in ((KEY, "keyword pipeline"), (ACCENT, "LLM pipeline (gpt-4o)")):
+        pill(lx, lx + 11, H - 24.5, 4.6, color, 3)
+        t = ax.text(lx + 15, H - 24.5, lab, fontsize=6.9, color=MUTED, va="center")
+        lx += 15 + 3.55 * len(lab) + 9
+    x0, x1, lw = 60.0, 150.0, 5.4
     rows = [("detection", kw["summary"]["detection_rate"], llm["detection_rate"]),
             ("localization", kw["summary"]["localization_acc"], llm["localization_acc"]),
             ("false alarm", kw["summary"]["false_alarm_rate"], llm["false_alarm_rate"])]
     for i, (name, k, m) in enumerate(rows):
-        y = len(rows) - 1 - i
-        a.plot([k, m], [y, y], color=HAIR, lw=2.2, solid_capstyle="round", zorder=1)
-        a.scatter([k], [y], s=34, facecolor=SURFACE, edgecolor=BASE, linewidth=1.6, zorder=3)
-        a.scatter([m], [y], s=40, facecolor=ACCENT, edgecolor=SURFACE, linewidth=1.2, zorder=4)
-        if abs(m - k) > 0.05:
-            a.text(k - 0.075, y, f"{k:.2f}", ha="right", va="center", color=MUTED, fontsize=7)
-            a.text(m + 0.075, y, f"{m:.2f}", ha="left", va="center", color=INK, fontsize=7, fontweight="bold")
-        else:
-            a.text(m + 0.075, y, f"{m:.2f}", ha="left", va="center", color=INK, fontsize=7)
-    a.set_yticks(range(len(rows)))
-    a.set_yticklabels([r[0] for r in rows][::-1], color=INK)
-    a.set_xlim(-0.30, 1.18); a.set_ylim(-0.6, len(rows) + 0.75)
-    a.set_xticks([0, 0.5, 1.0]); a.set_xlabel("rate")
-    a.grid(axis="x", color=HAIR, lw=0.6); a.set_axisbelow(True); a.spines["left"].set_visible(False)
-    panel_title(a, "a", "End-to-end rates")
-    a.legend(handles=[plt.Line2D([], [], marker="o", ls="", mfc=SURFACE, mec=BASE, mew=1.6, ms=5.5, label="keyword pipeline"),
-                      plt.Line2D([], [], marker="o", ls="", mfc=ACCENT, mec=SURFACE, ms=6.5, label="LLM pipeline (gpt-4o)")],
-             loc="upper left", bbox_to_anchor=(-0.02, 1.02), handletextpad=0.2, borderaxespad=0, labelspacing=0.3)
+        yc = H - 56 - i * 37
+        ax.text(x0 - 9, yc, name, ha="right", va="center", fontsize=7.4, color=INK)
+        for y, v, color, bold in ((yc + 6.6, k, KEY, False), (yc - 6.6, m, ACCENT, True)):
+            pill(x0, x1, y, lw, TRACK, 1)
+            if v > 0:
+                pill(x0, x0 + max(v * (x1 - x0), lw), y, lw, color, 2)
+            ax.text(x1 + 7, y - 0.2, f"{v:.2f}", ha="left", va="center", fontsize=7.2,
+                    color=INK if bold else MUTED, fontweight="bold" if bold else "normal")
+    for v in (0, 0.5, 1):
+        ax.text(x0 + v * (x1 - x0), 10.5, f"{v:g}", ha="center", va="center", fontsize=6.4, color=MUTED)
+        ax.plot([x0 + v * (x1 - x0)] * 2, [16.5, 19], color=RING, lw=0.6)
 
+    # ---- b: per-flaw dot matrix ---------------------------------------------
+    bx = 186.0
+    ax.text(bx, H - 9, "b  Per-flaw outcome", fontweight="bold", fontsize=8.2, color=INK, va="baseline")
+    lx = bx + 4
+    for kind, lab in (("caught", "caught"), ("missed", "missed"), ("abstained", "abstained")):
+        if kind == "missed":
+            ax.scatter([lx], [H - 24.5], s=17, facecolor=SURFACE, edgecolor=RING, linewidth=1.1, zorder=3)
+        else:
+            ax.scatter([lx], [H - 24.5], s=26, facecolor=ACCENT if kind == "caught" else RISK["unknown"], edgecolor="none", zorder=3)
+        ax.text(lx + 6.5, H - 24.5, lab, fontsize=6.9, color=MUTED, va="center")
+        lx += 6.5 + 3.55 * len(lab) + 10
     flaws = sorted(kw_caught, key=lambda f: (_INJECTIONS[f]["op"] != "remove", f))
     n_om = sum(_INJECTIONS[f]["op"] == "remove" for f in flaws)
-    b.set_xlim(-0.6, 2.35); b.set_ylim(-0.6, len(flaws) + 0.55); b.axis("off")
+    label_x, cols, pitch, top = bx + 80, (bx + 95, bx + 118), 9.75, H - 50.5
+    for cx, lab in zip(cols, ("keyword", "LLM")):
+        ax.text(cx, H - 38.5, lab, ha="center", va="center", fontsize=6.6, color=MUTED)
+    ys = {}
     for j, f in enumerate(flaws):
-        y = len(flaws) - 1 - j
-        b.text(-0.72, y, f.replace("_", " ").replace(" se", " SE"), ha="right", va="center", fontsize=6.8, color=INK)
-        for c, caught in enumerate((kw_caught[f], llm_caught[f])):
-            b.add_patch(plt.Rectangle((c - 0.40, y - 0.36), 0.80, 0.72, facecolor=ACCENT if caught else "#ECEEF1",
-                                      edgecolor="none", zorder=2, joinstyle="round"))
-            if not caught:
-                b.text(c, y - 0.02, "×", ha="center", va="center", color="#8C939C", fontsize=7)
-    for c, lab in enumerate(("keyword", "LLM")):
-        b.text(c, len(flaws) - 0.42, lab, ha="center", va="bottom", fontsize=7, color=MUTED)
-    for lo, hi, lab in ((len(flaws) - n_om, len(flaws) - 1, "omission"), (0, len(flaws) - n_om - 1, "commission")):
-        b.plot([1.62, 1.62], [lo - 0.36, hi + 0.36], color=MUTED, lw=0.7)
-        b.text(1.74, (lo + hi) / 2, lab, rotation=90, ha="left", va="center", fontsize=6.8, color=MUTED)
-    b.set_title("b  Per-flaw outcome", loc="left", fontweight="bold", color=INK, pad=5, x=-0.55)
-    b.legend(handles=[Patch(facecolor=ACCENT, label="caught"), Patch(facecolor="#ECEEF1", label="missed (×)")],
-             loc="upper center", bbox_to_anchor=(0.30, 0.03), ncol=2, handlelength=1.0, columnspacing=1.0)
-    save(fig, out, "figure_phase1")
+        y = top - j * pitch - (3.2 if j >= n_om else 0)
+        ys[f] = y
+        ax.text(label_x, y, f.replace("_", " ").replace(" se", " SE").replace("cherrypicked", "cherry-picked"),
+                ha="right", va="center", fontsize=6.7, color=INK)
+        for cx, caught, is_llm in ((cols[0], kw_caught[f], False), (cols[1], llm_caught[f], True)):
+            if caught:
+                ax.scatter([cx], [y], s=30, facecolor=ACCENT, edgecolor="none", zorder=3)
+            elif is_llm and f in abstained:
+                ax.scatter([cx], [y], s=30, facecolor=RISK["unknown"], edgecolor="none", zorder=3)
+            else:
+                ax.scatter([cx], [y], s=19, facecolor=SURFACE, edgecolor=RING, linewidth=1.1, zorder=3)
+    for group, lab in ((flaws[:n_om], "omission"), (flaws[n_om:], "commission")):
+        hi, lo = ys[group[0]] + 3.6, ys[group[-1]] - 3.6
+        ax.plot([bx + 130.5] * 2, [lo, hi], color=RING, lw=0.8, solid_capstyle="round")
+        ax.text(bx + 134.5, (lo + hi) / 2, lab, rotation=90, ha="left", va="center", fontsize=6.6, color=MUTED)
+    fig.savefig(out / "figure_phase1.pdf", facecolor=SURFACE)
+    plt.close(fig)
+    print("wrote", out / "figure_phase1.pdf")
 
 
 # ---------------------------------------------------------------- Figure 4
