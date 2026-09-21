@@ -19,9 +19,10 @@ not supported. This pilot replaces those labels with ones whose provenance is re
 - **Items.** The same five papers as before (`paper_01`, `paper_03`, `paper_07`, `paper_08`,
   `paper_10`; chosen in June 2026 before any label existed) by the eleven rubric dimensions:
   55 cells.
-- **Annotators.** Two people with doctoral-level training in empirical finance or economics
-  (faculty, postdoctoral researchers or advanced doctoral students who work with
-  difference-in-differences designs), neither of them the first author and neither involved in
+- **Annotators.** Two people with graduate-level training in finance or economics and active
+  research or teaching experience with empirical, regression-based studies (faculty,
+  postdoctoral researchers or advanced doctoral students), able to read the five English-language
+  articles in full, neither of them the first author and neither involved in
   building the system. They may be co-authors or external colleagues; which, and their relation
   to the authors, is reported in the paper. Each signs the workbook's sign-off sheet (name,
   dates, hours, and four confirmations).
@@ -87,3 +88,7 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
   The first version of this protocol required two co-authors; availability before the
   camera-ready deadline is uncertain, so qualified external annotators are also admitted. The
   instrument, the blinding rules and the analysis plan are unchanged.
+- 21 September 2026, before any workbook was returned: the qualification is stated as
+  graduate-level training with active empirical research or teaching experience, not as a
+  doctorate, so that an experienced faculty member without a PhD can take part. Each
+  annotator's actual background is reported in the paper as it is.
