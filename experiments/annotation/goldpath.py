@@ -1,8 +1,9 @@
-"""Which adjudicated gold the analysis scripts read.
+"""Which reference labels the analysis scripts read.
 
-`pilot_frozen/gold_labels.csv` is the June-2026 adjudicated gold, checksummed and never edited.
-`gold_final/gold_labels.csv` exists only after `finalize_gold.py` has locked the outcome of the
-two-cell re-adjudication; once it exists every script reads it instead.
+`pilot_frozen/gold_labels.csv` holds the labels of the submitted version (LLM-assisted, see
+pilot_frozen/PROVENANCE.md), checksummed and never edited. `gold_final/gold_labels.csv` exists
+only after `human_pilot/pilot.py gold` has locked the human annotation; once it exists every
+script reads it instead.
 """
 from __future__ import annotations
 
