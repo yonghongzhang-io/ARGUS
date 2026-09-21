@@ -256,9 +256,9 @@ config/            identification rubric, flaw taxonomy, 33-variant catalog, mod
 examples/          committed parsed-paper fixtures (clean + injectable)
 src/argus/         pipeline stages, bounded agent loop + tools, LLM assessors, metrics
 data/              paper corpus, flaw-injected versions, annotations (not committed)
-annotation/        human-gold protocols + annotation tooling (oracle spans; gold expansion)
+annotation/        annotation protocols and tooling (human_pilot/ is the current protocol)
 experiments/       phase1_pilot, variants (33-flaw benchmark), ablations (compute-graded,
-                   oracle-evidence, oracle-retrieval, LOPO calibration), models (cross-model),
+                   oracle-retrieval, LOPO calibration), models (cross-model),
                    real_papers (26-paper corpus runs)
 results/           generated reports and agent traces
 paper_climatenlp/  ClimateNLP 2026 submission (ACL format; submissions/ holds the frozen PDF)

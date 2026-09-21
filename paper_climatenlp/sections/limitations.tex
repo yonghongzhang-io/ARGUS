@@ -28,11 +28,7 @@ flaw injection certifies the auditor against the \emph{injected} threat on a
 single dimension only and inherits the taxonomy's blind spots, so we treat
 detection and localization as necessary rather than sufficient, pairing them with
 the false-alarm rate and the human-gold comparison. Evidence
-grounding limits coverage. Providing expert-selected snippets did not restore
-agreement, but that check cannot separate the judge's severity mapping from the
-loss of context in excerpts of ${\sim}110$ characters, and two of its cells
-carry an applicability judgement that conflicts with the adjudicated gold
-(Appendix~\ref{app:supp}). \sys{} emits \texttt{unknown} only when the relevance
+grounding limits coverage. \sys{} emits \texttt{unknown} only when the relevance
 gate finds no suitable passage; partial matches still reach the judge and can
 produce over-severe verdicts. Finally, \sys{}
 screens whether reported evidence supports a

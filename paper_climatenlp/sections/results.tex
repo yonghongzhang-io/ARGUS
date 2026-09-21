@@ -289,16 +289,6 @@ evidence-status fields; it differs from the corpus run of \S\ref{sec:vsgold}
 in one cell, so its pre-calibration figures are 29/33 over-severe and exact
 agreement $0.12$.)
 
-An \emph{oracle-evidence} check refines the diagnosis. An expert located
-relevant passages for 53 of the 55 cells and marked the other two not
-applicable to the study's design (the adjudicated gold rates them high and
-medium; Appendix~\ref{app:supp}), so at least 20 of the 22 pipeline abstentions
-trace to retrieval failure: grounding limits \emph{coverage}. Feeding the
-assessor the expert's spans does not restore agreement (50/55 judgements more
-severe than gold; exact $0.07$), so retrieval alone does not explain the
-disagreement; the severity mapping and the brevity of the spans both remain
-candidates.
-
 A deterministic rule over fields the LLM already produces reduces the
 over-severity: a weak-retrieval \emph{high} (20 cells) is demoted to
 \emph{medium} (keep coverage) or to \texttt{unknown} (abstain). Keeping

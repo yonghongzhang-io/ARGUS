@@ -359,8 +359,7 @@ laptop at zero API cost); binary detection agreed on 32/33 variants across the
 three runs and target-dimension risk labels on 31/33, while the clean audit
 flagged a different dimension in run~1 than in runs~2 and~3, and Table~\ref{tab:variants} reports the three-run mean. The
 two-call-per-dimension pipeline audits one paper for roughly US\$0.25 of
-gpt-4o usage. The oracle-evidence check (\S\ref{sec:calib}) is 55 adequacy
-calls over expert-annotated spans.
+gpt-4o usage.
 
 \section{Uncertainty Quantification}
 \label{app:ci}
@@ -467,10 +466,7 @@ difference-in-differences in the corpus of 259 economics papers released with
 CausalVerify~\cite{causalverify} (Table~\ref{tab:corpus}; titles in
 Table~\ref{tab:corpuslist}). The tag is the corpus's method-family label, which
 we did not verify paper by paper, and it is imperfect: one entry is a literature
-review (below), one identifies its effect from sibling comparisons, and in the
-expert pilot two of the five papers were judged not to use a treated--control
-DID design, so the parallel-trends dimension was marked not applicable
-(\S\ref{sec:calib}). Nineteen entries are journal articles, one of them in a
+review (below) and one identifies its effect from sibling comparisons. Nineteen entries are journal articles, one of them in a
 medical journal, and seven are held as NBER working-paper versions. That corpus as released contains one
 byte-identical duplicate (a 2002 Clean Air Act study under two identifiers);
 both copies received identical
@@ -618,43 +614,6 @@ trigger conditions recur in all five folds: among each fold's over-severe
 \emph{high} cells, $79$--$86\%$ have weak retrieval and $94$--$100\%$ have
 missing evidence (computed on the rich re-run of \S\ref{sec:calib}). The folds test whether the error pattern recurs; no rule was refitted
 on four papers and scored on the fifth.
-
-\paragraph{The oracle-evidence check.}
-An expert read each of the five pilot papers and recorded up to two passages
-per cell (48 cells have two), about 110 characters each. For 53 of the 55
-cells the expert found a relevant passage. For the other two, both
-parallel-trends cells, the oracle-stage annotator recorded that the dimension
-does not apply because the study is not a treated--control DID design. The
-annotation guideline anticipates such cells: annotators flag them ambiguous and
-judge the design-specific analogue, defaulting to \emph{medium}, ``not
-\emph{high}''. The adjudicated gold, fixed earlier, gives one cell the default
-(\emph{medium}) and the other \emph{high}; the rule permits \emph{high} only
-if the design-specific analogue is itself weakly supported, and the recorded
-rationales do not settle whether it is. That cell is one of the pilot's two
-\emph{high} cells. The two passes may also have answered different questions
-(whether the dimension applies, versus how risky its analogue is), so both
-cells need their basis confirmed. We have not re-adjudicated, and we overwrite
-neither judgement. Both cells are pipeline abstentions, so
-20 abstentions are retrieval failures and the status of the other two depends
-on which annotation is right. Every figure in the main text uses the frozen
-55-cell gold. Dropping the two cells instead (53 cells) leaves the answered
-cells untouched (28 of 33 over-severe, 5 exact) and changes the rest as
-follows: gold low/medium/high $29/24/2 \to 29/23/1$; coverage
-$33/55 \to 33/53$; high recall $1/2 \to 1/1$, a change in the gold's denominator and not in what
-the system detects; oracle-arm exact agreement
-$4/55 \to 3/53$ and over-severe $50/55 \to 49/53$
-(\path{oracle_evidence_audit.py}, which also writes a 55-row audit table of the
-spans without article text). This is a two-cell sensitivity analysis. An
-applicability criterion applied cell by cell to the whole pilot could also
-change which cells count as answered, and we have not run one. A located passage is
-\emph{relevant} evidence, which is weaker than evidence that \emph{supports}
-the assumption, and we did not ask the expert to grade that. Feeding these
-passages to the adequacy judge leaves 50 of 55 judgements more severe than the
-adjudicated labels. We read this as evidence that retrieval coverage alone does
-not explain the disagreement. It does not isolate the cause: the judge's
-severity mapping, the loss of context in short excerpts, and the prompt's
-mapping of missing evidence to high risk are all candidates. The span file
-contains verbatim text from the audited articles and is not redistributed.
 
 \paragraph{The calibration rules.}
 The layer acts on \emph{high} cells only and never raises a risk; the first
