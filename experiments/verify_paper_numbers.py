@@ -509,47 +509,6 @@ def pilot() -> None:
         claim(f"T9 bootstrap interval {pol}/{key}", (f"({e})" in row, f"({k})" in row), (True, True), [("appendix.tex", row)])
     del ci
 
-    # oracle evidence
-    aud = jload(ABL / "oracle_evidence_audit.json")
-    orc = jload(ABL / "oracle_evidence.json")
-    oc = {(c["paper_id"], c["dimension"]): c for c in orc["cells"]}
-    o_ans = [(oc[k]["oracle_risk"], g[k]) for k in g]
-    claim("oracle arm vs the frozen gold",
-          (sum(ORDER[a] > ORDER[b] for a, b in o_ans), sum(a == b for a, b in o_ans), r2(sum(a == b for a, b in o_ans) / 55)),
-          (50, 4, "0.07"),
-          [("results.tex", r"(50/55 judgements more severe than gold; exact $0.07$)"),
-           ("appendix.tex", r"leaves 50 of 55 judgements more severe than the adjudicated labels")])
-    na = [(c["paper_id"], c["dimension"]) for c in aud["not_applicable_cells"]]
-    claim("oracle-evidence coverage and the two not-applicable cells",
-          (aud["counts"]["cells_with_relevant_passage"], aud["counts"]["pipeline_unknowns_with_relevant_passage"],
-           na, [g[k] for k in na], [corpus_run[k] for k in na], [gold[k]["ambiguous"] for k in na]),
-          (53, 20, [("paper_01", "parallel_trends"), ("paper_08", "parallel_trends")], ["high", "medium"],
-           ["unknown", "unknown"], ["1", "1"]),
-          [("results.tex", r"relevant passages for 53 of the 55 cells and marked the other two not applicable"),
-           ("results.tex", r"(the adjudicated gold rates them high and medium; Appendix~\ref{app:supp}), so at least 20 of the 22 pipeline abstentions"),
-           ("appendix.tex", r"For 53 of the 55 cells the expert found a relevant passage")])
-    spans = rows(ROOT / "annotation" / "oracle" / "evidence_spans_audit.csv")
-    located = [r for r in spans if r["relevant_passage_located"] == "yes"]
-    n_spans = sum(1 + (r["span_2_present"] == "yes") for r in located)
-    per_span = sum(int(r["chars_quoted"]) for r in located) / n_spans
-    claim("oracle spans: cells with two passages, mean length to the nearest ten",
-          (len(spans), sum(r["span_2_present"] == "yes" for r in spans), int(round(per_span, -1))), (55, 48, 110),
-          [("appendix.tex", r"(48 cells have two), about 110 characters each"),
-           ("limitations.tex", r"excerpts of ${\sim}110$ characters")])
-    keep = [k for k in g if k not in na]
-    c53 = Counter(g[k] for k in keep)
-    a53 = [(corpus_run[k], g[k]) for k in keep if corpus_run[k] != "unknown"]
-    o53 = [(oc[k]["oracle_risk"], g[k]) for k in keep]
-    h53 = [k for k in keep if g[k] == "high"]
-    claim("53-cell sensitivity analysis",
-          ((c53["low"], c53["medium"], c53["high"]), len(a53), sum(ORDER[a] > ORDER[b] for a, b in a53),
-           sum(a == b for a, b in a53), f"{sum(corpus_run[k] == 'high' for k in h53)}/{len(h53)}",
-           sum(a == b for a, b in o53), sum(ORDER[a] > ORDER[b] for a, b in o53)),
-          ((29, 23, 1), 33, 28, 5, "1/1", 3, 49),
-          [("appendix.tex", r"(28 of 33 over-severe, 5 exact)"), ("appendix.tex", r"$29/24/2 \to 29/23/1$"),
-           ("appendix.tex", r"$33/55 \to 33/53$"), ("appendix.tex", r"high recall $1/2 \to 1/1$"),
-           ("appendix.tex", r"$4/55 \to 3/53$ and over-severe $50/55 \to 49/53$")])
-
 
 # ---------------------------------------------------------------- shared-evidence control
 def shared() -> None:

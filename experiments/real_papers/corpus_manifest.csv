@@ -1,8 +1,8 @@
 paper_id,title_as_indexed,year_as_indexed,venue_as_indexed,venue_in_table,topic,counted,note
-paper_01,The Effect of the Banking Panic on the Supply of Credit to the Corporate Sector,2010,Journal of Financial Economics,Journal of Financial Economics,finance and banking,yes,pilot expert: not a treated-control DID design (parallel trends marked not applicable)
+paper_01,The Effect of the Banking Panic on the Supply of Credit to the Corporate Sector,2010,Journal of Financial Economics,Journal of Financial Economics,finance and banking,yes,
 paper_03,The Effects of State-Level Banking Competition on Innovation,2015,Journal of Financial Economics,Journal of Financial Economics,finance and banking,yes,
 paper_07,Do Credit Market Shocks Affect the Real Economy? Quasi-Experimental Evidence from the Great Recession and ‘Normal’ Economic Times,2014,NBER Working Paper Series,NBER working-paper version,finance and banking,yes,
-paper_08,Cyclicality of Credit Supply: Firm Level Evidence,2011,Journal of Monetary Economics (forthcoming),Journal of Monetary Economics,finance and banking,yes,pilot expert: not a treated-control DID design (parallel trends marked not applicable)
+paper_08,Cyclicality of Credit Supply: Firm Level Evidence,2011,Journal of Monetary Economics (forthcoming),Journal of Monetary Economics,finance and banking,yes,
 paper_10,Does Stock Liquidity Enhance or Impede Firm Innovation?,2014,The Journal of Finance,Journal of Finance,finance and banking,yes,
 paper_14,Minimum Wages and Employment: A Case Study of the Fast Food Industry in New Jersey and Pennsylvania,1993,NBER Working Paper Series,NBER working-paper version,labour,yes,
 paper_15,Minimum Wage Effects Across State Borders: Estimates Using Contiguous Counties,2010,The Review of Economics and Statistics,Review of Economics and Statistics,labour,yes,
