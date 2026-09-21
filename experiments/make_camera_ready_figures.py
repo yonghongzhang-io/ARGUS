@@ -87,15 +87,15 @@ def save(fig, out: Path, name: str) -> None:
 
 
 # ---------------------------------------------------------------- Figure 3
+KEYWORD = RISK["medium"]   # the keyword pipeline wears the palette's amber; the LLM pipeline wears ACCENT
+
+
 def fig_phase1(out: Path) -> None:
-    """Two pipelines on the 11 clear flaws: rate meters (a) and a per-flaw dot matrix (b).
+    """Two pipelines on the 11 clear flaws: end-to-end rates (a) and a per-flaw dot matrix (b).
 
-    Drawn on one axes whose data units are points, so marks keep their geometry.
-    Colours validated with the dataviz palette checker (navy / orange / red, light surface).
+    Flat, like Figures 4-6. Drawn on one axes whose data units are points, so marks keep
+    their geometry. Blue / amber / red validated with the dataviz palette checker.
     """
-    import numpy as np
-    from matplotlib.patches import FancyBboxPatch
-
     paper = json.loads((ROOT / "examples/papers/clean_supported.json").read_text())
     kw = evaluate_flaws(paper, sorted(load_flaws()), max_steps=1, assessor="keyword")
     llm = json.loads((ROOT / "experiments/phase1_pilot/llm_summary_current.json").read_text())
@@ -106,103 +106,86 @@ def fig_phase1(out: Path) -> None:
                  if m["traces_in_run_window"] and all(t["risk"] == "unknown" for t in m["traces_in_run_window"])}
     assert abstained == {f for f, c in llm_caught.items() if not c}
 
-    W, H = 340.0, 170.0
-    NAVY, NAVY_LT, ORANGE, ORANGE_LT, RED = "#1F5C99", "#2E74B8", "#F2992E", "#F7B55C", "#C23B43"
-    TRACK, TRACK_EDGE, CARD_EDGE, DASH = "#E6E8EB", "#D5D8DC", "#D6DADF", "#C4C9CF"
+    W, H = 333.0, 158.0
     fig = plt.figure(figsize=(W / 72, H / 72))
-    ax = fig.add_axes([0, 0, 1, 1]); ax.set_autoscale_on(False); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
+    ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
 
-    def rbox(x: float, y: float, w: float, h: float, r: float, **kw_) -> FancyBboxPatch:
-        patch = FancyBboxPatch((x, y), w, h, boxstyle=f"round,pad=0,rounding_size={r}", **kw_)
-        ax.add_patch(patch)
-        return patch
+    def hbar(x0: float, y: float, length: float, h: float, color: str, r: float = 2.2) -> None:
+        """Horizontal bar: square at the baseline, rounded at the data end."""
+        r = min(r, length, h / 2)
+        x1, lo, hi = x0 + length, y - h / 2, y + h / 2
+        verts = [(x0, lo), (x1 - r, lo), (x1, lo), (x1, lo + r), (x1, hi - r), (x1, hi), (x1 - r, hi), (x0, hi), (x0, lo)]
+        codes = [MPath.MOVETO, MPath.LINETO, MPath.CURVE3, MPath.CURVE3, MPath.LINETO, MPath.CURVE3, MPath.CURVE3,
+                 MPath.LINETO, MPath.CLOSEPOLY]
+        ax.add_patch(PathPatch(MPath(verts, codes), facecolor=color, edgecolor="none", zorder=3))
 
-    def card(x: float, w: float) -> None:
-        for d, alpha in ((2.4, 0.035), (1.6, 0.05), (0.8, 0.07)):  # soft drop shadow
-            rbox(x + 0.4, 3.2 - d, w, H - 6, 5, facecolor="#000000", edgecolor="none", alpha=alpha, zorder=0)
-        rbox(x, 4, w, H - 6, 5, facecolor=SURFACE, edgecolor=CARD_EDGE, linewidth=0.7, zorder=1)
+    def swatch(x: float, y: float, color: str) -> None:
+        ax.add_patch(plt.Rectangle((x, y - 2.6), 5.2, 5.2, facecolor=color, edgecolor="none", zorder=3))
 
-    def line_pill(x0: float, x1: float, y: float, lw: float, color: str, z: float, alpha: float = 1.0) -> None:
-        ax.plot([x0 + lw / 2, max(x1 - lw / 2, x0 + lw / 2)], [y, y], color=color, lw=lw, alpha=alpha,
-                solid_capstyle="round", zorder=z)
-
-    def meter(x0: float, x1: float, y: float, h: float, v: float, dark: str, light: str) -> None:
-        rbox(x0, y - h / 2, x1 - x0, h, h / 2, facecolor=TRACK, edgecolor=TRACK_EDGE, linewidth=0.5, zorder=2)
-        if v <= 0:
-            return
-        xe = x0 + max(v * (x1 - x0), h * 1.6)
-        for extra, alpha in ((5.0, 0.10), (3.4, 0.16)):                       # glow
-            line_pill(x0 - extra / 2, xe + extra / 2, y, h + extra, light, 3, alpha)
-        line_pill(x0 - 0.9, xe + 0.9, y, h + 1.8, SURFACE, 4)                 # white ring
-        clip = rbox(x0, y - h / 2, xe - x0, h, h / 2, facecolor="none", edgecolor="none", zorder=5)
-        img = ax.imshow(np.linspace(0, 1, 256).reshape(1, -1), extent=(x0, xe, y - h / 2, y + h / 2), aspect="auto",
-                        cmap=LinearSegmentedColormap.from_list("g", [dark, light]), zorder=5, interpolation="bicubic")
-        img.set_clip_path(clip)
-
-    # ---- a: rate meters ----------------------------------------------------
-    ax_w = 172.0
-    card(1.5, ax_w)
-    ax.text(9, H - 18, "a  End-to-end rates", fontweight="bold", fontsize=8.6, color=INK, va="baseline", zorder=6)
-    lx = 10.0
-    for dark, light, lab in ((ORANGE, ORANGE_LT, "Keyword pipeline"), (NAVY, NAVY_LT, "LLM pipeline (gpt-4o)")):
-        line_pill(lx, lx + 12, H - 33, 5.0, dark, 6)
-        ax.text(lx + 15.5, H - 33.2, lab, fontsize=6.8, color=INK, va="center", zorder=6)
-        lx += 75
-    x0, x1, hbar = 64.0, 146.0, 5.2
+    # ---- a: end-to-end rates -------------------------------------------------
+    ax.text(0, H - 8.5, "a  End-to-end rates", fontweight="bold", fontsize=8.2, color=INK, va="baseline")
+    lx = 0.5
+    for color, lab in ((KEYWORD, "keyword pipeline"), (ACCENT, "LLM pipeline (gpt-4o)")):
+        swatch(lx, H - 22.5, color)
+        ax.text(lx + 8, H - 22.7, lab, fontsize=7, color=INK, va="center")
+        lx += 72
+    x0, x1, hb = 58.0, 146.0, 6.2
     rows = [("detection", kw["summary"]["detection_rate"], llm["detection_rate"]),
             ("localization", kw["summary"]["localization_acc"], llm["localization_acc"]),
             ("false alarm", kw["summary"]["false_alarm_rate"], llm["false_alarm_rate"])]
-    for i, (name, k, m) in enumerate(rows):
-        yc = H - 64 - i * 35.5
-        ax.text(x0 - 9, yc, name, ha="right", va="center", fontsize=7.4, color=INK, zorder=6)
-        for y, v, dark, light, bold in ((yc + 6.4, k, ORANGE, ORANGE_LT, False), (yc - 6.4, m, NAVY, NAVY_LT, True)):
-            meter(x0, x1, y, hbar, v, dark, light)
-            ax.text(x1 + 6.5, y - 0.2, f"{v:.2f}", ha="left", va="center", fontsize=7.2, zorder=6,
-                    color=INK if bold else MUTED, fontweight="bold" if bold else "normal")
+    top_y, bot_y = H - 36, 26.0
     for v in (0, 0.5, 1):
-        ax.plot([x0 + v * (x1 - x0)] * 2, [19.5, 22], color=DASH, lw=0.6, zorder=6)
-        ax.text(x0 + v * (x1 - x0), 13.5, f"{v:g}", ha="center", va="center", fontsize=6.4, color=MUTED, zorder=6)
+        x = x0 + v * (x1 - x0)
+        ax.plot([x, x], [bot_y, top_y], color=HAIR if v else "#C9CED4", lw=0.6, zorder=1)
+        ax.text(x, bot_y - 7.5, f"{v:g}", ha="center", va="center", fontsize=7, color=MUTED)
+    ax.text((x0 + x1) / 2, 6.5, "rate", ha="center", va="center", fontsize=7.5, color=MUTED)
+    for i, (name, k, m) in enumerate(rows):
+        yc = top_y - 17 - i * 33
+        ax.text(x0 - 8, yc, name, ha="right", va="center", fontsize=7.5, color=INK)
+        for y, v, color, bold in ((yc + 4.1, k, KEYWORD, False), (yc - 4.1, m, ACCENT, True)):
+            if v > 0:
+                hbar(x0, y, v * (x1 - x0), hb, color)
+            ax.text(x0 + v * (x1 - x0) + 4.5, y - 0.2, f"{v:.2f}", ha="left", va="center", fontsize=7,
+                    color=INK if bold else MUTED, fontweight="bold" if bold else "normal", zorder=4)
 
     # ---- b: per-flaw dot matrix ---------------------------------------------
-    bx = ax_w + 6.0
-    card(bx, W - bx - 1.5)
-    ax.text(bx + 7.5, H - 18, "b  Per-flaw outcome", fontweight="bold", fontsize=8.6, color=INK, va="baseline", zorder=6)
+    bx = 186.0
+    ax.text(bx, H - 8.5, "b  Per-flaw outcome", fontweight="bold", fontsize=8.2, color=INK, va="baseline")
 
-    def mark(kind: str, x: float, y: float, scale: float = 1.0) -> None:
-        if kind == "llm":
-            ax.scatter([x], [y], s=30 * scale, facecolor=NAVY, edgecolor="none", zorder=6)
-        elif kind == "keyword":
-            ax.scatter([x], [y], s=30 * scale, facecolor=ORANGE, edgecolor="none", zorder=6)
+    def mark(kind: str, x: float, y: float) -> None:
+        if kind in ("keyword", "llm"):
+            ax.scatter([x], [y], s=28, facecolor=KEYWORD if kind == "keyword" else ACCENT, edgecolor="none", zorder=3)
         elif kind == "missed":
-            ax.scatter([x], [y], s=20 * scale, facecolor=SURFACE, edgecolor=RED, linewidth=1.05, zorder=6)
+            ax.scatter([x], [y], s=18, facecolor=SURFACE, edgecolor=RISK["high"], linewidth=1.0, zorder=3)
         else:
-            line_pill(x - 3.6, x + 3.6, y, 1.5, DASH, 6)
+            ax.plot([x - 2.9, x + 2.9], [y, y], color=RISK["unknown"], lw=1.9, solid_capstyle="round", zorder=3)
 
-    for row, entries in enumerate(((("llm", "LLM caught"), ("keyword", "Keyword caught")),
-                                   (("missed", "Missed"), ("abstained", "Abstained")))):
-        lx, ly = bx + 12.0, H - 32 - row * 9.6
-        for kind, lab in entries:
-            mark(kind, lx, ly, 0.85)
-            ax.text(lx + 6.5, ly - 0.2, lab, fontsize=6.7, color=INK, va="center", zorder=6)
-            lx += 62
+    lx, ly = bx + 3.5, H - 22.5
+    mark("keyword", lx, ly); mark("llm", lx + 7, ly)
+    ax.text(lx + 12.5, ly - 0.2, "caught", fontsize=7, color=INK, va="center")
+    mark("missed", lx + 48, ly)
+    ax.text(lx + 53.5, ly - 0.2, "missed", fontsize=7, color=INK, va="center")
+    mark("abstained", lx + 90, ly)
+    ax.text(lx + 96, ly - 0.2, "abstained", fontsize=7, color=INK, va="center")
+
     flaws = sorted(kw_caught, key=lambda f: (_INJECTIONS[f]["op"] != "remove", f))
     n_om = sum(_INJECTIONS[f]["op"] == "remove" for f in flaws)
-    label_x, cols, pitch, top = bx + 89, (bx + 103, bx + 125), 9.05, H - 63.0
-    for cx, lab in zip(cols, ("Keyword", "LLM")):
-        ax.text(cx, H - 53, lab, ha="center", va="center", fontsize=6.6, color=INK, zorder=6)
+    label_x, cols, pitch, top = bx + 82, (bx + 97, bx + 120), 9.9, H - 48.0
+    for cx, lab in zip(cols, ("keyword", "LLM")):
+        ax.text(cx, H - 36.5, lab, ha="center", va="center", fontsize=7, color=MUTED)
     ys = {}
     for j, f in enumerate(flaws):
-        y = top - j * pitch - (3.4 if j >= n_om else 0)
+        y = top - j * pitch - (3.2 if j >= n_om else 0)
         ys[f] = y
         ax.text(label_x, y, f.replace("_", " ").replace(" se", " SE").replace("cherrypicked", "cherry-picked"),
-                ha="right", va="center", fontsize=6.7, color=INK, zorder=6)
+                ha="right", va="center", fontsize=7, color=INK)
         mark("keyword" if kw_caught[f] else "missed", cols[0], y)
         mark("llm" if llm_caught[f] else ("abstained" if f in abstained else "missed"), cols[1], y)
-    for group, lab, color in ((flaws[:n_om], "omission", NAVY_LT), (flaws[n_om:], "commission", RED)):
-        hi, lo = ys[group[0]] + 3.8, ys[group[-1]] - 3.8
-        ax.plot([bx + 137.5] * 2, [lo, hi], color=color, lw=1.3, solid_capstyle="round", zorder=6)
-        ax.text(bx + 141.5, (lo + hi) / 2, lab, rotation=90, ha="left", va="center", fontsize=6.6, color=INK, zorder=6)
-    fig.savefig(out / "figure_phase1.pdf", facecolor=SURFACE, dpi=600)
+    for group, lab in ((flaws[:n_om], "omission"), (flaws[n_om:], "commission")):
+        hi, lo = ys[group[0]] + 3.6, ys[group[-1]] - 3.6
+        ax.plot([bx + 132.5] * 2, [lo, hi], color="#C3C8CF", lw=0.8, solid_capstyle="round")
+        ax.text(bx + 136.5, (lo + hi) / 2, lab, rotation=90, ha="left", va="center", fontsize=7, color=MUTED)
+    fig.savefig(out / "figure_phase1.pdf", facecolor=SURFACE)
     plt.close(fig)
     print("wrote", out / "figure_phase1.pdf")
 
