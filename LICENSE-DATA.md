@@ -20,7 +20,10 @@ If you use these materials, please cite the paper listed in the README.
 Not covered by this license or by the MIT license in `LICENSE`:
 
 - manuscript sources, PDFs, and figure artwork under `paper/` and `paper_climatenlp/`,
-  which remain the authors' (figures may embed third-party artwork under its own terms);
+  and the overview figure `docs/figure1.png`, which remain the authors'. Figures 1 and 2 of
+  the paper embed icons from Flaticon.com (<https://www.flaticon.com>), used under the
+  Flaticon free licence with attribution; those icons stay under Flaticon's terms and may not
+  be extracted, redistributed, or relicensed from this repository;
 - the published articles that ARGUS audits. None of their text is redistributed here;
   the real-paper corpus is obtained separately through the CausalVerify release.
 
