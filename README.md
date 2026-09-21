@@ -42,6 +42,15 @@ report that flags risks for a human expert. The system is validated through *syn
 injection*, which yields local ground truth for identification threats without requiring the
 true causal effect.
 
+<p align="center">
+  <img src="docs/figure1.png" width="100%"
+       alt="Overview of ARGUS. Step 1: an empirical DID paper is mapped to an 11-dimension identification rubric. Step 2: the ARGUS audit retrieves evidence, assesses whether it is adequate, localizes risk per dimension, and writes an audit report with a risk map, evidence and rationale. Step 3: expert annotation and adjudicated gold labels calibrate severity and evaluate the audit. ARGUS flags, it does not judge: it audits evidence support, not causal truth.">
+</p>
+
+<sub>Figure 1 of the paper. Icons are from [Flaticon.com](https://www.flaticon.com) and are used
+under the Flaticon free licence with attribution; they are third-party artwork and are not covered
+by this repository's MIT or CC BY 4.0 licences.</sub>
+
 > **Status:** accepted at **ClimateNLP 2026** (EMNLP workshop, Budapest, 28 Oct 2026);
 > the camera-ready paper is `paper_climatenlp/` (PDF in `submissions/`).
 > The full two-stage LLM pipeline runs end-to-end: deterministic retrieval, a relevance
