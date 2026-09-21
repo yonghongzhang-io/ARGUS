@@ -3,7 +3,8 @@
     python3 annotation/human_pilot/build_kit.py
 
 Writes data/annotations/human_pilot/to_send/ (private, not tracked): ARGUS_annotation_A.xlsx,
-ARGUS_annotation_B.xlsx, GUIDELINE.md and the five PDFs. The workbooks contain the rubric text
+ARGUS_annotation_B.xlsx, GUIDELINE.md (+ .docx) and the five PDFs. Sheets are protected so that only
+the answer cells can be edited. The workbooks contain the rubric text
 only: no system output, no earlier labels, nothing about what any result would imply.
 """
 from __future__ import annotations
@@ -13,7 +14,7 @@ from pathlib import Path
 
 import yaml
 from openpyxl import Workbook
-from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Protection, Side
 from openpyxl.worksheet.datavalidation import DataValidation
 
 HERE = Path(__file__).resolve().parent
@@ -62,6 +63,14 @@ def titles() -> dict[str, str]:
     import csv
     with (ROOT / "experiments" / "real_papers" / "corpus_manifest.csv").open(encoding="utf-8") as fh:
         return {r["paper_id"]: r["title_as_indexed"] for r in csv.DictReader(fh)}
+
+
+def lock(ws) -> None:
+    """Only the yellow cells can be edited, so the layout the receiving script reads cannot be broken.
+    No password: the point is to prevent accidents, and rows and columns can still be resized."""
+    ws.protection.sheet = True
+    ws.protection.formatColumns = False
+    ws.protection.formatRows = False
 
 
 def style_header(ws, row: int, ncols: int) -> None:
@@ -116,6 +125,7 @@ def paper_sheet(wb: Workbook, pid: str, title: str, dims: list[dict]) -> None:
         for c in range(5, len(COLS) + 1):
             cell = ws.cell(row=row, column=c)
             cell.fill, cell.font, cell.alignment, cell.border = FILL_IN, FONT, WRAP, BOX
+            cell.protection = Protection(locked=False)
         ws.row_dimensions[row].height = 78
     ws.row_dimensions[5].height = 52
     for col, formula, msg in (("E", '"conventional,analogue,not applicable"', "conventional / analogue / not applicable"),
@@ -126,6 +136,7 @@ def paper_sheet(wb: Workbook, pid: str, title: str, dims: list[dict]) -> None:
         ws.add_data_validation(dv)
         dv.add(f"{col}6:{col}16")
     ws.freeze_panes = "C5"
+    lock(ws)
 
 
 def signoff(wb: Workbook, who: str) -> None:
@@ -142,9 +153,11 @@ def signoff(wb: Workbook, who: str) -> None:
     for i, text in enumerate(rows, 3):
         ws.cell(row=i, column=1, value=text).font = FONT
         c = ws.cell(row=i, column=2); c.fill, c.border, c.font = FILL_IN, BOX, FONT
+        c.protection = Protection(locked=False)
     dv = DataValidation(type="list", formula1='"yes,no"', allow_blank=True)
     ws.add_data_validation(dv)
     dv.add("B6:B9")
+    lock(ws)
 
 
 def main() -> None:
@@ -161,6 +174,9 @@ def main() -> None:
         signoff(wb, who)
         wb.save(OUT / f"ARGUS_annotation_{who}.xlsx")
     shutil.copy(HERE / "GUIDELINE.md", OUT / "GUIDELINE.md")
+    if shutil.which("pandoc"):  # a Word copy is easier to open than Markdown
+        import subprocess
+        subprocess.run(["pandoc", str(HERE / "GUIDELINE.md"), "-o", str(OUT / "GUIDELINE.docx")], check=True)
     for pid in PAPERS:
         shutil.copy(PDFS / f"{pid}.pdf", OUT / f"{pid}.pdf")
     print("wrote", OUT)
