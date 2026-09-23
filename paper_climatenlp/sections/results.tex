@@ -52,12 +52,12 @@ low, medium, or high, so this arm cannot abstain
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lcccc}
     \toprule
-    Assessor & calls & detection & false alarm & localization \\
+    \rowcolor{tablehead} Assessor & calls & detection & false alarm & localization \\
     \midrule
     keyword baseline             & 0  & 0.182 & 0.000 & 0.182 \\
     single-pass                  & 1  & 0.818 & 0.000 & 0.818 \\
     per-dimension, no retrieval  & 11 & 1.000 & 0.000 & 1.000 \\
-    \textbf{two-stage \sys{}}    & 22 & \textbf{0.727} & \textbf{0.000} & \textbf{0.727} \\
+    \rowcolor{tablehl} \textbf{two-stage \sys{}}    & 22 & \textbf{0.727} & \textbf{0.000} & \textbf{0.727} \\
     \midrule
     \textit{(circular, pre-fix)} & -- & 1.000 & 0.000 & 1.000 \\
     \bottomrule
@@ -192,7 +192,7 @@ eleven-flaw set.
   \label{tab:variants}
   \begin{tabular}{lccc}
     \toprule
-    variant type & $n$ & detection & localization \\
+    \rowcolor{tablehead} variant type & $n$ & detection & localization \\
     \midrule
     commission & 22 & 0.89 & 0.82 \\
     omission   & 11 & 0.45 & 0.33 \\

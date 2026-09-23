@@ -59,7 +59,7 @@ flaws as future work.
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{llp{4.2cm}}
     \toprule
-    flaw & dimension & threat named in \\
+    \rowcolor{tablehead} flaw & dimension & threat named in \\
     \midrule
     pretrend divergence & parallel trends & \cite{roth2022,roth2023,rambachanroth2023} \\
     anticipation effect & no anticipation & \cite{callaway2021,roth2023} \\
@@ -117,7 +117,7 @@ judgements are more reliable.
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lcccc}
     \toprule
-    arm & calls/paper & det & fa & loc \\
+    \rowcolor{tablehead} arm & calls/paper & det & fa & loc \\
     \midrule
     full-paper single pass & 1 & 0.727 & 0.000 & 0.727 \\
     per-dimension, no retrieval & 11 & 0.879 & 0.000 & 0.879 \\
@@ -137,7 +137,7 @@ judgements are more reliable.
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lccccc}
     \toprule
-    model & det & fa & loc & comm & omit \\
+    \rowcolor{tablehead} model & det & fa & loc & comm & omit \\
     \midrule
     gpt-4o & 0.75 & 0.09 & 0.66 & 0.89 & 0.45 \\
     Claude Opus 4.8 & 0.91 & 0.82 & 0.24 & 1.00 & 0.73 \\
@@ -160,7 +160,7 @@ judgements are more reliable.
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lccc}
     \toprule
-    model & omission verdicts & clean $\geq$ med & agree \\
+    \rowcolor{tablehead} model & omission verdicts & clean $\geq$ med & agree \\
     \midrule
     gpt-4o & 6 / 3 / 2 / 0 & 2 / 22 & -- \\
     Claude Opus 4.8 & 3 / 7 / 1 / 0 & 18 / 22 & 20 / 33 \\
@@ -206,7 +206,7 @@ pilot-gold cells, the mechanism behind the fixture/real-paper asymmetry of
   \label{tab:gate}
   \begin{tabular}{lcccc}
     \toprule
-    retrieval quality & \texttt{unknown} & high & medium & low \\
+    \rowcolor{tablehead} retrieval quality & \texttt{unknown} & high & medium & low \\
     \midrule
     failed (22) & 22 & 0 & 0 & 0 \\
     weak (22)   & 0 & 20 & 2 & 0 \\
@@ -402,7 +402,7 @@ and adjudicated labels they read are frozen with checksums in
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{llcc}
     \toprule
-    benchmark & quantity & $k/n$ & 95\% CI \\
+    \rowcolor{tablehead} benchmark & quantity & $k/n$ & 95\% CI \\
     \midrule
     11 flaws & keyword detection & 2/11 & 0.05--0.48 \\
              & single-pass detection & 9/11 & 0.52--0.95 \\
@@ -423,7 +423,7 @@ and adjudicated labels they read are frozen with checksums in
              & Llama 3.1 8B detection & 31/33 & 0.80--0.98 \\
              & Llama 3.1 8B false alarm & 9/33 & -- \\
     \midrule
-    test & arms & discordant & $p$ \\
+    \rowcolor{tablehead} test & arms & discordant & $p$ \\
     \midrule
     Fisher & keyword vs two-stage (11) & -- & 0.030 \\
     McNemar & keyword vs two-stage (11) & 1 / 7 & 0.070 \\
@@ -447,7 +447,7 @@ and adjudicated labels they read are frozen with checksums in
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lccc}
     \toprule
-    policy & $n$ & exact agreement & weighted $\kappa$ \\
+    \rowcolor{tablehead} policy & $n$ & exact agreement & weighted $\kappa$ \\
     \midrule
     before & 33 & 0.12 (0.03--0.24) & 0.06 ($-0.02$--0.15) \\
     rule 1, demote$\to$med & 33 & 0.36 (0.21--0.55) & 0.21 (0.02--0.39) \\
@@ -502,7 +502,7 @@ environment-and-energy subset's risk distribution (high $0.34$,
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lc}
     \toprule
-    venue / version & papers \\
+    \rowcolor{tablehead} venue / version & papers \\
     \midrule
     American Economic Review & 4 \\
     Quarterly Journal of Economics & 3 \\
@@ -576,7 +576,7 @@ dimension-level, evidence-cited report a reviewer receives.
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{llp{5.2cm}}
     \toprule
-    dimension & risk & rationale (abridged) \\
+    \rowcolor{tablehead} dimension & risk & rationale (abridged) \\
     \midrule
     no anticipation & \textbf{high} & outcomes began changing between the
     policy announcement and its rollout, undermining no-anticipation \\
@@ -649,7 +649,7 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   \setlength{\tabcolsep}{4pt}
   \begin{tabular}{lcccc}
     \toprule
-    \texttt{unknown} policy & $n$ & exact & $\kappa$ & wt.\ $\kappa$ \\
+    \rowcolor{tablehead} \texttt{unknown} policy & $n$ & exact & $\kappa$ & wt.\ $\kappa$ \\
     \midrule
     exclude (coverage) & 33 & 0.152 & 0.019 & 0.044 \\
     mismatch (strict)  & 55 & 0.091 & 0.002 & -- \\
@@ -661,7 +661,7 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   \centering
   \includegraphics[width=0.94\textwidth]{figures/figure_vsgold}
   \caption{\sys{}-LLM versus the adjudicated expert gold on the 55 pilot cells
-  (frozen protocol). \textbf{(a)}~Every cell, five papers by eleven dimensions,
+  (frozen protocol). \textbf{(a)}~Every cell, eleven dimensions by five papers,
   coloured by outcome: \sys{} abstains on 22 and, of the 33 it answers, is more
   severe than the gold on 28, matches it on 5, and is less severe on none.
   \textbf{(b)}~Distribution of risk labels in the gold and in \sys{}'s output.
@@ -696,9 +696,9 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lccccc}
     \toprule
-     & & \multicolumn{2}{c}{rule 1} & \multicolumn{2}{c}{rules 1--4} \\
+     \rowcolor{tablehead} & & \multicolumn{2}{c}{rule 1} & \multicolumn{2}{c}{rules 1--4} \\
     \cmidrule(lr){3-4}\cmidrule(lr){5-6}
-    metric & before & med & unk & med & unk \\
+    \rowcolor{tablehead} metric & before & med & unk & med & unk \\
     \midrule
     over-severe (answ.)     & 29 & 21 & 9 & 18 & 6 \\
     high precision          & 1/25 & 1/5 & 1/5 & 1/2 & 1/2 \\
@@ -756,9 +756,9 @@ published keyword baseline exactly.
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lccccccc}
     \toprule
-     & \multicolumn{3}{c}{11 flaws} & \multicolumn{4}{c}{33 variants} \\
+     \rowcolor{tablehead} & \multicolumn{3}{c}{11 flaws} & \multicolumn{4}{c}{33 variants} \\
     \cmidrule(lr){2-4}\cmidrule(lr){5-8}
-    cell & det & fa & loc & det & fa & loc & off \\
+    \rowcolor{tablehead} cell & det & fa & loc & det & fa & loc & off \\
     \midrule
     K-kw  & 2/11  & 0/11 & 2/11  & 8/33  & 0/33 & 8/33  & 0.00 \\
     K-llm & 10/11 & 1/11 & 8/11  & 31/33 & 3/33 & 22/33 & 0.15 \\
