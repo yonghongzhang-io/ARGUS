@@ -238,11 +238,14 @@ def figure2(icons: dict[str, str]) -> Svg:
 
     # ---- A
     g.rect(0.6, 0.6, W - 1.2, 103.4, 5, "#fcfdfe", GREEN_EDGE, 0.9)
-    tw = 19.5 + width("Bounded ARGUS audit pipeline", 8, True) + 4 + width("(per paper)", 7)
-    g.rect(3.2, 3.2, tw - 3.2 + 4.5, 13.6, 3.5, GREEN_FILL, GREEN_EDGE, 0.7)   # title chip, same style as the ARGUS audit boxes
-    g.text(7, 12.2, "A.", 8.6, GREEN, bold=True)
-    g.text(19.5, 12.2, "Bounded ARGUS audit pipeline", 8, GREEN, bold=True)
-    g.text(19.5 + width("Bounded ARGUS audit pipeline", 8, True) + 4, 12.2, "(per paper)", 7, "#3f6b4d")
+    g.text(7, 12, "A.", 8.6, INK, bold=True)
+    x1 = 19.5 + width("Bounded ", 8, True)
+    x2 = x1 + width("ARGUS audit", 8, True)
+    g.text(19.5, 12, "Bounded ", 8, INK, bold=True)
+    g.text(x1, 12, "ARGUS audit", 8, GREEN, bold=True)          # the words the panel-B boxes repeat
+    x3 = x2 + width(" ", 8, True)   # SVG collapses a leading space, so position the word instead
+    g.text(x3, 12, "pipeline", 8, INK, bold=True)
+    g.text(x3 + width("pipeline", 8, True) + 4, 12, "(per paper)", 7, FAINT)
     bw, gap, top, bh = 64.5, 10.9, 19.0, 53.0
     x0 = (W - 6 * bw - 5 * gap) / 2
     stages = [("Decomposition", "pdf", BLUE, "det", ["Map paper to", "11 dimensions"]),
