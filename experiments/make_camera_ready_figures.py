@@ -68,6 +68,21 @@ def panel_title(ax, letter: str, text: str) -> None:
     ax.set_title(f"{letter}  {text}", loc="left", fontweight="bold", color=INK, pad=5)
 
 
+def quantity_axis(ax, label: str, ticks: list[float], labels: list[str] | None = None, lim: tuple[float, float] | None = None) -> None:
+    """One convention for every bar panel: categories on the y axis, the quantity on the x axis,
+    hairline gridlines at the ticks with a darker line at zero, no spines, no tick marks."""
+    ax.set_xlim(*(lim or (ticks[0], ticks[-1])))
+    ax.set_xticks(ticks)
+    ax.set_xticklabels(labels if labels is not None else [f"{t:g}" for t in ticks], color=MUTED)
+    ax.set_xlabel(label, color=MUTED)
+    ax.tick_params(axis="both", length=0)
+    for sp in ax.spines.values():
+        sp.set_visible(False)
+    for t in ticks:
+        ax.axvline(t, color="#C9CED4" if t == 0 else HAIR, lw=0.6, zorder=1)
+    ax.set_axisbelow(True)
+
+
 def rounded_bar(ax, x: float, width: float, height: float, color: str, r_pt: float = 2.2) -> None:
     """Vertical bar, rounded at the data end and square at the baseline. Call after limits are set."""
     inv = ax.transData.inverted()
@@ -196,28 +211,33 @@ def fig_vsgold(out: Path) -> None:
     argus = {(r["paper_id"], r["dimension"]): r["risk"]
              for r in csv.DictReader((ROOT / "experiments/real_papers/corpus_results/did_llm_risks.csv").open())}
     papers = sorted({p for p, _ in gold}, key=lambda s: int(s.split("_")[1]))
-    fig, (a, b, c) = plt.subplots(1, 3, figsize=(6.3, 2.35), gridspec_kw={"width_ratios": [1.95, 1.2, 0.95], "wspace": 0.62})
+    fig, (a, b, c) = plt.subplots(1, 3, figsize=(6.3, 2.55), gridspec_kw={"width_ratios": [1.15, 1.35, 0.95], "wspace": 0.55})
 
     def outcome(k):
-        if k not in gold:  # cell excluded by the re-adjudication (dimension not applicable)
+        if k not in gold:  # cell excluded from the gold (dimension not applicable)
             return "excluded"
         if argus[k] == "unknown":
             return "abstained"
         return "exact" if argus[k] == gold[k] else ("over-severe" if RANK[argus[k]] > RANK[gold[k]] else "under-severe")
     col = {"abstained": RISK["unknown"], "exact": EXACT, "over-severe": OVER, "under-severe": "#1F2328", "excluded": SURFACE}
     counts = Counter(outcome(k) for k in gold)
-    for i, p in enumerate(papers):
-        for j, d in enumerate(DIMS):
-            a.add_patch(plt.Rectangle((j + 0.07, len(papers) - 1 - i + 0.07), 0.86, 0.86, facecolor=col[outcome((p, d))], edgecolor="none"))
-    a.set_xlim(0, len(DIMS)); a.set_ylim(0, len(papers)); a.set_aspect("equal"); a.set_anchor("N")
-    a.set_xticks([j + 0.5 for j in range(len(DIMS))]); a.set_xticklabels([DIM_LABEL[d] for d in DIMS], rotation=55, ha="right", fontsize=6.3)
-    a.set_yticks([i + 0.5 for i in range(len(papers))]); a.set_yticklabels([f"paper {n}" for n in range(len(papers), 0, -1)], fontsize=6.6)
-    for s in a.spines.values():
-        s.set_visible(False)
+    # dimensions on the y axis in the same order as Figure 5, papers on the x axis
+    for j, d in enumerate(DIMS):
+        y = len(DIMS) - 1 - j
+        for i, p in enumerate(papers):
+            o = outcome((p, d))
+            a.add_patch(plt.Rectangle((i + 0.08, y + 0.08), 0.84, 0.84, facecolor=col[o],
+                                      edgecolor=HAIR if o == "excluded" else "none", linewidth=0.6))
+    a.set_xlim(0, len(papers)); a.set_ylim(0, len(DIMS)); a.set_aspect("equal"); a.set_anchor("W")
+    a.set_yticks([len(DIMS) - 1 - j + 0.5 for j in range(len(DIMS))]); a.set_yticklabels([DIM_LABEL[d] for d in DIMS], color=INK)
+    a.set_xticks([i + 0.5 for i in range(len(papers))]); a.set_xticklabels([str(i + 1) for i in range(len(papers))], color=MUTED)
+    a.set_xlabel("paper", color=MUTED); a.tick_params(axis="both", length=0)
+    for sp in a.spines.values():
+        sp.set_visible(False)
     a.legend(handles=[Patch(facecolor=col[k], label=f"{k} ({counts.get(k, 0)})") for k in ("over-severe", "exact", "abstained")],
-             loc="lower left", bbox_to_anchor=(-0.01, 1.02), ncol=3, handlelength=0.8, columnspacing=0.6, handletextpad=0.3,
-             borderaxespad=0, fontsize=6.6)
-    a.set_title(f"a  Outcome of each of the {len(gold)} cells", loc="left", fontweight="bold", color=INK, pad=22)
+             loc="lower left", bbox_to_anchor=(-0.02, 1.01), ncol=2, handlelength=0.8, columnspacing=0.6, handletextpad=0.3,
+             borderaxespad=0, fontsize=6.4, labelspacing=0.25)
+    a.set_title(f"a  Outcome per cell (n={len(gold)})", loc="left", fontweight="bold", color=INK, pad=24)
 
     for y, (lab, src) in enumerate((("ARGUS", argus), ("expert gold", gold))):
         left = 0
@@ -226,17 +246,16 @@ def fig_vsgold(out: Path) -> None:
             n = cnt.get(lv, 0)
             if not n:
                 continue
-            b.barh(y, n, left=left, height=0.36, color=RISK[lv], edgecolor=SURFACE, linewidth=1.4, zorder=3)
+            b.barh(y, n, left=left, height=0.5, color=RISK[lv], edgecolor=SURFACE, linewidth=1.4, zorder=3)
             if n >= 5:
                 b.text(left + n / 2, y, str(n), ha="center", va="center", fontsize=6.8,
                        color="#FFFFFF" if lv in ("low", "high") else INK, zorder=4)
             left += n
-    b.set_yticks([0, 1]); b.set_yticklabels(["ARGUS", "expert\ngold"], color=INK); b.set_ylim(-0.55, 1.55)
-    b.set_xlim(0, 55); b.set_xticks([0, 20, 40, 55]); b.set_xlabel("cells")
-    b.grid(axis="x", color=HAIR, lw=0.6); b.set_axisbelow(True); b.spines["left"].set_visible(False)
+    b.set_yticks([0, 1]); b.set_yticklabels(["ARGUS", "expert gold"], color=INK); b.set_ylim(-0.7, 1.7)
+    quantity_axis(b, f"cells (of {len(gold)})", [0, 11, 22, 33, 44, 55], lim=(0, 55))
     b.legend(handles=[Patch(facecolor=RISK[k], label=k) for k in ("low", "medium", "high", "unknown")], loc="lower left",
-             bbox_to_anchor=(-0.02, 1.02), ncol=2, handlelength=0.8, columnspacing=0.7, handletextpad=0.3, borderaxespad=0,
-             fontsize=6.6, labelspacing=0.25)
+             bbox_to_anchor=(-0.02, 1.01), ncol=2, handlelength=0.8, columnspacing=0.7, handletextpad=0.3, borderaxespad=0,
+             fontsize=6.4, labelspacing=0.25)
     b.set_title("b  Risk labels", loc="left", fontweight="bold", color=INK, pad=24)
 
     rows_, cols_ = ["low", "medium", "high", "unknown"], ["low", "medium", "high"]
@@ -246,20 +265,20 @@ def fig_vsgold(out: Path) -> None:
     for i, r in enumerate(M):
         for j, v in enumerate(r):
             c.text(j, i, str(v), ha="center", va="center", fontsize=7.2, color="#FFFFFF" if v >= 9 else INK)
-    c.set_xticks(range(3)); c.set_xticklabels(["low", "med.", "high"]); c.set_yticks(range(4)); c.set_yticklabels(rows_)
-    c.set_xlabel("expert gold"); c.set_ylabel("ARGUS", labelpad=2)
+    c.set_xticks(range(3)); c.set_xticklabels(["low", "med.", "high"], color=MUTED); c.set_yticks(range(4)); c.set_yticklabels(rows_, color=INK)
+    c.set_xlabel("expert gold", color=MUTED); c.set_ylabel("ARGUS", labelpad=2, color=MUTED)
     c.set_xticks([x - 0.5 for x in range(1, 3)], minor=True); c.set_yticks([y - 0.5 for y in range(1, 4)], minor=True)
-    c.grid(which="minor", color=SURFACE, lw=1.6); c.tick_params(which="minor", length=0)
-    for s in c.spines.values():
-        s.set_visible(False)
-    c.set_title("c  Confusion", loc="left", fontweight="bold", color=INK, pad=22)
+    c.grid(which="minor", color=SURFACE, lw=1.6); c.tick_params(which="both", length=0)
+    for sp in c.spines.values():
+        sp.set_visible(False)
+    c.set_title("c  Confusion", loc="left", fontweight="bold", color=INK, pad=24)
     save(fig, out, "figure_vsgold")
 
 
 # ---------------------------------------------------------------- Figure 5
 def fig_realcorpus(out: Path) -> None:
     res = ROOT / "experiments/real_papers/corpus_results"
-    fig, axes = plt.subplots(1, 2, figsize=(6.3, 2.55), sharey=True, gridspec_kw={"wspace": 0.06})
+    fig, axes = plt.subplots(1, 2, figsize=(6.3, 2.55), sharey=True, gridspec_kw={"wspace": 0.08})
     for ax, (fname, title) in zip(axes, (("did_keyword_risks.csv", "keyword pipeline"), ("did_llm_risks.csv", "two-stage LLM pipeline"))):
         rows = [r for r in csv.DictReader((res / fname).open()) if r["paper_id"] != "paper_164"]
         n = len({r["paper_id"] for r in rows})
@@ -272,9 +291,8 @@ def fig_realcorpus(out: Path) -> None:
                 if w:
                     ax.barh(y, w, left=left, height=0.62, color=RISK[lv], edgecolor=SURFACE, linewidth=1.2, zorder=3)
                 left += w
-        ax.set_xlim(0, 1); ax.set_xticks([0, 0.25, 0.5, 0.75, 1.0]); ax.set_xticklabels(["0", "", "0.5", "", "1"])
-        ax.set_xlabel("share of the 26 papers"); ax.set_ylim(-0.6, len(DIMS) - 0.4)
-        ax.spines["left"].set_visible(False); ax.spines["bottom"].set_visible(False)
+        ax.set_ylim(-0.6, len(DIMS) - 0.4)
+        quantity_axis(ax, f"share of the {n} papers", [0, 0.5, 1])
         ax.set_title(title, loc="left", fontweight="bold", color=INK, pad=4)
     axes[0].set_yticks(range(len(DIMS))); axes[0].set_yticklabels([DIM_LABEL[d] for d in DIMS][::-1], color=INK)
     fig.legend(handles=[Patch(facecolor=RISK[k], label=k) for k in ("high", "medium", "low", "unknown")], loc="upper center",
@@ -286,22 +304,24 @@ def fig_realcorpus(out: Path) -> None:
 def fig_calibration(out: Path) -> None:
     m = json.loads((ROOT / "experiments/ablations/calibration_recheck.json").read_text())["policies"]
     before, dem, ab = m["medium"]["before"], m["medium"]["dominant_rule_only"], m["unknown"]["dominant_rule_only"]
-    panels = [("a", "Over-severe", "fewer is better", [x["over_severe"] for x in (before, dem, ab)], "{:.0f}"),
-              ("b", "Answered", "more is better", [x["answered"] for x in (before, dem, ab)], "{:.0f}"),
-              ("c", "Weighted \u03ba", "higher is better", [x["weighted_kappa"] for x in (before, dem, ab)], "{:.2f}")]
-    fig, axes = plt.subplots(1, 3, figsize=(3.12, 1.62), gridspec_kw={"wspace": 0.2})
-    for ax, (letter, title, hint, vals, fmt) in zip(axes, panels):
-        top = max(vals) * 1.30
-        ax.set_xlim(-0.5, 2.5); ax.set_ylim(0, top)
-        fig.canvas.draw()
+    n_cells = before["answered"] + before["unknown"]
+    panels = [("a", "Over-severe", "fewer is better", [x["over_severe"] for x in (before, dem, ab)], "{:.0f}",
+               f"cells (of {before['answered']} answered)", [0, before["answered"]]),
+              ("b", "Answered", "more is better", [x["answered"] for x in (before, dem, ab)], "{:.0f}", f"cells (of {n_cells})", [0, n_cells]),
+              ("c", "Weighted \u03ba", "higher is better", [x["weighted_kappa"] for x in (before, dem, ab)], "{:.2f}", "\u03ba", [0, 0.5])]
+    fig, axes = plt.subplots(1, 3, figsize=(3.12, 1.5), sharey=True, gridspec_kw={"wspace": 0.28})
+    rows = ["before", "rule 1 \u2192 med", "rule 1 \u2192 unk"]
+    for ax, (letter, title, hint, vals, fmt, xlabel, ticks) in zip(axes, panels):
         for i, v in enumerate(vals):
-            rounded_bar(ax, i, 0.56, v, BASE if i == 0 else ACCENT)
-            ax.text(i, v + top * 0.035, fmt.format(v), ha="center", va="bottom", fontsize=6.8, color=INK,
-                    fontweight="bold" if i else "normal")
-        ax.set_xticks(range(3)); ax.set_xticklabels(["before", "med", "unk"], fontsize=6.0, color=INK)
-        ax.set_yticks([]); ax.spines["left"].set_visible(False); ax.spines["bottom"].set_color(HAIR)
+            y = len(vals) - 1 - i
+            ax.barh(y, v, height=0.56, color=BASE if i == 0 else ACCENT, zorder=3)
+            ax.text(v + ticks[-1] * 0.03, y, fmt.format(v), ha="left", va="center", fontsize=6.6, color=INK,
+                    fontweight="bold" if i else "normal", zorder=4)
+        ax.set_ylim(-0.6, len(vals) - 0.4)
+        quantity_axis(ax, xlabel, ticks, lim=(0, ticks[-1] * 1.32))
         ax.set_title(f"{letter}  {title}", loc="left", fontweight="bold", color=INK, pad=11, fontsize=7.2)
-        ax.text(0, 1.035, hint, transform=ax.transAxes, fontsize=6.0, color=MUTED, ha="left", va="bottom")
+        ax.text(0, 1.04, hint, transform=ax.transAxes, fontsize=6.0, color=MUTED, ha="left", va="bottom")
+    axes[0].set_yticks(range(len(rows))); axes[0].set_yticklabels(rows[::-1], color=INK, fontsize=6.6)
     save(fig, out, "calibration_tradeoff")
 
 
