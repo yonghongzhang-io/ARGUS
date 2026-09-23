@@ -333,18 +333,17 @@ malformed cell is coerced to \texttt{unknown}.\end{sloppypar}
 
 \section{Reproducibility Details}
 \label{app:repro}
-\begin{sloppypar}\noindent Code, configuration, prompts, committed run files, and the
-frozen pilot inputs are available at
-\url{https://github.com/yonghongzhang-io/ARGUS}.\end{sloppypar}
+\noindent Code, configuration, prompts, committed run files, and the frozen
+pilot inputs are available from the corresponding author on request.
 
 
 All gpt-4o stages use temperature~$0$ with \texttt{max\_steps}{=}1; newer
 reasoning models (Claude Opus~4.8) reject an explicit temperature and run at
 provider defaults. The identification rubric, flaw taxonomy, and
-33-variant catalog are declarative configuration files in the code release, and
+33-variant catalog are declarative configuration files in the code base, and
 the keyword baseline plus all leak-freedom (non-circularity) checks are
 deterministic and run without model access. Eleven-flaw numbers are July-2026
-runs of the released runner; detection replicates exactly across the
+runs of the current runner; detection replicates exactly across the
 \texttt{gpt-4o} alias and the dated \texttt{gpt-4o-2024-11-20} snapshot
 (localization varies between runs, $0.455$--$0.727$, and the snapshot run
 rates one clean dimension medium, a false alarm of $0.09$ where the reported
@@ -630,7 +629,7 @@ touch land on the gold label. They are not principled: a paper's age does not
 remove a staggered-timing bias, a rationale that mentions clustering may be
 reporting its absence, and rule~4 has no content condition at all (locating
 relevant evidence is not the evidence supporting the assumption). We treat only
-rule~1 as a result. The released script
+rule~1 as a result. The script
 (\path{calibrate_argus_v1_pilot.py}) reproduces the historical outputs on all 55
 cells.
 
