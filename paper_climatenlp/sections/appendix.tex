@@ -2,20 +2,20 @@
 \label{app:motivation}
 
 \subsection{Why climate-policy DID is a demanding audit setting}
-Climate-policy evaluations present several recurring identification challenges.
-First, policy announcement, legal adoption, and actual implementation may occur at
-different dates, creating scope for anticipation. Second, carbon markets and
-environmental regulations are commonly introduced at different times across
-jurisdictions, making heterogeneous and staggered treatment effects central rather
-than exceptional. Third, emissions, investment, and production responses can spill
-across regional borders, challenging no-interference assumptions. Fourth, climate
-policies frequently overlap with industrial, energy, and air-pollution regulations,
-complicating the exclusion of concurrent interventions. Fifth, policy effects may
-emerge with long and heterogeneous lags. Finally, emissions and environmental
-outcomes are assembled from administrative, modeled, or remotely sensed sources
-whose measurement properties vary across places and time. These features do not make
-DID unique to climate policy, but they make the quality of identification evidence
-especially consequential for policy interpretation and comparison.
+Climate-policy evaluations can raise several identification challenges at
+once. Policy announcement, legal adoption, and actual implementation may occur
+at different dates, creating scope for anticipation. Carbon markets and
+environmental regulations may be introduced at different times across
+jurisdictions, so that heterogeneous and staggered treatment effects need to
+be handled. Emissions, investment, and production responses can spill across
+regional borders, challenging no-interference assumptions. Climate policies
+can overlap with industrial, energy, and air-pollution regulations,
+complicating the exclusion of concurrent interventions. Policy effects may
+emerge with long and heterogeneous lags. Emissions and environmental outcomes
+may be assembled from administrative, modeled, or remotely sensed sources whose
+measurement properties vary across places and time. These features do not make
+DID unique to climate policy; they motivate a rubric that makes the evidence
+for each design choice explicit.
 
 \subsection{Identification auditing and research reliability}
 \sys{} addresses one component of a broader research-reliability problem: published
@@ -27,8 +27,8 @@ This is the identification-credibility component of the broader research-design 
 \cite{angristpischke2010,atheyimbens2017}, which increasingly treats an assumption
 like parallel trends as a matter of degree rather than a binary
 \cite{rambachanroth2023,roth2022}. \sys{} does not attempt to audit every component
-of an empirical paper; it focuses on the identification argument that licenses a
-causal interpretation.
+of an empirical paper; it focuses on the assumptions that support a causal
+interpretation.
 
 \subsection{Why the pipeline is bounded}
 Open-ended agents may choose different tools and reasoning paths across runs, making
@@ -38,8 +38,9 @@ increasingly used for evaluative and reviewing tasks
 their reasoning traces are hard to audit. \sys{} instead fixes the pipeline order in
 code and confines model-driven decisions to evidence retrieval and adequacy
 assessment. Each model call operates under a fixed tool set, a hard step budget, and
-a logged trace. This design trades autonomy for reproducibility, inspectability, and
-controlled evaluation under flaw injection.
+a logged trace. This design trades autonomy for inspectability and controlled
+evaluation under flaw injection; it fixes the sequence of operations, not the
+model's outputs.
 
 \section{Flaw Taxonomy Provenance}
 \label{app:flawlit}
@@ -79,9 +80,10 @@ flaws as future work.
 \section{Ablation Matrix and Cross-Model Panel}
 \label{app:matrix}
 
-Table~\ref{tab:matrix} grades compute on the 33-variant benchmark: task
-decomposition (one adequacy call per dimension) drives synthetic detection, and
-the retrieval-and-gate layer converts omission detection into abstention.
+Table~\ref{tab:matrix} grades compute on the 33-variant benchmark:
+per-dimension prompting (one adequacy call per dimension) detects more variants
+than a single joint call, and the retrieval-and-gate layer converts omission
+detection into abstention.
 Table~\ref{tab:crossmodel} ports the unchanged pipeline across providers:
 commission detection is uniformly high, while false-alarm and localization
 profiles vary sharply by model. Cross-provider decoding defaults differ (newer
@@ -191,8 +193,10 @@ baseline instead searches paragraph chunks capped at 900 characters
 (sentence-split when longer) with a single query string and top $k{=}5$, scoring
 positive and negative sentinel phrases. With \texttt{max\_steps}{=}1 there is
 no iterative exploration, so breadth is the top-$k$ cap and depth is one round.
-Chunk size, $k$, and embedding retrieval were not swept; the oracle-retrieval
-arm of \S\ref{sec:variants} stands in for the retrieval upper bound.
+Chunk size, $k$, and embedding retrieval were not swept. The oracle-retrieval
+arm of \S\ref{sec:variants} is a diagnostic comparison in which the target
+section is supplied directly and the gate is bypassed; it is not a formal upper
+bound on retrieval performance.
 Table~\ref{tab:gate} shows how the gate's three outcomes map to risk on the
 pilot-gold cells, the mechanism behind the fixture/real-paper asymmetry of
 \S\ref{sec:realpapers}.
@@ -200,7 +204,7 @@ pilot-gold cells, the mechanism behind the fixture/real-paper asymmetry of
 \begin{table}[t]
   \centering\small
   \caption{Retrieval quality versus emitted risk on the 55 pilot-gold cells
-  (rich re-run). Failed retrieval always abstains; weak retrieval almost always
+  (re-run recording retrieval quality and evidence status). Failed retrieval always abstains; weak retrieval almost always
   becomes a substantive \emph{high}, 19 of those 20 with
   \texttt{evidence\_status=missing}.}
   \label{tab:gate}
@@ -349,9 +353,9 @@ runs of the current runner; detection replicates exactly across the
 rates one clean dimension medium, a false alarm of $0.09$ where the reported
 run has none). A June-2026 run of the
 same code had scored two-stage $1.000$/$0.909$ and single-pass $0.455$; neither
-value reproduces on current serving of the alias \emph{or} the dated snapshot,
-indicating provider-side serving drift, so we report only currently replicable
-numbers. The 33-variant benchmark was run three
+value was reproduced in July on the alias \emph{or} the dated snapshot. The
+available records do not establish the cause of this difference, so we report
+the later runs with their dates and model identifiers. The 33-variant benchmark was run three
 times end-to-end (roughly $750$ model calls per run, ${\sim}20$ minutes and
 ${\sim}$US\$8 per gpt-4o run; the local Llama run took ${\sim}67$ minutes on a
 laptop at zero API cost); binary detection agreed on 32/33 variants across the
@@ -440,7 +444,7 @@ and adjudicated labels they read are frozen with checksums in
   gold (answered cells only; quadratic-weighted $\kappa$; 5,000 resamples).
   Rule~1 is the weak-retrieval rule; rules~1--4 add the three single-cell rules
   of Appendix~\ref{app:supp}. Resampling cells ignores their nesting in five
-  papers, so the intervals are too narrow.}
+  papers and may understate uncertainty.}
   \label{tab:ci_gold}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
@@ -485,10 +489,11 @@ climate-specific content of the paper is the rubric instantiation of
 \S\ref{sec:framework} and Appendix~\ref{app:motivation}; the synthetic fixture
 of \S\ref{sec:evaluation} is a generic environmental-policy study (a China
 emissions-trading fixture ships with the code but produced none of the numbers
-reported here). Audit behaviour is not driven by domain: the
-environment-and-energy subset's risk distribution (high $0.34$,
-\texttt{unknown} $0.43$; 44 cells) is close to the remainder's (high $0.46$,
-\texttt{unknown} $0.39$; 242 cells).
+reported here). The environment-and-energy subset has an \texttt{unknown}
+share of $0.43$ (44 cells), against $0.39$ in the remaining papers (242
+cells); the corresponding high-risk shares are $0.34$ and $0.46$. With four
+papers in the subset, this comparison does not establish whether audit
+behaviour differs by domain.
 
 \begin{table}[t]
   \centering\small
@@ -597,15 +602,15 @@ flags \emph{inference} as high because ``the paper only mentions
 heteroskedastic-consistent standard errors and does not provide information on
 clustering or the number of clusters'': a specific econometric observation, not
 a keyword hit. Elsewhere it distinguishes a \emph{related but different} reported
-check (an alternative-specification section) from the placebo test an assumption
-actually requires.
+check (an alternative-specification section) from the placebo evidence the
+rubric specifies for that dimension.
 
 \section{Supplementary Figures and Tables}
 \label{app:supp}
 
 Pilot-gold construction (\S\ref{sec:gold}): round-1 agreement on the raw
-3-level scale was low (Cohen's $\kappa=0.17$) but almost entirely ordinal
-(weighted $\kappa=0.31$; $96\%$ of disagreements are a single severity step).
+3-level scale was low (Cohen's $\kappa=0.17$; quadratic-weighted
+$\kappa=0.31$), and $96\%$ of disagreements were a single severity step apart.
 Of the 27 round-1 disagreements, 16 resolved to a single label once the
 low/medium boundary was anchored, and 11 were flagged intrinsically ambiguous.
 In the leave-one-paper-out check (\S\ref{sec:calib}), the demotion rule's
@@ -619,15 +624,17 @@ The layer acts on \emph{high} cells only and never raises a risk; the first
 matching rule applies. Rule~1 (20 cells): \texttt{retrieval\_quality=weak}
 $\to$ \emph{medium}, or $\to$ \texttt{unknown} under the abstain policy. Three
 further rules each fire on one cell and demote to \emph{medium}: rule~2, the
-dimension is staggered timing and the rationale names a modern estimator
-(Callaway, Sun--Abraham, Goodman-Bacon); rule~3, the dimension is inference,
+dimension is staggered timing and the rationale names Callaway, Sun--Abraham,
+Goodman--Bacon, or ``modern estimator''; rule~3, the dimension is inference,
 \texttt{evidence\_status=missing}, and the rationale mentions ``cluster'' or
 ``robust standard errors''; rule~4, the dimension is concurrent policies and
-\texttt{retrieval\_quality=good}. Rules~2--4 are string and field tests written
-minutes after the over-severity analysis of this pilot, and all three cells they
-touch land on the gold label. They are not principled: a paper's age does not
-remove a staggered-timing bias, a rationale that mentions clustering may be
-reporting its absence, and rule~4 has no content condition at all (locating
+\texttt{retrieval\_quality=good}. Rules~2--4 are post-hoc string and field
+rules defined after inspecting the errors on this same pilot, and all three
+cells they touch land on the gold label. They are not principled: naming an
+estimator, or the Goodman--Bacon decomposition (a diagnostic of two-way
+fixed-effects comparisons, not a heterogeneity-robust estimator), does not show
+that it was used appropriately; a rationale that mentions clustering may be
+reporting its absence; and rule~4 has no content condition at all (locating
 relevant evidence is not the evidence supporting the assumption). We treat only
 rule~1 as a result. The script
 (\path{calibrate_argus_v1_pilot.py}) reproduces the historical outputs on all 55
@@ -659,7 +666,7 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.94\textwidth]{figures/figure_vsgold}
-  \caption{\sys{}-LLM versus the adjudicated expert gold on the 55 pilot cells
+  \caption{\sys{}-LLM versus the adjudicated gold on the 55 pilot cells
   (frozen protocol). \textbf{(a)}~Every cell, eleven dimensions by five papers,
   coloured by outcome: \sys{} abstains on 22 and, of the 33 it answers, is more
   severe than the gold on 28, matches it on 5, and is less severe on none.
@@ -686,8 +693,8 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   Two policies for a weak-retrieval \emph{high}: demote to \emph{medium} (med,
   keep coverage) or abstain to \texttt{unknown} (unk). Rule~1 alone is the
   result we claim; rules~1--4 add three single-cell exploratory rules
-  (Appendix~\ref{app:supp}). Under abstention rule~1 fixes no cell: its higher
-  agreement comes from dropping 20 answers. Pilot scale: only 2 gold cells are
+  (Appendix~\ref{app:supp}). Under abstention rule~1 changes no retained
+  label: its higher agreement comes from dropping 20 answers. Pilot scale: only 2 gold cells are
   \emph{high}. The before column is the rich re-run of \S\ref{sec:calib}, which
   differs from the corpus run of Table~\ref{tab:vsgold} in one cell; intervals
   in Table~\ref{tab:ci_gold}.}
@@ -720,7 +727,7 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   Demoting weak-retrieval \emph{high}s to \emph{medium} preserves coverage (33
   answered) while cutting over-severe judgments from 29 to 21; abstaining leaves
   fewer over-severe cells (9) and a higher weighted $\kappa$ ($0.32$) only by
-  discarding 20 answers, and fixes none of them. Calibration reduces severity
+  discarding 20 answers, and leaves the remaining labels unchanged. Calibration reduces severity
   bias; the remaining bottleneck is evidence grounding, not severity
   thresholding alone.}
   \label{fig:calib_tradeoff}
@@ -731,8 +738,10 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
 
 Table~\ref{tab:results} compares pipelines that differ in the judgement policy
 \emph{and} in the evidence they retrieve. This control holds the evidence fixed.
-Its design, thresholds, and decision rule were committed to the repository before
-any model call (\path{SHARED_EVIDENCE_PROTOCOL.md}). Two evidence bundles are
+Its design, thresholds, and decision rule were committed before this control
+was run (\path{SHARED_EVIDENCE_PROTOCOL.md}, commit \texttt{e6dfd70}, 20
+September 2026; the runner, the two zero-call cells, and the model calls
+followed). Two evidence bundles are
 frozen to disk for every paper and dimension: K, the keyword
 pipeline's stage-2 chunks, and S, the LLM path's four section candidates with
 the relevance gate switched off. Each bundle is read by both policies, the

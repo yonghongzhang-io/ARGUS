@@ -23,8 +23,8 @@ often reproduce causal \emph{language} without reliable causal
 \emph{inference}; a few move toward applied settings and toward separating
 \emph{identification} from
 \emph{estimation}~\cite{lee2025econcausal,sawarni2026causalreasoning}. \sys{}
-asks the inverse question: are a \emph{human} paper's identification assumptions
-adequately evidenced? A causal verdict is out of scope by design.
+addresses a different task: whether a \emph{human} paper's identification
+assumptions are adequately evidenced. A causal verdict is out of scope by design.
 
 \paragraph{Responsible AI for empirical research.}
 AI is increasingly applied to research reliability: reproducibility checking,
@@ -38,9 +38,8 @@ pipelines~\cite{lu2024aiscientist}; these evaluators already produce ratings,
 pairwise preferences, and structured reviews. \sys{} applies an
 assumption-specific rubric to DID studies, links each dimension to in-paper
 evidence, and is measured against injected ground truth. \sys{}
-differs in target and posture: it audits \emph{identification credibility}
-specifically (the part of an argument that licenses a causal claim) and issues
-no verdicts, producing evidence-grounded, human-reviewable reports that localize
+focuses on the evidence for \emph{identification credibility} specifically
+(the assumptions supporting the causal interpretation) and issues no verdicts, producing evidence-grounded, human-reviewable reports that localize
 risk for the expert's final call. Closest to our setting,
 CausalVerify~\cite{causalverify} grounds evaluation in \emph{execution}: it runs
 a model's generated estimation code against synthetic data and checks the
@@ -70,9 +69,10 @@ non-neutral~\cite{raji2021benchmark,gebru2021datasheets}
 benchmark can measure its harness rather than its model:
 \citet{dmconfound} show that a fixed scaffold making the execution-critical
 decisions and a scorer grading output shape mask each other, so repairing
-either alone leaves the ranking uninformative. Our compute-graded ablation
-(\S\ref{sec:ablation}) is the same move applied inward, separating what the
-rubric and retrieval layer contribute from what the model does. Where ReAct-style agents~\cite{yao2023react} choose
-their own action sequence, \sys{} \emph{bounds} the paradigm (agency confined to two
-scoped sub-tasks behind deterministic control flow), trading autonomy for
-reproducibility and evidence-traceability.
+either alone leaves the ranking uninformative. Our ablations apply a
+related check inward: they compare joint and per-dimension prompting, with and
+without retrieval and relevance gating, holding the model and rubric fixed
+(\S\ref{sec:variants}). Where ReAct-style agents~\cite{yao2023react} choose
+their own action sequence, \sys{} fixes the order of retrieval and assessment
+and confines model calls to those two stages, trading autonomy for
+inspectability and evidence-traceability.

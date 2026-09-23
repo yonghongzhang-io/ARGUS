@@ -5,14 +5,15 @@ We evaluate \sys{} along four axes: a synthetic flaw-injection protocol, an
 architecture ablation, a run over 26 papers tagged difference-in-differences (DID)
 in an economics corpus that stress-test the audit architecture across empirical economics, beyond
 the climate-policy setting (carbon pricing, emissions trading, emission standards)
-that defines its target deployment, and a pilot with adjudicated expert labels. Four findings emerge: (i)~LLM pipelines that judge evidence \emph{adequacy}
-detect planted flaws that a keyword-presence pipeline misses; (ii)~per-dimension
-decomposition drives detection, while the bounded retrieval gate turns retrieval
-failure into an auditable \texttt{unknown} signal;
-(iii)~on real papers the dominant practical bottleneck shifts from causal
-reasoning to evidence grounding;
-and (iv)~against a human gold \sys{} is systematically over-severe, a bias that
-rules derived on the same pilot reduce in-sample.
+that defines its target deployment, and a pilot with adjudicated labels. Four
+findings emerge: (i)~LLM pipelines that judge evidence \emph{adequacy} detect
+planted flaws that a keyword-presence pipeline misses; (ii)~per-dimension
+prompting detects more planted flaws than a single joint call, while the
+retrieval gate turns retrieval failure into an auditable \texttt{unknown}
+signal; (iii)~on real papers retrieval limits coverage, and weakly relevant
+passages are associated with high-risk ratings; and (iv)~against the
+adjudicated labels \sys{} is systematically over-severe, a bias that rules
+derived on the same pilot reduce in-sample.
 
 \subsection{Adequacy pipelines versus keyword presence; what the gate trades}
 \label{sec:ablation}
@@ -22,7 +23,7 @@ We compare three assessors under one flaw-injection protocol on the
 $\mathrm{max\_steps}{=}1$). A deterministic \textbf{keyword baseline} scores each
 dimension from the presence of supporting and risk-indicating vocabulary. The
 \textbf{two-stage \sys{} assessor} judges evidence \emph{adequacy} (whether the
-reported evidence actually establishes the assumption). The two are complete
+reported evidence supports the assumption under the rubric). The two are complete
 pipelines with their own evidence paths: the baseline scores paragraph chunks,
 while the two-stage path re-retrieves and gates whole sections
 (Appendix~\ref{app:retrieval}). The pair is therefore an \emph{end-to-end}
@@ -39,12 +40,12 @@ low, medium, or high, so this arm cannot abstain
   \centering\small
   \caption{Synthetic flaw injection (\texttt{clean\_supported}, eleven flaws;
   all LLM rows gpt-4o, detection replicated on the dated 2024-11-20 snapshot; see
-  Appendix~\ref{app:repro} on serving drift). Every row is an end-to-end pipeline with its own evidence path (keyword and
+  Appendix~\ref{app:repro} on run-to-run differences). Every row is an end-to-end pipeline with its own evidence path (keyword and
   two-stage do not share retrieved evidence, Appendix~\ref{app:retrieval};
   Appendix~\ref{app:shared} holds it fixed); the
   ablation arms share the model and rubric but remove retrieval, the gate, or
   both. The final row is the leaked, pre-fix
-  circular setup. On the harder 33-variant benchmark the two-stage assessor
+  circular setup. On the 33-variant benchmark the two-stage assessor
   rates one clean dimension medium, a $0.09$ over-flag (\S\ref{sec:variants}).
   Wilson 95\% intervals for the main rates are in Table~\ref{tab:ci}.}
   \label{tab:results}
@@ -68,12 +69,12 @@ low, medium, or high, so this arm cannot abstain
 The baseline never raises a false alarm and correctly flags the two omission
 flaws (\texttt{measurement\_break}, \texttt{spillover\_contamination}) by the
 \emph{absence} of their vocabulary, but beyond those detection is only $0.182$
-(Figure~\ref{fig:results}b). Two failure modes explain it: \emph{cross-section
-vocabulary bleed} (deleting the placebo section does not help when another
+(Figure~\ref{fig:results}b). Two failure modes explain it: the same keywords occur in
+other sections (deleting the placebo section does not help when another
 section also mentions ``placebo'') and blindness to \emph{every} commission
 flaw, whose flawed-but-plausible evidence carries the expected topic vocabulary.
 
-\paragraph{LLM adequacy pipelines close the gap.}
+\paragraph{Detection improves with the LLM pipelines.}
 Replacing the keyword pipeline with the two-stage LLM pipeline raises detection
 from $0.182$ to $0.727$ with no false alarms, catching \emph{every} commission
 flaw the keyword scorer is blind to; handing each dimension the full fixture (the
@@ -91,9 +92,10 @@ keyword present.
 \paragraph{What the gate trades.}
 The gated pipeline detects \emph{less} than its own ablations here ($0.727$ vs
 $0.818$ and $1.000$) by design: its three misses are all \emph{omission} flaws
-on which retrieval finds nothing and it abstains rather than guessing (the
-oracle-retrieval arm in \S\ref{sec:variants} attributes every such miss to the
-gate, not the judge). The gate's effect is behavioural and shows on real papers. A single-pass
+on which retrieval finds nothing and it abstains rather than guessing: in the
+reported runs each of these misses terminates at the relevance gate as
+\texttt{unknown}, and the oracle-retrieval arm of \S\ref{sec:variants} flags
+the same cases when the assessor is called on the target section. The gate's effect is behavioural and shows on real papers. A single-pass
 variant whose prompt \emph{does} permit \texttt{unknown} (``use sparingly'';
 Appendix~\ref{app:prompts}) abstained on one of 275 cells ($0.4\%$), against
 $38.9\%$ mechanical abstentions for the gated pipeline
@@ -102,80 +104,84 @@ hard to ground; without cell-level gold the contrast does not show which is
 more reliable.
 
 \paragraph{Scope.}
-These are synthetic fixtures with few dimensions; ceilings on clearly injected
-flaws are only a proof-of-concept. The sharper tests follow:
-subtler flaws (\S\ref{sec:variants}), then real papers (\S\ref{sec:realpapers}).
+These are short synthetic fixtures; ceilings on clearly injected flaws are a
+proof-of-concept, tested next on 33 variants (\S\ref{sec:variants}) and real
+papers (\S\ref{sec:realpapers}).
 
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.72\textwidth]{figures/figure_phase1}
   \caption{Keyword pipeline vs.\ LLM evidence-adequacy pipeline ($n{=}11$ flaws,
-  realistic injection). \textbf{(a)}~End to end, the LLM pipeline raises detection and
+  structural injection). \textbf{(a)}~End to end, the LLM pipeline raises detection and
   localization $0.182\,{\to}\,0.727$ with false alarm $0$ (the two pipelines
   retrieve evidence differently; Appendix~\ref{app:shared} holds it fixed). \textbf{(b)}~Per-flaw
   caught/missed: the keyword baseline is \emph{blind to every commission-type
   flaw}, all of which the LLM catches; the LLM's three misses are omissions on
-  which it abstains. Table~\ref{tab:variants} reports the harder 33-variant
+  which it abstains. Table~\ref{tab:variants} reports the 33-variant
   benchmark.}
   \label{fig:results}
 \end{figure*}
 
-\subsection{Robustness: a larger, harder variant benchmark}
+\subsection{An expanded benchmark of 33 flaw variants}
 \label{sec:variants}
-The eleven flaws are deliberately clear-cut, so we built a harder benchmark: 33
-variants, three per dimension (two \emph{commission} rewrites, one
-\emph{omission}), each verified free of the keyword detector's sentinel
-phrases. Three two-stage runs (gpt-4o, temperature~$0$) are near-deterministic
+The eleven flaws are deliberately clear-cut, so we built an expanded benchmark:
+33 variants, three per dimension (two \emph{commission} rewrites, one
+\emph{omission}). The rewrites were written to resemble descriptions of flawed
+design choices and are verified free of the keyword detector's predefined
+negative-signal phrases. Three two-stage runs (gpt-4o, temperature~$0$) are near-deterministic
 (detection identical on 32/33 variants, risk labels on 31/33; Appendix~\ref{app:repro}). Detection is $0.73$--$0.76$ and localization
 $0.64$--$0.70$, in line with its behaviour on the eleven clear flaws.
 
 \paragraph{Where the gain comes from.}
 A compute-graded ablation on this benchmark (Appendix~\ref{app:matrix})
-separates the pipeline's ingredients, de-scaffolding the auditor in the sense
-of~\citet{dmconfound}: a full-paper single pass (one call)
-detects $0.727$; per-dimension prompting without retrieval (eleven calls)
-detects $0.879$; the full two-stage pipeline (twenty-two calls) detects
-$0.747$. Task \emph{decomposition} drives synthetic detection; the
+removes retrieval and gating in turn, the de-scaffolding check
+of~\citet{dmconfound} applied to our own pipeline: a full-paper single pass
+(one call) detects $0.727$; per-dimension prompting without retrieval (eleven
+calls) detects $0.879$; the full two-stage pipeline (twenty-two calls) detects
+$0.747$. Per-dimension prompting detects more variants than a single joint
+call (29/33 vs 24/33); the comparison changes both the task decomposition and
+the number of calls, so it does not isolate their separate contributions. The
 retrieval-and-gate layer then \emph{trades} omission detection for abstention
-(on these small fixtures a gateless assessor sees deleted sections directly in
-its context; on real 30-page papers it instead commits judgements nearly
-everywhere, \S\ref{sec:realpapers}). An \emph{oracle-retrieval} arm completes
-the attribution: fed the target section directly (empty for omissions,
+(on these short fixtures a gateless assessor sees the deleted section in its
+context; on real papers it commits judgements nearly everywhere,
+\S\ref{sec:realpapers}). An \emph{oracle-retrieval} arm supplies
+a diagnostic comparison: fed the target section directly (empty for omissions,
 bypassing the gate), the assessor detects $0.86$ of commissions and $1.00$ of
 omissions, while the gate suppresses the alarms section-level evidence alone
 triggers ($0.21$ oracle arm vs $0.09$; the full-context arm's $0.00$ reflects
 its wider view). At $n{=}33$ none of these pairwise arm differences reaches
 significance under an exact paired McNemar test (single-pass vs per-dimension
 $p{=}0.13$, per-dimension vs two-stage $p{=}0.22$, two-stage vs oracle
-$p{=}0.13$; Appendix~\ref{app:ci}); the attribution we claim is mechanistic
-(every extra omission the oracle arm catches is a gate abstention), not a
-significant rate gap.
+$p{=}0.13$; Appendix~\ref{app:ci}); the claim concerns the observed execution
+path (every extra omission the oracle arm catches is a case the gated pipeline
+had scored \texttt{unknown} at the gate), not a significant rate gap.
 
 \paragraph{Cross-model robustness.}
 Porting the unchanged pipeline across providers shows that high commission
 detection is not model-specific (Appendix~\ref{app:matrix}): \emph{commission} detection is high
 everywhere (gpt-4o $0.89$, Claude Opus~4.8 $1.00$, Gemini~2.5 Flash $0.91$,
-Llama~3.1 8B $0.95$), so the flawed-but-natural rewrites are legible to every
-model, not only to the one they were developed against. What differs is the
+Llama~3.1 8B $0.95$), but the clean-fixture flag rates differ substantially
+(Table~\ref{tab:crossmodel}), so high detection alone does not show that each
+model separates the flawed and clean versions reliably. What differs is the
 operating point, and Table~\ref{tab:crossmodel_ops} shows where: Opus~4.8
 rates the \emph{clean} fixture medium or high on 18 of 22 commission pairs
 (false alarm $0.82$), the over-severity the human gold finds for gpt-4o, only
 stronger; Llama~8B almost never abstains (one \texttt{unknown} in eleven
 omissions) and calls the missing evidence high; Gemini is closest to gpt-4o
-(26/33 identical injected verdicts). Commission detection ports across models;
-the gate's abstention behaviour and the precision profile do not, so a
-practitioner changing the model must re-tune the calibration layer of
-\S\ref{sec:calib}.
+(26/33 identical injected verdicts). High commission detection is observed
+with every tested model; the abstention behaviour and the false-alarm profile
+are not, so changing the model requires a fresh assessment of calibration and
+false alarms (\S\ref{sec:calib}).
 
 Detection differs by flaw type (Table~\ref{tab:variants}). The
 assessor catches $0.86$--$0.91$ of \emph{commission} flaws (flawed-but-present
 evidence, the case adequacy reasoning targets) but only $0.45$ of \emph{omission}
 flaws. The omission misses are not confident errors: the six missed variants all
 abstain to \texttt{unknown} rather than assert low risk, because deleting the
-supporting section makes retrieval fail. This reproduces, under controlled
-injection, the same \emph{evidence-grounding} bottleneck we find on real papers
-(\S\ref{sec:realpapers}): the pipeline reasons well over evidence it can retrieve
-and abstains when it cannot. The only false-alarm signal ($0.09$ in every run) is one
+supporting section makes retrieval fail. This is the same failure point we find on real papers
+(\S\ref{sec:realpapers}): on these fixtures the assessor flags most
+commission variants when the evidence is retrieved and abstains when it is
+not. The only false-alarm signal ($0.09$ in every run) is one
 clean-fixture dimension rated medium (\emph{inference} in run~1,
 \emph{specification} in runs~2 and~3), the same over-severity we quantify
 against the human gold (\S\ref{sec:vsgold}); the clean audit is itself not
@@ -184,7 +190,7 @@ eleven-flaw set.
 
 \begin{table}[t]
   \centering\small
-  \caption{Harder 33-variant benchmark (gpt-4o, mean of three runs at
+  \caption{The 33-variant benchmark (gpt-4o, mean of three runs at
   temperature~0; detection decisions identical on 32/33 variants). Adequacy reasoning
   catches \emph{commission} flaws; \emph{omission} misses are abstentions to
   \texttt{unknown}, marking the evidence-grounding bottleneck rather than wrong
@@ -202,7 +208,7 @@ eleven-flaw set.
   \end{tabular}
 \end{table}
 
-\subsection{From synthetic fixtures to real papers: a relocated bottleneck}
+\subsection{Real papers: retrieval limits audit coverage}
 \label{sec:realpapers}
 
 We next audit the 26 papers tagged difference-in-differences in the
@@ -212,16 +218,18 @@ injected ground truth; we report
 the raw per-dimension risk distribution of each assessor
 (Figure~\ref{fig:realcorpus}). The keyword baseline is permissive: $91\%$ of its
 judgements are \emph{low}. It sees topic vocabulary, declares the dimension
-supported, and flags almost nothing. The two-stage LLM is differentiated, and its
+supported, and flags almost nothing. The two-stage LLM assigns a wider range of risk labels, and its
 most informative output is that ${\sim}40\%$ of judgements are \texttt{unknown}:
 the relevance gate could not surface evidence, so the system says so rather than
 over-flagging. Two regimes appear: dimensions whose discussion is diffuse or
 lives in figures the text retrieval cannot reach are dominated by
 \texttt{unknown}, while dimensions where a section is retrieved are judged
-inadequate. Moving to real papers is bottlenecked by \emph{evidence grounding} more
-than by causal reasoning. The design therefore
-reports retrieval quality and an explicit \texttt{unknown} state distinct from a
-substantive high-risk judgement.
+inadequate. On real papers, then, retrieval limits coverage, and weakly
+relevant passages are associated with high-risk ratings. These results
+identify retrieval and the treatment of missing evidence as failure points; they
+do not separate their contributions from rubric applicability and assessment
+errors. The design therefore reports retrieval quality and an explicit
+\texttt{unknown} state distinct from a substantive high-risk judgement.
 
 \paragraph{Why fixtures abstain but real papers flag.}
 The synthetic omission misses of \S\ref{sec:variants} become abstentions, yet
@@ -242,21 +250,21 @@ Judgements cite specific evidence
 (Appendix~\ref{app:qual} gives a qualitative example). Roughly $44\%$ of
 judgements on these papers are \emph{high}; without dimension-level
 expert labels we cannot yet say whether this is warranted or over-strict where
-retrieval succeeds. We claim the contrast in behaviour and the localization of the
-grounding bottleneck, not the correctness of any individual flag.
+retrieval succeeds. We claim the contrast in behaviour and the location of the coverage failure,
+not the correctness of any individual flag.
 
-\subsection{An adjudicated expert pilot}
+\subsection{An adjudicated annotation pilot}
 \label{sec:gold}
 
-To test agreement with expert judgement, we built a small gold: two annotators
-independently labelled risk on five corpus papers $\times$
-11 dimensions (55 cells), with an adjudication round resolving disagreements
-(construction details and agreement statistics in Appendix~\ref{app:supp}).
-Disagreement is almost entirely ordinal and concentrates on
+To test agreement with human judgement, we built a small adjudicated reference
+set (the ``gold''): two annotators independently labelled risk on five corpus
+papers $\times$ 11 dimensions (55 cells), with an adjudication round resolving
+disagreements (construction details and agreement statistics in
+Appendix~\ref{app:supp}). In the first round, $96\%$ of disagreements were one
+severity level apart, and the cells flagged as intrinsically ambiguous involve
 \emph{non-canonical DID designs} (continuous-shock, event-study) where a
 dimension like staggered timing is not applicable as conventionally defined: a
-real share of ``expert disagreement'' is \emph{design applicability}, not
-severity. The adjudicated gold (55 cells) is low 29, medium 24, high 2. This is
+share of the disagreement is \emph{design applicability}, not severity. The adjudicated gold (55 cells) is low 29, medium 24, high 2. This is
 a pilot ($n{=}5$, two annotators), read as preliminary.
 
 \subsection{\sys{} versus the human gold}
@@ -270,8 +278,9 @@ cells, and when it answers its errors are almost entirely one-directional:
 28/33 answered cells are more severe than the adjudicated gold, none less
 severe; gold contains two high-risk cells, \sys{} assigns 24. With so few high
 gold labels, precision and recall are noisy (of the two high gold cells \sys{}
-flags one and abstains on the other); the robust conclusion is over-severity
-toward missing or partial evidence: as a screening tool \sys{} over-flags.
+flags one and abstains on the other); the pattern observed in this pilot is
+over-severity toward missing or partial evidence: as a screening tool \sys{}
+over-flags.
 
 \subsection{Calibration: from diagnosis to improvement}
 \label{sec:calib}
@@ -292,15 +301,18 @@ agreement $0.12$.)
 A deterministic rule over fields the LLM already produces reduces the
 over-severity: a weak-retrieval \emph{high} (20 cells) is demoted to
 \emph{medium} (keep coverage) or to \texttt{unknown} (abstain). Keeping
-coverage, the rule raises exact agreement from $0.12$ to $0.36$ and cuts
-over-severe cells from 29 to 21: it fixes eight cells, breaks none, and keeps
-the one high gold cell \sys{} had caught. Abstaining only removes those 20
-answers and fixes nothing. Three further single-cell rules lift agreement to
-$0.45$; they are crude field tests, listed in Appendix~\ref{app:supp} and
+coverage, the rule raises exact agreement from $0.12$ to $0.36$ ($4/33$ to
+$12/33$) and cuts over-severe cells from 29 to 21: on the 33 answered cells it
+changes eight incorrect labels to the adjudicated label and no correct label to
+an incorrect one, and keeps the one high gold cell \sys{} had caught. The
+abstention variant removes those 20 predictions (coverage $33/55 \to 13/55$)
+and leaves the remaining labels unchanged. Three further single-cell rules
+lift exact agreement to $0.45$ without raising weighted $\kappa$; they are
+post-hoc string and field rules, listed in Appendix~\ref{app:supp} and
 reported as exploratory (Table~\ref{tab:calib},
 Figure~\ref{fig:calib_tradeoff}). Every rule was written after an error
 analysis of this same pilot, so the results are in-sample: the lift points the
 same way in four of five papers (one tie) and is untested on unseen papers
 (Appendix~\ref{app:ci}). Calibration corrects severity but cannot recover
-missing evidence; correct \emph{coverage} needs better grounding.
+evidence that retrieval did not surface.
 
