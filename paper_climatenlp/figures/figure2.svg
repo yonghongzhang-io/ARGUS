@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="455.0pt" height="192.0pt" viewBox="0 0 455.0 192.0" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif">
 <rect width="455.0" height="192.0" fill="#ffffff"/>
-<rect x="0.60" y="0.60" width="453.80" height="103.40" rx="5" fill="#fcfdfe" stroke="#e2e5ea" stroke-width="0.6"/>
-<text x="7.00" y="12.00" font-size="8.6" fill="#1e2a3a" text-anchor="start" font-weight="700">A.</text>
-<text x="19.50" y="12.00" font-size="8" fill="#1e2a3a" text-anchor="start" font-weight="700">Bounded ARGUS audit pipeline</text>
+<rect x="0.60" y="0.60" width="453.80" height="103.40" rx="5" fill="#fcfdfe" stroke="#9fd9b3" stroke-width="0.9"/>
+<text x="7.00" y="12.00" font-size="8.6" fill="#2f8a4c" text-anchor="start" font-weight="700">A.</text>
+<text x="19.50" y="12.00" font-size="8" fill="#2f8a4c" text-anchor="start" font-weight="700">Bounded ARGUS audit pipeline</text>
 <text x="141.82" y="12.00" font-size="7" fill="#8a9099" text-anchor="start">(per paper)</text>
 <rect x="6.75" y="19.00" width="64.50" height="53.00" rx="5" fill="#eef4fd" stroke="#5c8ad8" stroke-width="0.7" stroke-dasharray="2.4,2"/>
 <circle cx="14.40" cy="28.00" r="3.7" fill="#2e6ad4"/>

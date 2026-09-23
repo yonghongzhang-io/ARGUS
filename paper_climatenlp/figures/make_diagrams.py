@@ -237,9 +237,9 @@ def figure2(icons: dict[str, str]) -> Svg:
             g.out.append(f'<circle cx="{cx + 4.6:.2f}" cy="{cy + 7.3:.2f}" r="0.55" fill="#ffffff"/>')
 
     # ---- A
-    g.rect(0.6, 0.6, W - 1.2, 103.4, 5, "#fcfdfe", "#e2e5ea", 0.6)
-    g.text(7, 12, "A.", 8.6, INK, bold=True)
-    g.text(19.5, 12, "Bounded ARGUS audit pipeline", 8, INK, bold=True)
+    g.rect(0.6, 0.6, W - 1.2, 103.4, 5, "#fcfdfe", GREEN_EDGE, 0.9)
+    g.text(7, 12, "A.", 8.6, GREEN, bold=True)
+    g.text(19.5, 12, "Bounded ARGUS audit pipeline", 8, GREEN, bold=True)
     g.text(19.5 + width("Bounded ARGUS audit pipeline", 8, True) + 4, 12, "(per paper)", 7, FAINT)
     bw, gap, top, bh = 64.5, 10.9, 19.0, 53.0
     x0 = (W - 6 * bw - 5 * gap) / 2
