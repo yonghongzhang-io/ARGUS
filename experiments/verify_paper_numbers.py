@@ -253,7 +253,7 @@ def variants() -> None:
     gained = [i for i, (x, y) in enumerate(zip(twd, ord_)) if y and not x]
     claim("every extra oracle catch is an omission the gate abstained on",
           all(runs[0][i]["flaw_type"] == "omission" and runs[0][i]["score"]["injected_risk"] == "unknown" for i in gained),
-          True, [("results.tex", r"every extra omission the oracle arm catches is a gate abstention")])
+          True, [("results.tex", r"every extra omission the oracle arm catches is a case the gated pipeline had scored \texttt{unknown} at the gate")])
 
     # cross-model
     names = {"claude_opus": "Claude Opus 4.8", "gemini_flash": "Gemini 2.5 Flash", "llama_open": "Llama 3.1 8B (local)"}
@@ -301,7 +301,7 @@ def corpus() -> None:
           (91, 40, 44),
           [("results.tex", r"$91\%$ of its judgements are \emph{low}"), ("results.tex", r"${\sim}40\%$ of judgements are \texttt{unknown}"),
            ("results.tex", r"Roughly $44\%$ of judgements on these papers are \emph{high}"),
-           ("main.tex", r"abstains on about $40\%$ of dimensions")])
+           ("main.tex", r"abstains on about $40\%$ of paper--dimension assessments")])
     dup = lambda f: [r["risk"] for r in rows(res / f) if r["paper_id"] == "paper_164"] == \
                     [r["risk"] for r in rows(res / f) if r["paper_id"] == "paper_120"]  # noqa: E731
     claim("duplicate entry audited identically by both assessors",
@@ -346,8 +346,7 @@ def corpus() -> None:
     claim("environment-and-energy subset vs remainder",
           (len(e), r2(share(e, "high")), r2(share(e, "unknown")), len(o), r2(share(o, "high")), r2(share(o, "unknown"))),
           (44, "0.34", "0.43", 242, "0.46", "0.39"),
-          [("appendix.tex", r"(high $0.34$, \texttt{unknown} $0.43$; 44 cells)"),
-           ("appendix.tex", r"(high $0.46$, \texttt{unknown} $0.39$; 242 cells)")])
+          [("appendix.tex", r"share of $0.43$ (44 cells), against $0.39$ in the remaining papers (242 cells); the corresponding high-risk shares are $0.34$ and $0.46$")])
     titles = [r["title_as_indexed"] for r in man]
     listed = tex("appendix.tex").split(r"\label{tab:corpuslist}")[1].split(r"\end{tabular}")[0].count(r"\\") - 0
     claim("T11 lists one title per counted paper", (len(titles), listed), (26, 26), [])
@@ -367,7 +366,7 @@ def pilot() -> None:
           [("appendix.tex", r"Of the 27 round-1 disagreements, 16 resolved to a single label once the low/medium boundary was anchored, and 11 were flagged intrinsically ambiguous")])
     papers = sorted({k[0] for k in g})
     sheets = ROOT / "data" / "annotations"  # raw annotator sheets: private, present only locally
-    where = [("appendix.tex", r"(Cohen's $\kappa=0.17$) but almost entirely ordinal (weighted $\kappa=0.31$; $96\%$ of disagreements are a single severity step)")]
+    where = [("appendix.tex", r"(Cohen's $\kappa=0.17$; quadratic-weighted $\kappa=0.31$), and $96\%$ of disagreements were a single severity step apart")]
     if all((sheets / f"{p}_{x}.csv").exists() for p in papers for x in "AB"):
         lab = {x: {(r["paper_id"], r["dimension"]): r["risk"].strip().lower()
                    for p in papers for r in rows(sheets / f"{p}_{x}.csv")} for x in "AB"}
@@ -396,7 +395,7 @@ def pilot() -> None:
           [("results.tex", r"\sys{} abstains on 22/55 cells"),
            ("results.tex", r"28/33 answered cells are more severe than the adjudicated gold, none less severe; gold contains two high-risk cells, \sys{} assigns 24"),
            ("results.tex", r"of the two high gold cells \sys{} flags one and abstains on the other"),
-           ("main.tex", r"on 28 of 33 labels"),
+           ("main.tex", r"on 28 of the 33 assessments it completes"),
            ("appendix.tex", r"\sys{} abstains on 22 and, of the 33 it answers, is more severe than the gold on 28, matches it on 5, and is less severe on none")])
     strict = [(corpus_run[k], g[k]) for k in g]
     claim("T13 agreement",
@@ -417,7 +416,7 @@ def pilot() -> None:
           [("appendix.tex", r"failed (22) & 22 & 0 & 0 & 0 \\"), ("appendix.tex", r"weak (22) & 0 & 20 & 2 & 0 \\"),
            ("appendix.tex", r"good (11) & 0 & 5 & 5 & 1 \\"),
            ("results.tex", r"all 22 failed-retrieval cells are \texttt{unknown}, and 20 of the 22 weak-retrieval cells are \emph{high}, 19 of them with \texttt{evidence\_status=missing}"),
-           ("discussion.tex", r"(20 of 22 weak-retrieval pilot cells are")])
+           ("discussion.tex", r"(20 of 22 weak-retrieval pilot cells)")])
     over_high = [k for k in g if rich[k]["risk"] == "high" and ORDER[g[k]] < 2]
     claim("over-severe highs: missing evidence, weak retrieval",
           (len(over_high), sum(rich[k]["evidence_status"] == "missing" for k in over_high),
@@ -462,8 +461,8 @@ def pilot() -> None:
            ("appendix.tex", r"answered / \texttt{unk} & 33/22 & 33/22 & 13/42 & 33/22 & 13/42 \\")])
     claim("exact-agreement rounding", (r2(4 / 33), r2(12 / 33), r2(4 / 13), f"{15 / 33:.3f}"[:4], r2(7 / 13)),
           ("0.12", "0.36", "0.31", "0.45", "0.54"),
-          [("results.tex", r"raises exact agreement from $0.12$ to $0.36$ and cuts over-severe cells from 29 to 21"),
-           ("results.tex", r"Three further single-cell rules lift agreement to $0.45$"),
+          [("results.tex", r"raises exact agreement from $0.12$ to $0.36$ ($4/33$ to $12/33$) and cuts over-severe cells from 29 to 21"),
+           ("results.tex", r"Three further single-cell rules lift exact agreement to $0.45$"),
            ("results.tex", r"so its pre-calibration figures are 29/33 over-severe and exact agreement $0.12$")])
     fired = Counter(r["calibration_rule"] for r in rows(FROZEN / "argus_rich_gold5_calibrated_medium.csv"))
     claim("rules fired", sorted(fired.values()), [1, 1, 1, 20, 32],
@@ -477,7 +476,7 @@ def pilot() -> None:
     p1 = 2 * sum(math.comb(fixed, i) for i in range(0 + 1)) / 2 ** fixed
     p4 = 2 * sum(math.comb(fixed4, i) for i in range(0 + 1)) / 2 ** fixed4
     claim("paired tests for the calibration lift", (fixed, broke, r3(p1), fixed4, r3(p4)), (8, 0, "0.008", 11, "0.001"),
-          [("results.tex", r"it fixes eight cells, breaks none, and keeps the one high gold cell \sys{} had caught"),
+          [("results.tex", r"changes eight incorrect labels to the adjudicated label and no correct label to an incorrect one, and keeps the one high gold cell \sys{} had caught"),
            ("appendix.tex", r"turns eight wrong cells exact and none the other way (exact McNemar $p{=}0.008$); all four rules turn eleven ($p{=}0.001$)")])
     pv = rec["medium"]["paired_vs_before"]
     claim("per-paper sign tests",
@@ -487,7 +486,7 @@ def pilot() -> None:
           [("appendix.tex", r"improves exact agreement in four papers and ties in one (sign test with the tie dropped, $p{=}0.125$); four rules improve all five ($p{=}0.0625$"),
            ("results.tex", r"the same way in four of five papers (one tie)")])
     claim("abstain policy fixes nothing", rec["unknown"]["paired_vs_before"]["dominant_rule_only"]["cells_fixed"], 0,
-          [("results.tex", r"Abstaining only removes those 20 answers and fixes nothing")])
+          [("results.tex", r"The abstention variant removes those 20 predictions (coverage $33/55 \to 13/55$) and leaves the remaining labels unchanged")])
     claim("released script reproduces the historical outputs",
           (rec["medium"]["reproduces_historical_output"], rec["unknown"]["reproduces_historical_output"]), ([55, 55], [55, 55]),
           [("appendix.tex", r"reproduces the historical outputs on all 55 cells")])

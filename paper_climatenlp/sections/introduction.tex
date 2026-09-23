@@ -8,20 +8,19 @@ assumptions such as parallel trends, no anticipation, appropriate treatment of
 staggered adoption, and limited interference between units, each of which a large
 body of methodological work has shown to be fragile
 \cite{bertrand2004trust,goodmanbacon2021,callaway2021,sunabraham2021,dechaisemartin2020,roth2023}.
-These assumptions are often difficult to assess in climate settings, where policies overlap,
-implementation is staggered, spillovers cross administrative boundaries, and
-emissions outcomes are imperfectly measured (Appendix~\ref{app:motivation}).
-Because environmental policy increasingly rests on this empirical evidence,
-causal conclusions built on weakly supported assumptions carry real costs for
-climate governance.
+These assumptions can be hard to assess in climate settings, where policies may
+overlap, be phased in over time, spill across administrative boundaries, and
+rely on modelled or remotely sensed outcomes (Appendix~\ref{app:motivation}).
+Where such estimates inform policy, causal conclusions built on weakly
+supported assumptions can mislead.
 
-Yet applied papers often assert these assumptions rather than audit whether the
-reported evidence supports them, one facet of a broader reliability gap in
-empirical research \cite{ioannidis2005,silberzahn2018many,brodeur2020methods}.
-A paper may assert parallel trends over an event-study figure, leaving the
-reader to judge whether the design, pre-period estimates, inference, and policy
-timing justify the claim. Performing this assessment manually is slow,
-expert-intensive, and difficult to standardize.
+Assessing an identifying assumption requires more than locating a reported
+diagnostic. A paper may present parallel trends over an event-study figure,
+leaving the reader to weigh the design, the pre-period estimates, the
+inference, and the policy timing before accepting the claim; the assessment
+has to be repeated for every assumption and every paper. This is one facet of a
+broader concern with the reliability of empirical findings
+\cite{ioannidis2005,silberzahn2018many,brodeur2020methods}.
 
 We argue that identification credibility is auditable even when the true causal
 effect is not, building on the research-design tradition in applied econometrics
@@ -42,9 +41,12 @@ Evaluating such an auditor is difficult because the true policy effect is
 unobserved. We therefore use \emph{flaw injection} as local ground truth: starting
 from a supported study fixture, we introduce one known identification flaw and test
 whether \sys{} detects it, remains quiet on the clean version, and localizes the
-affected dimension. We complement this controlled evaluation with deployment on 26
-corpus papers tagged DID and a small expert-labelled diagnostic pilot used to identify
-calibration and applicability failures.
+affected dimension. We complement this controlled evaluation with a run over 26 corpus papers
+tagged DID and a small diagnostic pilot with adjudicated labels, used to
+identify calibration and applicability failures. Climate-policy evaluation
+motivates the rubric; the present evaluation uses synthetic
+environmental-policy fixtures and a general-economics corpus, so performance on
+a dedicated climate-policy corpus is untested.
 
 \begin{figure*}[t]
   \centering
@@ -60,16 +62,17 @@ calibration and applicability failures.
 \end{figure*}
 
 \paragraph{Contributions.}
-Our central contribution is to make identification credibility auditable
-without access to the causal effect:
+We develop and evaluate a rubric and pipeline for assessing the reported
+evidence behind DID identification assumptions, without access to the causal
+effect:
 \begin{enumerate}
   \item an \emph{operationalization}: a machine-auditable
   \emph{assumption--implication--evidence} rubric and a bounded,
   evidence-grounded pipeline with explicit abstention (\S\ref{sec:framework});
   \item an \emph{evaluation methodology}: planted identification errors as
-  local ground truth, with compute-graded and oracle ablations that attribute
-  detection to decomposition and every synthetic omission miss to the retrieval
-  gate (\S\ref{sec:results});
+  local ground truth, with compute-graded and oracle ablations that locate the
+  gain in per-dimension prompting and trace every synthetic omission miss to a
+  gate abstention (\S\ref{sec:results});
   \item a \emph{diagnosis}: on real papers, grounding limits \emph{coverage}
   while over-severity limits \emph{agreement}, and a deterministic
   rule derived on the pilot reduces the latter in-sample.

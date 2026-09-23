@@ -52,11 +52,12 @@ remains challenging. We introduce \sys{}, a structured language-model pipeline
 that audits reported evidence against an eleven-dimension
 assumption--implication--evidence rubric and abstains when relevant evidence
 cannot be retrieved. We evaluate \sys{} using injected flaws, economics
-papers, and a small expert-annotated pilot. On the 11-flaw benchmark,
+papers, and a small pilot with adjudicated labels. On the 11-flaw benchmark,
 \sys{} detects $73\%$ of planted flaws, compared with $18\%$ for a keyword-based
-pipeline. On real papers, \sys{} abstains on about $40\%$ of dimensions for lack
-of retrievable evidence and, where it answers, is more severe than the experts
-on 28 of 33 labels. A simple post-hoc calibration rule reduces over-severity on
+pipeline. Across 26 economics papers, \sys{} abstains on about $40\%$ of
+paper--dimension assessments for lack of retrievable evidence. In a five-paper
+pilot with adjudicated labels, it assigns a higher risk level than the
+annotators on 28 of the 33 assessments it completes. A simple post-hoc calibration rule reduces over-severity on
 the same pilot used to develop it. \sys{} provides evidence-linked risk reports
 that localize potential weaknesses for expert review, without adjudicating
 causal claims.

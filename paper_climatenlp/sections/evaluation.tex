@@ -9,11 +9,11 @@ attempt to certify that \sys{} recovers true effects. Instead we construct
 \emph{local} ground truth by controlled perturbation. Beginning from a short
 synthetic fixture, an environmental-policy DID study that reports supporting
 evidence on all eleven dimensions, we inject
-exactly one known flaw that targets a single
-identification dimension, drawn from the flaw taxonomy
-(\texttt{flaw\_taxonomy.yaml}; Appendix~\ref{app:flawlit} traces each flaw to
-the literature that names it). Because we control which dimension we damaged, we
-know the correct audit outcome for that dimension, without ever needing the true
+exactly one known flaw that targets a single dimension, drawn from the flaw
+taxonomy (\texttt{flaw\_taxonomy.yaml}; Appendix~\ref{app:flawlit} traces
+each flaw to the literature that names it). The target dimension is known by
+construction, and the expected response (risk of at least \emph{medium} on
+that dimension) is defined by the rubric, without ever needing the true
 effect. The bottom band of Figure~\ref{fig:arch} shows the loop: the clean and
 injected versions are each audited, and three metrics are computed.
 
@@ -26,23 +26,24 @@ injected versions are each audited, and three metrics are computed.
         most strongly?
 \end{itemize}
 
-\subsection{Realistic perturbation, not sentinels}
+\subsection{Structural perturbation, not sentinels}
 How a flaw is injected is a methodological choice that matters. A na\"ive injector
 appends a sentence that \emph{names} the flaw: e.g.\ ``treated and control have
 non-zero pre-period coefficients with significant leads.'' If the detector then
 searches for exactly those phrases, detection becomes a tautology: the injector
 plants the very string the detector matches on. In our initial implementation this
-produced a perfect-looking but meaningless detection rate of $1.000$.
+produced a detection rate of $1.000$ inflated by phrase leakage.
 
-We replace this with \emph{realistic structural perturbation} of two kinds.
-\emph{Omission} flaws \emph{remove} the section, figure, or table that supplies the
-support for a dimension (e.g.\ deleting the placebo-robustness section or the
-balance table), modelling a paper that simply omits the check; an auditor can flag
-this non-circularly by noticing the \emph{absence} of evidence. \emph{Commission}
-flaws \emph{rewrite} a section in flawed-but-natural prose, the way a real flawed
-paper would describe a mistaken design choice (e.g.\ pooling all province-years in
-a two-way fixed-effects regression under staggered policy timing), \emph{without}
-containing any of the phrases the detector looks for. We enforce the latter with a
-regression test that fails if an injected paper contains the target dimension's
-negative-signal phrases, so the circularity cannot silently return. Detection
-therefore cannot be achieved by string matching.
+We replace this with \emph{structural perturbation} of two kinds.
+\emph{Omission} flaws \emph{remove} the section, figure, or table that supplies
+the evidence the rubric specifies for a dimension (e.g.\ deleting the
+placebo-robustness section or the balance table). They test sensitivity to
+missing reported support; they do not establish that the underlying assumption
+is violated. \emph{Commission} flaws \emph{rewrite} a section to introduce a
+stated design problem in prose intended to resemble how a flawed paper would
+describe it (e.g.\ pooling all province-years in a two-way fixed-effects
+regression under staggered policy timing), \emph{without} the phrases the
+keyword detector looks for. A regression test fails if an injected paper
+contains the target dimension's predefined negative-signal phrases, so this
+phrase leakage cannot silently return; detection cannot come from matching
+those phrases.
