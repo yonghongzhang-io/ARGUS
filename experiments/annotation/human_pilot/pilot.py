@@ -95,9 +95,16 @@ def read_workbook(path: Path, who: str) -> tuple[list[dict], dict, list[str]]:
 
 
 def ingest(path_a: Path, path_b: Path) -> None:
-    receipt = {"received_at": dt.datetime.now().astimezone().isoformat(timespec="seconds"),
-               "sha256": {"A": sha(path_a), "B": sha(path_b)}}
-    (HERE / "RECEIPT.json").write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+    rp = HERE / "RECEIPT.json"
+    receipt = json.loads(rp.read_text(encoding="utf-8")) if rp.exists() else {}
+    now = dt.datetime.now().astimezone().isoformat(timespec="seconds")
+    for who, path in (("A", path_a), ("B", path_b)):  # keep the receipt recorded when each workbook arrived
+        receipt.setdefault("received", {}).setdefault(who, {"file": path.name, "sha256": sha(path), "received_at": now})
+        if receipt["received"][who]["sha256"] != sha(path):
+            raise SystemExit(f"workbook {who} differs from the one whose receipt was recorded ({receipt['received'][who]['file']})")
+    receipt["ingested_at"] = now
+    receipt["sha256"] = {"A": sha(path_a), "B": sha(path_b)}
+    rp.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     data, signs, problems = {}, {}, []
     for who, path in (("A", path_a), ("B", path_b)):
         data[who], signs[who], p = read_workbook(path, who)
