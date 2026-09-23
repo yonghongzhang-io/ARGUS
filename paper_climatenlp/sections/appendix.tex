@@ -68,7 +68,7 @@ flaws as future work.
     spillover contamination & SUTVA / spillovers & \cite{atheyimbens2017,roth2023} \\
     noncomparable controls & control group & \cite{callaway2021,atheyimbens2017} \\
     bad control & specification & \cite{angristpischke2009} \\
-    understated SE & inference & \cite{bertrand2004trust} \\
+    understated standard errors & inference & \cite{bertrand2004trust} \\
     cherry-picked window & sample period & \cite{simmons2011,brodeur2020methods} \\
     confounding policy & concurrent policies & \cite{meyer1995} \\
     missing placebo & placebo / robustness & \cite{bertrand2004trust,atheyimbens2017} \\
@@ -393,7 +393,7 @@ and adjudicated labels they read are frozen with checksums in
 
 \begin{table}[t]
   \centering\small
-  \caption{Wilson 95\% intervals for reported rates (top) and exact tests
+  \caption{Wilson 95\% confidence intervals (CI) for reported rates (top) and exact tests
   between arms (bottom; McNemar tests are paired on the same flaws or
   variants; discordant = detected by the first arm only / by the second only). False-alarm rows give counts only: every variant is paired with
   the same clean fixture, so they are repeated readings of one clean audit of
@@ -470,7 +470,8 @@ CausalVerify~\cite{causalverify} (Table~\ref{tab:corpus}; titles in
 Table~\ref{tab:corpuslist}). The tag is the corpus's method-family label, which
 we did not verify paper by paper, and it is imperfect: one entry is a literature
 review (below) and one identifies its effect from sibling comparisons. Nineteen entries are journal articles, one of them in a
-medical journal, and seven are held as NBER working-paper versions. That corpus as released contains one
+medical journal, and seven are held as National Bureau of Economic Research
+(NBER) working-paper versions. That corpus as released contains one
 byte-identical duplicate (a 2002 Clean Air Act study under two identifiers);
 both copies received identical
 audits on all eleven dimensions from both assessors, and we count the paper
@@ -500,7 +501,9 @@ behaviour differs by domain.
   \caption{Venue of the 26 audited papers, as recorded for the version held in
   the source corpus. Two entries carry a corrupted venue field in the corpus
   index; they are counted under the journal that published them (Journal of
-  Political Economy, 2003; Review of Economic Studies, 2002).}
+  Political Economy, 2003; Review of Economic Studies, 2002). AEJ: American
+  Economic Journal; JF: Journal of Finance; REStat: Review of Economics and
+  Statistics; REStud: Review of Economic Studies.}
   \label{tab:corpus}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
