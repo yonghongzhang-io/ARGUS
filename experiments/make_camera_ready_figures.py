@@ -192,7 +192,7 @@ def fig_phase1(out: Path) -> None:
     for j, f in enumerate(flaws):
         y = top - j * pitch - (3.2 if j >= n_om else 0)
         ys[f] = y
-        ax.text(label_x, y, f.replace("_", " ").replace(" se", " SE").replace("cherrypicked", "cherry-picked"),
+        ax.text(label_x, y, f.replace("_", " ").replace(" se", " std. errors").replace("cherrypicked", "cherry-picked"),
                 ha="right", va="center", fontsize=7, color=INK)
         mark("keyword" if kw_caught[f] else "missed", cols[0], y)
         mark("llm" if llm_caught[f] else ("abstained" if f in abstained else "missed"), cols[1], y)
