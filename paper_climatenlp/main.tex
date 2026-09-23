@@ -12,6 +12,10 @@
 \usepackage{colortbl}
 \definecolor{tablehead}{HTML}{EAF0F8}   % table header band
 \definecolor{tablehl}{HTML}{FBECEA}     % highlighted table row
+% no white gap between the rules and the coloured bands; row height restored via arraystretch
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+\renewcommand{\arraystretch}{1.18}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{xcolor}
