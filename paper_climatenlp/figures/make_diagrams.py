@@ -159,15 +159,16 @@ def figure1(icons: dict[str, str]) -> Svg:
     g.header(sx + 0.4, 1.4, sw_ - 0.8, 16, 5.6, GREEN_FILL)
     g.text(sx + sw_ / 2, 12.6, "Step 2: ARGUS audit", 8, GREEN, bold=True, anchor="middle")
     cw, gap, top, ch = 58.0, 10.0, 22.5, 88.0
-    cards = [("Retrieve", "evidence", GREEN, GREEN_FILL, "retrieve", ["queries", "spans", "relevance gate"]),
-             ("Assess", "evidence", PURPLE, "#ece7f8", "brain", ["reported?", "adequate?", "residual risk?", "uncertainty?"]),
-             ("Localize", "risk", "#5a4a1e", "#fcf2d9", None, ["risk per", "dimension", "weakest", "assumptions"])]
+    cards = [("Extract", "evidence", GREEN, GREEN_FILL, "retrieve", ["queries", "spans", "relevance gate"], "llm"),
+             ("Assess", "evidence", GREEN, GREEN_FILL, "brain", ["reported?", "adequate?", "residual risk?", "uncertainty?"], "llm"),
+             ("Localize", "risk", BLUE, BLUE_FILL, None, ["risk per", "dimension", "highest-risk", "dimensions"], "det")]
     x0 = sx + (sw_ - 3 * cw - 2 * gap) / 2
     centers = []
-    for i, (t1, t2, col, band, icon, bullets) in enumerate(cards):
+    for i, (t1, t2, col, band, icon, bullets, kind) in enumerate(cards):
         cx0 = x0 + i * (cw + gap)
         centers.append(cx0 + cw / 2)
-        g.rect(cx0, top, cw, ch, 3.5, CARD, CARD_EDGE, 0.5)
+        g.rect(cx0, top, cw, ch, 3.5, "#ffffff", GREEN_EDGE if kind == "llm" else BLUE_EDGE, 0.7,
+               None if kind == "llm" else "2.4,2")
         g.header(cx0 + 0.3, top + 0.3, cw - 0.6, 19, 3.2, band)
         g.text(cx0 + cw / 2, top + 8.2, t1, 7, col, bold=True, anchor="middle")
         g.text(cx0 + cw / 2, top + 16, t2, 7, col, bold=True, anchor="middle")
@@ -188,10 +189,10 @@ def figure1(icons: dict[str, str]) -> Svg:
             g.line([(cx0 - gap + 2.4, top + 40), (cx0 - 3.6, top + 40)], ARROW, 1.6, head=4.2)
     ry, rh = 122.0, 29.0
     g.line([(centers[1], top + ch + 1.8), (centers[1], ry - 3.6)], ARROW, 1.8, head=4.4)
-    g.rect(sx + 7, ry, sw_ - 14, rh, 5, ORANGE_FILL, ORANGE_EDGE, 0.7)
+    g.rect(sx + 7, ry, sw_ - 14, rh, 5, BLUE_FILL, BLUE_EDGE, 0.7, "2.4,2")
     g.icon("report", sx + 28, ry + rh / 2, 22)
     g.text(sx + 48, ry + 12.6, "Audit report", 8, INK, bold=True)
-    g.text(sx + 48, ry + 22, "risk map · evidence · rationale", 6.4, "#5a4a1e", fit=112)
+    g.text(sx + 48, ry + 22, "risk map · evidence · rationale", 6.4, MUTED, fit=112)
     for k, (bh, colr) in enumerate(zip((6.5, 10, 13.5, 17.5, 8.5), RISKS)):
         g.rect(sx + sw_ - 42 + k * 6.2, ry + rh - 5 - bh, 4.8, bh, 0.7, colr)
 
@@ -210,8 +211,8 @@ def figure1(icons: dict[str, str]) -> Svg:
     # calibrates severity: Step 3 -> Localize card
     lx1 = x0 + 3 * cw + 2 * gap
     g.line([(tx, 62), (tx - 12, 62), (tx - 12, 74), (lx1 + 3.6, 74)], FAINT, 0.9, "2.4,1.8", head=4)
-    g.text((sx + sw_ + tx) / 2, 47.5, "calibrates", 6.2, PURPLE, bold=True, anchor="middle", fit=tx - sx - sw_ - 1)
-    g.text((sx + sw_ + tx) / 2, 54.7, "severity", 6.2, PURPLE, bold=True, anchor="middle")
+    g.text((sx + sw_ + tx) / 2, 47.5, "calibrates", 6.2, ORANGE, bold=True, anchor="middle", fit=tx - sx - sw_ - 1)
+    g.text((sx + sw_ + tx) / 2, 54.7, "severity", 6.2, ORANGE, bold=True, anchor="middle")
     # expert review: Step 3 -> report
     g.line([(tx + tw / 2, 134), (tx + tw / 2, ry + rh / 2), (sx + sw_ - 7 + 3.8, ry + rh / 2)], FAINT, 0.9, "2.4,1.8", head=4)
     g.text(tx + tw / 2 - 5, ry + rh / 2 + 9.5, "expert review", 6.2, FAINT, italic=True, anchor="end")
@@ -245,7 +246,7 @@ def figure2(icons: dict[str, str]) -> Svg:
     stages = [("Decomposition", "pdf", BLUE, "det", ["Map paper to", "11 dimensions"]),
               ("Extraction", "docsearch", GREEN, "llm", ["Gather evidence", "per dimension"]),
               ("Assessment", "brain", GREEN, "llm", ["Judge evidence", "adequacy"]),
-              ("Localization", None, BLUE, "det", ["Rank the weakest", "assumptions"]),
+              ("Localization", None, BLUE, "det", ["Rank dimensions", "by risk"]),
               ("Report", "report", BLUE, "det", ["Risk map, spans,", "rationale"]),
               ("Expert review", "experts", ORANGE, "human", ["Expert reviews", "& adjudicates"])]
     style = {"det": (BLUE_FILL, BLUE_EDGE, "2.4,2"), "llm": (GREEN_FILL, GREEN_EDGE, None), "human": (ORANGE_FILL, ORANGE_EDGE, None)}
@@ -288,6 +289,8 @@ def figure2(icons: dict[str, str]) -> Svg:
     g.text(lx + 112, ly + 0.6, "Data / control flow", 6.2, "#3a3f45")
     g.line([(lx + 92, ly + 6.6), (lx + 108, ly + 6.6)], GREEN_EDGE, 0.9, "2,1.6")
     g.text(lx + 112, ly + 8.8, "Model-call scope", 6.2, "#3a3f45")
+    g.rect(lx + 92, ly + 16.4 - 4.6, 9, 6, 1.4, RED_FILL, RED_EDGE, 0.6)
+    g.text(lx + 104.5, ly + 17.0, "Injected / perturbed", 6.2, "#3a3f45")
 
     # ---- B
     by0 = 108.0
@@ -298,8 +301,8 @@ def figure2(icons: dict[str, str]) -> Svg:
     # credible paper
     g.rect(7, mid - 15, 66, 30, 5, BLUE_FILL, BLUE_EDGE, 0.7, "2.4,2")
     g.icon("pdf", 20.5, mid, 17)
-    g.text(32, mid - 1.2, "Credible", 6.8, INK, bold=True)
-    g.text(32, mid + 6.8, "DID paper", 6.8, INK, bold=True, fit=39)
+    g.text(32, mid - 1.2, "Synthetic", 6.8, INK, bold=True)
+    g.text(32, mid + 6.8, "DID study", 6.8, INK, bold=True, fit=39)
     g.line([(74.8, mid), (84.4, mid)], ARROW, 1.5, head=4)
     # inject flaw
     ix, iw = 88.0, 96.0
@@ -333,7 +336,7 @@ def figure2(icons: dict[str, str]) -> Svg:
     evw = W - 7 - evx
     g.rect(evx, mid - 30, evw, 60, 5, BLUE_FILL, BLUE_EDGE, 0.7, "2.4,2")
     g.text(evx + evw / 2, mid - 20.4, "Evaluation", 7.4, INK, bold=True, anchor="middle")
-    for j, (lab, colr) in enumerate((("Detection rate", "#3a9a57"), ("False-alarm rate", RED), ("Localization", BLUE))):
+    for j, (lab, colr) in enumerate((("Detection rate", MUTED), ("False-alarm rate", MUTED), ("Localization", MUTED))):
         yy = mid - 10.2 + j * 8
         g.out.append(f'<circle cx="{evx + 8:.2f}" cy="{yy - 2.1:.2f}" r="1.7" fill="{colr}"/>')
         g.text(evx + 13, yy, lab, 6.3, "#27313f", fit=evw - 15)
