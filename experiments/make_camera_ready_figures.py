@@ -239,19 +239,22 @@ def fig_vsgold(out: Path) -> None:
              borderaxespad=0, fontsize=6.4, labelspacing=0.25)
     a.set_title(f"a  Outcome per cell (n={len(gold)})", loc="left", fontweight="bold", color=INK, pad=24)
 
-    for y, (lab, src) in enumerate((("ARGUS", argus), ("expert gold", gold))):
+    # three rows: the two label distributions, then the per-cell outcome (colours of panel a)
+    outcome_cnt = Counter(outcome(k) for k in gold)
+    rows_b = [("expert gold", [(lv, Counter(gold[k] for k in gold).get(lv, 0), RISK[lv]) for lv in ("low", "medium", "high", "unknown")]),
+              ("ARGUS", [(lv, Counter(argus[k] for k in gold).get(lv, 0), RISK[lv]) for lv in ("low", "medium", "high", "unknown")]),
+              ("outcome", [(o, outcome_cnt.get(o, 0), col[o]) for o in ("over-severe", "exact", "under-severe", "abstained")])]
+    for y, (lab, segs) in zip((2, 1, 0), rows_b):
         left = 0
-        cnt = Counter(src[k] for k in gold)
-        for lv in ("low", "medium", "high", "unknown"):
-            n = cnt.get(lv, 0)
+        for name, n, colr in segs:
             if not n:
                 continue
-            b.barh(y, n, left=left, height=0.5, color=RISK[lv], edgecolor=SURFACE, linewidth=1.4, zorder=3)
+            b.barh(y, n, left=left, height=0.5, color=colr, edgecolor=SURFACE, linewidth=1.4, zorder=3)
             if n >= 5:
                 b.text(left + n / 2, y, str(n), ha="center", va="center", fontsize=6.8,
-                       color="#FFFFFF" if lv in ("low", "high") else INK, zorder=4)
+                       color="#FFFFFF" if colr in (RISK["low"], RISK["high"], OVER, EXACT) else INK, zorder=4)
             left += n
-    b.set_yticks([0, 1]); b.set_yticklabels(["ARGUS", "expert gold"], color=INK); b.set_ylim(-0.7, 1.7)
+    b.set_yticks([2, 1, 0]); b.set_yticklabels(["expert gold", "ARGUS", "outcome"], color=INK); b.set_ylim(-0.7, 2.7)
     quantity_axis(b, f"cells (of {len(gold)})", [0, 11, 22, 33, 44, 55], lim=(0, 55))
     b.legend(handles=[Patch(facecolor=RISK[k], label=k) for k in ("low", "medium", "high", "unknown")], loc="lower left",
              bbox_to_anchor=(-0.02, 1.01), ncol=2, handlelength=0.8, columnspacing=0.7, handletextpad=0.3, borderaxespad=0,
