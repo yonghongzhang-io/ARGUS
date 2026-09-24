@@ -257,15 +257,19 @@ not the correctness of any individual flag.
 \label{sec:gold}
 
 To test agreement with human judgement, we built a small adjudicated reference
-set (the ``gold''): two annotators independently labelled risk on five corpus
-papers $\times$ 11 dimensions (55 cells), with an adjudication round resolving
-disagreements (construction details and agreement statistics in
-Appendix~\ref{app:supp}). In the first round, $96\%$ of disagreements were one
-severity level apart, and the cells flagged as intrinsically ambiguous involve
-\emph{non-canonical DID designs} (continuous-shock, event-study) where a
-dimension like staggered timing is not applicable as conventionally defined: a
-share of the disagreement is \emph{design applicability}, not severity. The adjudicated gold (55 cells) is low 29, medium 24, high 2. This is
-a pilot ($n{=}5$, two annotators), read as preliminary.
+set (the ``gold''): two annotators from outside the author team, who had no
+part in building \sys{}, independently labelled five corpus papers $\times$ 11
+dimensions (55 cells) from the PDFs, without AI tools or sight of \sys{}'s
+output, and then reconciled the 13 cells on which they differed between
+themselves; the first author, who had seen the system's output, took no part
+(Appendix~\ref{app:supp}). Their independent labels agree on 45 of the 54
+cells both rated (Cohen's $\kappa=0.56$; quadratic-weighted $\kappa=0.62$),
+every disagreement is one severity step, and 23 of the 55 cells are labelled
+under an \emph{analogue} reading of the dimension because the design is not a
+canonical DID. The adjudicated gold (55 cells) is low 7, medium 46, high 2, a pilot
+read as preliminary. The reviewed version
+used labels the first author had assembled with LLM assistance; they are
+replaced here (agreement with the human gold 31/55, Appendix~\ref{app:supp}).
 
 \subsection{\sys{} versus the human gold}
 \label{sec:vsgold}
@@ -275,12 +279,13 @@ two high-risk gold cells cannot establish expert agreement, but they localize
 \emph{how} \sys{} fails
 (Table~\ref{tab:vsgold}, Figure~\ref{fig:vsgold}). \sys{} abstains on 22/55
 cells, and when it answers its errors are almost entirely one-directional:
-28/33 answered cells are more severe than the adjudicated gold, none less
+25/33 answered cells are more severe than the adjudicated gold, none less
 severe; gold contains two high-risk cells, \sys{} assigns 24. With so few high
 gold labels, precision and recall are noisy (of the two high gold cells \sys{}
-flags one and abstains on the other); the pattern observed in this pilot is
-over-severity toward missing or partial evidence: as a screening tool \sys{}
-over-flags.
+flags one and abstains on the other); the pattern is over-severity toward
+missing or partial evidence: as a screening tool \sys{} over-flags. The
+abstentions are retrieval failures, not absent evidence: both annotators
+located reported evidence on 19 of the 22 abstained cells, at least one on 21.
 
 \subsection{Calibration: from diagnosis to improvement}
 \label{sec:calib}
@@ -290,29 +295,29 @@ Of \sys{}'s over-severe \emph{high} judgements, $23/24$ have
 \texttt{retrieval\_quality=weak}. \sys{} treats ``weak retrieval found nothing''
 as a substantive \emph{high}, conflating a \emph{retrieval failure} with the paper
 lacking the evidence, which the human resolves to low/medium: a fixable
-calibration target. The pattern is not confined to a single
-paper: it re-emerges in every leave-one-paper-out fold of the pilot (a
-recurrence check; no rule is refitted on the other four papers). (This
-analysis uses a re-run of the pipeline that logs the retrieval-quality and
-evidence-status fields; it differs from the corpus run of \S\ref{sec:vsgold}
-in one cell, so its pre-calibration figures are 29/33 over-severe and exact
-agreement $0.12$.)
+calibration target. The pattern re-emerges in every leave-one-paper-out fold
+of the pilot (a recurrence check; no rule is refitted). (This
+analysis uses a re-run that logs the retrieval-quality and evidence-status
+fields; it differs from the corpus run of \S\ref{sec:vsgold}
+in one cell; its pre-calibration figures are the same 25/33 over-severe and
+exact agreement $0.24$.)
 
 A deterministic rule over fields the LLM already produces reduces the
 over-severity: a weak-retrieval \emph{high} (20 cells) is demoted to
 \emph{medium} (keep coverage) or to \texttt{unknown} (abstain). Keeping
-coverage, the rule raises exact agreement from $0.12$ to $0.36$ ($4/33$ to
-$12/33$) and cuts over-severe cells from 29 to 21: on the 33 answered cells it
-changes eight incorrect labels to the adjudicated label and no correct label to
-an incorrect one, and keeps the one high gold cell \sys{} had caught. The
-abstention variant removes those 20 predictions (coverage $33/55 \to 13/55$)
-and leaves the remaining labels unchanged. Three further single-cell rules
-lift exact agreement to $0.45$ without raising weighted $\kappa$; they are
-post-hoc string and field rules, listed in Appendix~\ref{app:supp} and
-reported as exploratory (Table~\ref{tab:calib},
-Figure~\ref{fig:calib_tradeoff}). Every rule was written after an error
+coverage, the rule raises exact agreement from $0.24$ to $0.76$ ($8/33$ to
+$25/33$) and cuts over-severe cells from 25 to 8: on the 33 answered cells it
+changes seventeen incorrect labels to the adjudicated label and no correct
+label to an incorrect one, and keeps the one high gold cell \sys{} had caught.
+The abstention variant removes those 20 predictions (coverage $33/55 \to
+13/55$) and leaves the remaining labels unchanged. Three further single-cell
+rules lift exact agreement to $0.85$ without raising weighted $\kappa$; they
+are post-hoc string and field rules, reported as exploratory
+(Appendix~\ref{app:supp}, Table~\ref{tab:calib},
+Figure~\ref{fig:calib_tradeoff}). Exact agreement is lenient here: the gold is
+$84\%$ \emph{medium}, so demoting to \emph{medium} gains agreement by
+construction, and weighted $\kappa$ stays near $0.2$ with an interval that
+includes zero (Appendix~\ref{app:ci}). Every rule was written after an error
 analysis of this same pilot, so the results are in-sample: the lift points the
-same way in four of five papers (one tie) and is untested on unseen papers
-(Appendix~\ref{app:ci}). Calibration corrects severity but cannot recover
-evidence that retrieval did not surface.
+same way in all five papers and is untested on unseen papers.
 

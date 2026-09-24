@@ -357,30 +357,49 @@ def pilot() -> None:
     gold = {(r["paper_id"], r["dimension"]): r for r in rows(gold_path())}  # final gold once locked
     g = {k: v["gold_risk"] for k, v in gold.items()}
     cnt = Counter(g.values())
-    claim("gold distribution", (len(g), cnt["low"], cnt["medium"], cnt["high"]), (55, 29, 24, 2),
-          [("results.tex", r"The adjudicated gold (55 cells) is low 29, medium 24, high 2")])
+    claim("gold distribution", (len(g), cnt["low"], cnt["medium"], cnt["high"]), (55, 7, 46, 2),
+          [("results.tex", r"The adjudicated gold (55 cells) is low 7, medium 46, high 2")])
+    claim("gold share of medium", round(100 * cnt["medium"] / len(g)), 84,
+          [("results.tex", r"the gold is $84\%$ \emph{medium}"), ("limitations.tex", r"its labels are $84\%$ \emph{medium}"),
+           ("appendix.tex", r"a gold that is $84\%$ \emph{medium}")])
     nonagree = [v for v in gold.values() if v["source"] != "agree"]
-    claim("round-1 disagreements: 27, of which 11 flagged ambiguous",
-          (len(nonagree), sum(v["ambiguous"] == "1" for v in gold.values()),
-           len(nonagree) - sum(v["ambiguous"] == "1" for v in nonagree)), (27, 11, 16),
-          [("appendix.tex", r"Of the 27 round-1 disagreements, 16 resolved to a single label once the low/medium boundary was anchored, and 11 were flagged intrinsically ambiguous")])
+    claim("reconciled cells and analogue cells",
+          (len(nonagree), sum(v["ambiguous"] == "1" for v in nonagree), sum(v["ambiguous"] == "1" for v in gold.values()),
+           sorted(Counter(v["source"] for v in nonagree).items())), (13, 9, 23, [("agreed", 13)]),
+          [("results.tex", r"reconciled the 13 cells on which they differed"),
+           ("results.tex", r"23 of the 55 cells are labelled under an \emph{analogue} reading of the dimension"),
+           ("appendix.tex", r"The 13 cells that differed in applicability or risk were settled by the two annotators together, all 13 as agreed decisions, 9 of them under an analogue reading of the dimension")])
     papers = sorted({k[0] for k in g})
-    sheets = ROOT / "data" / "annotations"  # raw annotator sheets: private, present only locally
-    where = [("appendix.tex", r"(Cohen's $\kappa=0.17$; quadratic-weighted $\kappa=0.31$), and $96\%$ of disagreements were a single severity step apart")]
-    if all((sheets / f"{p}_{x}.csv").exists() for p in papers for x in "AB"):
-        lab = {x: {(r["paper_id"], r["dimension"]): r["risk"].strip().lower()
-                   for p in papers for r in rows(sheets / f"{p}_{x}.csv")} for x in "AB"}
-        pr = [(lab["A"][k], lab["B"][k]) for k in g]
+    hp = EXP / "annotation" / "human_pilot"
+    agr = jload(hp / "agreement.json")  # aggregate written by pilot.py ingest from the two signed workbooks
+    where = [("results.tex", r"agree on 45 of the 54 cells both rated (Cohen's $\kappa=0.56$; quadratic-weighted $\kappa=0.62$), every disagreement is one severity step"),
+             ("appendix.tex", r"of the 54 cells both rated, 45 agree exactly (Cohen's $\kappa=0.56$; quadratic-weighted $\kappa=0.62$), and all nine risk disagreements are a single severity step apart"),
+             ("appendix.tex", r"applicability agrees on 49, with one cell rated not applicable by one annotator")]
+    claim("independent agreement (committed aggregate)",
+          (agr["cells"], agr["applicability"]["same"], agr["applicability"]["not_applicable_A"] + agr["applicability"]["not_applicable_B"],
+           agr["risk_both_rated"], agr["risk_exact"], r2(agr["cohen_kappa"]), r2(agr["weighted_kappa"]),
+           agr["disagreements"], agr["disagreements_one_step"], agr["signoff"]),
+          (55, 49, 1, 54, 45, "0.56", "0.62", 9, 9, {"A": "workbook", "B": "workbook"}), where)
+    sheets = ROOT / "data" / "annotations" / "human_pilot"  # cell-level labels: private, present only locally
+    if all((sheets / f"labels_{x}.csv").exists() for x in "AB"):
+        lab = {x: {(r["paper_id"], r["dimension"]): r["risk"].strip().lower() for r in rows(sheets / f"labels_{x}.csv")} for x in "AB"}
+        pr = [(lab["A"][k], lab["B"][k]) for k in g if lab["A"][k] in ORDER and lab["B"][k] in ORDER]
         dis = [(x, y) for x, y in pr if x != y]
-        claim("round-1 agreement (from the private annotator sheets)",
-              (len(pr), len(dis), r2(cohen_kappa(pr)), r2(weighted_kappa(pr)),
-               round(100 * sum(abs(ORDER[x] - ORDER[y]) == 1 for x, y in dis) / len(dis))),
-              (55, 27, "0.17", "0.31", 96), where)
-    else:
-        agg = (EXP / "annotation" / "RESULTS.md").read_text(encoding="utf-8")
-        claim("round-1 agreement (committed aggregate; raw sheets not present)",
-              all(t in agg for t in ("| **weighted kappa (quadratic)** | **0.31** |", "| **adjacent-disagreement share** | **0.96** |",
-                                     "| (plain Cohen's kappa, 3-level) | 0.17 |")), True, where)
+        claim("independent agreement (from the private label files)",
+              (len(pr), sum(x == y for x, y in pr), r2(cohen_kappa(pr)), r2(weighted_kappa(pr)),
+               sum(abs(ORDER[x] - ORDER[y]) == 1 for x, y in dis)), (54, 45, "0.56", "0.62", 9), [])
+    res = jload(hp / "results.json")
+    ab = res["abstentions"]
+    claim("abstained cells where the annotators found reported evidence",
+          (ab["system_abstained"], ab["evidence_reported_by_both_annotators"], ab["by_at_least_one"]), (22, 19, 21),
+          [("results.tex", r"both annotators located reported evidence on 19 of the 22 abstained cells, at least one on 21")])
+    el = res["earlier_labels"]
+    claim("reviewed-version labels vs human gold",
+          (el["cells_compared"], el["same_label"], el["earlier_less_severe"], r2(el["cohen_kappa_earlier_vs_human"]),
+           el["system_vs_earlier_labels"]["more_severe"], el["system_vs_earlier_labels"]["exact"]), (55, 31, 23, "0.23", 28, 5),
+          [("results.tex", r"agreement with the human gold 31/55"),
+           ("appendix.tex", r"they agree on 31/55 cells (Cohen's $\kappa=0.23$), being less severe on 23"),
+           ("appendix.tex", r"\sys{} was more severe on 28/33 answered cells and exact on 5, against 25/33 and 8 now")])
     corpus_run = {(r["paper_id"], r["dimension"]): r["risk"]
                   for r in rows(EXP / "real_papers" / "corpus_results" / "did_llm_risks.csv") if r["paper_id"] in papers}
     ans = [(corpus_run[k], g[k]) for k in g if corpus_run[k] != "unknown"]
@@ -391,18 +410,18 @@ def pilot() -> None:
     claim("corpus run vs gold",
           (len(papers), 55 - len(ans), len(ans), over, under, exact, sum(a == "high" for a, _ in ans),
            sorted(corpus_run[k] for k in high_gold)),
-          (5, 22, 33, 28, 0, 5, 24, ["high", "unknown"]),
+          (5, 22, 33, 25, 0, 8, 24, ["high", "unknown"]),
           [("results.tex", r"\sys{} abstains on 22/55 cells"),
-           ("results.tex", r"28/33 answered cells are more severe than the adjudicated gold, none less severe; gold contains two high-risk cells, \sys{} assigns 24"),
+           ("results.tex", r"25/33 answered cells are more severe than the adjudicated gold, none less severe; gold contains two high-risk cells, \sys{} assigns 24"),
            ("results.tex", r"of the two high gold cells \sys{} flags one and abstains on the other"),
-           ("main.tex", r"on 28 of the 33 assessments it completes"),
-           ("appendix.tex", r"\sys{} abstains on 22 and, of the 33 it answers, is more severe than the gold on 28, matches it on 5, and is less severe on none")])
+           ("main.tex", r"on 25 of the 33 assessments it completes"),
+           ("appendix.tex", r"\sys{} abstains on 22 and, of the 33 it answers, is more severe than the gold on 25, matches it on 8, and is less severe on none")])
     strict = [(corpus_run[k], g[k]) for k in g]
     claim("T13 agreement",
           (r3(exact / 33), r3(cohen_kappa(ans)), r3(weighted_kappa(ans)), r3(exact / 55), r3(cohen_kappa(strict))),
-          ("0.152", "0.019", "0.044", "0.091", "0.002"),
-          [("appendix.tex", r"exclude (coverage) & 33 & 0.152 & 0.019 & 0.044 \\"),
-           ("appendix.tex", r"mismatch (strict) & 55 & 0.091 & 0.002 & -- \\")])
+          ("0.242", "0.031", "0.128", "0.145", "0.007"),
+          [("appendix.tex", r"exclude (coverage) & 33 & 0.242 & 0.031 & 0.128 \\"),
+           ("appendix.tex", r"mismatch (strict) & 55 & 0.145 & 0.007 & -- \\")])
 
     rich = {(r["paper_id"], r["dimension"]): r for r in rows(FROZEN / "argus_rich_gold5.csv")}
     differs = [k for k in g if rich[k]["risk"] != corpus_run[k]]
@@ -451,19 +470,20 @@ def pilot() -> None:
 
     cols = [metrics(before), metrics(rule1("medium")), metrics(rule1("unknown")), metrics(four("medium")), metrics(four("unknown"))]
     claim("T14 calibration table", cols,
-          [(33, 22, 29, 4, "1/25", "1/2", "0.06"), (33, 22, 21, 12, "1/5", "1/2", "0.21"), (13, 42, 9, 4, "1/5", "1/2", "0.32"),
-           (33, 22, 18, 15, "1/2", "1/2", "0.13"), (13, 42, 6, 7, "1/2", "1/2", "0.25")],
-          [("appendix.tex", r"over-severe (answ.) & 29 & 21 & 9 & 18 & 6 \\"),
+          [(33, 22, 25, 8, "1/25", "1/2", "0.08"), (33, 22, 8, 25, "1/5", "1/2", "0.23"), (13, 42, 5, 8, "1/5", "1/2", "0.29"),
+           (33, 22, 5, 28, "1/2", "1/2", "0.22"), (13, 42, 2, 11, "1/2", "1/2", "0.32")],
+          [("appendix.tex", r"over-severe (answ.) & 25 & 8 & 5 & 5 & 2 \\"),
            ("appendix.tex", r"high precision & 1/25 & 1/5 & 1/5 & 1/2 & 1/2 \\"),
            ("appendix.tex", r"high recall & 1/2 & 1/2 & 1/2 & 1/2 & 1/2 \\"),
-           ("appendix.tex", r"exact agr.\ (answ.) & 0.12 & 0.36 & 0.31 & 0.45 & 0.54 \\"),
-           ("appendix.tex", r"wt.\ $\kappa$ (answ.) & 0.06 & 0.21 & 0.32 & 0.13 & 0.25 \\"),
+           ("appendix.tex", r"exact agr.\ (answ.) & 0.24 & 0.76 & 0.62 & 0.85 & 0.85 \\"),
+           ("appendix.tex", r"wt.\ $\kappa$ (answ.) & 0.08 & 0.23 & 0.29 & 0.22 & 0.32 \\"),
            ("appendix.tex", r"answered / \texttt{unk} & 33/22 & 33/22 & 13/42 & 33/22 & 13/42 \\")])
-    claim("exact-agreement rounding", (r2(4 / 33), r2(12 / 33), r2(4 / 13), f"{15 / 33:.3f}"[:4], r2(7 / 13)),
-          ("0.12", "0.36", "0.31", "0.45", "0.54"),
-          [("results.tex", r"raises exact agreement from $0.12$ to $0.36$ ($4/33$ to $12/33$) and cuts over-severe cells from 29 to 21"),
-           ("results.tex", r"Three further single-cell rules lift exact agreement to $0.45$"),
-           ("results.tex", r"so its pre-calibration figures are 29/33 over-severe and exact agreement $0.12$")])
+    claim("exact-agreement rounding", (r2(8 / 33), r2(25 / 33), r2(8 / 13), r2(28 / 33), r2(11 / 13)),
+          ("0.24", "0.76", "0.62", "0.85", "0.85"),
+          [("results.tex", r"raises exact agreement from $0.24$ to $0.76$ ($8/33$ to $25/33$) and cuts over-severe cells from 25 to 8"),
+           ("results.tex", r"Three further single-cell rules lift exact agreement to $0.85$"),
+           ("results.tex", r"its pre-calibration figures are the same 25/33 over-severe and exact agreement $0.24$"),
+           ("appendix.tex", r"cutting over-severe judgments from 25 to 8; abstaining leaves fewer over-severe cells (5) and a higher weighted $\kappa$ ($0.29$) only by discarding 20 answers")])
     fired = Counter(r["calibration_rule"] for r in rows(FROZEN / "argus_rich_gold5_calibrated_medium.csv"))
     claim("rules fired", sorted(fired.values()), [1, 1, 1, 20, 32],
           [("appendix.tex", r"Rule~1 (20 cells)"), ("results.tex", r"a weak-retrieval \emph{high} (20 cells)"),
@@ -475,16 +495,16 @@ def pilot() -> None:
     fixed4 = sum(before[k] != g[k] and f4[k] == g[k] for k in g if before[k] != "unknown")
     p1 = 2 * sum(math.comb(fixed, i) for i in range(0 + 1)) / 2 ** fixed
     p4 = 2 * sum(math.comb(fixed4, i) for i in range(0 + 1)) / 2 ** fixed4
-    claim("paired tests for the calibration lift", (fixed, broke, r3(p1), fixed4, r3(p4)), (8, 0, "0.008", 11, "0.001"),
-          [("results.tex", r"changes eight incorrect labels to the adjudicated label and no correct label to an incorrect one, and keeps the one high gold cell \sys{} had caught"),
-           ("appendix.tex", r"turns eight wrong cells exact and none the other way (exact McNemar $p{=}0.008$); all four rules turn eleven ($p{=}0.001$)")])
+    claim("paired tests for the calibration lift", (fixed, broke, r3(p1), fixed4, r3(p4)), (17, 0, "0.000", 20, "0.000"),
+          [("results.tex", r"changes seventeen incorrect labels to the adjudicated label and no correct label to an incorrect one, and keeps the one high gold cell \sys{} had caught"),
+           ("appendix.tex", r"turns seventeen wrong cells exact and none the other way (exact McNemar $p{<}0.001$); all four rules turn twenty ($p{<}0.001$)")])
     pv = rec["medium"]["paired_vs_before"]
     claim("per-paper sign tests",
           (pv["dominant_rule_only"]["papers_improved"], pv["dominant_rule_only"]["papers_tied"],
            pv["dominant_rule_only"]["sign_test_p_ties_dropped"], pv["four_rules"]["papers_improved"],
-           pv["four_rules"]["sign_test_p_ties_dropped"]), (4, 1, 0.125, 5, 0.0625),
-          [("appendix.tex", r"improves exact agreement in four papers and ties in one (sign test with the tie dropped, $p{=}0.125$); four rules improve all five ($p{=}0.0625$"),
-           ("results.tex", r"the same way in four of five papers (one tie)")])
+           pv["four_rules"]["sign_test_p_ties_dropped"]), (5, 0, 0.0625, 5, 0.0625),
+          [("appendix.tex", r"the single rule improves exact agreement in all five papers, as do the four rules (sign test $p{=}0.0625$ in each case"),
+           ("results.tex", r"the same way in all five papers")])
     claim("abstain policy fixes nothing", rec["unknown"]["paired_vs_before"]["dominant_rule_only"]["cells_fixed"], 0,
           [("results.tex", r"The abstention variant removes those 20 predictions (coverage $33/55 \to 13/55$) and leaves the remaining labels unchanged")])
     claim("released script reproduces the historical outputs",
@@ -498,11 +518,11 @@ def pilot() -> None:
         kk = f"{k[0]:.2f}--{k[1]:.2f}" if k[0] >= 0 else f"$-{abs(k[0]):.2f}$--{k[1]:.2f}"
         return f"{e[0]:.2f}--{e[1]:.2f}", kk
 
-    expect = {("medium", "before"): r"before & 33 & 0.12 (0.03--0.24) & 0.06 ($-0.02$--0.15) \\",
-              ("medium", "dominant_rule_only"): r"rule 1, demote$\to$med & 33 & 0.36 (0.21--0.55) & 0.21 (0.02--0.39) \\",
-              ("unknown", "dominant_rule_only"): r"rule 1, abstain$\to$unk & 13 & 0.31 (0.08--0.54) & 0.32 (0.04--0.58) \\",
-              ("medium", "four_rules"): r"rules 1--4, demote$\to$med & 33 & 0.45 (0.30--0.61) & 0.13 ($-0.07$--0.37) \\",
-              ("unknown", "four_rules"): r"rules 1--4, abstain$\to$unk & 13 & 0.54 (0.31--0.77) & 0.25 ($-0.17$--0.69) \\"}
+    expect = {("medium", "before"): r"before & 33 & 0.24 (0.09--0.39) & 0.08 ($-0.05$--0.25) \\",
+              ("medium", "dominant_rule_only"): r"rule 1, demote$\to$med & 33 & 0.76 (0.61--0.88) & 0.23 ($-0.22$--0.63) \\",
+              ("unknown", "dominant_rule_only"): r"rule 1, abstain$\to$unk & 13 & 0.62 (0.38--0.85) & 0.29 ($-0.18$--0.77) \\",
+              ("medium", "four_rules"): r"rules 1--4, demote$\to$med & 33 & 0.85 (0.73--0.97) & 0.22 ($-0.42$--0.79) \\",
+              ("unknown", "four_rules"): r"rules 1--4, abstain$\to$unk & 13 & 0.85 (0.62--1.00) & 0.32 ($-0.52$--1.00) \\"}
     for (pol, key), row in expect.items():
         e, k = cell(rec[pol][key])
         claim(f"T9 bootstrap interval {pol}/{key}", (f"({e})" in row, f"({k})" in row), (True, True), [("appendix.tex", row)])

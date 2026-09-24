@@ -376,20 +376,23 @@ $p{=}0.03$); at $n{=}33$ no
 pairwise difference between the single-pass, per-dimension, two-stage, and
 oracle arms reaches significance. For the calibration lift the comparison is paired, so overlap of the
 intervals in Table~\ref{tab:ci_gold} is not the test. On the 33 answered cells
-the weak-retrieval rule alone turns eight wrong cells exact and none the other
-way (exact McNemar $p{=}0.008$); all four rules turn eleven ($p{=}0.001$). Those
-tests treat cells as independent, yet the cells are nested in five papers. By
-paper, the single rule improves exact agreement in four papers and ties in one
-(sign test with the tie dropped, $p{=}0.125$); four rules improve all five
-($p{=}0.0625$, the smallest value five papers allow). Neither analysis removes
-the bias of deriving the rules on the pilot they are scored on. We therefore
-claim a consistent in-sample direction, not a demonstrated out-of-sample gain.
+the weak-retrieval rule alone turns seventeen wrong cells exact and none the
+other way (exact McNemar $p{<}0.001$); all four rules turn twenty
+($p{<}0.001$). Those tests treat cells as independent, yet the cells are nested
+in five papers. By paper, the single rule improves exact agreement in all five
+papers, as do the four rules (sign test $p{=}0.0625$ in each case, the smallest
+value five papers allow). Neither analysis removes the bias of deriving the
+rules on the pilot they are scored on, and both count agreement with a gold
+that is $84\%$ \emph{medium}, which a rule that demotes to \emph{medium} matches
+by construction. We therefore claim a consistent in-sample direction, not a
+demonstrated out-of-sample gain.
 
 \begin{sloppypar}\noindent Tables~\ref{tab:ci} and~\ref{tab:ci_gold} are
 computed from committed files by \path{uncertainty.py} and
 \path{calibration_recheck.py} in \path{experiments/ablations/}; the pilot cells
-and adjudicated labels they read are frozen with checksums in
-\path{experiments/annotation/pilot_frozen/}.\end{sloppypar}
+they read are frozen with checksums in
+\path{experiments/annotation/pilot_frozen/} and the locked gold in
+\path{experiments/annotation/gold_final/}.\end{sloppypar}
 
 \begin{table}[t]
   \centering\small
@@ -452,11 +455,11 @@ and adjudicated labels they read are frozen with checksums in
     \toprule
     \rowcolor{tablehead} policy & $n$ & exact agreement & weighted $\kappa$ \\
     \midrule
-    before & 33 & 0.12 (0.03--0.24) & 0.06 ($-0.02$--0.15) \\
-    rule 1, demote$\to$med & 33 & 0.36 (0.21--0.55) & 0.21 (0.02--0.39) \\
-    rule 1, abstain$\to$unk & 13 & 0.31 (0.08--0.54) & 0.32 (0.04--0.58) \\
-    rules 1--4, demote$\to$med & 33 & 0.45 (0.30--0.61) & 0.13 ($-0.07$--0.37) \\
-    rules 1--4, abstain$\to$unk & 13 & 0.54 (0.31--0.77) & 0.25 ($-0.17$--0.69) \\
+    before & 33 & 0.24 (0.09--0.39) & 0.08 ($-0.05$--0.25) \\
+    rule 1, demote$\to$med & 33 & 0.76 (0.61--0.88) & 0.23 ($-0.22$--0.63) \\
+    rule 1, abstain$\to$unk & 13 & 0.62 (0.38--0.85) & 0.29 ($-0.18$--0.77) \\
+    rules 1--4, demote$\to$med & 33 & 0.85 (0.73--0.97) & 0.22 ($-0.42$--0.79) \\
+    rules 1--4, abstain$\to$unk & 13 & 0.85 (0.62--1.00) & 0.32 ($-0.52$--1.00) \\
     \bottomrule
   \end{tabular}}
 \end{table}
@@ -611,11 +614,40 @@ rubric specifies for that dimension.
 \section{Supplementary Figures and Tables}
 \label{app:supp}
 
-Pilot-gold construction (\S\ref{sec:gold}): round-1 agreement on the raw
-3-level scale was low (Cohen's $\kappa=0.17$; quadratic-weighted
-$\kappa=0.31$), and $96\%$ of disagreements were a single severity step apart.
-Of the 27 round-1 disagreements, 16 resolved to a single label once the
-low/medium boundary was anchored, and 11 were flagged intrinsically ambiguous.
+\paragraph{Pilot-gold construction (\S\ref{sec:gold}).}
+The protocol and analysis plan were written and committed before any label was
+returned (\path{annotation/human_pilot/PROTOCOL.md}); each returned workbook
+is recorded by SHA-256 on receipt, and the gold is locked once
+(\path{experiments/annotation/gold_final/}). The two annotators, a student at
+the first author's university and a member of a vocational college in China,
+neither an author nor involved in building \sys{}, read the five PDFs
+themselves, used no AI tool, saw no \sys{} output, did not confer before
+returning, and signed to that effect in the workbook. Independent labels: 55
+cells each; applicability agrees on 49, with one cell rated not applicable by
+one annotator; of the 54 cells both rated, 45 agree exactly (Cohen's
+$\kappa=0.56$; quadratic-weighted $\kappa=0.62$), and all nine risk
+disagreements are a single severity step apart. The 13 cells that differed in
+applicability or risk were settled by the two annotators together, all 13 as
+agreed decisions, 9 of them under an analogue reading of the dimension; no
+third person was needed. Each annotator's verbatim quotes were checked against
+the PDFs: 50/55 and 49/55 occur verbatim, the rest as partial matches, one cell
+each not found. Three deviations are logged: one annotator first returned a
+paper sheet pasted from another paper and corrected it herself within sixteen
+minutes; a copy of her workbook was saved from the first author's computer
+before its receipt was recorded, differing in twelve non-label cells, so the
+record was rebuilt from her own file (labels identical); and the other
+annotator first returned the workbook without the sign-off sheet and re-sent
+it signed.
+
+\paragraph{Change from the reviewed version.}
+The reviewed version described two annotators and an adjudication round, but
+its labels had been assembled by the first author with LLM assistance and no
+second person took part; they are kept, checksummed, in
+\path{experiments/annotation/pilot_frozen/} and are replaced here. Against the
+human gold they agree on 31/55 cells (Cohen's $\kappa=0.23$), being less severe
+on 23 (low where the gold is medium); under them \sys{} was more severe on
+28/33 answered cells and exact on 5, against 25/33 and 8 now.
+
 In the leave-one-paper-out check (\S\ref{sec:calib}), the demotion rule's
 trigger conditions recur in all five folds: among each fold's over-severe
 \emph{high} cells, $79$--$86\%$ have weak retrieval and $94$--$100\%$ have
@@ -660,8 +692,8 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
     \toprule
     \rowcolor{tablehead} \texttt{unknown} policy & $n$ & exact & $\kappa$ & wt.\ $\kappa$ \\
     \midrule
-    exclude (coverage) & 33 & 0.152 & 0.019 & 0.044 \\
-    mismatch (strict)  & 55 & 0.091 & 0.002 & -- \\
+    exclude (coverage) & 33 & 0.242 & 0.031 & 0.128 \\
+    mismatch (strict)  & 55 & 0.145 & 0.007 & -- \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -672,7 +704,7 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   \caption{\sys{}-LLM versus the adjudicated gold on the 55 pilot cells
   (frozen protocol). \textbf{(a)}~Every cell, eleven dimensions by five papers,
   coloured by outcome: \sys{} abstains on 22 and, of the 33 it answers, is more
-  severe than the gold on 28, matches it on 5, and is less severe on none.
+  severe than the gold on 25, matches it on 8, and is less severe on none.
   \textbf{(b)}~Distribution of risk labels in the gold and in \sys{}'s output,
   and the outcome of the 55 cells in the colours of panel (a).
   \textbf{(c)}~\sys{}-by-gold confusion matrix (counts).}
@@ -710,11 +742,11 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
     \cmidrule(lr){3-4}\cmidrule(lr){5-6}
     \rowcolor{tablehead} metric & before & med & unk & med & unk \\
     \midrule
-    over-severe (answ.)     & 29 & 21 & 9 & 18 & 6 \\
+    over-severe (answ.)     & 25 & 8 & 5 & 5 & 2 \\
     high precision          & 1/25 & 1/5 & 1/5 & 1/2 & 1/2 \\
     high recall             & 1/2 & 1/2 & 1/2 & 1/2 & 1/2 \\
-    exact agr.\ (answ.)     & 0.12 & 0.36 & 0.31 & 0.45 & 0.54 \\
-    wt.\ $\kappa$ (answ.)   & 0.06 & 0.21 & 0.32 & 0.13 & 0.25 \\
+    exact agr.\ (answ.)     & 0.24 & 0.76 & 0.62 & 0.85 & 0.85 \\
+    wt.\ $\kappa$ (answ.)   & 0.08 & 0.23 & 0.29 & 0.22 & 0.32 \\
     answered / \texttt{unk} & 33/22 & 33/22 & 13/42 & 33/22 & 13/42 \\
     \bottomrule
   \end{tabular}}
@@ -728,11 +760,12 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   (in-sample; med and unk are the two policies of Table~\ref{tab:calib}, which
   also gives the exploratory four-rule set).
   Demoting weak-retrieval \emph{high}s to \emph{medium} preserves coverage (33
-  answered) while cutting over-severe judgments from 29 to 21; abstaining leaves
-  fewer over-severe cells (9) and a higher weighted $\kappa$ ($0.32$) only by
-  discarding 20 answers, and leaves the remaining labels unchanged. Calibration reduces severity
-  bias; the remaining bottleneck is evidence grounding, not severity
-  thresholding alone.}
+  answered) while cutting over-severe judgments from 25 to 8; abstaining leaves
+  fewer over-severe cells (5) and a higher weighted $\kappa$ ($0.29$) only by
+  discarding 20 answers, and leaves the remaining labels unchanged. Most of the
+  gain in exact agreement reflects a gold that is $84\%$ \emph{medium}
+  (\S\ref{sec:calib}); the remaining bottleneck is evidence grounding, not
+  severity thresholding alone.}
   \label{fig:calib_tradeoff}
 \end{figure}
 
