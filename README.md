@@ -52,7 +52,11 @@ under the Flaticon free licence with attribution; they are third-party artwork a
 by this repository's MIT or CC BY 4.0 licences.</sub>
 
 > **Status:** accepted at **ClimateNLP 2026** (EMNLP workshop, Budapest, 28 Oct 2026);
-> the camera-ready paper is `paper_climatenlp/` (PDF in `submissions/`).
+> the camera-ready paper is `paper_climatenlp/` (PDF in `submissions/`). Camera-ready of
+> 25 Sept 2026: the human-annotation pilot was re-run with two annotators under a
+> pre-registered protocol (`annotation/human_pilot/PROTOCOL.md`); their gold is locked in
+> `experiments/annotation/gold_final/` and replaces the labels of the reviewed version
+> (`experiments/annotation/pilot_frozen/`, kept with a provenance note).
 > The full two-stage LLM pipeline runs end-to-end: deterministic retrieval, a relevance
 > gate with an explicit `unknown` abstention state, per-dimension adequacy assessment,
 > risk localization, and report generation, evaluated on two flaw-injection benchmarks,
