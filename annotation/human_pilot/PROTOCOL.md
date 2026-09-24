@@ -129,8 +129,11 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
   first returned `paper_07` filled with `paper_03`'s content and corrected it sixteen minutes
   later. First author's statement, 24 September 2026: nothing was said to the annotator
   between versions (1) and (2); she noticed the wrong paste herself and sent the corrected
-  file. Why the version-1 locations and the shortened rationale were written into version (4)
-  on the first author's machine is still to be stated here. The verbatim quotes of both
+  file. On version (4), the first author states that they only opened the workbook to check it
+  and made no deliberate change; how the eleven location cells came to hold the version-1 text
+  and the rationale lost its last sentence is not known. The first author therefore had
+  workbook B open on 23 September, before workbook A was returned on 24 September. None of the
+  twelve cells enters the analysis, since the record is rebuilt from version (2). The verbatim quotes of both
   annotators were checked against the kit PDFs: A, 50
   of 55 exact and 4 partial; B version (2), 49 exact, 4 partial, 1 empty; the one quote of each
   not found is the same cell (`paper_01`, inference).
