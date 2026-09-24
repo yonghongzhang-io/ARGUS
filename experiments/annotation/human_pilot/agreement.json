@@ -13,11 +13,11 @@
   "disagreements": 9,
   "disagreements_one_step": 9,
   "hours": {
-    "A": "6",
+    "A": "5 Hours",
     "B": "5"
   },
   "signoff": {
-    "A": "relayed, not signed in the workbook (signoff_relayed_A.json)",
+    "A": "workbook",
     "B": "workbook"
   }
 }

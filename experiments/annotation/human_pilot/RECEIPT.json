@@ -9,15 +9,24 @@
       "note": "Annotator B's own last version (version 2 of provenance_B). Receipt entered on 2026-09-24 after the provenance check; see PROTOCOL.md deviations of 24 September 2026."
     },
     "A": {
-      "file": "ARGUS_annotation_A.xlsx",
-      "sha256": "294e7b34923cae5d09eac554f8f17fbed2dec9b312741e0d14f38670422cb9db",
-      "received_at": "2026-09-24T13:20:06+02:00"
+      "file": "ARGUS_annotation_A_signed.xlsx",
+      "sha256": "2a21fba918a947c6f734724ce9ce807c9d19b0509d9d3288b16b083b553ebecc",
+      "received_at": "2026-09-24T19:26:03+02:00",
+      "received_via": "e-mail attachment from the annotator (her university address), downloaded from outlook.cloud.microsoft",
+      "recorded_at": "2026-09-24T19:27:22+02:00",
+      "note": "Annotator A's re-send with the Sign-off sheet completed by the annotator (name, 24/09/2026, 5 hours, four confirmations yes); last saved by the annotator's WPS Office. All 385 answer cells (5 sheets x 11 rows x 7 fields) identical to the first return. Replaces the relayed sign-off of signoff_relayed_A.json, which is kept as superseded."
     },
     "B_superseded_ec694838": {
       "file": "annotatorB-ARGUS_annotation_B.xlsx",
       "sha256": "ec6948385f13fd5d9858ff72968b00b5a2f5d2e04fe347640af82d3f5a1dcb52",
       "received_at": "2026-09-23T18:04:46+02:00",
       "note": "Recorded 2026-09-23 18:04 as the annotator's workbook; found on 2026-09-24 to be version 4 of provenance_B (last saved by the first author's Excel). Superseded; entry kept verbatim."
+    },
+    "A_unsigned_294e7b34": {
+      "file": "ARGUS_annotation_A.xlsx",
+      "sha256": "294e7b34923cae5d09eac554f8f17fbed2dec9b312741e0d14f38670422cb9db",
+      "received_at": "2026-09-24T13:20:06+02:00",
+      "note": "First return (e-mail of 2026-09-24 04:0x CEST): all 55 rows complete, Sign-off sheet empty. Superseded by the signed re-send below; entry kept verbatim."
     }
   },
   "ingest_attempts": [
@@ -37,15 +46,19 @@
     {
       "at": "2026-09-24T13:28:51+02:00",
       "result": "computed from the superseded file ec694838 (version 4); outputs rebuilt from version 2 at 2026-09-24T13:41:38+02:00"
+    },
+    {
+      "at": "2026-09-24T13:41:38+02:00",
+      "result": "computed from the unsigned first return of A plus the relayed sign-off; outputs rebuilt from the signed re-send at 2026-09-24T19:27:22+02:00"
     }
   ],
-  "ingested_at": "2026-09-24T13:41:38+02:00",
+  "ingested_at": "2026-09-24T19:27:22+02:00",
   "sha256": {
-    "A": "294e7b34923cae5d09eac554f8f17fbed2dec9b312741e0d14f38670422cb9db",
+    "A": "2a21fba918a947c6f734724ce9ce807c9d19b0509d9d3288b16b083b553ebecc",
     "B": "7d0183665d319319e8659dcfb3380c479733f0ea92829ad8280f2a2752f0efbb"
   },
   "signoff": {
-    "A": "relayed, not signed in the workbook (signoff_relayed_A.json)",
+    "A": "workbook",
     "B": "workbook"
   },
   "provenance_B": {

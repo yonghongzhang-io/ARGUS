@@ -140,5 +140,12 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
 - 24 September 2026, workbook A: the annotator's covering e-mail (Thu 24 Sept, 04:0x CEST) says
   the sign-off sheet was completed, but in the file the eight answer cells of that sheet exist
   and are empty (checked in the raw sheet XML). The workbook was last saved by WPS Office at
-  10:01 on the annotator's local clock. The relayed sign-off above stands unless the annotator
-  confirms the eight answers in writing, in which case that message replaces the relayed record.
+  10:01 on the annotator's local clock.
+- 24 September 2026, 19:26 CEST, workbook A resolved: the annotator re-sent the workbook by
+  e-mail with the Sign-off sheet completed in her own hand (annotator A; 24/09/2026; 5 hours;
+  "yes" to all four confirmations), last saved by her WPS Office. All 385 answer cells are
+  identical to the first return. This signed workbook (SHA-256 `2a21fba9…`) is the record of
+  annotator A's work; the relayed sign-off of earlier today is superseded and kept as
+  `signoff_relayed_A.superseded.json` (it had said 6 hours; the annotator's own figure is
+  5). The first, unsigned return stays in `RECEIPT.json` as `A_unsigned_294e7b34`. Annotator
+  A's confirmations are therefore signed, not relayed, and the paper reports them as such.
