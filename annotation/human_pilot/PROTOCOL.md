@@ -92,3 +92,26 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
   graduate-level training with active empirical research or teaching experience, not as a
   doctorate, so that an experienced faculty member without a PhD can take part. Each
   annotator's actual background is reported in the paper as it is.
+- 24 September 2026, after both workbooks were returned and before anything was computed:
+  annotator A returned the workbook with all 55 rows complete but the Sign-off sheet
+  empty, and said they had no time to fill it in. The sign-off (name, date 24 September 2026,
+  about 6 hours, and "yes" to the four confirmations) was given by the annotator to the first
+  author on 24 September 2026 and recorded by the first author in
+  `data/annotations/human_pilot/signoff_relayed_A.json`; the workbook itself is unchanged (SHA-256
+  `294e7b34…`, receipt 13:20 CEST). `pilot.py` takes a relayed sign-off only when the workbook's
+  own Sign-off sheet is entirely empty, and marks it as relayed in `RECEIPT.json`,
+  `agreement.json` and `signoff.json`. The paper reports annotator A's confirmations as relayed,
+  not signed. The first ingest attempt (13:20 CEST) was rejected for the empty sheet and is
+  recorded in `RECEIPT.json`.
+- 24 September 2026, receipt note on workbook B: the file whose receipt was recorded on
+  23 September 2026 at 18:04 CEST (SHA-256 `ec694838…`) carries the document properties
+  `lastModifiedBy = Yonghong Zhang`, application Microsoft Excel for Mac, last saved
+  2026-09-23 12:35:54 UTC (14:35:54 CEST), and an identical copy named
+  `Copy of annotatorB-v2-ARGUS_annotation_B.xlsx` with that modification time exists in the first author's
+  Downloads folder. So the workbook on record was last saved from the first author's Excel three
+  and a half hours before its receipt was recorded, and no earlier copy from the annotator has
+  been found on the first author's machine. The first author is to state here how this came
+  about (for example, whether the annotator filled the workbook on the first author's computer)
+  and whether a copy as sent by the annotator exists elsewhere (e-mail or messaging attachment)
+  so that its hash can be recorded and compared cell by cell. Workbook A carries
+  `lastModifiedBy = the annotator's WPS user id` (WPS Office), last saved 2026-09-24 10:01 local time.

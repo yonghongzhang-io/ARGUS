@@ -84,7 +84,15 @@ def read_workbook(path: Path, who: str) -> tuple[list[dict], dict, list[str]]:
     sign = {"name": clean(so["B3"].value), "dates": clean(so["B4"].value), "hours": clean(so["B5"].value),
             "read_pdfs_myself": clean(so["B6"].value).lower(), "no_ai_tool": clean(so["B7"].value).lower(),
             "no_system_output": clean(so["B8"].value).lower(), "no_discussion": clean(so["B9"].value).lower(),
-            "note": clean(so["B10"].value)}
+            "note": clean(so["B10"].value), "source": "workbook"}
+    relayed = PRIVATE / f"signoff_relayed_{who}.json"
+    if not any(v for k, v in sign.items() if k != "source") and relayed.exists():
+        # Deviation (PROTOCOL.md, 24 September 2026): the annotator returned the workbook with the Sign-off sheet
+        # empty and gave the sign-off to the first author instead. It is taken from the relayed file, which
+        # says who gave it, when and to whom, and is marked as relayed everywhere it is reported.
+        sign = {k: clean(v).lower() if k in ("read_pdfs_myself", "no_ai_tool", "no_system_output", "no_discussion") else clean(v)
+                for k, v in json.loads(relayed.read_text(encoding="utf-8")).items()}
+        sign["source"] = f"relayed, not signed in the workbook ({relayed.name})"
     for k in ("name", "dates", "hours"):
         if not sign[k]:
             problems.append(f"{who} sign-off: {k} is empty")
@@ -102,15 +110,19 @@ def ingest(path_a: Path, path_b: Path) -> None:
         receipt.setdefault("received", {}).setdefault(who, {"file": path.name, "sha256": sha(path), "received_at": now})
         if receipt["received"][who]["sha256"] != sha(path):
             raise SystemExit(f"workbook {who} differs from the one whose receipt was recorded ({receipt['received'][who]['file']})")
-    receipt["ingested_at"] = now
-    receipt["sha256"] = {"A": sha(path_a), "B": sha(path_b)}
-    rp.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
+    rp.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")  # receipts are on record before anything is read
     data, signs, problems = {}, {}, []
     for who, path in (("A", path_a), ("B", path_b)):
         data[who], signs[who], p = read_workbook(path, who)
         problems += p
-    if problems:
+    if problems:  # a rejected attempt is recorded too, so the receipt file tells the whole story
+        receipt.setdefault("ingest_attempts", []).append({"at": now, "result": "rejected; nothing computed", "problems": problems})
+        rp.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
         raise SystemExit("workbooks are not complete; nothing computed:\n  " + "\n  ".join(problems))
+    receipt["ingested_at"] = now
+    receipt["sha256"] = {"A": sha(path_a), "B": sha(path_b)}
+    receipt["signoff"] = {w: signs[w]["source"] for w in "AB"}
+    rp.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8")
     PRIVATE.mkdir(parents=True, exist_ok=True)
     for who in "AB":
         with (PRIVATE / f"labels_{who}.csv").open("w", newline="", encoding="utf-8") as fh:
@@ -131,7 +143,7 @@ def ingest(path_a: Path, path_b: Path) -> None:
            "risk_both_rated": len(both), "risk_exact": sum(x == y for x, y in pairs),
            "cohen_kappa": round(cohen_kappa(pairs), 4), "weighted_kappa": round(weighted_kappa(pairs), 4),
            "disagreements": len(dis), "disagreements_one_step": sum(abs(RISK[x] - RISK[y]) == 1 for x, y in dis),
-           "hours": {w: signs[w]["hours"] for w in "AB"}}
+           "hours": {w: signs[w]["hours"] for w in "AB"}, "signoff": {w: signs[w]["source"] for w in "AB"}}
     (HERE / "agreement.json").write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(out, indent=2))
 

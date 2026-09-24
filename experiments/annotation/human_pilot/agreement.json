@@ -1,0 +1,23 @@
+{
+  "cells": 55,
+  "applicability": {
+    "same": 49,
+    "not_applicable_A": 1,
+    "not_applicable_B": 0,
+    "not_applicable_both": 0
+  },
+  "risk_both_rated": 54,
+  "risk_exact": 45,
+  "cohen_kappa": 0.5566,
+  "weighted_kappa": 0.6173,
+  "disagreements": 9,
+  "disagreements_one_step": 9,
+  "hours": {
+    "A": "6",
+    "B": "5"
+  },
+  "signoff": {
+    "A": "relayed, not signed in the workbook (signoff_relayed_A.json)",
+    "B": "workbook"
+  }
+}

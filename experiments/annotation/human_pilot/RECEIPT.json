@@ -4,6 +4,35 @@
       "file": "annotatorB-ARGUS_annotation_B.xlsx",
       "sha256": "ec6948385f13fd5d9858ff72968b00b5a2f5d2e04fe347640af82d3f5a1dcb52",
       "received_at": "2026-09-23T18:04:46+02:00"
+    },
+    "A": {
+      "file": "ARGUS_annotation_A.xlsx",
+      "sha256": "294e7b34923cae5d09eac554f8f17fbed2dec9b312741e0d14f38670422cb9db",
+      "received_at": "2026-09-24T13:20:06+02:00"
     }
+  },
+  "ingest_attempts": [
+    {
+      "at": "2026-09-24T13:20:06+02:00",
+      "result": "rejected; nothing computed",
+      "problems": [
+        "A sign-off: name is empty",
+        "A sign-off: dates is empty",
+        "A sign-off: hours is empty",
+        "A sign-off: 'read_pdfs_myself' is '', not 'yes' (keep the workbook; record this as a deviation)",
+        "A sign-off: 'no_ai_tool' is '', not 'yes' (keep the workbook; record this as a deviation)",
+        "A sign-off: 'no_system_output' is '', not 'yes' (keep the workbook; record this as a deviation)",
+        "A sign-off: 'no_discussion' is '', not 'yes' (keep the workbook; record this as a deviation)"
+      ]
+    }
+  ],
+  "ingested_at": "2026-09-24T13:28:51+02:00",
+  "sha256": {
+    "A": "294e7b34923cae5d09eac554f8f17fbed2dec9b312741e0d14f38670422cb9db",
+    "B": "ec6948385f13fd5d9858ff72968b00b5a2f5d2e04fe347640af82d3f5a1dcb52"
+  },
+  "signoff": {
+    "A": "relayed, not signed in the workbook (signoff_relayed_A.json)",
+    "B": "workbook"
   }
 }
