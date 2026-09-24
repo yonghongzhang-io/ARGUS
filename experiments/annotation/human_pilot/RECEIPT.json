@@ -1,14 +1,23 @@
 {
   "received": {
     "B": {
-      "file": "annotatorB-ARGUS_annotation_B.xlsx",
-      "sha256": "ec6948385f13fd5d9858ff72968b00b5a2f5d2e04fe347640af82d3f5a1dcb52",
-      "received_at": "2026-09-23T18:04:46+02:00"
+      "file": "provenance_B/annotatorB-v2-ARGUS_annotation_B.xlsx",
+      "sha256": "7d0183665d319319e8659dcfb3380c479733f0ea92829ad8280f2a2752f0efbb",
+      "received_at": "2026-09-23T13:13:25+02:00",
+      "received_via": "WeChat (file time in the first author's WeChat cache)",
+      "recorded_at": "2026-09-24T13:41:38+02:00",
+      "note": "Annotator B's own last version (version 2 of provenance_B). Receipt entered on 2026-09-24 after the provenance check; see PROTOCOL.md deviations of 24 September 2026."
     },
     "A": {
       "file": "ARGUS_annotation_A.xlsx",
       "sha256": "294e7b34923cae5d09eac554f8f17fbed2dec9b312741e0d14f38670422cb9db",
       "received_at": "2026-09-24T13:20:06+02:00"
+    },
+    "B_superseded_ec694838": {
+      "file": "annotatorB-ARGUS_annotation_B.xlsx",
+      "sha256": "ec6948385f13fd5d9858ff72968b00b5a2f5d2e04fe347640af82d3f5a1dcb52",
+      "received_at": "2026-09-23T18:04:46+02:00",
+      "note": "Recorded 2026-09-23 18:04 as the annotator's workbook; found on 2026-09-24 to be version 4 of provenance_B (last saved by the first author's Excel). Superseded; entry kept verbatim."
     }
   },
   "ingest_attempts": [
@@ -24,12 +33,16 @@
         "A sign-off: 'no_system_output' is '', not 'yes' (keep the workbook; record this as a deviation)",
         "A sign-off: 'no_discussion' is '', not 'yes' (keep the workbook; record this as a deviation)"
       ]
+    },
+    {
+      "at": "2026-09-24T13:28:51+02:00",
+      "result": "computed from the superseded file ec694838 (version 4); outputs rebuilt from version 2 at 2026-09-24T13:41:38+02:00"
     }
   ],
-  "ingested_at": "2026-09-24T13:28:51+02:00",
+  "ingested_at": "2026-09-24T13:41:38+02:00",
   "sha256": {
     "A": "294e7b34923cae5d09eac554f8f17fbed2dec9b312741e0d14f38670422cb9db",
-    "B": "ec6948385f13fd5d9858ff72968b00b5a2f5d2e04fe347640af82d3f5a1dcb52"
+    "B": "7d0183665d319319e8659dcfb3380c479733f0ea92829ad8280f2a2752f0efbb"
   },
   "signoff": {
     "A": "relayed, not signed in the workbook (signoff_relayed_A.json)",
@@ -45,7 +58,7 @@
         "sha256": "07daa679dbd94c49",
         "sha256_prefix_only": true,
         "wechat_file_time": "2026-09-23T12:57:06+02:00",
-        "lastModifiedBy": "annotator B",
+        "lastModifiedBy": "\u674e\u5ca9",
         "docprops_modified": "2026-09-23T12:53:50 (writer's local clock)",
         "sign_off": "complete (annotator B, 23/09/2026, 5 h, four yes)",
         "content": "all 55 rows filled; the paper_07 sheet is an exact copy of the paper_03 sheet of the same file (77/77 answer cells identical), i.e. pasted into the wrong sheet; none of its 11 verbatim quotes occurs in the kit's paper_07.pdf, 9 occur in paper_03.pdf"
@@ -56,7 +69,7 @@
         "sha256": "7d0183665d319319",
         "sha256_prefix_only": true,
         "wechat_file_time": "2026-09-23T13:13:25+02:00",
-        "lastModifiedBy": "annotator B",
+        "lastModifiedBy": "\u674e\u5ca9",
         "docprops_modified": "2026-09-23T13:11:10 (writer's local clock)",
         "diff_from_previous": "45 answer cells, all on paper_07: 11 locations, 11 quotes, 11 rationales, 4 confidences, 3 applicability, 5 risk",
         "content": "paper_07 redone for the kit's NBER working paper: all 11 verbatim quotes occur in the kit's paper_07.pdf. This is the annotator's own last version."
