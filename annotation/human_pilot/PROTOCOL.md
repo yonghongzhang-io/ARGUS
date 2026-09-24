@@ -158,9 +158,11 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
   the dimension name; no other adaptation. All 13 rows are `agreed` and decided by "both annotators",
   each with a note; no row is unresolved, so no third person was needed. The first author took
   no part. The file's SHA-256 is in `RECEIPT.json` (`reconcile`) and in `gold_final/LOCK.json`.
-- 25 September 2026, first author's statement on the labels of the submitted version (the
-  June 2026 set in `pilot_frozen/`): they were produced by one person other than the first
-  author, working with AI assistance, and sent to the first author, who entered them. No
-  record of that person's work, identity or sign-off exists, so the paper describes those
-  labels as produced by a single person with LLM assistance and without a documented
-  annotation record, and does not attribute them to an independent annotator.
+- 25 September 2026, first author's statements on the labels of the submitted version (the
+  June 2026 set in `pilot_frozen/`): first that they were produced by one person other than
+  the first author working with AI assistance, then, about half an hour later, that they were
+  produced by two people working with AI assistance who sent them together to the first
+  author, who entered them. No record of those people's work, identity or sign-off exists on
+  the first author's machine (a search was started and stopped at the first author's request
+  for lack of time). The paper reports the two-person account as the first author's account,
+  states that no annotation record exists, and does not treat those labels as an annotation.

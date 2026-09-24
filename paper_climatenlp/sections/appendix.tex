@@ -640,11 +640,12 @@ annotator first returned the workbook without the sign-off sheet and re-sent
 it signed.
 
 \paragraph{Change from the reviewed version.}
-The reviewed version described two annotators and an adjudication round, but
-its labels had been produced by a single person with LLM assistance, and no
-record of a second annotator, of a sign-off or of an adjudication exists; they
-are kept, checksummed, in \path{experiments/annotation/pilot_frozen/} and are
-replaced here. Against the
+The reviewed version described two annotators and an adjudication round. Its
+labels were, according to the first author, produced by two people working
+with LLM assistance and sent to the first author, who entered them; no
+annotation record of theirs (files, sign-off or adjudication) exists, so they
+are not treated as an annotation. They are kept, checksummed, in
+\path{experiments/annotation/pilot_frozen/} and are replaced here. Against the
 human gold they agree on 31/55 cells (Cohen's $\kappa=0.23$), being less severe
 on 23 (low where the gold is medium); under them \sys{} was more severe on
 28/33 answered cells and exact on 5, against 25/33 and 8 now.
