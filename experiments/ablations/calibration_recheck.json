@@ -22,14 +22,14 @@
         "answered": 33,
         "unknown": 22,
         "exact": [
-          4,
+          8,
           33
         ],
         "exact_ci95": [
-          0.0303,
-          0.2424
+          0.0909,
+          0.3939
         ],
-        "over_severe": 29,
+        "over_severe": 25,
         "under_severe": 0,
         "high_assigned": 25,
         "high_precision": [
@@ -40,24 +40,24 @@
           1,
           2
         ],
-        "weighted_kappa": 0.058,
+        "weighted_kappa": 0.081,
         "weighted_kappa_ci95": [
-          -0.0157,
-          0.1546
+          -0.0537,
+          0.2539
         ]
       },
       "dominant_rule_only": {
         "answered": 33,
         "unknown": 22,
         "exact": [
-          12,
+          25,
           33
         ],
         "exact_ci95": [
-          0.2121,
-          0.5455
+          0.6061,
+          0.8788
         ],
-        "over_severe": 21,
+        "over_severe": 8,
         "under_severe": 0,
         "high_assigned": 5,
         "high_precision": [
@@ -68,24 +68,24 @@
           1,
           2
         ],
-        "weighted_kappa": 0.21,
+        "weighted_kappa": 0.226,
         "weighted_kappa_ci95": [
-          0.0205,
-          0.3883
+          -0.2158,
+          0.6259
         ]
       },
       "four_rules": {
         "answered": 33,
         "unknown": 22,
         "exact": [
-          15,
+          28,
           33
         ],
         "exact_ci95": [
-          0.303,
-          0.6061
+          0.7273,
+          0.9697
         ],
-        "over_severe": 18,
+        "over_severe": 5,
         "under_severe": 0,
         "high_assigned": 2,
         "high_precision": [
@@ -96,17 +96,17 @@
           1,
           2
         ],
-        "weighted_kappa": 0.128,
+        "weighted_kappa": 0.224,
         "weighted_kappa_ci95": [
-          -0.0732,
-          0.3661
+          -0.4194,
+          0.7898
         ]
       },
       "paired_vs_before": {
         "dominant_rule_only": {
-          "cells_fixed": 8,
+          "cells_fixed": 17,
           "cells_broken": 0,
-          "mcnemar_exact_p": 0.0078,
+          "mcnemar_exact_p": 0.0,
           "per_paper": {
             "paper_01": {
               "answered": 4,
@@ -115,34 +115,34 @@
             },
             "paper_03": {
               "answered": 9,
-              "exact_before": 2,
-              "exact_after": 5
+              "exact_before": 3,
+              "exact_after": 8
             },
             "paper_07": {
               "answered": 6,
               "exact_before": 0,
-              "exact_after": 1
+              "exact_after": 4
             },
             "paper_08": {
               "answered": 4,
-              "exact_before": 0,
-              "exact_after": 0
+              "exact_before": 2,
+              "exact_after": 3
             },
             "paper_10": {
               "answered": 10,
-              "exact_before": 1,
-              "exact_after": 3
+              "exact_before": 2,
+              "exact_after": 7
             }
           },
-          "papers_improved": 4,
+          "papers_improved": 5,
           "papers_worse": 0,
-          "papers_tied": 1,
-          "sign_test_p_ties_dropped": 0.125
+          "papers_tied": 0,
+          "sign_test_p_ties_dropped": 0.0625
         },
         "four_rules": {
-          "cells_fixed": 11,
+          "cells_fixed": 20,
           "cells_broken": 0,
-          "mcnemar_exact_p": 0.001,
+          "mcnemar_exact_p": 0.0,
           "per_paper": {
             "paper_01": {
               "answered": 4,
@@ -151,23 +151,23 @@
             },
             "paper_03": {
               "answered": 9,
-              "exact_before": 2,
-              "exact_after": 6
+              "exact_before": 3,
+              "exact_after": 9
             },
             "paper_07": {
               "answered": 6,
               "exact_before": 0,
-              "exact_after": 1
+              "exact_after": 4
             },
             "paper_08": {
               "answered": 4,
-              "exact_before": 0,
-              "exact_after": 1
+              "exact_before": 2,
+              "exact_after": 4
             },
             "paper_10": {
               "answered": 10,
-              "exact_before": 1,
-              "exact_after": 3
+              "exact_before": 2,
+              "exact_after": 7
             }
           },
           "papers_improved": 5,
@@ -193,14 +193,14 @@
         "answered": 33,
         "unknown": 22,
         "exact": [
-          4,
+          8,
           33
         ],
         "exact_ci95": [
-          0.0303,
-          0.2424
+          0.0909,
+          0.3939
         ],
-        "over_severe": 29,
+        "over_severe": 25,
         "under_severe": 0,
         "high_assigned": 25,
         "high_precision": [
@@ -211,24 +211,24 @@
           1,
           2
         ],
-        "weighted_kappa": 0.058,
+        "weighted_kappa": 0.081,
         "weighted_kappa_ci95": [
-          -0.0157,
-          0.1546
+          -0.0537,
+          0.2539
         ]
       },
       "dominant_rule_only": {
         "answered": 13,
         "unknown": 42,
         "exact": [
-          4,
+          8,
           13
         ],
         "exact_ci95": [
-          0.0769,
-          0.5385
+          0.3846,
+          0.8462
         ],
-        "over_severe": 9,
+        "over_severe": 5,
         "under_severe": 0,
         "high_assigned": 5,
         "high_precision": [
@@ -239,24 +239,24 @@
           1,
           2
         ],
-        "weighted_kappa": 0.322,
+        "weighted_kappa": 0.288,
         "weighted_kappa_ci95": [
-          0.0441,
-          0.5845
+          -0.1818,
+          0.7746
         ]
       },
       "four_rules": {
         "answered": 13,
         "unknown": 42,
         "exact": [
-          7,
+          11,
           13
         ],
         "exact_ci95": [
-          0.3077,
-          0.7692
+          0.6154,
+          1.0
         ],
-        "over_severe": 6,
+        "over_severe": 2,
         "under_severe": 0,
         "high_assigned": 2,
         "high_precision": [
@@ -267,10 +267,10 @@
           1,
           2
         ],
-        "weighted_kappa": 0.245,
+        "weighted_kappa": 0.316,
         "weighted_kappa_ci95": [
-          -0.1655,
-          0.6948
+          -0.5195,
+          1.0
         ]
       },
       "paired_vs_before": {
@@ -286,8 +286,8 @@
             },
             "paper_03": {
               "answered": 9,
-              "exact_before": 2,
-              "exact_after": 2
+              "exact_before": 3,
+              "exact_after": 3
             },
             "paper_07": {
               "answered": 6,
@@ -296,13 +296,13 @@
             },
             "paper_08": {
               "answered": 4,
-              "exact_before": 0,
-              "exact_after": 0
+              "exact_before": 2,
+              "exact_after": 2
             },
             "paper_10": {
               "answered": 10,
-              "exact_before": 1,
-              "exact_after": 1
+              "exact_before": 2,
+              "exact_after": 2
             }
           },
           "papers_improved": 0,
@@ -322,8 +322,8 @@
             },
             "paper_03": {
               "answered": 9,
-              "exact_before": 2,
-              "exact_after": 3
+              "exact_before": 3,
+              "exact_after": 4
             },
             "paper_07": {
               "answered": 6,
@@ -332,13 +332,13 @@
             },
             "paper_08": {
               "answered": 4,
-              "exact_before": 0,
-              "exact_after": 1
+              "exact_before": 2,
+              "exact_after": 3
             },
             "paper_10": {
               "answered": 10,
-              "exact_before": 1,
-              "exact_after": 1
+              "exact_before": 2,
+              "exact_after": 2
             }
           },
           "papers_improved": 3,

@@ -285,43 +285,43 @@
     {
       "policy": "before (rich run)",
       "answered": 33,
-      "exact": 0.121,
+      "exact": 0.242,
       "exact_ci95": [
-        0.03,
-        0.242
+        0.091,
+        0.394
       ],
-      "weighted_kappa": 0.058,
+      "weighted_kappa": 0.081,
       "weighted_kappa_ci95": [
-        -0.016,
-        0.155
+        -0.054,
+        0.254
       ]
     },
     {
       "policy": "demote to medium",
       "answered": 33,
-      "exact": 0.455,
+      "exact": 0.848,
       "exact_ci95": [
-        0.303,
-        0.606
+        0.727,
+        0.97
       ],
-      "weighted_kappa": 0.128,
+      "weighted_kappa": 0.224,
       "weighted_kappa_ci95": [
-        -0.073,
-        0.366
+        -0.419,
+        0.79
       ]
     },
     {
       "policy": "abstain to unknown",
       "answered": 13,
-      "exact": 0.538,
+      "exact": 0.846,
       "exact_ci95": [
-        0.308,
-        0.769
+        0.615,
+        1.0
       ],
-      "weighted_kappa": 0.245,
+      "weighted_kappa": 0.316,
       "weighted_kappa_ci95": [
-        -0.166,
-        0.695
+        -0.519,
+        1.0
       ]
     }
   ]

@@ -1,0 +1,17 @@
+{
+  "locked_at": "2026-09-25T00:31:07+02:00",
+  "cells": 55,
+  "not_applicable": [],
+  "agreed_independently": 42,
+  "reconciled": 13,
+  "tie_break": 0,
+  "sha256": {
+    "gold_final/gold_labels.csv": "bdab3c231fa03d5b7c8277fec546bc44d1857458ddebb2b9e8801c9fc3de3716",
+    "reconcile.xlsx": "833ec9d884c007d41e37b72c7d1c4546ce6a1d11cda54068da6f3c01ef184364",
+    "workbooks": {
+      "A": "2a21fba918a947c6f734724ce9ce807c9d19b0509d9d3288b16b083b553ebecc",
+      "B": "7d0183665d319319e8659dcfb3380c479733f0ea92829ad8280f2a2752f0efbb"
+    }
+  },
+  "note": "Built once from two independent human annotations; not adjusted afterwards."
+}

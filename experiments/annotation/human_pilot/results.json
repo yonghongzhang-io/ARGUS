@@ -1,0 +1,71 @@
+{
+  "system_vs_gold": {
+    "cells": 55,
+    "gold_low_medium_high": [
+      7,
+      46,
+      2
+    ],
+    "abstained": 22,
+    "answered": 33,
+    "exact": 8,
+    "more_severe": 25,
+    "less_severe": 0,
+    "cohen_kappa": 0.031,
+    "weighted_kappa": 0.128,
+    "strict_exact": 8,
+    "strict_cohen_kappa": 0.007,
+    "high_precision": [
+      1,
+      24
+    ],
+    "high_recall": [
+      1,
+      2
+    ]
+  },
+  "abstentions": {
+    "system_abstained": 22,
+    "of_which_not_applicable_in_gold": 0,
+    "rated_cells": 22,
+    "evidence_reported_by_both_annotators": 19,
+    "by_at_least_one": 21,
+    "by_neither": 1
+  },
+  "earlier_labels": {
+    "cells_compared": 55,
+    "same_label": 31,
+    "earlier_more_severe": 1,
+    "earlier_less_severe": 23,
+    "changes_earlier_to_human": {
+      "low->medium": 23,
+      "medium->low": 1
+    },
+    "cohen_kappa_earlier_vs_human": 0.23,
+    "system_vs_earlier_labels": {
+      "cells": 55,
+      "gold_low_medium_high": [
+        29,
+        24,
+        2
+      ],
+      "abstained": 22,
+      "answered": 33,
+      "exact": 5,
+      "more_severe": 28,
+      "less_severe": 0,
+      "cohen_kappa": 0.019,
+      "weighted_kappa": 0.044,
+      "strict_exact": 5,
+      "strict_cohen_kappa": 0.002,
+      "high_precision": [
+        1,
+        24
+      ],
+      "high_recall": [
+        1,
+        2
+      ]
+    }
+  }
+}

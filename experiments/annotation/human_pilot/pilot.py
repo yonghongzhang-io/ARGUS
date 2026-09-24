@@ -172,22 +172,63 @@ def ingest(path_a: Path, path_b: Path) -> None:
     print(f"\n{len(differ)} cells to reconcile -> {PRIVATE / 'reconcile.xlsx'}")
 
 
+def dim_names() -> dict[str, str]:
+    dims = yaml.safe_load((ROOT / "config" / "identification_dimensions.yaml").read_text(encoding="utf-8"))
+    dims = dims["dimensions"] if isinstance(dims, dict) else dims
+    return {d["id"]: d["name"] for d in dims}
+
+
+def read_reconcile(path: Path) -> list[tuple]:
+    """Rows of the filled reconciliation sheet as (key, applicability, risk, status, decided by).
+
+    Two layouts are accepted: the sheet this script generated ('reconcile'; paper and dimension id in
+    the first two columns, the FINAL columns after the two annotators' entries), and a table the
+    annotators laid out themselves (returned 25 September 2026: one sheet, columns found by their
+    header text, the dimension given by its workbook row number 1-11 and by its display name, which
+    must agree). Nothing is inferred beyond that mapping."""
+    wb = load_workbook(path, data_only=True)
+    ws = wb["reconcile"] if "reconcile" in wb.sheetnames else wb[wb.sheetnames[0]]
+    head = [clean(c.value).lower() for c in ws[1]]
+    ids, names = dim_ids(), dim_names()
+    by_name = {v.strip().lower(): k for k, v in names.items()}
+
+    def col(*cands):
+        for c in cands:
+            if c in head:
+                return head.index(c)
+        raise SystemExit(f"{path.name}: no column named {cands} in {head}")
+    c_paper, c_dim = col("paper"), col("dimension")
+    c_task = next((head.index(c) for c in ("original task", "task") if c in head), None)
+    c_app, c_risk, c_status, c_by = col("final applicability"), col("final risk"), col("status"), col("decided by")
+    rows = []
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if not row or not clean(row[c_paper]):
+            continue
+        dim = clean(row[c_dim])
+        if dim not in ids:  # annotators' table: display name plus row number, which must agree
+            n = clean(row[c_task]) if c_task is not None else ""
+            from_n = ids[int(n) - 1] if n.isdigit() and 1 <= int(n) <= len(ids) else None
+            from_name = by_name.get(dim.lower())
+            if from_n is None or from_name is None or from_n != from_name:
+                raise SystemExit(f"{path.name}: cannot identify the dimension of row {clean(row[c_paper])} / {dim!r} / task {n!r}")
+            dim = from_n
+        rows.append(((clean(row[c_paper]), dim), *(clean(row[i]).lower() for i in (c_app, c_risk, c_status)), clean(row[c_by])))
+    return rows
+
+
 def gold(reconcile: Path) -> None:
     lock = FINAL_GOLD.parent / "LOCK.json"
     if lock.exists():
         raise SystemExit("gold_final/LOCK.json exists: the gold is locked and is not rebuilt.")
     a = {(r["paper_id"], r["dimension"]): r for r in csv.DictReader((PRIVATE / "labels_A.csv").open(encoding="utf-8"))}
     b = {(r["paper_id"], r["dimension"]): r for r in csv.DictReader((PRIVATE / "labels_B.csv").open(encoding="utf-8"))}
-    ws = load_workbook(reconcile, data_only=True)["reconcile"]
     final, problems = {}, []
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        if not row or not row[0]:
-            continue
-        key = (clean(row[0]), clean(row[1]))
-        app, risk, status, by = (clean(row[i]).lower() for i in (10, 11, 12, 13))
+    for key, app, risk, status, by in read_reconcile(reconcile):
         if app not in APPLIC or status not in {"agreed", "tie-break"} or not by or (app != "not applicable" and risk not in RISK) \
                 or (app == "not applicable" and risk):
             problems.append(f"{key}: applicability {app!r}, risk {risk!r}, status {status!r}, decided by {by!r}")
+        if key in final:
+            problems.append(f"{key}: listed twice")
         final[key] = (app, risk, status)
     expected = {k for k in a if a[k]["applicability"] != b[k]["applicability"] or a[k]["risk"] != b[k]["risk"]}
     if set(final) != expected:

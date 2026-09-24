@@ -71,7 +71,7 @@
         "sha256": "07daa679dbd94c49",
         "sha256_prefix_only": true,
         "wechat_file_time": "2026-09-23T12:57:06+02:00",
-        "lastModifiedBy": "\u674e\u5ca9",
+        "lastModifiedBy": "annotator B",
         "docprops_modified": "2026-09-23T12:53:50 (writer's local clock)",
         "sign_off": "complete (annotator B, 23/09/2026, 5 h, four yes)",
         "content": "all 55 rows filled; the paper_07 sheet is an exact copy of the paper_03 sheet of the same file (77/77 answer cells identical), i.e. pasted into the wrong sheet; none of its 11 verbatim quotes occurs in the kit's paper_07.pdf, 9 occur in paper_03.pdf"
@@ -82,7 +82,7 @@
         "sha256": "7d0183665d319319",
         "sha256_prefix_only": true,
         "wechat_file_time": "2026-09-23T13:13:25+02:00",
-        "lastModifiedBy": "\u674e\u5ca9",
+        "lastModifiedBy": "annotator B",
         "docprops_modified": "2026-09-23T13:11:10 (writer's local clock)",
         "diff_from_previous": "45 answer cells, all on paper_07: 11 locations, 11 quotes, 11 rationales, 4 confidences, 3 applicability, 5 risk",
         "content": "paper_07 redone for the kit's NBER working paper: all 11 verbatim quotes occur in the kit's paper_07.pdf. This is the annotator's own last version."
@@ -142,5 +142,15 @@
         ]
       }
     }
+  },
+  "reconcile": {
+    "file": "returned/reconcile_returned.xlsx",
+    "sha256": "833ec9d884c007d41e37b72c7d1c4546ce6a1d11cda54068da6f3c01ef184364",
+    "received_at": "2026-09-25T00:27:08+02:00",
+    "received_via": "e-mail attachment from annotator B, sent Fri 25 Sept 2026 00:26 CEST, downloaded from outlook.cloud.microsoft; the covering e-mail says both annotators went through the 13 differences together",
+    "recorded_at": "2026-09-25T00:30:32+02:00",
+    "docprops": "creator: annotator B's initials, lastModifiedBy annotator B, created 2026-09-24T19:53, modified 2026-09-25T00:19 (writer's clock), WPS",
+    "layout": "the annotators' own 13-row table (sheet 'Sheet1': #, paper, original task, dimension name, FINAL applicability, FINAL risk, status, decided by, note, paper, task, original workbook cell row), not the generated 'reconcile' sheet; read by pilot.py gold via header names, dimension identified by the workbook row number and cross-checked against the dimension name",
+    "content": "13 rows, all status = agreed, decided by 'both annotators', every row with a deciding note"
   }
 }

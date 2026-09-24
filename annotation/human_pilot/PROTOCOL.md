@@ -149,3 +149,12 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
   `signoff_relayed_A.superseded.json` (it had said 6 hours; the annotator's own figure is
   5). The first, unsigned return stays in `RECEIPT.json` as `A_unsigned_294e7b34`. Annotator
   A's confirmations are therefore signed, not relayed, and the paper reports them as such.
+- 25 September 2026, 00:26 CEST, reconciliation returned: annotator B e-mailed the filled
+  reconciliation on behalf of both ("[annotator A] and I have gone through the 13 differences together").
+  Instead of the generated `reconcile` sheet they returned a table of their own layout (one
+  sheet; paper, workbook row number, dimension name, FINAL applicability, FINAL risk, status,
+  decided by, deciding note), saved by annotator B in WPS. `pilot.py gold` reads it by its
+  header text and identifies each dimension by the workbook row number cross-checked against
+  the dimension name; no other adaptation. All 13 rows are `agreed` and decided by "both annotators",
+  each with a note; no row is unresolved, so no third person was needed. The first author took
+  no part. The file's SHA-256 is in `RECEIPT.json` (`reconcile`) and in `gold_final/LOCK.json`.
