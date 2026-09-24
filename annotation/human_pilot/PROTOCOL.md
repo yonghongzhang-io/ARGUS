@@ -127,9 +127,11 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
   (2) and (4), so the agreement figures do not change; twelve non-label cells do). Version (1)
   stays on record as the annotator's first submission, and the paper reports that the annotator
   first returned `paper_07` filled with `paper_03`'s content and corrected it sixteen minutes
-  later. The first author is to state here why the version-1 locations and the shortened
-  rationale were written into version (4) and what was said to the annotator between versions
-  (1) and (2). The verbatim quotes of both annotators were checked against the kit PDFs: A, 50
+  later. First author's statement, 24 September 2026: nothing was said to the annotator
+  between versions (1) and (2); she noticed the wrong paste herself and sent the corrected
+  file. Why the version-1 locations and the shortened rationale were written into version (4)
+  on the first author's machine is still to be stated here. The verbatim quotes of both
+  annotators were checked against the kit PDFs: A, 50
   of 55 exact and 4 partial; B version (2), 49 exact, 4 partial, 1 empty; the one quote of each
   not found is the same cell (`paper_01`, inference).
 - 24 September 2026, workbook A: the annotator's covering e-mail (Thu 24 Sept, 04:0x CEST) says
