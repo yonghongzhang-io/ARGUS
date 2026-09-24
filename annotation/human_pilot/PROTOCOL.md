@@ -103,15 +103,37 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
   `agreement.json` and `signoff.json`. The paper reports annotator A's confirmations as relayed,
   not signed. The first ingest attempt (13:20 CEST) was rejected for the empty sheet and is
   recorded in `RECEIPT.json`.
-- 24 September 2026, receipt note on workbook B: the file whose receipt was recorded on
-  23 September 2026 at 18:04 CEST (SHA-256 `ec694838…`) carries the document properties
-  `lastModifiedBy = Yonghong Zhang`, application Microsoft Excel for Mac, last saved
-  2026-09-23 12:35:54 UTC (14:35:54 CEST), and an identical copy named
-  `Copy of annotatorB-v2-ARGUS_annotation_B.xlsx` with that modification time exists in the first author's
-  Downloads folder. So the workbook on record was last saved from the first author's Excel three
-  and a half hours before its receipt was recorded, and no earlier copy from the annotator has
-  been found on the first author's machine. The first author is to state here how this came
-  about (for example, whether the annotator filled the workbook on the first author's computer)
-  and whether a copy as sent by the annotator exists elsewhere (e-mail or messaging attachment)
-  so that its hash can be recorded and compared cell by cell. Workbook A carries
-  `lastModifiedBy = the annotator's WPS user id` (WPS Office), last saved 2026-09-24 10:01 local time.
+- 24 September 2026, provenance of workbook B (facts established from the files; details and
+  hashes in `RECEIPT.json` → `provenance_B`; the files are kept unchanged in
+  `data/annotations/human_pilot/returned/provenance_B/`). The file whose receipt was recorded on
+  23 September at 18:04 CEST (SHA-256 `ec694838…`, e-mailed by the annotator as
+  `annotatorB-ARGUS_annotation_B.xlsx`) is **not** the annotator's own last version. The first
+  author's WeChat file cache holds four versions, all of 23 September 2026 (CEST):
+  (1) 12:57, `annotatorB-v1-ARGUS_annotation_B.xlsx`, last saved by annotator B: all 55 rows and the sign-off
+  filled, but the `paper_07` sheet is an exact copy of her `paper_03` sheet (77 of 77 answer
+  cells identical; nine of its eleven verbatim quotes occur in `paper_03.pdf`, none in
+  `paper_07.pdf`), evidently a paste into the wrong sheet; (2) 13:13,
+  `annotatorB-v2-ARGUS_annotation_B.xlsx`, last saved by annotator B: `paper_07` redone for the kit's NBER paper
+  (all eleven quotes occur in `paper_07.pdf`; 45 cells of that sheet changed, including
+  3 applicability and 5 risk labels); (3) 13:15, `Copy of annotatorB-v2-ARGUS_annotation_B.xlsx`, saved by
+  the first author's Excel for Mac, no answer cell changed; (4) 14:35,
+  `Copy of annotatorB-v2-ARGUS_annotation_B(1).xlsx`, saved by the first author's Excel: the eleven
+  `paper_07` evidence-location cells replaced by the version-1 locations (which refer to
+  `paper_03`'s article), and the `paper_07` specification rationale truncated by its last
+  sentence; labels, quotes and confidences unchanged from (2). Version (4) was then sent to the
+  annotator over WeChat and came back as the e-mail attachment recorded at 18:04 (identical
+  bytes). Consequences: the annotator's work is version (2), and the receipt, the private labels,
+  `agreement.json` and `reconcile.xlsx` are to be rebuilt from it (labels are identical between
+  (2) and (4), so the agreement figures do not change; twelve non-label cells do). Version (1)
+  stays on record as the annotator's first submission, and the paper reports that the annotator
+  first returned `paper_07` filled with `paper_03`'s content and corrected it sixteen minutes
+  later. The first author is to state here why the version-1 locations and the shortened
+  rationale were written into version (4) and what was said to the annotator between versions
+  (1) and (2). The verbatim quotes of both annotators were checked against the kit PDFs: A, 50
+  of 55 exact and 4 partial; B version (2), 49 exact, 4 partial, 1 empty; the one quote of each
+  not found is the same cell (`paper_01`, inference).
+- 24 September 2026, workbook A: the annotator's covering e-mail (Thu 24 Sept, 04:0x CEST) says
+  the sign-off sheet was completed, but in the file the eight answer cells of that sheet exist
+  and are empty (checked in the raw sheet XML). The workbook was last saved by WPS Office at
+  10:01 on the annotator's local clock. The relayed sign-off above stands unless the annotator
+  confirms the eight answers in writing, in which case that message replaces the relayed record.

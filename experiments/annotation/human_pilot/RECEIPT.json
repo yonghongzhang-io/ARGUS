@@ -34,5 +34,87 @@
   "signoff": {
     "A": "relayed, not signed in the workbook (signoff_relayed_A.json)",
     "B": "workbook"
+  },
+  "provenance_B": {
+    "recorded_at": "2026-09-24T13:40:05+02:00",
+    "note": "Found on 2026-09-24 in the first author's WeChat file cache (msg/file/2026-09), copied unchanged with their modification times to data/annotations/human_pilot/returned/provenance_B/. The file whose receipt was recorded on 2026-09-23 18:04 (sha256 ec694838...) is version 4 below: it was last saved by the first author's Excel, sent to the annotator over WeChat, and returned by the annotator as an e-mail attachment named annotatorB-ARGUS_annotation_B.xlsx (downloaded from outlook.cloud.microsoft at 18:03:35 CEST, identical bytes). The annotator's own last version is version 2. Cell-level differences below count answer cells (columns E-K, rows 6-16, five paper sheets); no label content is recorded here.",
+    "versions": [
+      {
+        "v": 1,
+        "file": "annotatorB-v1-ARGUS_annotation_B.xlsx",
+        "sha256": "07daa679dbd94c49",
+        "sha256_prefix_only": true,
+        "wechat_file_time": "2026-09-23T12:57:06+02:00",
+        "lastModifiedBy": "annotator B",
+        "docprops_modified": "2026-09-23T12:53:50 (writer's local clock)",
+        "sign_off": "complete (annotator B, 23/09/2026, 5 h, four yes)",
+        "content": "all 55 rows filled; the paper_07 sheet is an exact copy of the paper_03 sheet of the same file (77/77 answer cells identical), i.e. pasted into the wrong sheet; none of its 11 verbatim quotes occurs in the kit's paper_07.pdf, 9 occur in paper_03.pdf"
+      },
+      {
+        "v": 2,
+        "file": "annotatorB-v2-ARGUS_annotation_B.xlsx",
+        "sha256": "7d0183665d319319",
+        "sha256_prefix_only": true,
+        "wechat_file_time": "2026-09-23T13:13:25+02:00",
+        "lastModifiedBy": "annotator B",
+        "docprops_modified": "2026-09-23T13:11:10 (writer's local clock)",
+        "diff_from_previous": "45 answer cells, all on paper_07: 11 locations, 11 quotes, 11 rationales, 4 confidences, 3 applicability, 5 risk",
+        "content": "paper_07 redone for the kit's NBER working paper: all 11 verbatim quotes occur in the kit's paper_07.pdf. This is the annotator's own last version."
+      },
+      {
+        "v": 3,
+        "file": "Copy of annotatorB-v2-ARGUS_annotation_B.xlsx",
+        "sha256": "ad6187e826467266",
+        "sha256_prefix_only": true,
+        "wechat_file_time": "2026-09-23T13:15:36+02:00",
+        "lastModifiedBy": "Yonghong Zhang",
+        "docprops_modified": "2026-09-23T11:15:36Z",
+        "application": "Microsoft Macintosh Excel 16.0300",
+        "diff_from_previous": "0 answer cells (re-save on the first author's Mac)"
+      },
+      {
+        "v": 4,
+        "file": "Copy of annotatorB-v2-ARGUS_annotation_B(1).xlsx (= Downloads/Copy of annotatorB-v2-ARGUS_annotation_B.xlsx = e-mailed annotatorB-ARGUS_annotation_B.xlsx)",
+        "sha256": "ec6948385f13fd5d9858ff72968b00b5a2f5d2e04fe347640af82d3f5a1dcb52",
+        "wechat_file_time": "2026-09-23T14:35:54+02:00",
+        "lastModifiedBy": "Yonghong Zhang",
+        "docprops_modified": "2026-09-23T12:35:54Z",
+        "application": "Microsoft Macintosh Excel 16.0300",
+        "macos_quarantine": "0082;6ab3c7aa (2026-09-23T14:35:54+02:00);Microsoft Excel",
+        "diff_from_previous": "12 answer cells, all on paper_07: the 11 evidence-location cells replaced by the version-1 locations (which describe the other article), and the row-6 (specification) rationale truncated by its last sentence. Applicability, risk, reported, quotes and confidence unchanged from version 2.",
+        "status": "SUPERSEDED as the record of annotator B's work; kept as the file that was e-mailed back"
+      }
+    ],
+    "verbatim_quote_check_against_kit_pdfs": {
+      "method": "quote normalised (whitespace, ligatures, quotes, dehyphenation) and searched in pdftotext output; partial = some six-word run found",
+      "A_ARGUS_annotation_A.xlsx": {
+        "exact": 50,
+        "partial": 4,
+        "none": 1,
+        "empty": 0,
+        "none_at": [
+          "paper_01 row 7"
+        ]
+      },
+      "B_v2_annotatorB-v2-ARGUS_annotation_B.xlsx": {
+        "exact": 49,
+        "partial": 4,
+        "none": 1,
+        "empty": 1,
+        "none_at": [
+          "paper_01 row 7"
+        ]
+      },
+      "B_v1_annotatorB-v1-ARGUS_annotation_B.xlsx": {
+        "exact": 38,
+        "partial": 4,
+        "none": 12,
+        "empty": 1,
+        "none_at": [
+          "paper_01 row 7",
+          "paper_07 rows 1-11"
+        ]
+      }
+    }
   }
 }
