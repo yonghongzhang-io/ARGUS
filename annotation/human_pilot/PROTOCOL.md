@@ -87,7 +87,9 @@ quotations. It returns only if both annotators supply verbatim quotes for every 
 Names of the annotators, their addresses and their names inside returned file names are
 replaced by "annotator A" and "annotator B" in this log, in `RECEIPT.json` and in
 `gold_final/LOCK.json`; the private, untracked `data/annotations/human_pilot/` keeps the
-original files and names, and the annotators' identities are known to the authors.
+original files and names, and the annotators' identities are known to the authors. On
+25 September 2026 both annotators agreed to be named in the paper's acknowledgments (as
+reported by the first author); the records here stay anonymised.
 
 - 21 September 2026, before any workbook was returned: the annotators need not be co-authors.
   The first version of this protocol required two co-authors; availability before the
