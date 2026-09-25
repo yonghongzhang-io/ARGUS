@@ -28,3 +28,6 @@ annotation/oracle/evidence_spans_completed.csv
 
 # raw API-call checkpoints (resumable runs)
 results/*.jsonl
+
+# earlier manuscript drafts are not part of the public repository
+paper/

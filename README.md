@@ -268,7 +268,7 @@ experiments/       phase1_pilot, variants (33-flaw benchmark), ablations (comput
                    real_papers (26-paper corpus runs)
 results/           generated reports and agent traces
 paper_climatenlp/  ClimateNLP 2026 submission (ACL format; submissions/ holds the frozen PDF)
-paper/             earlier LNCS Doctoral Consortium draft (superseded)
+(an earlier manuscript draft under `paper/` is kept locally and is not part of this repository)
 tests/             test suite (125 tests; includes leak-freedom regression checks)
 ```
 
@@ -349,6 +349,6 @@ ClimateNLP 2026, the 3rd Workshop on NLP meets Climate Change, co-located with E
 
 Source code is released under the [MIT License](LICENSE). The rubric, flaw taxonomy,
 annotation materials, reconciled pilot labels, and committed run outputs are released under
-[CC BY 4.0](LICENSE-DATA.md). Manuscript sources and figures under `paper/` and
+[CC BY 4.0](LICENSE-DATA.md). Manuscript sources and figures under
 `paper_climatenlp/` are not covered by either license. No text of the audited published
 articles is redistributed in this repository.
