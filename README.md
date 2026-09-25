@@ -60,7 +60,7 @@ by this repository's MIT or CC BY 4.0 licences.</sub>
 > The full two-stage LLM pipeline runs end-to-end: deterministic retrieval, a relevance
 > gate with an explicit `unknown` abstention state, per-dimension adequacy assessment,
 > risk localization, and report generation, evaluated on two flaw-injection benchmarks,
-> a 26-paper real corpus, a cross-model panel, and an expert-annotated human-gold pilot.
+> a 26-paper real corpus, a cross-model panel, and a two-annotator human-gold pilot.
 
 ---
 
@@ -113,9 +113,10 @@ Llama 3.1 8B 0.95); the precision profile is model-dependent.
 `experiments/real_papers/corpus_manifest.csv` for venues and the tag's known mismatches):** the bottleneck relocates from causal
 reasoning to *evidence grounding* — ~40% of judgements abstain to `unknown` where
 retrieval fails. **Human-gold pilot (5 papers × 11 dimensions):** ARGUS is systematically
-over-severe; one deterministic rule (demote a weak-retrieval `high`) raises exact agreement
-0.12 → 0.36 **on the same pilot it was derived from**. Three further single-cell rules reach
-0.45 and are kept only as an exploratory record (`experiments/annotation/CALIBRATION.md`). The
+over-severe; one pre-specified rule (demote a weak-retrieval `high`) raises exact agreement
+0.24 → 0.76 **on the same five papers it was derived from** (the gold is 84% medium, so a
+constant medium label would score 26/33; weighted kappa stays near 0.2). Three further
+single-cell rules reach 0.85 and are kept only as an exploratory record. The
 error pattern recurs in every leave-one-paper-out fold; no rule was refitted on held-out papers.
 
 ---
@@ -236,12 +237,13 @@ labels are:
   reports evidence adequate to support an identification assumption. It does not judge
   whether the paper's estimated effect is correct, and it is not a measure of research
   quality.
-- **They are systematically over-severe.** Against an adjudicated expert gold, ARGUS was
-  more severe than the experts on 28 of the 33 cells it answered and less severe on none.
-  One calibration rule raises exact agreement from 0.12 to 0.36 on the pilot it was derived
-  from (in-sample), so even after calibration most individual labels still disagree with
-  expert consensus.
-- **An individual cell is unreliable.** The expert pilot covers 5 papers and 55 cells.
+- **They are systematically over-severe.** Against the gold reconciled by two annotators,
+  ARGUS was more severe than the labels on 25 of the 33 cells it answered and less severe on
+  none. One pre-specified rule raises exact agreement from 0.24 to 0.76 on the same five
+  papers it was derived from (in-sample); the gold is 84% medium, so a constant medium label
+  would score 26/33, and weighted kappa stays near 0.2. Even after calibration many labels still disagree with
+  the reconciled human labels.
+- **An individual cell is unreliable.** The human pilot covers 5 papers and 55 cells.
   Nothing here supports a claim about any single paper on any single dimension.
 - **`unknown` means retrieval failed, not that evidence is absent.** The system abstains
   on roughly 40% of dimensions because it could not surface the relevant passage, often
@@ -346,7 +348,7 @@ ClimateNLP 2026, the 3rd Workshop on NLP meets Climate Change, co-located with E
 ## License
 
 Source code is released under the [MIT License](LICENSE). The rubric, flaw taxonomy,
-annotation materials, adjudicated pilot labels, and committed run outputs are released under
+annotation materials, reconciled pilot labels, and committed run outputs are released under
 [CC BY 4.0](LICENSE-DATA.md). Manuscript sources and figures under `paper/` and
 `paper_climatenlp/` are not covered by either license. No text of the audited published
 articles is redistributed in this repository.
