@@ -202,8 +202,8 @@ def figure1(icons: dict[str, str]) -> Svg:
     g.header(tx + 0.4, 1.4, tw - 0.8, 24, 5.6, ORANGE_FILL)
     g.text(tx + tw / 2, 11.2, "Step 3: Human calibration", 7.6, ORANGE, bold=True, anchor="middle", fit=tw - 4)
     g.text(tx + tw / 2, 20.6, "& evaluation", 7.6, ORANGE, bold=True, anchor="middle")
-    for k, (icon, a, b) in enumerate((("experts", "Expert", "annotation"), ("scales", "Adjudicated", "gold labels"),
-                                      ("anchor", "Severity", "anchors"), ("pie", "ARGUS-vs-gold", "evaluation"))):
+    for k, (icon, a, b) in enumerate((("experts", "Human", "annotation"), ("scales", "Reconciled", "gold labels"),
+                                      ("anchor", "Calibration", "rule"), ("pie", "ARGUS-vs-gold", "evaluation"))):
         cy = 41 + k * 26.2
         g.icon(icon, tx + 19, cy, 20)
         g.text(tx + 35, cy - 1.2, a, 7, INK, bold=True, fit=tw - 37)
@@ -253,7 +253,7 @@ def figure2(icons: dict[str, str]) -> Svg:
               ("Assessment", "brain", GREEN, "llm", ["Judge evidence", "adequacy"]),
               ("Localization", None, BLUE, "det", ["Rank dimensions", "by risk"]),
               ("Report", "report", BLUE, "det", ["Risk map, spans,", "rationale"]),
-              ("Expert review", "experts", ORANGE, "human", ["Expert reviews", "& adjudicates"])]
+              ("Expert review", "experts", ORANGE, "human", ["Expert reviews", "& decides"])]
     style = {"det": (BLUE_FILL, BLUE_EDGE, "2.4,2"), "llm": (GREEN_FILL, GREEN_EDGE, None), "human": (ORANGE_FILL, ORANGE_EDGE, None)}
     for i, (name, icon, col, kind, lines) in enumerate(stages):
         bx = x0 + i * (bw + gap)

@@ -42,6 +42,8 @@ in Climate-Policy Causal Evaluations}
   Correspondence: \texttt{yonghong.zhang@estudiante.uam.es}
 }
 
+\hypersetup{pdftitle={Evidence-Grounded Auditing of Identification Assumptions in Climate-Policy Causal Evaluations},
+  pdfauthor={Yonghong Zhang, Yong Xie, Isabel M. Parra, Ricardo Correia}}
 \begin{document}
 \maketitle
 
@@ -52,13 +54,13 @@ remains challenging. We introduce \sys{}, a structured language-model pipeline
 that audits reported evidence against an eleven-dimension
 assumption--implication--evidence rubric and abstains when relevant evidence
 cannot be retrieved. We evaluate \sys{} using injected flaws, economics
-papers, and a small pilot with adjudicated labels. On the 11-flaw benchmark,
+papers, and a small pilot with reconciled labels. On the 11-flaw benchmark,
 \sys{} detects $73\%$ of planted flaws, compared with $18\%$ for a keyword-based
 pipeline. Across 26 economics papers, \sys{} abstains on about $40\%$ of
 paper--dimension assessments for lack of retrievable evidence. In a five-paper
-pilot with adjudicated labels, it assigns a higher risk level than the
-annotators on 25 of the 33 assessments it completes. A simple post-hoc calibration rule reduces over-severity on
-the same pilot used to develop it. \sys{} provides evidence-linked risk reports
+pilot with labels reconciled by two annotators, it assigns a higher risk level
+than the labels on 25 of the 33 assessments it completes. A rule fixed before
+the labels arrived removes most of this in-sample; weighted agreement stays low. \sys{} provides evidence-linked risk reports
 that localize potential weaknesses for expert review, without adjudicating
 causal claims. Code and data:
 \url{https://github.com/yonghongzhang-io/ARGUS}.

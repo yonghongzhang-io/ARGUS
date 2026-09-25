@@ -241,7 +241,7 @@ def fig_vsgold(out: Path) -> None:
 
     # three rows: the two label distributions, then the per-cell outcome (colours of panel a)
     outcome_cnt = Counter(outcome(k) for k in gold)
-    rows_b = [("expert gold", [(lv, Counter(gold[k] for k in gold).get(lv, 0), RISK[lv]) for lv in ("low", "medium", "high", "unknown")]),
+    rows_b = [("human gold", [(lv, Counter(gold[k] for k in gold).get(lv, 0), RISK[lv]) for lv in ("low", "medium", "high", "unknown")]),
               ("ARGUS", [(lv, Counter(argus[k] for k in gold).get(lv, 0), RISK[lv]) for lv in ("low", "medium", "high", "unknown")]),
               ("outcome", [(o, outcome_cnt.get(o, 0), col[o]) for o in ("over-severe", "exact", "under-severe", "abstained")])]
     for y, (lab, segs) in zip((2, 1, 0), rows_b):
@@ -254,7 +254,7 @@ def fig_vsgold(out: Path) -> None:
                 b.text(left + n / 2, y, str(n), ha="center", va="center", fontsize=6.8,
                        color="#FFFFFF" if colr in (RISK["low"], RISK["high"], OVER, EXACT) else INK, zorder=4)
             left += n
-    b.set_yticks([2, 1, 0]); b.set_yticklabels(["expert gold", "ARGUS", "outcome"], color=INK); b.set_ylim(-0.7, 2.7)
+    b.set_yticks([2, 1, 0]); b.set_yticklabels(["human gold", "ARGUS", "outcome"], color=INK); b.set_ylim(-0.7, 2.7)
     quantity_axis(b, f"cells (of {len(gold)})", [0, 11, 22, 33, 44, 55], lim=(0, 55))
     b.legend(handles=[Patch(facecolor=RISK[k], label=k) for k in ("low", "medium", "high", "unknown")], loc="lower left",
              bbox_to_anchor=(-0.02, 1.01), ncol=2, handlelength=0.8, columnspacing=0.7, handletextpad=0.3, borderaxespad=0,
@@ -269,7 +269,7 @@ def fig_vsgold(out: Path) -> None:
         for j, v in enumerate(r):
             c.text(j, i, str(v), ha="center", va="center", fontsize=7.2, color="#FFFFFF" if v >= 9 else INK)
     c.set_xticks(range(3)); c.set_xticklabels(["low", "med.", "high"], color=MUTED); c.set_yticks(range(4)); c.set_yticklabels(rows_, color=INK)
-    c.set_xlabel("expert gold", color=MUTED); c.set_ylabel("ARGUS", labelpad=2, color=MUTED)
+    c.set_xlabel("human gold", color=MUTED); c.set_ylabel("ARGUS", labelpad=2, color=MUTED)
     c.set_xticks([x - 0.5 for x in range(1, 3)], minor=True); c.set_yticks([y - 0.5 for y in range(1, 4)], minor=True)
     c.grid(which="minor", color=SURFACE, lw=1.6); c.tick_params(which="both", length=0)
     for sp in c.spines.values():

@@ -120,7 +120,7 @@ def eleven_flaws() -> None:
     kw_items = {i["id"].split(":")[-1]: i["detected"] for i in kw["items"]}
     claim("keyword catches exactly the two named omission flaws",
           sorted(k for k, v in kw_items.items() if v), ["measurement_break", "spillover_contamination"],
-          [("results.tex", r"(\texttt{measurement\_break}, \texttt{spillover\_contamination})")])
+          [("results.tex", r"(\texttt{measurement\_break} and \texttt{spillover\_contamination})")])
     misses = jload(ABL / "twostage_11flaw_misses.json")
     claim("two-stage: three misses, all omission, all abstentions",
           (len(misses["missed_flaws"]), {m["op"] for m in misses["missed_flaws"]},
@@ -358,7 +358,7 @@ def pilot() -> None:
     g = {k: v["gold_risk"] for k, v in gold.items()}
     cnt = Counter(g.values())
     claim("gold distribution", (len(g), cnt["low"], cnt["medium"], cnt["high"]), (55, 7, 46, 2),
-          [("results.tex", r"The adjudicated gold (55 cells) is low 7, medium 46, high 2")])
+          [("results.tex", r"The reconciled gold (55 cells) is low 7, medium 46, high 2")])
     claim("gold share of medium", round(100 * cnt["medium"] / len(g)), 84,
           [("results.tex", r"the gold is $84\%$ \emph{medium}"), ("limitations.tex", r"its labels are $84\%$ \emph{medium}"),
            ("appendix.tex", r"a gold that is $84\%$ \emph{medium}")])
@@ -412,7 +412,7 @@ def pilot() -> None:
            sorted(corpus_run[k] for k in high_gold)),
           (5, 22, 33, 25, 0, 8, 24, ["high", "unknown"]),
           [("results.tex", r"\sys{} abstains on 22/55 cells"),
-           ("results.tex", r"25/33 answered cells are more severe than the adjudicated gold, none less severe; gold contains two high-risk cells, \sys{} assigns 24"),
+           ("results.tex", r"25/33 answered cells are more severe than the reconciled gold, none less severe; the gold contains two high-risk cells, whereas \sys{} assigns 24"),
            ("results.tex", r"of the two high gold cells \sys{} flags one and abstains on the other"),
            ("main.tex", r"on 25 of the 33 assessments it completes"),
            ("appendix.tex", r"\sys{} abstains on 22 and, of the 33 it answers, is more severe than the gold on 25, matches it on 8, and is less severe on none")])
@@ -478,12 +478,16 @@ def pilot() -> None:
            ("appendix.tex", r"exact agr.\ (answ.) & 0.24 & 0.76 & 0.62 & 0.85 & 0.85 \\"),
            ("appendix.tex", r"wt.\ $\kappa$ (answ.) & 0.08 & 0.23 & 0.29 & 0.22 & 0.32 \\"),
            ("appendix.tex", r"answered / \texttt{unk} & 33/22 & 33/22 & 13/42 & 33/22 & 13/42 \\")])
+    const = Counter(g[k] for k in g if before[k] != "unknown")
+    claim("constant-medium baseline on the answered cells", (const["medium"], sum(const.values())), (26, 33),
+          [("results.tex", r"a constant \emph{medium} label would score $26/33$ on the same cells"),
+           ("appendix.tex", r"a constant \emph{medium} label scores $26/33$ on the answered cells")])
     claim("exact-agreement rounding", (r2(8 / 33), r2(25 / 33), r2(8 / 13), r2(28 / 33), r2(11 / 13)),
           ("0.24", "0.76", "0.62", "0.85", "0.85"),
           [("results.tex", r"raises exact agreement from $0.24$ to $0.76$ ($8/33$ to $25/33$) and cuts over-severe cells from 25 to 8"),
            ("results.tex", r"Three further single-cell rules lift exact agreement to $0.85$"),
            ("results.tex", r"its pre-calibration figures are the same 25/33 over-severe and exact agreement $0.24$"),
-           ("appendix.tex", r"cutting over-severe judgments from 25 to 8; abstaining leaves fewer over-severe cells (5) and a higher weighted $\kappa$ ($0.29$) only by discarding 20 answers")])
+           ("appendix.tex", r"cutting over-severe judgements from 25 to 8; abstaining leaves fewer over-severe cells (5) and a higher weighted $\kappa$ ($0.29$) only by discarding 20 answers")])
     fired = Counter(r["calibration_rule"] for r in rows(FROZEN / "argus_rich_gold5_calibrated_medium.csv"))
     claim("rules fired", sorted(fired.values()), [1, 1, 1, 20, 32],
           [("appendix.tex", r"Rule~1 (20 cells)"), ("results.tex", r"a weak-retrieval \emph{high} (20 cells)"),
@@ -496,7 +500,7 @@ def pilot() -> None:
     p1 = 2 * sum(math.comb(fixed, i) for i in range(0 + 1)) / 2 ** fixed
     p4 = 2 * sum(math.comb(fixed4, i) for i in range(0 + 1)) / 2 ** fixed4
     claim("paired tests for the calibration lift", (fixed, broke, r3(p1), fixed4, r3(p4)), (17, 0, "0.000", 20, "0.000"),
-          [("results.tex", r"changes seventeen incorrect labels to the adjudicated label and no correct label to an incorrect one, and keeps the one high gold cell \sys{} had caught"),
+          [("results.tex", r"changes seventeen incorrect labels to the reconciled label and no correct label to an incorrect one, and keeps the one high gold cell \sys{} had caught"),
            ("appendix.tex", r"turns seventeen wrong cells exact and none the other way (exact McNemar $p{<}0.001$); all four rules turn twenty ($p{<}0.001$)")])
     pv = rec["medium"]["paired_vs_before"]
     claim("per-paper sign tests",

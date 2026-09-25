@@ -12,7 +12,7 @@ regional borders, challenging no-interference assumptions. Climate policies
 can overlap with industrial, energy, and air-pollution regulations,
 complicating the exclusion of concurrent interventions. Policy effects may
 emerge with long and heterogeneous lags. Emissions and environmental outcomes
-may be assembled from administrative, modeled, or remotely sensed sources whose
+may be assembled from administrative, modelled, or remotely sensed sources whose
 measurement properties vary across places and time. These features do not make
 DID unique to climate policy; they motivate a rubric that makes the evidence
 for each design choice explicit.
@@ -345,7 +345,7 @@ at \url{https://github.com/yonghongzhang-io/ARGUS}.\end{sloppypar}
 All gpt-4o stages use temperature~$0$ with \texttt{max\_steps}{=}1; newer
 reasoning models (Claude Opus~4.8) reject an explicit temperature and run at
 provider defaults. The identification rubric, flaw taxonomy, and
-33-variant catalog are declarative configuration files in the code base, and
+33-variant catalogue are declarative configuration files in the code base, and
 the keyword baseline plus all leak-freedom (non-circularity) checks are
 deterministic and run without model access. Eleven-flaw numbers are July-2026
 runs of the current runner; detection replicates exactly across the
@@ -444,7 +444,7 @@ they read are frozen with checksums in
 
 \begin{table}[t]
   \centering\small
-  \caption{Cell-bootstrap 95\% intervals for agreement with the adjudicated
+  \caption{Cell-bootstrap 95\% intervals for agreement with the reconciled
   gold (answered cells only; quadratic-weighted $\kappa$; 5,000 resamples).
   Rule~1 is the weak-retrieval rule; rules~1--4 add the three single-cell rules
   of Appendix~\ref{app:supp}. Resampling cells ignores their nesting in five
@@ -595,8 +595,8 @@ dimension-level, evidence-cited report a reviewer receives.
     number of clusters is not stated \\
     parallel trends & low & event-study with null pre-period coefficients and
     placebo tests \\
-    treatment timing & low & heterogeneity-robust estimators with a
-    Goodman--Bacon decomposition \\
+    staggered timing & low & heterogeneity-robust estimators with a
+    Goodman-Bacon decomposition \\
     \emph{7 further dimensions} & low & supporting evidence retrieved and judged
     adequate \\
     \bottomrule
@@ -623,7 +623,9 @@ is recorded by SHA-256 on receipt, and the gold is locked once
 the first author's university and a member of a vocational college in China,
 neither an author nor involved in building \sys{}, read the five PDFs
 themselves, used no AI tool, saw no \sys{} output, did not confer before
-returning, and signed to that effect in the workbook. Independent labels: 55
+returning, and signed to that effect in the workbook. The five papers are \texttt{paper\_01}, \texttt{03}, \texttt{07}, \texttt{08} and
+\texttt{10} of the repository's corpus manifest, chosen in June 2026 before any
+label existed. Independent labels: 55
 cells each; applicability agrees on 49, with one cell rated not applicable by
 one annotator; of the 54 cells both rated, 45 agree exactly (Cohen's
 $\kappa=0.56$; quadratic-weighted $\kappa=0.62$), and all nine risk
@@ -634,22 +636,27 @@ third person was needed. Each annotator's verbatim quotes were checked against
 the PDFs: 50/55 and 49/55 occur verbatim, the rest as partial matches, one cell
 each not found. Three deviations are logged: one annotator first returned a
 paper sheet pasted from another paper and corrected it herself within sixteen
-minutes; a copy of her workbook was saved from the first author's computer
-before its receipt was recorded, differing in twelve non-label cells, so the
-record was rebuilt from her own file (labels identical); and the other
-annotator first returned the workbook without the sign-off sheet and re-sent
-it signed.
+minutes; the file first recorded for her had been re-saved on the first
+author's computer (how is not known) and differed from her own last version in
+eleven evidence-location cells and one rationale, in no label, quote or
+confidence, so the record was rebuilt from her own file and none of the twelve
+cells enters the analysis; and the other annotator first returned the workbook
+without the sign-off sheet and re-sent it signed.
 
 \paragraph{Change from the reviewed version.}
-The reviewed version described two annotators and an adjudication round. Its
-labels were, according to the first author, produced by two people working
-with LLM assistance and sent to the first author, who entered them; no
-annotation record of theirs (files, sign-off or adjudication) exists, so they
-are not treated as an annotation. They are kept, checksummed, in
-\path{experiments/annotation/pilot_frozen/} and are replaced here. Against the
-human gold they agree on 31/55 cells (Cohen's $\kappa=0.23$), being less severe
-on 23 (low where the gold is medium); under them \sys{} was more severe on
-28/33 answered cells and exact on 5, against 25/33 and 8 now.
+The reviewed version described two annotators and an adjudication round. No
+record of how those labels were produced survives: the first author's
+recollection is that two people produced them with LLM assistance and sent them
+to the first author, who entered them; there is no file, sign-off or
+adjudication record of theirs, so the reviewed description was not supported by
+any record, and the labels are not treated as an annotation. They are kept,
+checksummed, in \path{experiments/annotation/pilot_frozen/} and are replaced
+here. Against the human gold they agree on 31/55 cells (Cohen's $\kappa=0.23$),
+being less severe on 23 (low where the gold is medium); under them \sys{} was
+more severe on 28/33 answered cells and exact on 5, against 25/33 and 8 now, and
+the reviewed calibration figures (exact agreement $0.12 \to 0.36$, $0.45$ with
+four rules) are superseded by \S\ref{sec:calib}: the larger lift now reflects
+the medium-heavy gold, not the rule.
 
 In the leave-one-paper-out check (\S\ref{sec:calib}), the demotion rule's
 trigger conditions recur in all five folds: among each fold's over-severe
@@ -663,13 +670,13 @@ matching rule applies. Rule~1 (20 cells): \texttt{retrieval\_quality=weak}
 $\to$ \emph{medium}, or $\to$ \texttt{unknown} under the abstain policy. Three
 further rules each fire on one cell and demote to \emph{medium}: rule~2, the
 dimension is staggered timing and the rationale names Callaway, Sun--Abraham,
-Goodman--Bacon, or ``modern estimator''; rule~3, the dimension is inference,
+Goodman-Bacon, or ``modern estimator''; rule~3, the dimension is inference,
 \texttt{evidence\_status=missing}, and the rationale mentions ``cluster'' or
 ``robust standard errors''; rule~4, the dimension is concurrent policies and
 \texttt{retrieval\_quality=good}. Rules~2--4 are post-hoc string and field
 rules defined after inspecting the errors on this same pilot, and all three
 cells they touch land on the gold label. They are not principled: naming an
-estimator, or the Goodman--Bacon decomposition (a diagnostic of two-way
+estimator, or the Goodman-Bacon decomposition (a diagnostic of two-way
 fixed-effects comparisons, not a heterogeneity-robust estimator), does not show
 that it was used appropriately; a rationale that mentions clustering may be
 reporting its absence; and rule~4 has no content condition at all (locating
@@ -684,7 +691,7 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
 
 \begin{table}[t]
   \centering\small
-  \caption{\sys{}-LLM vs adjudicated human gold (55 cells, 5 papers) under two
+  \caption{Two-stage \sys{} vs reconciled human gold (55 cells, 5 papers) under two
   \texttt{unknown} policies: coverage (drop abstentions) and strict
   (\texttt{unknown} counts as mismatch). Pilot-scale: only 2 gold cells are
   \emph{high}; the robust signal is the one-directional over-severity and the
@@ -704,7 +711,7 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
 \begin{figure*}[t]
   \centering
   \includegraphics[width=0.94\textwidth]{figures/figure_vsgold}
-  \caption{\sys{}-LLM versus the adjudicated gold on the 55 pilot cells
+  \caption{Two-stage \sys{} versus the reconciled gold on the 55 pilot cells
   (frozen protocol). \textbf{(a)}~Every cell, eleven dimensions by five papers,
   coloured by outcome: \sys{} abstains on 22 and, of the 33 it answers, is more
   severe than the gold on 25, matches it on 8, and is less severe on none.
@@ -733,9 +740,11 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   result we claim; rules~1--4 add three single-cell exploratory rules
   (Appendix~\ref{app:supp}). Under abstention rule~1 changes no retained
   label: its higher agreement comes from dropping 20 answers. Pilot scale: only 2 gold cells are
-  \emph{high}. The before column is the rich re-run of \S\ref{sec:calib}, which
-  differs from the corpus run of Table~\ref{tab:vsgold} in one cell; intervals
-  in Table~\ref{tab:ci_gold}.}
+  \emph{high}; a constant \emph{medium} label scores $26/33$ on the answered
+  cells, so exact agreement carries little information here. The before column is the rich re-run of \S\ref{sec:calib}, which
+  differs from the corpus run of Table~\ref{tab:vsgold} in one cell (a gold-low
+  cell moves from \emph{medium} to \emph{high}, which is why weighted $\kappa$
+  is 0.08 here and 0.13 there); intervals in Table~\ref{tab:ci_gold}.}
   \label{tab:calib}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
@@ -759,11 +768,11 @@ Figure~\ref{fig:calib_tradeoff} (agreement and calibration against the gold).
   \centering
   \includegraphics[width=\columnwidth]{figures/calibration_tradeoff}
   \caption{\textbf{Calibration trade-off: severity reduction versus coverage}
-  against the adjudicated human gold, for the weak-retrieval rule alone
+  against the reconciled human gold, for the weak-retrieval rule alone
   (in-sample; med and unk are the two policies of Table~\ref{tab:calib}, which
   also gives the exploratory four-rule set).
   Demoting weak-retrieval \emph{high}s to \emph{medium} preserves coverage (33
-  answered) while cutting over-severe judgments from 25 to 8; abstaining leaves
+  answered) while cutting over-severe judgements from 25 to 8; abstaining leaves
   fewer over-severe cells (5) and a higher weighted $\kappa$ ($0.29$) only by
   discarding 20 answers, and leaves the remaining labels unchanged. Most of the
   gain in exact agreement reflects a gold that is $84\%$ \emph{medium}

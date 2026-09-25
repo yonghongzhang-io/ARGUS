@@ -1,3 +1,5 @@
+> **SUPERSEDED (25 September 2026).** This document describes the June 2026 labels, which are replaced by the two-annotator gold of `annotation/human_pilot/PROTOCOL.md` and `experiments/annotation/gold_final/` (provenance note in `experiments/annotation/pilot_frozen/PROVENANCE.md`). Kept for the record.
+
 # Calibration layer — from diagnosis to improvement (aggregate)
 
 Closes the loop: human gold -> ARGUS-vs-gold diagnosis -> error analysis ->

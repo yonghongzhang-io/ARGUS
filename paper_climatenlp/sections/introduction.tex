@@ -42,7 +42,7 @@ unobserved. We therefore use \emph{flaw injection} as local ground truth: starti
 from a supported study fixture, we introduce one known identification flaw and test
 whether \sys{} detects it, remains quiet on the clean version, and localizes the
 affected dimension. We complement this controlled evaluation with a run over 26 corpus papers
-tagged DID and a small diagnostic pilot with adjudicated labels, used to
+tagged DID and a small diagnostic pilot with reconciled labels, used to
 identify calibration and applicability failures. Climate-policy evaluation
 motivates the rubric; the present evaluation uses synthetic
 environmental-policy fixtures and a general-economics corpus, so performance on
@@ -55,9 +55,9 @@ a dedicated climate-policy corpus is untested.
   auditable structure using an 11-dimension identification rubric. Step~2
   retrieves dimension-specific evidence, assesses reported-evidence adequacy with
   a bounded LLM audit module, and localizes risk in a human-reviewable report.
-  Step~3 uses labels from two annotators, reconciled by them, to evaluate and
-  calibrate audit severity offline; deployment requires only expert review of the
-  report. Colours as in Figure~\ref{fig:arch}: blue, deterministic steps;
+  Step~3 uses labels from two annotators, reconciled by them, to evaluate
+  audit severity and score a pre-specified calibration rule offline; deployment
+  requires only expert review of the report. Colours as in Figure~\ref{fig:arch}: blue, deterministic steps;
   green, model calls; orange, human steps.}
   \label{fig:overview}
 \end{figure*}
@@ -75,6 +75,6 @@ effect:
   gain in per-dimension prompting and trace every synthetic omission miss to a
   gate abstention (\S\ref{sec:results});
   \item a \emph{diagnosis}: on real papers, grounding limits \emph{coverage}
-  while over-severity limits \emph{agreement}, and a deterministic
-  rule derived on the pilot reduces the latter in-sample.
+  while over-severity limits \emph{agreement}, and a pre-specified
+  rule derived on the same papers reduces the latter in-sample.
 \end{enumerate}
