@@ -200,10 +200,10 @@ def figure1(icons: dict[str, str]) -> Svg:
     tx, tw = 354.0, 100.0
     g.rect(tx, 1, tw, 133, 6, "#ffffff", ORANGE_EDGE, 0.8)
     g.header(tx + 0.4, 1.4, tw - 0.8, 24, 5.6, ORANGE_FILL)
-    g.text(tx + tw / 2, 11.2, "Step 3: Human calibration", 7.6, ORANGE, bold=True, anchor="middle", fit=tw - 4)
-    g.text(tx + tw / 2, 20.6, "& evaluation", 7.6, ORANGE, bold=True, anchor="middle")
+    g.text(tx + tw / 2, 11.2, "Step 3: Human annotation", 7.6, ORANGE, bold=True, anchor="middle", fit=tw - 4)
+    g.text(tx + tw / 2, 20.6, "& offline evaluation", 7.6, ORANGE, bold=True, anchor="middle")
     for k, (icon, a, b) in enumerate((("experts", "Human", "annotation"), ("scales", "Reconciled", "gold labels"),
-                                      ("anchor", "Calibration", "rule"), ("pie", "ARGUS-vs-gold", "evaluation"))):
+                                      ("anchor", "Pre-specified", "calibration rule"), ("pie", "ARGUS-vs-gold", "evaluation"))):
         cy = 41 + k * 26.2
         g.icon(icon, tx + 19, cy, 20)
         g.text(tx + 35, cy - 1.2, a, 7, INK, bold=True, fit=tw - 37)

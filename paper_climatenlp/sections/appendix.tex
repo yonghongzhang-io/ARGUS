@@ -227,8 +227,8 @@ variant at the end of this appendix use a strict JSON schema. Angle-bracketed
 fields are substituted from the rubric entry or the retrieved passages; nothing
 else varies across dimensions or papers. The per-dimension no-retrieval arm of
 \S\ref{sec:variants} reuses the adequacy prompt below verbatim, passing the whole
-paper as the evidence items instead of retrieved sections, so that arm differs
-from the full pipeline only in what the prompt is fed.
+paper as the evidence items instead of retrieved sections: the adequacy prompt
+is unchanged, but retrieval and the relevance gate are bypassed.
 
 \promptlabel{Relevance gate (system).}
 \begin{promptbox}

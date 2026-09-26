@@ -141,8 +141,8 @@ $0.747$. Per-dimension prompting detects more variants than a single joint
 call (29/33 vs 24/33); the comparison changes both the task decomposition and
 the number of calls, so it does not isolate their separate contributions. The
 retrieval-and-gate layer then \emph{trades} omission detection for abstention
-(on these short fixtures a gateless assessor sees the deleted section in its
-context; on real papers it commits judgements nearly everywhere,
+(on these short fixtures a gateless assessor can tell from its context that
+the section is missing; on real papers it commits judgements nearly everywhere,
 \S\ref{sec:realpapers}). An \emph{oracle-retrieval} arm supplies
 a diagnostic comparison: fed the target section directly (empty for omissions,
 bypassing the gate), the assessor detects $0.86$ of commissions and $1.00$ of
@@ -274,15 +274,14 @@ human gold 31/55, Appendix~\ref{app:supp}).
 \label{sec:vsgold}
 
 We use this gold as a \emph{diagnostic pilot}, not a validation of accuracy:
-two high-risk gold cells cannot establish agreement with human judgement, but they localize
-\emph{how} \sys{} fails
+it localizes \emph{how} \sys{} fails
 (Table~\ref{tab:vsgold}, Figure~\ref{fig:vsgold}). \sys{} abstains on 22/55
 cells, and when it answers its errors are almost entirely one-directional:
 25/33 answered cells are more severe than the reconciled gold, none less
 severe; the gold contains two high-risk cells, whereas \sys{} assigns 24. With so few high
 gold labels, precision and recall are noisy (of the two high gold cells \sys{}
-flags one and abstains on the other). The
-abstentions are retrieval failures, not absent evidence: both annotators
+flags one and abstains on the other). Most
+abstentions are retrieval failures rather than absent evidence: both annotators
 located reported evidence on 19 of the 22 abstained cells, at least one on 21.
 
 \subsection{Calibration: a pre-specified rule, in-sample}
