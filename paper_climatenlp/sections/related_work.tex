@@ -20,9 +20,9 @@ CausalBN-Bench~\cite{zhou2024causalbench}) and
 analyses~\cite{kiciman2023causal,yang2024criticalreview,zecevic2023causalparrots}
 report mixed evidence: strong performance on some causal tasks, but models
 often reproduce causal \emph{language} without reliable causal
-\emph{inference}; a few move toward applied settings and toward separating
-\emph{identification} from
-\emph{estimation}~\cite{lee2025econcausal,sawarni2026causalreasoning}. \sys{}
+\emph{inference}; a few move toward applied settings~\cite{lee2025econcausal} and toward
+separating \emph{identification} from
+\emph{estimation}~\cite{sawarni2026causalreasoning}. \sys{}
 addresses a different task: whether a \emph{human} paper's identification
 assumptions are adequately evidenced. A causal verdict is out of scope by design.
 
@@ -64,7 +64,7 @@ Our evaluation follows benchmarking lessons: holistic
 evaluation~\cite{liang2023helm} over a single number; dynamic, adversarial
 benchmarking~\cite{kiela2021dynabench} (which inspires our controlled flaw injection);
 and the caution that operationalizing a capability is
-non-neutral~\cite{raji2021benchmark,gebru2021datasheets}
+non-neutral~\cite{raji2021benchmark,jacobs2021measurement}
 (\S\ref{sec:discussion}). A closely related concern is that an agent
 benchmark can measure its harness rather than its model:
 \citet{dmconfound} show that a fixed scaffold making the execution-critical
