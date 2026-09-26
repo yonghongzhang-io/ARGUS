@@ -24,8 +24,9 @@ and researcher degrees of freedom
 \cite{leamer1983,ioannidis2005,simmons2011,gelmanloken2014,silberzahn2018many,brodeur2020methods,botviniknezer2020variability}.
 This is the identification-credibility component of the broader research-design or
 ``credibility revolution'' program in applied econometrics
-\cite{angristpischke2010,atheyimbens2017}, which increasingly treats an assumption
-like parallel trends as a matter of degree rather than a binary
+\cite{angristpischke2010,atheyimbens2017}, which increasingly assesses how sensitive
+conclusions are to departures from parallel trends and cautions that an
+insignificant pre-trend test does not validate the assumption
 \cite{rambachanroth2023,roth2022}. \sys{} does not attempt to audit every component
 of an empirical paper; it focuses on the assumptions that support a causal
 interpretation.
@@ -34,8 +35,8 @@ interpretation.
 Open-ended agents may choose different tools and reasoning paths across runs, making
 their outputs difficult to reproduce and compare. Large language models are
 increasingly used for evaluative and reviewing tasks
-\cite{zheng2023judge,liang2024feedback,lu2024aiscientist}, but as open-ended agents
-their reasoning traces are hard to audit. \sys{} instead fixes the pipeline order in
+\cite{zheng2023judge,liang2024feedback,lu2024aiscientist}; for an audit, a fixed
+procedure is easier to inspect than an open-ended agent. \sys{} therefore fixes the pipeline order in
 code and confines model-driven decisions to evidence retrieval and adequacy
 assessment. Each model call operates under a fixed tool set, a hard step budget, and
 a logged trace. This design trades autonomy for inspectability and controlled
@@ -45,22 +46,24 @@ model's outputs.
 \section{Flaw Taxonomy Provenance}
 \label{app:flawlit}
 The rubric, taxonomy, and injector are co-designed, but the catalogue of
-threats is not ours: each injected flaw is a threat named in the DID and
-research-design literature (Table~\ref{tab:flawlit}). What we authored is the
-injector's prose for each threat, which is why we describe synthetic detection
+threats is not ours: each injected flaw draws on a threat or a reporting
+practice discussed in the DID and research-design literature
+(Table~\ref{tab:flawlit}). What we authored is how each becomes a missing or
+flawed reported check in the rubric, and the injector's prose for it, which is why we describe synthetic detection
 as internal consistency under known threats and treat independently authored
 flaws as future work.
 
 \begin{table}[t]
   \centering\small
-  \caption{Each injected flaw, its target dimension, and the literature that
-  names the threat.}
+  \caption{Each injected flaw, its target dimension, and its methodological
+  basis in the literature; the reporting requirement the flaw violates is the
+  rubric's operationalization.}
   \label{tab:flawlit}
   \setlength{\tabcolsep}{4pt}
   \resizebox{\columnwidth}{!}{%
   \begin{tabular}{llp{4.2cm}}
     \toprule
-    \rowcolor{tablehead} flaw & dimension & threat named in \\
+    \rowcolor{tablehead} flaw & dimension & methodological basis \\
     \midrule
     pretrend divergence & parallel trends & \cite{roth2022,roth2023,rambachanroth2023} \\
     anticipation effect & no anticipation & \cite{callaway2021,roth2023} \\
