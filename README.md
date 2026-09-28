@@ -14,6 +14,9 @@
 
 <p align="center">
   <a href="paper_climatenlp/submissions/ClimateNLP2026_camera_ready.pdf"><b>Paper</b></a> ·
+  <a href="https://arxiv.org/abs/2609.30867">arXiv</a> ·
+  <a href="https://huggingface.co/datasets/yonghongzhang/ARGUS">Dataset</a> ·
+  <a href="https://huggingface.co/papers/2609.30867">HF paper page</a> ·
   <a href="#headline-results">Results</a> ·
   <a href="#pipelines">Pipelines</a> ·
   <a href="#architecture">Architecture</a> ·
